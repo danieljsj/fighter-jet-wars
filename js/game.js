@@ -1,5 +1,3 @@
-// Daniel is cool
-
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -33,17 +31,10 @@ monsterImage.src = "images/monster.png";
 
 // Game objects
 var hero = {
-
-	afterburnerAccel: 100, // afterburnerAccel in pixels per second
-	baseAccel: 20, // afterburnerAccel in pixels per second
-	baseDrag: .1, // base coefficient of loss of velocity per second
-	brakesDrag: .4, // brakes coefficient of loss of velocity per second
-	turnRate: 3, // turn rate in radians per second 
-
-
 	speed: 256, // movement in pixels per second
+	accel: 250, // accel in pixels per second
 	direction:0,
-
+	turnRate:3.141592654,
 };
 var monster = {};
 var monstersCaught = 0;
@@ -89,19 +80,18 @@ var reset = function () {
 	monster.y = 32 + (Math.random() * (canvas.height - 64));
 };
 
-
 // Update game objects
 var update = function (modifier) {
-	if (38 in keysDown) { // Player holding up // Afterburner
-		hero.speed += hero.afterburnerAccel * modifier;
+	if (38 in keysDown) { // Player holding up
+		hero.speed += hero.accel * modifier;
 	}
-	if (40 in keysDown) { // Player holding down // Brakes
-		hero.speed *= 1-(hero.brakesDrag * modifier); 
+	if (40 in keysDown) { // Player holding down
+		hero.speed -= hero.accel * modifier;
 	}
-	if (37 in keysDown) { // Player holding left // Turn Left
+	if (37 in keysDown) { // Player holding left
 		hero.direction -= hero.turnRate * modifier; // why negative?
 	}
-	if (39 in keysDown) { // Player holding right // Turn Right
+	if (39 in keysDown) { // Player holding right
 		hero.direction += hero.turnRate * modifier; // why negative?
 	}
 	
@@ -111,10 +101,6 @@ var update = function (modifier) {
 	if (hero.direction < -3.141592654*2) {
 		hero.direction -=-3.141592654*2;
 	}
-
-	hero.speed += hero.baseAccel * modifier;
-
-	hero.speed *= 1-(hero.baseDrag * modifier);
 	
 	hero.y += Math.sin(hero.direction) * hero.speed * modifier;
 	hero.x += Math.cos(hero.direction) * hero.speed * modifier;
@@ -131,8 +117,6 @@ var update = function (modifier) {
 		reset();
 	}
 };
-
-
 
 // Draw everything
 var render = function () {
