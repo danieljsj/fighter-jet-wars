@@ -22,6 +22,15 @@ heroImage.onload = function () {
 };
 heroImage.src = "images/hero.png";
 
+// Laser image
+var laserReady = false;
+var laserImage = new Image();
+laserImage.onload = function () {
+	laserReady = true;
+};
+laserImage.src = "images/laser.png";
+
+
 // Monster image
 var monsterReady = false;
 var monsterImage = new Image();
@@ -30,7 +39,13 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+
+
+
+
 // Game objects
+
+// Hero
 var hero = {
 
 	afterburnerAccel: 100, // afterburnerAccel in pixels per second
@@ -51,5 +66,19 @@ hero.x = canvas.width / 2;
 hero.y = canvas.height / 2;
 
 
+var laser = {
+	speed: 700, // speed in pixels per second
+	active: false,
+}
+
+
+// Monster
+
 var monster = {};
+
+
+
+
+// Score
+
 var monstersCaught = 0;

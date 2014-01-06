@@ -11,8 +11,7 @@ var update = function (modifier) {
 	}
 	if (39 in keysDown) { // Player holding right // Turn Right
 		hero.direction += hero.turnRate * modifier; // why negative?
-	}
-	
+	}	
 	if (hero.direction > 3.141592654*2) {
 		hero.direction -=3.141592654*2;
 	}
@@ -27,13 +26,31 @@ var update = function (modifier) {
 	hero.y += Math.sin(hero.direction) * hero.speed * modifier;
 	hero.x += Math.cos(hero.direction) * hero.speed * modifier;
 	
+	
+	if (32 in keysDown) {
+		if (false == laser.active) {
+			
+			laser.x = hero.x;
+			laser.y = hero.y;
+			laser.direction = hero.direction;
+			laser.active = true;
+			
+		}
+	}
+	if (true == laser.active) {
+		laser.y += Math.sin(laser.direction) * laser.speed * modifier;
+		laser.x += Math.cos(laser.direction) * laser.speed * modifier;
+		if (laser.x > 512 || laser.x < 0 || laser.y > 480 || laser.y < 0 ) {
+			laser.active = false;
+		}
+	}
 
 	// Are they touching?
 	if (
-		hero.x <= (monster.x + 32)
-		&& monster.x <= (hero.x + 32)
-		&& hero.y <= (monster.y + 32)
-		&& monster.y <= (hero.y + 32)
+		laser.x <= (monster.x + 16)
+		&& monster.x <= (laser.x + 16)
+		&& laser.y <= (monster.y + 16)
+		&& monster.y <= (laser.y + 16)
 	) {
 		++monstersCaught;
 		reset();
