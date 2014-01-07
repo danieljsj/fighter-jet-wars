@@ -43,6 +43,17 @@ monsterImage.src = "images/monster.png";
 
 
 
+function PlayerPlane() {
+
+
+
+}
+
+
+
+
+
+
 // Game objects
 
 // Hero
@@ -57,6 +68,7 @@ var hero = {
 
 	speed: 256, // movement in pixels per second
 	direction:0,
+	active:true,
 
 };
 
