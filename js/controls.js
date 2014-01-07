@@ -8,3 +8,8 @@ addEventListener("keydown", function (e) {
 addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
 }, false);
+
+
+
+
+console.log(keysDown);

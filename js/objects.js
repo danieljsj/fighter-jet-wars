@@ -1,4 +1,8 @@
 
+"use strict";
+
+// -- IMAGES -- //
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -41,47 +45,59 @@ monsterImage.src = "images/monster.png";
 
 
 
-
-
-function PlayerPlane() {
-
-
-
-}
-
-
-
-
+console.log(canvas); 
 
 
 // Game objects
 
 // Hero
 var hero = {
-
-	afterburnerAccel: 100, // afterburnerAccel in pixels per second
+	// attributes
 	baseAccel: 20, // afterburnerAccel in pixels per second
+	afterburnerAccel: 100, // afterburnerAccel in pixels per second
 	baseDrag: .1, // base coefficient of loss of velocity per second
 	brakesDrag: .4, // brakes coefficient of loss of velocity per second
 	turnRate: 3, // turn rate in radians per second 
 
-
+	// status
 	speed: 256, // movement in pixels per second
-	direction:0,
-	active:true,
+	direction: 0,
+	turning:0,
+	afterburning:false,
+	braking:false,
+	tryingToFire:false,
+	active: true,
+	x: canvas.width / 2,
+	y: canvas.height / 2,
 
 };
 
-// Set initial hero locale
-
-hero.x = canvas.width / 2;
-hero.y = canvas.height / 2;
-
+console.log(hero);
 
 var laser = {
-	speed: 700, // speed in pixels per second
+	
+	// attributes
+	baseAccel: 0, // afterburnerAccel in pixels per second
+	afterburnerAccel: 0, // afterburnerAccel in pixels per second
+	baseDrag: 0, // base coefficient of loss of velocity per second
+	brakesDrag: 0, // brakes coefficient of loss of velocity per second
+	turnRate: 0, // turn rate in radians per second 
+	
+	launchSpeed:700, // speed in pixels per second
+	
+	speed: 0, // speed in pixels per second
 	active: false,
+	direction: 0,
+	x: canvas.width / 2,
+	y: canvas.height / 2,	
+	
+	move: function(dT){
+		var d = laser.speed * dT;
+		laser.y += Math.sin(laser.direction) * d;
+		laser.x += Math.cos(laser.direction) * d;
+	}
 }
+
 
 
 // Monster

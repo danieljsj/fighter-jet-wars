@@ -1,3 +1,6 @@
+
+"use strict";
+
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up // Afterburner
@@ -10,55 +13,50 @@ var update = function (modifier) {
 	} else {
 		hero.braking = false;
 	}
-
+	hero.turning = 0;
 	if (37 in keysDown) { // Player holding left // Turn Left
-		hero.direction -= hero.turning * hero.turnRate * modifier; // why negative?
+		hero.turning += 1;
 	}
 	if (39 in keysDown) { // Player holding right // Turn Right
-		hero.direction += hero.turnRate * modifier; // why negative?
+		hero.turning -= 1;
 	}	
-	if (32 in keysDown) {
+	if (32 in keysDown) { // Player holding spacebar // Fire
 		hero.tryingToFire = true;
+	} else {
+		hero.tryingToFire = false;
 	}
-/*
-
-	if (38 in keysDown) { // Player holding up // Afterburner
-		hero.speed += hero.afterburnerAccel * modifier;
-	}
-	if (40 in keysDown) { // Player holding down // Brakes
-		hero.speed *= 1-(hero.brakesDrag * modifier); 
-	}
-	if (37 in keysDown) { // Player holding left // Turn Left
-		hero.direction -= hero.turnRate * modifier; // why negative?
-	}
-	if (39 in keysDown) { // Player holding right // Turn Right
-		hero.direction += hero.turnRate * modifier; // why negative?
-	}	
-	if (hero.direction > 3.141592654*2) {
-		hero.direction -=3.141592654*2;
-	}
-	if (hero.direction < -3.141592654*2) {
-		hero.direction -=-3.141592654*2;
-	}
-*/
-
+	
+	
 	
 	move(hero, modifier);
-	
-	move(laser, modifier);
+		
+	laser.move(modifier);
 
 	senseEnvironment(laser);
 
 
 
+	if(true == hero.tryingToFire && false == laser.active){
+		laser.x=hero.x;
+		laser.y=hero.y;
+		laser.direction=hero.direction;
+		laser.active=true;
+		laser.speed = laser.launchSpeed + hero.speed;
+	}
+
 };
 
+console.log(hero);
 
 
-
-
+var firstTime = 0;
 
 function move(ob, dT){
+
+//alert(ob.turning);
+
+
+	if (0 == firstTime++){ console.log( ob ); }
 
 	if (ob.active){
 
@@ -99,21 +97,25 @@ function move(ob, dT){
 
 		// -- ADVANCEMENT -- //
 
+
+
 		var d = ob.speed * dT;
+		//alert("distance: " + d);
+		//alert("ob.direction: " + ob.direction);
 		ob.y += Math.sin(ob.direction) * d;
 		ob.x += Math.cos(ob.direction) * d;	
 
 	}
-
+//*/
 }
  
-
-
+ 
 function senseEnvironment(ob){
+	
 	if (true == ob.active) {
 
 		// Am I touching the outer border?
-		if (ob.x > 512 || ob.x < 0 || ob.y > 480 || ob.y < 0 ) {
+		if (ob.x > canvas.width || ob.x < 0 || ob.y > canvas.height || ob.y < 0 ) {
 			ob.active = false;
 		}
 

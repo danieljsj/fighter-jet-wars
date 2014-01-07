@@ -47,7 +47,14 @@ var render = function () {
 	ctx.textBaseline = "top";
 	ctx.fillText("Goblins shot: " + monstersCaught, 32, ++i*32);
 //	ctx.fillText("Hero direction: " + hero.direction, 32, ++i*32);
+	ctx.fillText("Hero x: " + hero.x, 32, ++i*32);
 //	ctx.fillText("Hero speed: " + hero.speed, 32, ++i*32);
+	ctx.fillText("Hero trying to fire: " + hero.tryingToFire, 32, ++i*32);
+	ctx.fillText("Laser active: " + laser.active, 32, ++i*32);
+	ctx.fillText("Laser y: " + laser.y, 32, ++i*32);
+	ctx.fillText("Laser x: " + laser.x, 32, ++i*32);
+	ctx.fillText("Laser direction: " + laser.direction, 32, ++i*32);
+	ctx.fillText("Laser speed: " + laser.speed, 32, ++i*32);
 //	ctx.fillText("Laser X: " + laser.x, 32, ++i*32);
 //	ctx.fillText("Laser Y: " + laser.y, 32, ++i*32);
 
