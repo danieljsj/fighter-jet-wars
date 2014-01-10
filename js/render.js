@@ -46,7 +46,7 @@ var render = function () {
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Planes shot: " 		+ monstersCaught, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("Planes Destroyed: "	+ monstersCaught, 	lineHeight, ++i*lineHeight);
 /*	ctx.fillText("Hero direction: " 	+ hero.direction, 	lineHeight, ++i*lineHeight);
 	ctx.fillText("Hero x: " 			+ hero.x, 			lineHeight, ++i*lineHeight);
 	ctx.fillText("Hero speed: " 		+ hero.speed, 		lineHeight, ++i*lineHeight);
