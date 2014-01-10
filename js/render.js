@@ -39,24 +39,25 @@ var render = function () {
 	
 	// Score
 	
+	var lineHeight = 32;
 	var i = 0;
 	
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Goblins shot: " + monstersCaught, 32, ++i*32);
-//	ctx.fillText("Hero direction: " + hero.direction, 32, ++i*32);
-	ctx.fillText("Hero x: " + hero.x, 32, ++i*32);
-//	ctx.fillText("Hero speed: " + hero.speed, 32, ++i*32);
-	ctx.fillText("Hero trying to fire: " + hero.tryingToFire, 32, ++i*32);
-	ctx.fillText("Laser active: " + laser.active, 32, ++i*32);
-	ctx.fillText("Laser y: " + laser.y, 32, ++i*32);
-	ctx.fillText("Laser x: " + laser.x, 32, ++i*32);
-	ctx.fillText("Laser direction: " + laser.direction, 32, ++i*32);
-	ctx.fillText("Laser speed: " + laser.speed, 32, ++i*32);
-//	ctx.fillText("Laser X: " + laser.x, 32, ++i*32);
-//	ctx.fillText("Laser Y: " + laser.y, 32, ++i*32);
+	ctx.fillText("Planes shot: " 		+ monstersCaught, 	lineHeight, ++i*lineHeight);
+/*	ctx.fillText("Hero direction: " 	+ hero.direction, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("Hero x: " 			+ hero.x, 			lineHeight, ++i*lineHeight);
+	ctx.fillText("Hero speed: " 		+ hero.speed, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Hero tryin to fire: " + hero.tryingToFire,lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser active: " 		+ laser.active, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser y: " 			+ laser.y, 			lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser x: " 			+ laser.x, 			lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser direction: " 	+ laser.direction, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser speed: " 		+ laser.speed, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser X: " 			+ laser.x, 			lineHeight, ++i*lineHeight);
+	ctx.fillText("Laser Y: " 			+ laser.y, 			lineHeight, ++i*lineHeight); */
 
 
 };
