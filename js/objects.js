@@ -18,6 +18,8 @@ bgImage.onload = function () {
 };
 bgImage.src = "images/background.png";
 
+console.log(bgImage);
+
 // Hero image
 var heroReady = false;
 var heroImage = new Image();
@@ -111,27 +113,35 @@ var monster = {};
 
 //Building1
 
-var bldg1 ={
+var bldg1 = {
 	// Not exact widths and stuff
-	body.width: 180,
-	body.height: 80,
-	body.type: "rectangle",
-	body.offsetX:-50,
-	body.offsetY:-15,
+	body: {
+		width: 180,
+		height: 80,
+		type: "rectangle",
+		offsetX:-50,
+		offsetY:-15,
+	},
+	
+	direction: 0,
 	
 	// Throw the building somewhere on the screen randomly
 	// Right now no bias towards center or anything
 	x: Math.random() * canvas.width,
-	y: Math.random() * canvas.height;
+	y: Math.random() * canvas.height,
 }
 
 // Building 1 image
-var bldg1.image.ready = false;
-var bldg1.image = new Image();
+bldg1.image = new Image();
+//bldg1.image.width;
+//bldg1.image.height;
 bldg1.image.onload = function () {
 	bldg1.image.ready = true;
 };
-monsterImage.src = "images/bldg1.png";
+bldg1.image.ready = false;
+bldg1.image.src = "images/bldg1.png";
+
+
 
 
 // Score
