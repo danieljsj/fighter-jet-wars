@@ -45,8 +45,6 @@ monsterImage.src = "images/monster.png";
 
 
 
-console.log(canvas); 
-
 
 // Game objects
 
@@ -69,10 +67,17 @@ var hero = {
 	active: true,
 	x: canvas.width / 2,
 	y: canvas.height / 2,
-
 };
 
-console.log(hero);
+// Hero image
+/*hero.image.ready = false;
+hero.image = new Image();
+hero.Image.onload = function () {
+	hero.image.ready = true;
+};
+heroImage.src = "images/hero.png";
+*/
+
 
 var laser = {
 	
@@ -104,9 +109,32 @@ var laser = {
 
 var monster = {};
 
+//Building1
 
+var bldg1 ={
+	// Not exact widths and stuff
+	body.width: 180,
+	body.height: 80,
+	body.type: "rectangle",
+	body.offsetX:-50,
+	body.offsetY:-15,
+	
+	// Throw the building somewhere on the screen randomly
+	// Right now no bias towards center or anything
+	x: Math.random() * canvas.width,
+	y: Math.random() * canvas.height;
+}
+
+// Building 1 image
+var bldg1.image.ready = false;
+var bldg1.image = new Image();
+bldg1.image.onload = function () {
+	bldg1.image.ready = true;
+};
+monsterImage.src = "images/bldg1.png";
 
 
 // Score
 
 var monstersCaught = 0;
+

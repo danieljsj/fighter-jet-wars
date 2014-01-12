@@ -33,9 +33,14 @@ var update = function (modifier) {
 	laser.move(modifier);
 
 	senseEnvironment(laser);
-
-
-
+	
+	// Sensing for Buildings;
+	// currently only in static square
+	 
+	if (senseBuilding(hero.x,hero.y) === true) {
+		alert('you suck');
+	}
+	
 	if(true == hero.tryingToFire && false == laser.active){
 		laser.x=hero.x;
 		laser.y=hero.y;
@@ -109,6 +114,20 @@ function move(ob, dT){
 //*/
 }
  
+ function senseBuilding(x,y){
+		// Am I touching a building?
+		if (
+			   x <= (bldg1.x + bldg1.body.width/2  + body.offsetX) //Am I left of right of bldg body?
+			&& x >= (bldg1.x - bldg1.body.width/2  + body.offsetX) //Am I right of left of bldg body?
+			&& y <= (bldg1.y + bldg1.body.height/2 + body.offsetY) //Am I below top of bldg body?
+			&& y >= (bldg1.y - bldg1.body.height/2 + body.offsetY) //Am I above bottom of bldg body?
+		) { 
+			return true;
+		} else 	{ 
+			return false;
+		}
+ }
+ 
  
 function senseEnvironment(ob){
 	
@@ -129,5 +148,6 @@ function senseEnvironment(ob){
 			++monstersCaught;
 			reset();
 		}
+		
 	}
 }
