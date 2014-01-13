@@ -1,6 +1,12 @@
 
 "use strict";
 
+nullFunc = function(){return null;}
+
+
+
+
+
 // -- IMAGES -- //
 
 
@@ -12,6 +18,103 @@ canvas.width = 613;
 canvas.height = 528;
 
 document.body.appendChild(canvas);
+
+
+
+function GameImage(src,height,width){
+	this.ready 	= false;
+	this.height = height;
+	this.width 	= width;
+
+	this.img 		= new Image();
+	this.img.onload = function() { this.ready = true; }
+	this.img.src 	= src;
+}
+
+
+
+
+// Entity
+
+var entities[];
+
+function Entity(imgSrc,height,width){
+	// Inheritance
+	// this.prototype = new Entity(imgSrc,height,width);
+	// Registration
+	entities.push(this);
+
+	// Image
+	this.image = new GameImage(imgSrc,height,width);
+
+	// Communication functions:
+	this.touching = function(point){ return false; }
+
+	// Starting status:
+	this.x = canvas.width/2;
+	this.y = canvas.height/2;
+	this.direction = 0; // one of these days we'll have to do a search and replace across all the files to turn direction into dir
+	this.active = false;
+
+	// Loop functions:
+	this.feel		= nullFunc;
+	this.think 		= nullFunc;
+	this.control 	= nullFunc;
+	this.accelerate = nullFunc;
+	this.move 		= nullFunc;
+
+
+}
+
+
+// Entity / Flyer
+
+var flyers[]; // rename this to 'movers' !!!! THIS MAKES ME REALIZE... we need the "shadow" object...
+
+function Flyer(imgSrc,height,width){
+	// 
+	this.prototype = new Entity(imgSrc,height,width);
+	flyers.push(this);
+	
+	this.launchSpeed = 300 // arbitrary, in pixels / second
+
+
+	this.baseAccel = 100 // arbitrary, in pixels / second / second
+	this.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
+
+	this.launchSpeed = this.baseAccel/this.baseDrag;
+
+
+	this.speed = this.launchSpeed;
+
+
+
+	this.move = function(dT){
+		var D = this.speed * dT;
+		//alert("distance: " + d);
+		//alert("ob.direction: " + ob.direction);
+		this.y += Math.sin(ob.direction) * D;
+		this.x += Math.cos(ob.direction) * D;
+	}
+}
+
+
+// Entity / Flyer / Plane
+
+var planes[];
+
+function Plane(imgSrc,height,width,team){
+	this.prototype = new Flyer(imgSrc,height,width);
+	planes.push(this);
+
+
+}
+
+
+
+
+
+
 
 // Background image
 var bgReady = false;
