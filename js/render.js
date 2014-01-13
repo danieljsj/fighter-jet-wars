@@ -26,8 +26,7 @@ var render = function () {
 		ctx.drawImage(bgImage, 0, 0);
 	}
 
-console.log(bldg1.image)
-	drawRotated(bldg1.image, bldg1.x, bldg1.y, 0, bldg1.image.ready)
+	drawRotated(   bldg1.image.img,    bldg1.x+bldg1.image.offsetX,    bldg1.y+bldg1.image.offsetY,    0,    bldg1.image.ready)
 
 
 

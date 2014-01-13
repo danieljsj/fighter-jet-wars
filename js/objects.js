@@ -71,6 +71,24 @@ var hero = {
 	y: canvas.height / 2,
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Hero image
 /*hero.image.ready = false;
 hero.image = new Image();
@@ -114,13 +132,14 @@ var monster = {};
 //Building1
 
 var bldg1 = {
-	// Not exact widths and stuff
-	body: {
-		width: 180,
-		height: 80,
-		type: "rectangle",
-		offsetX:50,
-		offsetY:15,
+
+
+	width: 180,
+	height: 80,
+
+	image: {			
+		offsetX:-50,
+		offsetY:-15,
 	},
 	
 	direction: 0,
@@ -132,18 +151,27 @@ var bldg1 = {
 }
 
 // Building 1 image
-bldg1.image = new Image();
+bldg1.image.img = new Image();
 //bldg1.image.width;
 //bldg1.image.height;
-bldg1.image.onload = function () {
+bldg1.image.img.onload = function () {
 	bldg1.image.ready = true;
 };
 bldg1.image.ready = false;
-bldg1.image.src = "images/bldg1.png";
+bldg1.image.img.src = "images/bldg1.png";
 
 
 
 // Score
 
 var monstersCaught = 0;
+
+
+
+
+
+
+//////////////////////////////////////////
+
+
 
