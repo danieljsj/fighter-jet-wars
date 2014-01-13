@@ -100,5 +100,7 @@ Plane.touching = function(point){
 
 
 Entity.touching = function(point){
+	
 	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, but it should be the object in question
+
 }

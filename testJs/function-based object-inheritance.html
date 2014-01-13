@@ -1,20 +1,53 @@
 <script type="text/javascript">
 
 	function Flyer(){
-		this.speed = 20;
+		this.speed = Math.random()*20; // NOTE: This function is run for each new instance of the object. // fortunately I'm pretty sure I could do this with Object.create, too.
 	}
 
 	var myFlyer = new Flyer();
 
+	console.log(Flyer); // this logs as a function, not an object.
 	console.log(myFlyer);
 
-	function Plane(){
+	function Plane1(){
 		this.prototype = new Flyer();
 		this.health = 100;
 	}
 
-	var myPlane = new Plane();
+	var myPlane = new Plane1();
 
 	console.log(myPlane); // IT WORKS! It logs a thing with both sets of properties.
+	console.log(myPlane); // IT WORKS! It logs a thing with both sets of properties. // and yes, "speed" remains consistent ikn this second logging. 
+
+
+	function Plane2(){
+		this.prototype = Flyer();
+		this.health = 100;
+	}
+
+	var myPlane = new Plane2();
+
+	console.log(myPlane); // IT WORKS! It logs a thing with both sets of properties.
+
+
+	// FUNCTIONS BASED INHERITANCE WINS BECAUSE IT"S ACTUALLY A GENERATOR AS OPPOSED TO AN EQUALER.
+
+
+	var Primate = {
+		weight: Math.random()*400,
+	}
+	console.log(Primate);
+
+	var Monkey = Object.create(Primate);
+	Monkey.height = Math.random()*100;
+	console.log(Monkey);
+
+
+	var myMonkey = Object.create(Monkey);
+
+	console.log(myMonkey);
+
+
+//	Especially if we're going to be drawing rows from databases / cvs's, there should really just be a generator function that takes a set of params to construct stuff using cascading constructor functions.
 
 </script>
