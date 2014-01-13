@@ -134,12 +134,12 @@ var monster = {};
 var bldg1 = {
 
 
-	width: 180,
-	height: 80,
+	width: 175,
+	height: 95,
 
 	image: {			
-		offsetX:-50,
-		offsetY:-15,
+		offsetX:11,
+		offsetY:-12,
 	},
 	
 	direction: 0,
