@@ -28,15 +28,15 @@ var render = function () {
 
 	drawRotated(   bldg1.image.img,    bldg1.x+bldg1.image.offsetX,    bldg1.y+bldg1.image.offsetY,    0,    bldg1.image.ready)
 
-
+	if(true == laser.active){
+		drawRotated(laserImage, laser.x, laser.y, laser.direction, laserReady);
+	}
 
 	drawRotated(heroImage, hero.x, hero.y, hero.direction, heroReady);
 
 	drawRotated(monsterImage, monster.x, monster.y, 0, monsterReady);
 	
-	if(true == laser.active){
-		drawRotated(laserImage, laser.x, laser.y, laser.direction, laserReady);
-	}
+
 
 
 	
