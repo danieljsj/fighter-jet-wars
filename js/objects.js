@@ -6,6 +6,55 @@ nullFunc = function(){return null;}
 
 
 
+var lists = [];
+var obGenFuncs = {};
+
+
+
+function obGenInit(ob){
+
+	// OBJECT NAME
+	ob.obName = ob.constructor.arguments.callee.name;
+
+	// INHERITANCE
+	// uncomment for all but 'entity': // ob.prototype = new Entity(imgSrc,height,width);
+
+	// REGISTRATION
+	lists[ob.obName].push(ob);
+
+
+	// PROPERTY AND METHOD GENERATION
+	// Get the generator functions arrary for ob object function
+	var genFuncs = obGenFuncs[ob.obName];
+	// Run the genFuncs
+	for(i=0; i<genFuncs.length; i++){
+		genFuncs[i](ob);
+	}
+
+}
+
+
+/* ADD THIS NEXT COMMIT, ON A DIFFERENT
+
+obGenFuncs['Flyer'].push(function(){
+
+	this.launchSpeed = 300 // arbitrary, in pixels / second
+
+	this.baseAccel = 100 // arbitrary, in pixels / second / second
+	this.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
+
+	this.launchSpeed = this.baseAccel/this.baseDrag;
+
+
+	this.speed = this.launchSpeed;
+
+}); // can bind this to flyer if need be
+
+
+*/
+
+
+
 
 // -- IMAGES -- //
 
@@ -33,22 +82,36 @@ function GameImage(src,height,width){
 
 
 
+/*
+	Entity
+		Flyer
+			Plane
+				Computer
+				Player
+			Laser
+
+*/
 
 // Entity
 
 var entities[];
 
 function Entity(imgSrc,height,width){
-	// Inheritance
-	// this.prototype = new Entity(imgSrc,height,width);
-	// Registration
-	entities.push(this);
+	obGenInit(this);
 
+	// INHERITANCE
+	// uncomment for all but 'entity': // this.prototype = new Entity(imgSrc,height,width);
+
+
+	// HERECODED PROPERTIES AND METHODS
 	// Image
 	this.image = new GameImage(imgSrc,height,width);
 
 	// Communication functions:
 	this.touching = function(point){ return false; }
+
+	// Permanent attributes: 
+	// (none yet)
 
 	// Starting status:
 	this.x = canvas.width/2;
@@ -56,40 +119,37 @@ function Entity(imgSrc,height,width){
 	this.direction = 0; // one of these days we'll have to do a search and replace across all the files to turn direction into dir
 	this.active = false;
 
-	// Loop functions:
-	this.feel		= nullFunc;
-	this.think 		= nullFunc;
-	this.control 	= nullFunc;
-	this.accelerate = nullFunc;
-	this.move 		= nullFunc;
-
+	// Loop funcs:
+	this.loop.feel		 = nullFunc;
+	this.loop.think 	 = nullFunc;
+	this.loop.control 	 = nullFunc;
+	this.loop.accelerate = nullFunc;
+	this.loop.move 	 	 = nullFunc;
 
 }
 
 
 // Entity / Flyer
 
-var flyers[]; // rename this to 'movers' !!!! THIS MAKES ME REALIZE... we need the "shadow" object...
-
 function Flyer(imgSrc,height,width){
-	// 
+	// INIT
+	obGenInit(this);
+
+	// PROTOTYPE
 	this.prototype = new Entity(imgSrc,height,width);
-	flyers.push(this);
 	
-	this.launchSpeed = 300 // arbitrary, in pixels / second
+	// HERECODED PROPERTIES
+	// PermaAttributes
+	this.atts.baseAccel = 100 // arbitrary, in pixels / second / second
+	this.atts.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
+	this.atts.launchSpeed = this.atts.baseAccel/this.atts.baseDrag; // arbitrary, in pixels / second
 
-
-	this.baseAccel = 100 // arbitrary, in pixels / second / second
-	this.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
-
-	this.launchSpeed = this.baseAccel/this.baseDrag;
-
-
-	this.speed = this.launchSpeed;
+	// Starting status
+	this.speed = this.atts.launchSpeed;
 
 
 
-	this.move = function(dT){
+	this.loop.move = function(dT){
 		var D = this.speed * dT;
 		//alert("distance: " + d);
 		//alert("ob.direction: " + ob.direction);
@@ -101,85 +161,56 @@ function Flyer(imgSrc,height,width){
 
 // Entity / Flyer / Plane
 
-var planes[];
 
-function Plane(imgSrc,height,width,team){
-	this.prototype = new Flyer(imgSrc,height,width);
-	planes.push(this);
+function Plane(){
+	// INIT
+	obGenInit(this);
 
+	// PROTOTYPE
+	this.prototype = new Flyer('images/hero.png',32,32); // I maybe should use properties instead of hardcode here, cuz maybe it can inherit from the more advanced/specific object
+
+	// HERECODED PROPERTIES
+	// Atts
+	this.atts.baseAccel  		= 20; 	// afterburnerAccel in pixels per second
+	this.atts.afterburnerAccel 	= 100; 	// afterburnerAccel in pixels per second
+	this.atts.baseDrag	 		= 0.1; 	// base coefficient of loss of velocity per second
+	this.atts.brakesDrag 		= 0.4; 	// brakes coefficient of loss of velocity per second
+	this.atts.turnRate	 		= 3; 		// turn rate in radians per second
+
+	// Starting properties
+	this.speed 			= 256; // movement in pixels per second
+	this.turning 		= 0;
+	this.afterburning 	= false;
+	this.braking 		= false;
+	this.tryingToFire 	= false;
+	this.active 		= true;
+	this.x 				= Math.random()*canvas.width;
+	this.y 				= Math.random()*canvas.height;
+	this.direction 		=   0;
 
 }
 
 
+function Laser(shooter){
+	//INIT
+	obGenInit(this);
 
+	this.prototype = new Flyer('images/laser.png',32,32);
 
+	// HERECODED PROPERTIES
+	// Atts
+	this.atts.baseAccel  		= 0; 	// afterburnerAccel in pixels per second
+	this.atts.baseDrag	 		= 0.3; 	// base coefficient of loss of velocity per second
+	this.atts.launchSpeed		= 700; 	// launch speed in pixels per second
 
+	// Starting properties
+	this.speed 			= shooter.speed + this.atts.launchSpeed; // movement in pixels per second
+	this.active 		= true;
+	this.x 				= shooter.x;
+	this.y 				= shooter.y;
+	this.direction 		= shooter.direction;
 
-
-// Background image
-var bgReady = false;
-var bgImage = new Image();
-bgImage.onload = function () {
-	bgReady = true;
-};
-bgImage.src = "images/background.png";
-
-console.log(bgImage);
-
-// Hero image
-var heroReady = false;
-var heroImage = new Image();
-heroImage.onload = function () {
-	heroReady = true;
-};
-heroImage.src = "images/hero.png";
-
-// Laser image
-var laserReady = false;
-var laserImage = new Image();
-laserImage.onload = function () {
-	laserReady = true;
-};
-laserImage.src = "images/laser.png";
-
-
-// Monster image
-var monsterReady = false;
-var monsterImage = new Image();
-monsterImage.onload = function () {
-	monsterReady = true;
-};
-monsterImage.src = "images/monster.png";
-
-
-
-
-// Game objects
-
-// Hero
-var hero = {
-	// attributes
-	baseAccel: 20, // afterburnerAccel in pixels per second
-	afterburnerAccel: 100, // afterburnerAccel in pixels per second
-	baseDrag: .1, // base coefficient of loss of velocity per second
-	brakesDrag: .4, // brakes coefficient of loss of velocity per second
-	turnRate: 3, // turn rate in radians per second 
-
-	// status
-	speed: 256, // movement in pixels per second
-	direction: 0,
-	turning:0,
-	afterburning:false,
-	braking:false,
-	tryingToFire:false,
-	active: true,
-	x: canvas.width / 2,
-	y: canvas.height / 2,
-};
-
-
-
-
+}
 
 
 
@@ -271,6 +302,45 @@ bldg1.image.img.src = "images/bldg1.png";
 // Score
 
 var monstersCaught = 0;
+
+
+
+
+// Background image
+var bgReady = false;
+var bgImage = new Image();
+bgImage.onload = function () {
+	bgReady = true;
+};
+bgImage.src = "images/background.png";
+
+console.log(bgImage);
+
+// Hero image
+var heroReady = false;
+var heroImage = new Image();
+heroImage.onload = function () {
+	heroReady = true;
+};
+heroImage.src = "images/hero.png";
+
+// Laser image
+var laserReady = false;
+var laserImage = new Image();
+laserImage.onload = function () {
+	laserReady = true;
+};
+laserImage.src = "images/laser.png";
+
+
+// Monster image
+var monsterReady = false;
+var monsterImage = new Image();
+monsterImage.onload = function () {
+	monsterReady = true;
+};
+monsterImage.src = "images/monster.png";
+
 
 
 
