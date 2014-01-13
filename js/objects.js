@@ -119,8 +119,8 @@ var bldg1 = {
 		width: 180,
 		height: 80,
 		type: "rectangle",
-		offsetX:-50,
-		offsetY:-15,
+		offsetX:50,
+		offsetY:15,
 	},
 	
 	direction: 0,
@@ -140,7 +140,6 @@ bldg1.image.onload = function () {
 };
 bldg1.image.ready = false;
 bldg1.image.src = "images/bldg1.png";
-
 
 
 

@@ -1,12 +1,13 @@
 var drawRotated = function (image, x, y, direction, readyboolean) {
 
 	if (readyboolean) {
+
 		ctx.translate(+1*x, +1*y)
 		ctx.rotate(+1*direction);
-		ctx.translate(-32/2, -32/2)
+		ctx.translate(-image.width/2, -image.height/2)
 		ctx.drawImage(image, 0, 0);
 		// should set all this to ctx.restore()
-		ctx.translate(+32/2, +32/2)
+		ctx.translate(+image.width/2, +image.height/2)
 		ctx.rotate(-1*direction);
 		ctx.translate(-1*x, -1*y)
 	}
@@ -25,8 +26,11 @@ var render = function () {
 		ctx.drawImage(bgImage, 0, 0);
 	}
 
+console.log(bldg1.image)
+	drawRotated(bldg1.image, bldg1.x, bldg1.y, 0, bldg1.image.ready)
 
-	
+
+
 	drawRotated(heroImage, hero.x, hero.y, hero.direction, heroReady);
 
 	drawRotated(monsterImage, monster.x, monster.y, 0, monsterReady);
