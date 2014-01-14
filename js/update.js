@@ -27,7 +27,7 @@ var update = function (modifier) {
 	}
 	
 	
-	player1.loop.move(modifier);
+	player1.move(modifier);
 
 	player1.loop.accelerate(modifier); //ACTUALLY HAVE TO MAKE THIS!!!!!!!!!!!!!!!!!!!
 		

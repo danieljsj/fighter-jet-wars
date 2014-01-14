@@ -138,7 +138,7 @@ function Entity(imgSrc,height,width){
 	this.loop.think 	 = nullFunc;
 	this.loop.control 	 = nullFunc;
 	this.loop.accelerate = nullFunc;
-	this.loop.move 	 	 = nullFunc;
+	this.move 	 	 = nullFunc;
 
 	// Activate it! (NOT)
 	this.active = false;
@@ -168,7 +168,7 @@ function Flyer(imgSrc,height,width){
 
 
 	this.loop = {};
-	this.loop.move = function(dT){
+	this.move = function(dT){
 		var D = this.speed * dT;
 		//alert("distance: " + d);
 		//alert("ob.direction: " + ob.direction);
@@ -247,6 +247,7 @@ function Laser(shooter){
 var badGuy1 = new Plane();
 var player1 = new Plane();
 
+console.log(player1);
 
 
 

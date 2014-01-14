@@ -29,10 +29,15 @@
 
 	console.log(myPlane); // IT WORKS! It logs a thing with both sets of properties.
 
+	
 
 	// FUNCTIONS BASED INHERITANCE WINS BECAUSE IT"S ACTUALLY A GENERATOR AS OPPOSED TO AN EQUALER.
 
 
+	
+	
+	
+	
 	var Primate = {
 		weight: Math.random()*400,
 	}
@@ -43,9 +48,13 @@
 	console.log(Monkey);
 
 
-	var myMonkey = Object.create(Monkey);
-
+	var myMonkey 	= Object.create(Monkey);
+	var yourMonkey 	= Object.create(Monkey);
+	
+	console.log('My Monkey: ');
 	console.log(myMonkey);
+	console.log('Your Monkey: ');
+	console.log(yourMonkey);
 
 
 //	Especially if we're going to be drawing rows from databases / cvs's, there should really just be a generator function that takes a set of params to construct stuff using cascading constructor functions.
