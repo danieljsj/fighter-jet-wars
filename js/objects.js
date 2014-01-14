@@ -21,7 +21,7 @@ var obGenFuncs = {
 };
 
 
-
+/* ANATHEMA I DONT LIKE YOU 
 function obGenInit(ob){
 
 	// OBJECT NAME
@@ -43,6 +43,9 @@ function obGenInit(ob){
 	}
 
 }
+
+*/
+
 
 
 /* ADD THIS NEXT COMMIT, ON A DIFFERENT
@@ -105,147 +108,140 @@ function GameImage(src,height,width){
 
 // Entity
 
-var entities;
 
-function Entity(imgSrc,height,width){
-	obGenInit(this);
-	console.log('making an ' + this.obName + '. It looks like this: ');
-	console.log(this);
+var Entity = {
 	// INHERITANCE
 	// uncomment for all but 'entity': // this.prototype = new Entity(imgSrc,height,width);
 
 
-	// HERECODED PROPERTIES AND METHODS
-	// Image
-	this.image = new GameImage(imgSrc,height,width);
+
 
 	// Communication functions:
-	this.touching = function(point){ return false; }
+	comm: {
+		touching: function(point){ return false; },
+	},
 
 	// Permanent attributes: 
 	// (none yet)
 
 	// Starting physical status:
-	this.p = {};
-	this.p.x = canvas.width/2;
-	this.p.y = canvas.height/2;
-	this.p.direction = 0; // one of these days we'll have to do a search and replace across all the files to turn direction into dir
-
+	p: {
+		x: canvas.width/2,
+		y: canvas.height/2,
+		direction: 0, // one of these days we'll have to do a search and replace across all the files to turn direction into dir
+	},
 
 	// Loop funcs:
-	this.loop = {};
-	this.loop.feel		 = nullFunc;
-	this.loop.think 	 = nullFunc;
-	this.loop.control 	 = nullFunc;
-	this.loop.accelerate = nullFunc;
-	this.move 	 	 = nullFunc;
+	loop: {
+		feel		: nullFunc,
+		think 		: nullFunc,
+		control 	: nullFunc,
+		accelerate	: nullFunc,
+		move 		: nullFunc,
+	},
 
 	// Activate it! (NOT)
-	this.active = false;
+	active: false,
 }
+
 
 
 // Entity / Flyer
 
-function Flyer(imgSrc,height,width){
-	// INIT
-	obGenInit(this);
+var Flyer = Object.create(Entity);
 
-	// PROTOTYPE
-	this.prototype = new Entity(imgSrc,height,width);
-	
-	// HERECODED PROPERTIES
-	// PermaAttributes
-	this.atts = {};
-	this.atts.baseAccel = 100 // arbitrary, in pixels / second / second
-	this.atts.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
-	this.atts.launchSpeed = this.atts.baseAccel/this.atts.baseDrag; // arbitrary, in pixels / second
-
-	// Starting status
-	this.p = {};
-	this.p.speed = this.atts.launchSpeed;
-
-
-
-	this.loop = {};
-	this.move = function(dT){
-		var D = this.speed * dT;
-		//alert("distance: " + d);
-		//alert("ob.direction: " + ob.direction);
-		this.y += Math.sin(ob.direction) * D;
-		this.x += Math.cos(ob.direction) * D;
-	}
+// HERECODED PROPERTIES
+// PermaAttributes
+Flyer.atts = {
+	baseAccel: 100, // arbitrary, in pixels / second / second
+	baseDrag: .3, // arbitrary, no units. loss in speed per speed.
+	launchSpeed: baseAccel/baseDrag, // arbitrary, in pixels / second
 }
 
+// Starting status
+Flyer.p.speed = this.atts.launchSpeed;
+
+
+
+Flyer.loop.move = function(dT){
+	var D = this.speed * dT;
+	//alert("distance: " + d);
+	//alert("ob.direction: " + ob.direction);
+	this.y += Math.sin(ob.direction) * D;
+	this.x += Math.cos(ob.direction) * D;
+}
 
 // Entity / Flyer / Plane
 
 
-function Plane(){
-	// INIT
-	obGenInit(this);
+var Plane = Object.create(Flyer);
 
-	// PROTOTYPE
-	this.prototype = new Flyer('images/plane.png',32,32); // I maybe should use properties instead of hardcode here, cuz maybe it can inherit from the more advanced/specific object
+// HERECODED PROPERTIES AND METHODS
+// Image
+Plane.image = new GameImage('images/plane.png',32,32);
 
-	// HERECODED PROPERTIES
-	// Permanent attributes
-	this.atts = {};
-	this.atts.baseAccel  		= 20; 	// afterburnerAccel in pixels per second
-	this.atts.afterburnerAccel 	= 100; 	// afterburnerAccel in pixels per second
-	this.atts.baseDrag	 		= 0.1; 	// base coefficient of loss of velocity per second
-	this.atts.brakesDrag 		= 0.4; 	// brakes coefficient of loss of velocity per second
-	this.atts.turnRate	 		= 3; 		// turn rate in radians per second
+// HERECODED PROPERTIES
+// Permanent attributes
+Plane.atts.baseAccel  		= 20; 	// afterburnerAccel in pixels per second
+Plane.atts.afterburnerAccel = 100; 	// afterburnerAccel in pixels per second
+Plane.atts.baseDrag	 		= 0.1; 	// base coefficient of loss of velocity per second
+Plane.atts.brakesDrag 		= 0.4; 	// brakes coefficient of loss of velocity per second
+Plane.atts.turnRate	 		= 3; 		// turn rate in radians per second
 
-	// Starting controls statuses
-	this.ctrls = {};
-	this.ctrls.turning 			= 0;
-	this.ctrls.afterburning 	= false;
-	this.ctrls.braking 			= false;
-	this.ctrls.tryingToFire 	= false;
+// Starting controls statuses
+Plane.ctrls = {};
+Plane.ctrls.turning 		= 0;
+Plane.ctrls.afterburning 	= false;
+Plane.ctrls.braking 		= false;
+Plane.ctrls.tryingToFire 	= false;
 
-	// Starting physical statuses
-	this.p = {};
-	this.p.speed 				= 256; // movement in pixels per second
-	this.p.x 					= Math.random()*canvas.width;
-	this.p.y 					= Math.random()*canvas.height;
-	this.p.direction 			= 0;
+// Starting physical statuses
+Plane.p.speed 				= 256; // movement in pixels per second
+Plane.p.x 					= Math.random()*canvas.width;
+Plane.p.y 					= Math.random()*canvas.height;
+Plane.p.direction 			= 0;
 
-	// Activate it.
-	this.active = true;
-}
+// Activate it.
+Plane.active = true;
 
 
-function Laser(shooter){
-	//INIT
-	obGenInit(this);
 
-	this.prototype = new Flyer('images/laser.png',32,32);
+var Laser = Object.create(Flyer);
 
-	// HERECODED PROPERTIES
+Laser.image = new GameImage('images/laser.png',32,32);
+// HERECODED PROPERTIES
+// Permanent attributes
+Laser.atts.baseAccel  		= 0; 	// afterburnerAccel in pixels per second
+Laser.atts.baseDrag	 		= 0.3; 	// base coefficient of loss of velocity per second
+Laser.atts.launchSpeed		= 700; 	// launch speed in pixels per ssecond
 
-	// Permanent attributes
-	this.atts = {};
-	this.atts.baseAccel  		= 0; 	// afterburnerAccel in pixels per second
-	this.atts.baseDrag	 		= 0.3; 	// base coefficient of loss of velocity per second
-	this.atts.launchSpeed		= 700; 	// launch speed in pixels per ssecond
+Laser.p = {};
 
-	// Starting properties
-	this.p = {};
+Laser.owner = null;
+
+Laser.init = function(shooter){
+	this.owner = shooter;
 	this.p.speed 			= shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
 	this.p.direction 		= shooter.direction;
 	this.p.x 				= shooter.x;
 	this.p.y 				= shooter.y;
-
-	// Activate it!
-	this.active 		= true;
-
 }
 
+// Activate it!
+Laser.active = false;
 
 
-var badGuy1 = new Plane();
-var player1 = new Plane();
+/* Plane code will look like this:
+
+if (tryingToFire && readyToFire ){
+	var shootingLaser = Object.create(Laser);
+	shootingLaser.init(ob); // WORRY: WHAT WILL "THIS" BE? WILL IT BE THE PLANE? OR ONE OF ITS SUB-PROPERTIES?
+}
+
+*/
+
+var badGuy1 = Object.create(Plane);
+var player1 = Object.create(Plane);
 
 console.log(player1);
 
