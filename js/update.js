@@ -4,35 +4,37 @@
 // Update game objects
 var update = function (modifier) {
 	if (38 in keysDown) { // Player holding up // Afterburner
-		hero.afterburning = true;
+		player1.ctrls.afterburning = true;
 	} else {
-		hero.afterburning = false;
+		player1.ctrls.afterburning = false;
 	}
 	if (40 in keysDown) { // Player holding down // Brakes
-		hero.braking = true;
+		player1.ctrls.braking = true;
 	} else {
-		hero.braking = false;
+		player1.ctrls.braking = false;
 	}
-	hero.turning = 0;
+	player1.ctrls.turning = 0;
 	if (37 in keysDown) { // Player holding left // Turn Left
-		hero.turning += 1;
+		player1.ctrls.turning += 1;
 	}
 	if (39 in keysDown) { // Player holding right // Turn Right
-		hero.turning -= 1;
+		player1.ctrls.turning -= 1;
 	}	
 	if (32 in keysDown) { // Player holding spacebar // Fire
-		hero.tryingToFire = true;
+		player1.ctrls.tryingToFire = true;
 	} else {
-		hero.tryingToFire = false;
+		player1.ctrls.tryingToFire = false;
 	}
 	
 	
-	
-	move(hero, modifier);
+	player1.loop.move(modifier);
+
+	player1.loop.accelerate(modifier); //ACTUALLY HAVE TO MAKE THIS!!!!!!!!!!!!!!!!!!!
 		
 	laser.move(modifier);
 
-	senseEnvironment(laser);
+
+	senseEnvironment(laser); /// WHAT DO WE ACTUALLY HAVE HERE
 	
 	// Sensing for Buildings;
 	// currently only in static square
@@ -51,7 +53,6 @@ var update = function (modifier) {
 
 };
 
-console.log(hero);
 
 
 var firstTime = 0;
@@ -65,53 +66,23 @@ function move(ob, dT){
 
 	if (ob.active){
 
-		// -- THRUST -- //
-
-		// Base Thrust
-		ob.speed += ob.baseAccel * dT;
-
-		// Afterburning Thrust
-		if (ob.afterburning) {
-			ob.speed += ob.afterburnerAccel * dT;
-		}
 
 
-		// -- DRAG -- //
 
-		// Base Drag
-		ob.speed *= 1-(ob.baseDrag * dT);
-
-		// Braking Drag
-		if (ob.braking){
-			ob.speed *= 1-(ob.brakesDrag * dT);
-		}	
-
-
-		// -- TURNING -- //
-
-		// Turning
-		ob.direction -= ob.turning * ob.turnRate * dT; // why negative?
-
-		// Reign in the radians
-		if (ob.direction > 3.141592654*2) {
-			ob.direction -=3.141592654*2;
-		}
-		if (ob.direction < -3.141592654*2) {
-			ob.direction -=-3.141592654*2;
-		}
 
 		// -- ADVANCEMENT -- //
 
-
-
+/* THIS IS stuff.move, and it already has that. sukit.
 		var d = ob.speed * dT;
 		//alert("distance: " + d);
 		//alert("ob.direction: " + ob.direction);
 		ob.y += Math.sin(ob.direction) * d;
 		ob.x += Math.cos(ob.direction) * d;	
 
+*/
 	}
-//*/
+
+
 }
  
  function senseBuilding(x,y){

@@ -1,20 +1,31 @@
 
-"use strict";
+//"use strict";
 
 var nullFunc = function(){return null;}
 
 
 
 
-var lists = [];
-var obGenFuncs = {};
+var lists = {
+	'Entity':[],
+	'Flyer':[],
+	'Plane':[],
+	'Laser':[],
+};
+
+var obGenFuncs = {
+	'Entity':[],
+	'Flyer':[],
+	'Plane':[],
+	'Laser':[],
+};
 
 
 
 function obGenInit(ob){
 
 	// OBJECT NAME
-	ob.obName = ob.constructor.arguments.callee.name;
+	ob.obName = ob.constructor.arguments.callee.name; //replace this later when you do want to be so strict
 
 	// INHERITANCE
 	// uncomment for all but 'entity': // ob.prototype = new Entity(imgSrc,height,width);
@@ -98,7 +109,8 @@ var entities;
 
 function Entity(imgSrc,height,width){
 	obGenInit(this);
-
+	console.log('making an ' + this.obName + '. It looks like this: ');
+	console.log(this);
 	// INHERITANCE
 	// uncomment for all but 'entity': // this.prototype = new Entity(imgSrc,height,width);
 
@@ -113,19 +125,23 @@ function Entity(imgSrc,height,width){
 	// Permanent attributes: 
 	// (none yet)
 
-	// Starting status:
-	this.x = canvas.width/2;
-	this.y = canvas.height/2;
-	this.direction = 0; // one of these days we'll have to do a search and replace across all the files to turn direction into dir
-	this.active = false;
+	// Starting physical status:
+	this.p = {};
+	this.p.x = canvas.width/2;
+	this.p.y = canvas.height/2;
+	this.p.direction = 0; // one of these days we'll have to do a search and replace across all the files to turn direction into dir
+
 
 	// Loop funcs:
+	this.loop = {};
 	this.loop.feel		 = nullFunc;
 	this.loop.think 	 = nullFunc;
 	this.loop.control 	 = nullFunc;
 	this.loop.accelerate = nullFunc;
 	this.loop.move 	 	 = nullFunc;
 
+	// Activate it! (NOT)
+	this.active = false;
 }
 
 
@@ -140,15 +156,18 @@ function Flyer(imgSrc,height,width){
 	
 	// HERECODED PROPERTIES
 	// PermaAttributes
+	this.atts = {};
 	this.atts.baseAccel = 100 // arbitrary, in pixels / second / second
 	this.atts.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
 	this.atts.launchSpeed = this.atts.baseAccel/this.atts.baseDrag; // arbitrary, in pixels / second
 
 	// Starting status
-	this.speed = this.atts.launchSpeed;
+	this.p = {};
+	this.p.speed = this.atts.launchSpeed;
 
 
 
+	this.loop = {};
 	this.loop.move = function(dT){
 		var D = this.speed * dT;
 		//alert("distance: " + d);
@@ -167,10 +186,11 @@ function Plane(){
 	obGenInit(this);
 
 	// PROTOTYPE
-	this.prototype = new Flyer('images/hero.png',32,32); // I maybe should use properties instead of hardcode here, cuz maybe it can inherit from the more advanced/specific object
+	this.prototype = new Flyer('images/plane.png',32,32); // I maybe should use properties instead of hardcode here, cuz maybe it can inherit from the more advanced/specific object
 
 	// HERECODED PROPERTIES
-	// Atts
+	// Permanent attributes
+	this.atts = {};
 	this.atts.baseAccel  		= 20; 	// afterburnerAccel in pixels per second
 	this.atts.afterburnerAccel 	= 100; 	// afterburnerAccel in pixels per second
 	this.atts.baseDrag	 		= 0.1; 	// base coefficient of loss of velocity per second
@@ -178,18 +198,21 @@ function Plane(){
 	this.atts.turnRate	 		= 3; 		// turn rate in radians per second
 
 	// Starting controls statuses
+	this.ctrls = {};
 	this.ctrls.turning 			= 0;
 	this.ctrls.afterburning 	= false;
 	this.ctrls.braking 			= false;
 	this.ctrls.tryingToFire 	= false;
 
 	// Starting physical statuses
-	this.active 		= true;
-	this.speed 			= 256; // movement in pixels per second
-	this.x 				= Math.random()*canvas.width;
-	this.y 				= Math.random()*canvas.height;
-	this.direction 		= 0;
+	this.p = {};
+	this.p.speed 				= 256; // movement in pixels per second
+	this.p.x 					= Math.random()*canvas.width;
+	this.p.y 					= Math.random()*canvas.height;
+	this.p.direction 			= 0;
 
+	// Activate it.
+	this.active = true;
 }
 
 
@@ -200,22 +223,29 @@ function Laser(shooter){
 	this.prototype = new Flyer('images/laser.png',32,32);
 
 	// HERECODED PROPERTIES
-	// Atts
+
+	// Permanent attributes
+	this.atts = {};
 	this.atts.baseAccel  		= 0; 	// afterburnerAccel in pixels per second
 	this.atts.baseDrag	 		= 0.3; 	// base coefficient of loss of velocity per second
-	this.atts.launchSpeed		= 700; 	// launch speed in pixels per second
+	this.atts.launchSpeed		= 700; 	// launch speed in pixels per ssecond
 
 	// Starting properties
-	this.speed 			= shooter.speed + this.atts.launchSpeed; // movement in pixels per second
+	this.p = {};
+	this.p.speed 			= shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
+	this.p.direction 		= shooter.direction;
+	this.p.x 				= shooter.x;
+	this.p.y 				= shooter.y;
+
+	// Activate it!
 	this.active 		= true;
-	this.x 				= shooter.x;
-	this.y 				= shooter.y;
-	this.direction 		= shooter.direction;
 
 }
 
 
 
+var badGuy1 = new Plane();
+var player1 = new Plane();
 
 
 
@@ -224,8 +254,7 @@ function Laser(shooter){
 
 
 
-
-
+/*
 
 
 // Hero image
@@ -260,7 +289,7 @@ var laser = {
 	}
 }
 
-/*
+
 
 // Monster
 
