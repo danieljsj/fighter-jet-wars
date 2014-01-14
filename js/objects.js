@@ -1,7 +1,7 @@
 
 "use strict";
 
-nullFunc = function(){return null;}
+var nullFunc = function(){return null;}
 
 
 
@@ -94,7 +94,7 @@ function GameImage(src,height,width){
 
 // Entity
 
-var entities[];
+var entities;
 
 function Entity(imgSrc,height,width){
 	obGenInit(this);
