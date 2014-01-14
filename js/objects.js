@@ -177,16 +177,18 @@ function Plane(){
 	this.atts.brakesDrag 		= 0.4; 	// brakes coefficient of loss of velocity per second
 	this.atts.turnRate	 		= 3; 		// turn rate in radians per second
 
-	// Starting properties
-	this.speed 			= 256; // movement in pixels per second
-	this.turning 		= 0;
-	this.afterburning 	= false;
-	this.braking 		= false;
-	this.tryingToFire 	= false;
+	// Starting controls statuses
+	this.ctrls.turning 			= 0;
+	this.ctrls.afterburning 	= false;
+	this.ctrls.braking 			= false;
+	this.ctrls.tryingToFire 	= false;
+
+	// Starting physical statuses
 	this.active 		= true;
+	this.speed 			= 256; // movement in pixels per second
 	this.x 				= Math.random()*canvas.width;
 	this.y 				= Math.random()*canvas.height;
-	this.direction 		=   0;
+	this.direction 		= 0;
 
 }
 
@@ -227,14 +229,12 @@ function Laser(shooter){
 
 
 // Hero image
-/*hero.image.ready = false;
+hero.image.ready = false;
 hero.image = new Image();
 hero.Image.onload = function () {
 	hero.image.ready = true;
 };
 heroImage.src = "images/hero.png";
-*/
-
 
 var laser = {
 	
@@ -260,7 +260,7 @@ var laser = {
 	}
 }
 
-
+/*
 
 // Monster
 
@@ -343,7 +343,4 @@ monsterImage.src = "images/monster.png";
 
 
 
-
-
-
-
+//*/
