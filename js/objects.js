@@ -113,7 +113,6 @@ Flyer.move = function(dT){
 	var D = this.p.speed * dT;
 	this.p.y += Math.sin(this.p.direction) * D;
 	this.p.x += Math.cos(this.p.direction) * D;
-	alert(this.p.x + ', ' + this.p.y)
 }
 
 
