@@ -1,0 +1,74 @@
+
+
+<Script type="text/javascript">
+
+"use strict";
+
+var Ninja = {
+	name: 'a ninja ',
+	attack: function(){console.log(this.name + ' slices!');},
+	defend: function(){console.log(this.name + ' defends with a parry!');},
+	move: function(){console.log(this.name + ' walks quietly.');},
+	attacks: {
+		fishSlap: function() {
+			console.log("HIIIYYAYA!");
+			console.log(this);
+		},
+		lampSlap: function() {
+
+		},
+	}
+	
+}
+
+
+var NinjaMaster = Object.create(Ninja);
+
+  NinjaMaster.name = 'a ninja master';
+  NinjaMaster.attack = function(){console.log(this.name + ' attacks with a whirlwind strike!');};
+//NinjaMaster.prototype.name = 'a ninja master'; //Uncaught TypeError: Cannot set property 'name' of undefined 
+
+
+var jim = Object.create(NinjaMaster);
+
+  jim.name = 'Ninja Master Jim';
+  jim.move = function(){console.log(this.name + ' walks on a path that is not.');}
+
+// Start the game:
+
+jim.defend();
+jim.attack();
+jim.move();
+
+Ninja.attacks.fishSlap();
+
+console.log(jim);
+
+
+/*
+
+function NinjaArmy(){
+
+	this.troops = [];
+
+	i=0;
+	n=0;
+	for( ''; i<n+=4; i++){
+		this.troops.array[i] = Object.create(Ninja);
+	}
+	for( ''; i<n+=2; i++){
+		this.troops.array[i] = Object.create(NinjaMaster);
+	}
+	for( ''; i<n+=1; i++){
+		this.troops.array[i] = Object.create(jim);
+	}
+
+	this.morale=7;
+}
+
+NinjaArmy.prototype
+
+var daniel
+*/
+</script>
+

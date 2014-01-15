@@ -1,5 +1,5 @@
 
-//"use strict";
+"use strict";
 
 var nullFunc = function(){return null;}
 
@@ -63,8 +63,8 @@ Entity.init = function(){
 
 	this.inits.sort(  function(a,b){return a.order - b.order;}  );
 
-	for (i=0; i<this.inits.length; i++){
-		this.inits[i].func.call(this);
+	for (var i=0; i<this.inits.length; i++){
+		this.inits[i].func.apply(this);
 	}
 };
 
@@ -109,9 +109,11 @@ Entity.inits.push({
 var Flyer = Object.create(Entity);
 
 Flyer.move = function(dT){
-	var D = this.speed * dT;
-	this.y += Math.sin(this.direction) * D;
-	this.x += Math.cos(this.direction) * D;
+	console.log(this);
+	var D = this.p.speed * dT;
+	this.p.y += Math.sin(this.p.direction) * D;
+	this.p.x += Math.cos(this.p.direction) * D;
+	alert(this.p.x + ', ' + this.p.y)
 }
 
 
@@ -186,6 +188,7 @@ Plane.inits.push({
 	order: 0,
 	func: function(){
 
+		//alert("setStartingStatuses");
 		// set Physical statuses
 		this.p.speed 		= 0; // pixels per second
 		this.p.x 			= Math.random()*canvas.width;
