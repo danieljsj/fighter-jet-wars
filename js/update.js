@@ -4,13 +4,13 @@
 // Update game objects
 var update = function (modifier) {
 	
-	player1.control();
+	player1	.control	(); //MAKE THIS!
 	
-	player1.move(modifier);
+	player1	.move		(modifier);
 
-	player1.accelerate(modifier); //ACTUALLY HAVE TO MAKE THIS!!!!!!!!!!!!!!!!!!!
+	player1	.accelerate	(modifier); //MAKE THIS!
 		
-	laser.move(modifier);
+	laser	.move		(modifier);
 
 
 	senseEnvironment(laser); /// WHAT DO WE ACTUALLY HAVE HERE

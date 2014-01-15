@@ -5,72 +5,11 @@ var nullFunc = function(){return null;}
 
 
 
-/*
-var lists = {
-	'Entity':[],
-	'Flyer':[],
-	'Plane':[],
-	'Laser':[],
-};
-
-var obGenFuncs = {
-	'Entity':[],
-	'Flyer':[],
-	'Plane':[],
-	'Laser':[],
-};
-*/
-
-/* ANATHEMA I DONT LIKE YOU 
-function obGenInit(ob){
-
-	// OBJECT NAME
-	ob.obName = ob.constructor.arguments.callee.name; //replace this later when you do want to be so strict
-
-	// INHERITANCE
-	// uncomment for all but 'entity': // ob.prototype = new Entity(imgSrc,height,width);
-
-	// REGISTRATION
-	lists[ob.obName].push(ob);
-
-
-	// PROPERTY AND METHOD GENERATION
-	// Get the generator functions arrary for ob object function
-	var genFuncs = obGenFuncs[ob.obName];
-	// Run the genFuncs
-	for(i=0; i<genFuncs.length; i++){
-		genFuncs[i](ob);
-	}
-
-}
-
-*/
-
-
-
-/* ADD THIS NEXT COMMIT, ON A DIFFERENT
-
-obGenFuncs['Flyer'].push(function(){
-
-	this.launchSpeed = 300 // arbitrary, in pixels / second
-
-	this.baseAccel = 100 // arbitrary, in pixels / second / second
-	this.baseDrag = .3 // arbitrary, no units. loss in speed per speed.
-
-	this.launchSpeed = this.baseAccel/this.baseDrag;
-
-
-	this.speed = this.launchSpeed;
-
-}); // can bind this to flyer if need be
-
-
-*/
 
 
 
 
-// -- IMAGES -- //
+// -- CANVAS -- //
 
 
 
@@ -82,8 +21,16 @@ canvas.height = window.innerHeight;
 
 document.body.appendChild(canvas);
 
+// -- REGISTRY -- //
+
+var registry = {
+	entities: [],
+};
 
 
+//=======================================================================//
+//======================== O  B  J  E  C  T  S   ========================//
+//=======================================================================//
 
 
 /*
@@ -138,8 +85,16 @@ Entity.inits.push({
 	},
 });
 
+Entity.inits.push({
+	handle: 'register',
+	order: 0,
+	func: function(){
+		registry.entities.push(this);
+	},
+});
 
 
+//== Entity >
 //======================== F L Y E R ========================//
 
 
@@ -155,7 +110,7 @@ Flyer.move = function(dT){
 }
 
 
-
+//== Entity > Flyer > 
 //======================== P L A N E ========================//
 
 
@@ -164,7 +119,7 @@ var Plane = Object.create(Flyer);
 
 // Image
 Plane.image = {
-	src:'images/plane.png',
+	src:'images/plane-friendly-gray.png',
 	height:32,
 	width:32,
 }
@@ -176,25 +131,149 @@ Plane.atts = {
 	baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
 	brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
 	turnRate	 		: 3, 	// turn rate in radians per second
+	laserRefreshTime	: .25	// 
 };
 
-// Starting physical statuses
-Plane.init = function(){
-	Plane.p.speed 				= 0; // pixels per second
-	Plane.p.x 					= Math.random()*canvas.width;
-	Plane.p.y 					= Math.random()*canvas.height;
-	Plane.p.direction 			= 0;
-
-	Plane.ctrls.turning 		= 0;
-	Plane.ctrls.afterburning 	= false;
-	Plane.ctrls.braking 		= false;
-	Plane.ctrls.tryingToFire 	= false;
-
-	Plane.active 				= true;
-} 
+Plane.sta = {
+	unreadiness
+}
 
 
 
+Entity.inits.push({
+	handle: 'setStartingStatuses',
+	order: 0,
+	func: function(){
+
+		// set Physical statuses
+		this.p.speed 		= 0; // pixels per second
+		this.p.x 			= Math.random()*canvas.width;
+		this.p.y 			= Math.random()*;
+		this.p.direction 	= Math.atan( 
+			( 
+				canvas.height / 2  -  this.p.y 
+			)/(
+				canvas.width  / 2  -  this.p.x
+			)
+		);
+
+		// set Controls statuses
+		this.ctrls.turning 		= 0;
+		this.ctrls.afterburning	= false;
+		this.ctrls.braking 		= false;
+		this.ctrls.tryingToFire = false;
+
+		// Set Various statuses
+		this.stats.laserRefreshLeft
+
+		// Activate
+		this.active	= true;
+
+	},
+});
+
+
+
+
+//== Entity > Flyer > Plane > 
+//======================== P L A Y E R ========================//
+
+var Player = Object.create(Plane);
+
+
+Player.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
+	
+	// Holding up // Afterburner
+	if (this.keys.burn in keysDown) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
+
+	// Holding down // Brakes
+	if (this.keys.brake in keysDown) { this.ctrls.braking = true; } else { this.ctrls.braking = false; }
+
+	// Holding left // Turn Left
+	if (this.keys.left in keysDown) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
+
+	// Holding right // Turn Right
+	if (this.keys.right in keysDown) { this.ctrls.turning -= 1; } else { }
+
+	// Holding spacebar // Fire
+	if (this.keys.shoot in keysDown) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
+
+};
+
+
+
+Player.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
+
+	// Fire Laser
+	if (tryingToFire && readyToFire ){
+
+		// Create a laser
+		var shootingLaser = Object.create(Laser);
+		// Tell it who is shooting it
+		shootingLaser.shooter = this;
+		// Start it on its way
+		shootingLaser.init();
+	}
+
+}
+
+// -=-=-=-=-=-=- PLAYERS -=-=-=-=-=-=- //
+
+// Player 1
+var player1 = Object.create(Player);
+
+player1.keys = {
+	burn: 	38,	// up
+	brake: 	40,	// down
+	left: 	37,	// left
+	right: 	39,	// right
+	shoot: 	76,	// L
+}
+
+player1.image = {
+	src:'images/plane-friendly-blue.png',
+	height:32,
+	width:32,
+}
+
+// Player 2
+var player2 = Object.create(Player);
+
+player2.keys = {
+	burn: 	87,	// W
+	brake: 	83,	// S
+	left: 	65,	// A
+	right: 	68,	// D
+	shoot: 	32,	// space
+}
+
+player2.image = {
+	src:'images/plane-friendly-yellow.png',
+	height:32,
+	width:32,
+}
+
+
+
+//== Entity > Flyer > Plane > 
+//======================== C O M P U T E R ========================//
+
+var Computer = Object.create(Plane);
+
+
+
+
+
+// -=-=-=-=-=-=- COMPUTERS -=-=-=-=-=-=- //
+
+var badGuy1 = Object.create(Computer);
+
+
+
+
+
+
+//== Entity > Flyer >
 //======================== L A S E R ========================//
 
 
@@ -234,169 +313,26 @@ Laser.inits.push({
 
 
 
-/* Plane code, in communicate, will look like this:
-
-if (tryingToFire && readyToFire ){
-	var shootingLaser = Object.create(Laser);
-	shootingLaser.shooter = this;
-	shootingLaser.init();
-}
-
-*/
-
-
-
-var badGuy1 = Object.create(Plane);
-
-
-var player1 = Object.create(Plane);
-
-
-
-
-/* The thing to do here is to assign a keys set to each player, and let them use a standard controls func added in a Player object.
-player1.control = function(){
-	
-	// Holding up // Afterburner
-	if (38 in keysDown) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
-
-	// Holding down // Brakes
-	if (40 in keysDown) { this.ctrls.braking = true; } else { this.ctrls.braking = false; }
-
-	// Holding left // Turn Left
-	if (37 in keysDown) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
-
-	// Holding right // Turn Right
-	if (39 in keysDown) { this.ctrls.turning -= 1; } else { }
-
-	// Holding spacebar // Fire
-	if (32 in keysDown) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
-};
-
-
-
-*/
 
 
 
 
 
-/*
-
-
-// Hero image
-hero.image.ready = false;
-hero.image = new Image();
-hero.Image.onload = function () {
-	hero.image.ready = true;
-};
-heroImage.src = "images/hero.png";
-
-var laser = {
-	
-	// attributes
-	baseAccel: 0, // afterburnerAccel in pixels per second
-	afterburnerAccel: 0, // afterburnerAccel in pixels per second
-	baseDrag: 0, // base coefficient of loss of velocity per second
-	brakesDrag: 0, // brakes coefficient of loss of velocity per second
-	turnRate: 0, // turn rate in radians per second 
-	
-	launchSpeed:700, // speed in pixels per second
-	
-	speed: 0, // speed in pixels per second
-	active: false,
-	direction: 0,
-	x: canvas.width / 2,
-	y: canvas.height / 2,	
-	
-	move: function(dT){
-		var d = laser.speed * dT;
-		laser.y += Math.sin(laser.direction) * d;
-		laser.x += Math.cos(laser.direction) * d;
-	}
-}
-
-
-
-// Monster
-
-var monster = {};
-
-//Building1
-
-var bldg1 = {
-
-
-	width: 175,
-	height: 95,
-
-	image: {			
-		offsetX:11,
-		offsetY:-12,
-	},
-	
-	direction: 0,
-	
-	// Throw the building somewhere on the screen randomly
-	// Right now no bias towards center or anything
-	x: Math.random() * canvas.width,
-	y: Math.random() * canvas.height,
-}
-
-// Building 1 image
-bldg1.image.img = new Image();
-//bldg1.image.width;
-//bldg1.image.height;
-bldg1.image.img.onload = function () {
-	bldg1.image.ready = true;
-};
-bldg1.image.ready = false;
-bldg1.image.img.src = "images/bldg1.png";
-
-
-
-// Score
-
-var monstersCaught = 0;
 
 
 
 
-// Background image
-var bgReady = false;
-var bgImage = new Image();
-bgImage.onload = function () {
-	bgReady = true;
-};
-bgImage.src = "images/background.png";
-
-console.log(bgImage);
-
-// Hero image
-var heroReady = false;
-var heroImage = new Image();
-heroImage.onload = function () {
-	heroReady = true;
-};
-heroImage.src = "images/hero.png";
-
-// Laser image
-var laserReady = false;
-var laserImage = new Image();
-laserImage.onload = function () {
-	laserReady = true;
-};
-laserImage.src = "images/laser.png";
-
-
-// Monster image
-var monsterReady = false;
-var monsterImage = new Image();
-monsterImage.onload = function () {
-	monsterReady = true;
-};
-monsterImage.src = "images/monster.png";
 
 
 
-//*/
+
+
+
+
+
+
+
+
+
+
+
