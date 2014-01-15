@@ -10,7 +10,7 @@ function Shape() {
   this.y = 0;
 }
 
-// superclass method
+// superclass (PROTOTYPE) method
 Shape.prototype.move = function(x, y) {
     this.x += x;
     this.y += y;
@@ -22,7 +22,7 @@ function Rectangle() {
   Shape.call(this); // call super constructor. // THIS IS SO YOU GET X AND Y GENERATED NOW.
 }
 
-// subclass extends superclass
+// subclass (PROTOTYPE) extends superclass
 Rectangle.prototype = Object.create(Shape.prototype);  // THIS IS SO YOU GET FUNCTIONS
 Rectangle.prototype.constructor = Rectangle; // WHAT THE POOP IS THIS?
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/constructor

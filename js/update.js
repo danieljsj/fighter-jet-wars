@@ -8,11 +8,11 @@ var update = function (dT) {
 	
 	player1	.move		(dT);
 	player2	.move		(dT);
-	comp1	.move		(dT);
+//	comp1	.move		(dT);
 
 	player1	.accelerate	(dT);
 	player2	.accelerate	(dT);
-	comp1	.accelerate	(dT);
+//	comp1	.accelerate	(dT);
 
 //	console.log(dT);
 	render();

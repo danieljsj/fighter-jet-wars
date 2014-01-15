@@ -52,64 +52,80 @@ var registry = {
 //======================== E N T I T Y ========================//
 
 
-var Entity = {};
+function Entity(){
 
-Entity.atts 	= {};
-Entity.ctrls 	= {};
-Entity.stats 	= {};
-Entity.p 		= {};
+	// Create basic stuff
+	this.atts 	= {};
+	this.ctrls 	= {};
+	this.stats 	= {};
+	this.p 		= {};
 
-Entity.init = function(){
+	// Set inits for entities
+	this.inits = [];
+
+	this.inits.push({
+		handle: 'giveImage',
+		order: 100,
+		func: function(){
+			this.image.img 			= new Image();
+			this.image.img.ready 	= false;
+			this.image.img.onload 	= function() { this.ready = true; }
+			this.image.img.src 		= this.image.src;
+		}
+
+	});
+
+	this.inits.push({
+		handle: 'activate',
+		order: 120,
+		func: function(){
+			this.stats.active = true;
+		},
+	});
+
+	this.inits.push({
+		handle: 'register',
+		order: 0,
+		func: function(){
+			registry.entities.push(this);
+		},
+	});
+
+
+};
+
+Entity.prototype.init = function(){
 
 	this.inits.sort(  function(a,b){return a.order - b.order;}  );
 
 	for (var i=0; i<this.inits.length; i++){
 		this.inits[i].func.apply(this);
 	}
+
 };
 
 
-// Set inits for entities
-Entity.inits = [];
 
-Entity.inits.push({
-	handle: 'giveImage',
-	order: 100,
-	func: function(){
-		this.image.img 			= new Image();
-		this.image.img.ready 	= false;
-		this.image.img.onload 	= function() { this.ready = true; }
-		this.image.img.src 		= this.image.src;
-	}
 
-});
 
-Entity.inits.push({
-	handle: 'activate',
-	order: 120,
-	func: function(){
-		this.stats.active = true;
-	},
-});
-
-Entity.inits.push({
-	handle: 'register',
-	order: 0,
-	func: function(){
-		registry.entities.push(this);
-	},
-});
 
 
 //== Entity >
 //======================== F L Y E R ========================//
 
 
+//Subclass
+function Flyer() { 
+	// Superclass stuff builds this
+	Entity.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
+	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
+}; 			
 
-var Flyer = Object.create(Entity);
+Flyer.prototype = Object.create(Entity.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Flyer.prototype.constructor = Flyer; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
-Flyer.move = function(dT){
-	console.log(this);
+
+Flyer.prototype.move = function(dT){
 	var D = this.p.speed * dT;
 	this.p.y += Math.sin(this.p.direction) * D;
 	this.p.x += Math.cos(this.p.direction) * D;
@@ -119,30 +135,62 @@ Flyer.move = function(dT){
 //== Entity > Flyer > 
 //======================== P L A N E ========================//
 
+function Plane() { 
+	Flyer.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
+
+	// Image
+	this.image = {
+		src:'images/plane-friendly-gray.png',
+		height:32,
+		width:32,
+	}
+
+	// Permanent attributes
+	this.atts = {
+		baseAccel  			: 20, 	// afterburnerAccel in pixels per second^2
+		afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
+		baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
+		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
+		turnRate	 		: 3, 	// turn rate in radians per second
+		laserRefreshTime	: .25	// 
+	};
+
+	this.inits.push({
+		handle: 'setStartingStatuses',
+		order: 0,
+		func: function(){
+
+			//alert("setStartingStatuses");
+			// set Physical statuses
+			this.p.speed 		= 0; // pixels per second
+			this.p.x 			= Math.random()*canvas.width;
+			this.p.y 			= Math.random()*canvas.height;
+			this.p.direction 	= Math.atan( 
+				( 
+					canvas.height / 2  -  this.p.y 
+				)/(
+					canvas.width  / 2  -  this.p.x
+				)
+			);
+
+			// set Controls statuses
+			this.ctrls.turning 		= 0;
+			this.ctrls.afterburning	= false;
+			this.ctrls.braking 		= false;
+			this.ctrls.tryingToFire = false;
+
+			// Set Various statuses
+			this.stats.laserRefreshLeft
+
+		},
+	});
+}; 			
+Plane.prototype = Object.create(Flyer.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Plane.prototype.constructor = Plane; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
-var Plane = Object.create(Flyer);
 
-// Image
-Plane.image = {
-	src:'images/plane-friendly-gray.png',
-	height:32,
-	width:32,
-}
-
-// Permanent attributes
-Plane.atts = {
-	baseAccel  			: 20, 	// afterburnerAccel in pixels per second^2
-	afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
-	baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
-	brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
-	turnRate	 		: 3, 	// turn rate in radians per second
-	laserRefreshTime	: .25	// 
-};
-
-
-
-Plane.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundler for stuff that needs dT...
+Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundler for stuff that needs dT...
 	// -- DRAG -- //
 
 	// Base Drag
@@ -182,35 +230,7 @@ Plane.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundl
 
 
 
-Plane.inits.push({
-	handle: 'setStartingStatuses',
-	order: 0,
-	func: function(){
 
-		//alert("setStartingStatuses");
-		// set Physical statuses
-		this.p.speed 		= 0; // pixels per second
-		this.p.x 			= Math.random()*canvas.width;
-		this.p.y 			= Math.random()*canvas.height;
-		this.p.direction 	= Math.atan( 
-			( 
-				canvas.height / 2  -  this.p.y 
-			)/(
-				canvas.width  / 2  -  this.p.x
-			)
-		);
-
-		// set Controls statuses
-		this.ctrls.turning 		= 0;
-		this.ctrls.afterburning	= false;
-		this.ctrls.braking 		= false;
-		this.ctrls.tryingToFire = false;
-
-		// Set Various statuses
-		this.stats.laserRefreshLeft
-
-	},
-});
 
 
 
@@ -218,10 +238,17 @@ Plane.inits.push({
 //== Entity > Flyer > Plane > 
 //======================== P L A Y E R ========================//
 
-var Player = Object.create(Plane);
+function Player() { 
+	// Superclass stuff builds this
+	Plane.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
+	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
+}; 			
+
+Player.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Player.prototype.constructor = Player; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
-Player.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
+Player.prototype.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
 	
 	// Holding up // Afterburner
 	if (this.keys.burn in keysDown) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
@@ -242,7 +269,7 @@ Player.control = function(){  // Eventually, these could be bundled into hooks j
 
 
 
-Player.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
+Player.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
 
 	// Fire Laser
 	if (tryingToFire && readyToFire ){
@@ -260,7 +287,7 @@ Player.communicate = function(){ // Eventually, these could be bundled into hook
 // -=-=-=-=-=-=- PLAYERS -=-=-=-=-=-=- //
 
 // Player 1
-var player1 = Object.create(Player);
+var player1 = new Player();
 
 player1.keys = {
 	burn: 	38,	// up
@@ -277,7 +304,7 @@ player1.image = {
 }
 
 // Player 2
-var player2 = Object.create(Player);
+var player2 = new Player();
 
 player2.keys = {
 	burn: 	87,	// W
@@ -298,7 +325,16 @@ player2.image = {
 //== Entity > Flyer > Plane > 
 //======================== C O M P U T E R ========================//
 
-var Comp = Object.create(Plane);
+//Subclass
+function Comp() { 
+	// Superclass stuff builds this
+	Plane.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
+	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
+}; 			
+
+Comp.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Comp.prototype.constructor = Comp; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
+
 
 
 
@@ -323,38 +359,48 @@ comp1.image = {
 
 
 
-var Laser = Object.create(Flyer);
+//Subclass
+function Laser() { 
+	// Superclass stuff builds this
+	Flyer.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
+	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
 
-// Image
-Laser.image = {
-	src:'images/laser.png',
-	height:32,
-	width:32,
-}
+	// Image
+	this.image = {
+		src:'images/laser.png',
+		height:32,
+		width:32,
+	}
 
-// Permanent attributes
-Laser.atts = {
-	baseAccel  	: 0, 	// afterburnerAccel in pixels per second
-	baseDrag	: 0.3, 	// base coefficient of loss of velocity per second
-	launchSpeed	: 700, 	// launch speed in pixels per ssecond
-}
+	// Permanent attributes
+	this.atts = {
+		baseAccel  	: 0, 	// afterburnerAccel in pixels per second
+		baseDrag	: 0.3, 	// base coefficient of loss of velocity per second
+		launchSpeed	: 700, 	// launch speed in pixels per ssecond
+	}
 
-Laser.p = {};
 
-Laser.owner = null;
+	this.owner = null;
 
-Laser.inits.push({
-	handle: 'launch',
-	order: 90,
-	func: function(){
-		/*
-		this.p.speed 			= this.shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
-		this.p.direction 		= this.shooter.direction;
-		this.p.x 				= this.shooter.x;
-		this.p.y 				= this.shooter.y;
-		*/
-	},
-});
+	this.inits.push({
+		handle: 'launch',
+		order: 90,
+		func: function(){
+			/*
+			this.p.speed 			= this.shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
+			this.p.direction 		= this.shooter.direction;
+			this.p.x 				= this.shooter.x;
+			this.p.y 				= this.shooter.y;
+			*/
+		},
+	});
+}; 			
+
+Laser.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
+
+
+
 
 
 

@@ -1,11 +1,15 @@
 // Let's play this game!
 
-
+console.info();
+console.log(player1);
+console.log(player2);
+console.log(comp1);
 
 player1		.init();
 player2		.init();
-comp1	.init();
+//comp1		.init();
 
+console.info();
 console.log(player1);
 console.log(player2);
 console.log(comp1);
