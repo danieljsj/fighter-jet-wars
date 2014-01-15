@@ -3,33 +3,12 @@
 
 // Update game objects
 var update = function (modifier) {
-	if (38 in keysDown) { // Player holding up // Afterburner
-		player1.ctrls.afterburning = true;
-	} else {
-		player1.ctrls.afterburning = false;
-	}
-	if (40 in keysDown) { // Player holding down // Brakes
-		player1.ctrls.braking = true;
-	} else {
-		player1.ctrls.braking = false;
-	}
-	player1.ctrls.turning = 0;
-	if (37 in keysDown) { // Player holding left // Turn Left
-		player1.ctrls.turning += 1;
-	}
-	if (39 in keysDown) { // Player holding right // Turn Right
-		player1.ctrls.turning -= 1;
-	}	
-	if (32 in keysDown) { // Player holding spacebar // Fire
-		player1.ctrls.tryingToFire = true;
-	} else {
-		player1.ctrls.tryingToFire = false;
-	}
 	
+	player1.control();
 	
 	player1.move(modifier);
 
-	player1.loop.accelerate(modifier); //ACTUALLY HAVE TO MAKE THIS!!!!!!!!!!!!!!!!!!!
+	player1.accelerate(modifier); //ACTUALLY HAVE TO MAKE THIS!!!!!!!!!!!!!!!!!!!
 		
 	laser.move(modifier);
 

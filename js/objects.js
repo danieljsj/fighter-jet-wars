@@ -5,7 +5,7 @@ var nullFunc = function(){return null;}
 
 
 
-
+/*
 var lists = {
 	'Entity':[],
 	'Flyer':[],
@@ -19,7 +19,7 @@ var obGenFuncs = {
 	'Plane':[],
 	'Laser':[],
 };
-
+*/
 
 /* ANATHEMA I DONT LIKE YOU 
 function obGenInit(ob){
@@ -77,93 +77,76 @@ obGenFuncs['Flyer'].push(function(){
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 613;
-canvas.height = 528;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 document.body.appendChild(canvas);
 
 
 
-function GameImage(src,height,width){
-	this.ready 	= false;
-	this.height = height;
-	this.width 	= width;
-
-	this.img 		= new Image();
-	this.img.onload = function() { this.ready = true; }
-	this.img.src 	= src;
-}
-
 
 
 /*
-	Entity
-		Flyer
-			Plane
-				Computer
-				Player
-			Laser
-
+	Flyer
+		Plane
+			Computer
+			Player
+		Laser
 */
 
-// Entity
-
-
-var Entity = {
-	// INHERITANCE
-	// uncomment for all but 'entity': // this.prototype = new Entity(imgSrc,height,width);
 
 
 
+//======================== E N T I T Y ========================//
 
-	// Communication functions:
-	comm: {
-		touching: function(point){ return false; },
+
+var Entity = {};
+
+Entity.init = function(){
+
+	this.inits.sort(  function(a,b){return a.order - b.order;}  );
+
+	for (i=0; i<this.inits.length; i++){
+		var initFunc = this.inits[i];
+		var boundInitFunc = initFunc.bind(this);
+		initFunc(); 		// log: undefined
+		boundInitFunc(); 	// log: Hello World
+	}
+};
+
+
+// Set inits for entities
+Entity.inits = [];
+
+Entity.inits.push({
+	handle: 'giveImage',
+	order: 100,
+	func: function(){
+		this.image.img 			= new Image();
+		this.image.img.ready 	= false;
+		this.image.img.onload 	= function() { this.ready = true; }
+		this.image.img.src 		= this.image.src;
+	}
+
+});
+
+Entity.inits.push({
+	handle: 'activate',
+	order: 120,
+	func: function(){
+		this.active = true;
 	},
-
-	// Permanent attributes: 
-	// (none yet)
-
-	// Starting physical status:
-	p: {
-		x: canvas.width/2,
-		y: canvas.height/2,
-		direction: 0, // one of these days we'll have to do a search and replace across all the files to turn direction into dir
-	},
-
-	// Loop funcs:
-	loop: {
-		feel		: nullFunc,
-		think 		: nullFunc,
-		control 	: nullFunc,
-		accelerate	: nullFunc,
-		move 		: nullFunc,
-	},
-
-	// Activate it! (NOT)
-	active: false,
-}
+});
 
 
 
-// Entity / Flyer
+//======================== F L Y E R ========================//
+
+
 
 var Flyer = Object.create(Entity);
 
-// HERECODED PROPERTIES
-// PermaAttributes
-Flyer.atts = {
-	baseAccel: 100, // arbitrary, in pixels / second / second
-	baseDrag: .3, // arbitrary, no units. loss in speed per speed.
-	launchSpeed: baseAccel/baseDrag, // arbitrary, in pixels / second
-}
-
-// Starting status
-Flyer.p.speed = this.atts.launchSpeed;
-
-
-
-Flyer.loop.move = function(dT){
+Flyer.move = function(dT){
 	var D = this.speed * dT;
 	//alert("distance: " + d);
 	//alert("ob.direction: " + ob.direction);
@@ -171,81 +154,128 @@ Flyer.loop.move = function(dT){
 	this.x += Math.cos(ob.direction) * D;
 }
 
-// Entity / Flyer / Plane
+
+
+//======================== P L A N E ========================//
+
 
 
 var Plane = Object.create(Flyer);
 
-// HERECODED PROPERTIES AND METHODS
 // Image
-Plane.image = new GameImage('images/plane.png',32,32);
+Plane.image = {
+	src:'images/plane.png',
+	height:32,
+	width:32,
+}
 
-// HERECODED PROPERTIES
 // Permanent attributes
-Plane.atts.baseAccel  		= 20; 	// afterburnerAccel in pixels per second
-Plane.atts.afterburnerAccel = 100; 	// afterburnerAccel in pixels per second
-Plane.atts.baseDrag	 		= 0.1; 	// base coefficient of loss of velocity per second
-Plane.atts.brakesDrag 		= 0.4; 	// brakes coefficient of loss of velocity per second
-Plane.atts.turnRate	 		= 3; 		// turn rate in radians per second
-
-// Starting controls statuses
-Plane.ctrls = {};
-Plane.ctrls.turning 		= 0;
-Plane.ctrls.afterburning 	= false;
-Plane.ctrls.braking 		= false;
-Plane.ctrls.tryingToFire 	= false;
+Plane.atts = {
+	baseAccel  			: 20, 	// afterburnerAccel in pixels per second^2
+	afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
+	baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
+	brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
+	turnRate	 		: 3, 	// turn rate in radians per second
+};
 
 // Starting physical statuses
-Plane.p.speed 				= 256; // movement in pixels per second
-Plane.p.x 					= Math.random()*canvas.width;
-Plane.p.y 					= Math.random()*canvas.height;
-Plane.p.direction 			= 0;
+Plane.init = function(){
+	Plane.p.speed 				= 0; // pixels per second
+	Plane.p.x 					= Math.random()*canvas.width;
+	Plane.p.y 					= Math.random()*canvas.height;
+	Plane.p.direction 			= 0;
 
-// Activate it.
-Plane.active = true;
+	Plane.ctrls.turning 		= 0;
+	Plane.ctrls.afterburning 	= false;
+	Plane.ctrls.braking 		= false;
+	Plane.ctrls.tryingToFire 	= false;
+
+	Plane.active 				= true;
+} 
+
+
+
+//======================== L A S E R ========================//
 
 
 
 var Laser = Object.create(Flyer);
 
-Laser.image = new GameImage('images/laser.png',32,32);
-// HERECODED PROPERTIES
+// Image
+Laser.image = {
+	src:'images/laser.png',
+	height:32,
+	width:32,
+}
+
 // Permanent attributes
-Laser.atts.baseAccel  		= 0; 	// afterburnerAccel in pixels per second
-Laser.atts.baseDrag	 		= 0.3; 	// base coefficient of loss of velocity per second
-Laser.atts.launchSpeed		= 700; 	// launch speed in pixels per ssecond
+Laser.atts = {
+	baseAccel  	: 0, 	// afterburnerAccel in pixels per second
+	baseDrag	: 0.3, 	// base coefficient of loss of velocity per second
+	launchSpeed	: 700, 	// launch speed in pixels per ssecond
+}
 
 Laser.p = {};
 
 Laser.owner = null;
 
-Laser.init = function(shooter){
-	this.owner = shooter;
-	this.p.speed 			= shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
-	this.p.direction 		= shooter.direction;
-	this.p.x 				= shooter.x;
-	this.p.y 				= shooter.y;
-}
+Laser.inits.push({
+	handle: 'launch',
+	order: 90,
+	func: function(){
+		this.p.speed 			= shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
+		this.p.direction 		= shooter.direction;
+		this.p.x 				= shooter.x;
+		this.p.y 				= shooter.y;
+	},
+});
 
-// Activate it!
-Laser.active = false;
 
 
-/* Plane code will look like this:
+
+
+/* Plane code, in communicate, will look like this:
 
 if (tryingToFire && readyToFire ){
 	var shootingLaser = Object.create(Laser);
-	shootingLaser.init(ob); // WORRY: WHAT WILL "THIS" BE? WILL IT BE THE PLANE? OR ONE OF ITS SUB-PROPERTIES?
+	shootingLaser.shooter = this;
+	shootingLaser.init();
 }
 
 */
 
+
+
 var badGuy1 = Object.create(Plane);
+
+
 var player1 = Object.create(Plane);
 
-console.log(player1);
 
 
+
+/* The thing to do here is to assign a keys set to each player, and let them use a standard controls func added in a Player object.
+player1.control = function(){
+	
+	// Holding up // Afterburner
+	if (38 in keysDown) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
+
+	// Holding down // Brakes
+	if (40 in keysDown) { this.ctrls.braking = true; } else { this.ctrls.braking = false; }
+
+	// Holding left // Turn Left
+	if (37 in keysDown) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
+
+	// Holding right // Turn Right
+	if (39 in keysDown) { this.ctrls.turning -= 1; } else { }
+
+	// Holding spacebar // Fire
+	if (32 in keysDown) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
+};
+
+
+
+*/
 
 
 
