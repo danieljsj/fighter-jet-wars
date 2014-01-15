@@ -16,10 +16,15 @@ var nullFunc = function(){return null;}
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = window.innerWidth*1;
+canvas.height = window.innerHeight*1;
 
 document.body.appendChild(canvas);
+/*document.getElementById("controls").setAttribute(
+	"style",
+	"margin-top: -"+canvas.height+"px;"
+); this sucks. jquery better. I'm gonna use absolute anyway.*/
+
 
 // -- REGISTRY -- //
 
@@ -36,8 +41,8 @@ var registry = {
 /*
 	Flyer
 		Plane
-			Computer
 			Player
+			Comp
 		Laser
 */
 
@@ -49,15 +54,17 @@ var registry = {
 
 var Entity = {};
 
+Entity.atts 	= {};
+Entity.ctrls 	= {};
+Entity.stats 	= {};
+Entity.p 		= {};
+
 Entity.init = function(){
 
 	this.inits.sort(  function(a,b){return a.order - b.order;}  );
 
 	for (i=0; i<this.inits.length; i++){
-		var initFunc = this.inits[i];
-		var boundInitFunc = initFunc.bind(this);
-		initFunc(); 		// log: undefined
-		boundInitFunc(); 	// log: Hello World
+		this.inits[i].func.call(this);
 	}
 };
 
@@ -81,7 +88,7 @@ Entity.inits.push({
 	handle: 'activate',
 	order: 120,
 	func: function(){
-		this.active = true;
+		this.stats.active = true;
 	},
 });
 
@@ -103,10 +110,8 @@ var Flyer = Object.create(Entity);
 
 Flyer.move = function(dT){
 	var D = this.speed * dT;
-	//alert("distance: " + d);
-	//alert("ob.direction: " + ob.direction);
-	this.y += Math.sin(ob.direction) * D;
-	this.x += Math.cos(ob.direction) * D;
+	this.y += Math.sin(this.direction) * D;
+	this.x += Math.cos(this.direction) * D;
 }
 
 
@@ -134,13 +139,49 @@ Plane.atts = {
 	laserRefreshTime	: .25	// 
 };
 
-Plane.sta = {
-	unreadiness
+
+
+Plane.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundler for stuff that needs dT...
+	// -- DRAG -- //
+
+	// Base Drag
+	this.p.speed *= 1-(this.atts.baseDrag * dT);
+
+	// Braking Drag
+	if (this.ctrls.braking){
+		this.p.speed *= 1-(this.atts.brakesDrag * dT);
+	}	
+
+
+	// -- THRUST -- //
+
+	// Base Thrust
+	this.p.speed += this.atts.baseAccel * dT;
+
+	// Afterburning Thrust
+	if (this.afterburning) {
+		this.p.speed += this.atts.afterburnerAccel * dT;
+	}
+
+
+	// -- TURNING -- //
+
+	// Turning
+	this.p.direction -= this.ctrls.turning * this.atts.turnRate * dT; // why negative?
+
+	// Reign in the radians
+	if (this.p.direction >   3.141592654*2) {
+		this.p.direction -=  3.141592654*2;
+	}
+	if (this.p.direction <  -3.141592654*2) {
+		this.p.direction -= -3.141592654*2;
+	}
+
 }
 
 
 
-Entity.inits.push({
+Plane.inits.push({
 	handle: 'setStartingStatuses',
 	order: 0,
 	func: function(){
@@ -148,7 +189,7 @@ Entity.inits.push({
 		// set Physical statuses
 		this.p.speed 		= 0; // pixels per second
 		this.p.x 			= Math.random()*canvas.width;
-		this.p.y 			= Math.random()*;
+		this.p.y 			= Math.random()*canvas.height;
 		this.p.direction 	= Math.atan( 
 			( 
 				canvas.height / 2  -  this.p.y 
@@ -165,9 +206,6 @@ Entity.inits.push({
 
 		// Set Various statuses
 		this.stats.laserRefreshLeft
-
-		// Activate
-		this.active	= true;
 
 	},
 });
@@ -258,7 +296,7 @@ player2.image = {
 //== Entity > Flyer > Plane > 
 //======================== C O M P U T E R ========================//
 
-var Computer = Object.create(Plane);
+var Comp = Object.create(Plane);
 
 
 
@@ -266,8 +304,13 @@ var Computer = Object.create(Plane);
 
 // -=-=-=-=-=-=- COMPUTERS -=-=-=-=-=-=- //
 
-var badGuy1 = Object.create(Computer);
+var comp1 = Object.create(Comp);
 
+comp1.image = {
+	src:'images/plane-mean-red.png',
+	height:32,
+	width:32,
+}
 
 
 
@@ -302,10 +345,12 @@ Laser.inits.push({
 	handle: 'launch',
 	order: 90,
 	func: function(){
-		this.p.speed 			= shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
-		this.p.direction 		= shooter.direction;
-		this.p.x 				= shooter.x;
-		this.p.y 				= shooter.y;
+		/*
+		this.p.speed 			= this.shooter.speed + this.p.atts.launchSpeed; // movement in pixels per second
+		this.p.direction 		= this.shooter.direction;
+		this.p.x 				= this.shooter.x;
+		this.p.y 				= this.shooter.y;
+		*/
 	},
 });
 

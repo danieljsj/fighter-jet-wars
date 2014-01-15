@@ -5,11 +5,13 @@ var drawRotated = function (image, x, y, direction, readyboolean) {
 		ctx.translate(+1*x, +1*y)
 		ctx.rotate(+1*direction);
 		ctx.translate(-image.width/2, -image.height/2)
-		ctx.drawImage(image, 0, 0);
+		ctx.drawImage(image.img, 0, 0);
+
+		ctx.setTransform(1, 0, 0, 1, 0, 0); // resetting the canvas
 		// should set all this to ctx.restore()
-		ctx.translate(+image.width/2, +image.height/2)
+/*		ctx.translate(+image.width/2, +image.height/2)
 		ctx.rotate(-1*direction);
-		ctx.translate(-1*x, -1*y)
+		ctx.translate(-1*x, -1*y) */
 	}
 
 }
@@ -19,22 +21,16 @@ var drawRotated = function (image, x, y, direction, readyboolean) {
 // Draw everything
 var render = function () {
 
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	// Monsters
 
-	if (bgReady) {
-		ctx.drawImage(bgImage, 0, 0);
-	}
+//	drawRotated(   bldg1.image.img,    bldg1.x+bldg1.image.offsetX,    bldg1.y+bldg1.image.offsetY,    0,    bldg1.image.ready)
 
-	drawRotated(   bldg1.image.img,    bldg1.x+bldg1.image.offsetX,    bldg1.y+bldg1.image.offsetY,    0,    bldg1.image.ready)
-
-	if(true == laser.active){
-		drawRotated(laserImage, laser.x, laser.y, laser.direction, laserReady);
-	}
-
-	drawRotated(heroImage, hero.x, hero.y, hero.direction, heroReady);
-
-	drawRotated(monsterImage, monster.x, monster.y, 0, monsterReady);
+//	console.log(player1.image, 	player1.p.x, 	player1.p.y, 	0, player1.image.img.ready);
+	drawRotated(player1.image, 	player1.p.x, 	player1.p.y, 	0, player1.image.img.ready);
+	drawRotated(player2.image, 	player2.p.x, 	player2.p.y, 	0, player2.image.img.ready);
+	drawRotated(comp1  .image, 	comp1.p.x, 		comp1.p.y, 		0, comp1  .image.img.ready);
 	
 
 
@@ -49,7 +45,7 @@ var render = function () {
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Planes Destroyed: "	+ monstersCaught, 	lineHeight, ++i*lineHeight);
+//	ctx.fillText("Planes Destroyed: "	+ monstersCaught, 	lineHeight, ++i*lineHeight);
 /*	ctx.fillText("Hero direction: " 	+ hero.direction, 	lineHeight, ++i*lineHeight);
 	ctx.fillText("Hero x: " 			+ hero.x, 			lineHeight, ++i*lineHeight);
 	ctx.fillText("Hero speed: " 		+ hero.speed, 		lineHeight, ++i*lineHeight);

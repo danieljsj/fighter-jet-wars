@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<style>
-			body{
-				background-image: 	url('images/desert-missile-base.jpg');
-				background-size: 	auto;
-			}
-		</style>
+
 		<meta charset="utf-8">
-		<title>Simple Canvas Game</title>
+		<title>Fighter Jet Wars</title>
+
+
+		<link href="style.css" rel="stylesheet" type="text/css">
+
+		</style>
+
 	</head>
 	<body>
 
-		<script src="js/objects.js"></script>
-		<script src="js/controls.js"></script>
-		<script src="js/events.js"></script>
+			<script src="js/objects.js"></script>
+			<script src="js/controls.js"></script>
 
-		<script src="js/update.js"></script>
-		<script src="js/render.js"></script>
-		<script src="js/gameLoop.js"></script>
+			<script src="js/update.js"></script>
+			<script src="js/render.js"></script>
+			<script src="js/gameLoop.js"></script>
 
-		<script src="js/begin.js"></script>
+			<script src="js/begin.js"></script>
+
+			<div id="controls" style="display:noneNOT;">
+				<h1 
+				class="button" 
+				onclick="player1.init();" 
+				style="cursor:url('images/plane-mean-red.gif'),auto;/*required either the hardcode/path or the ,auto, don't fel like testing which." 
+				>InitP1</h1>
+			</div>
 
 	</body>
 </html>

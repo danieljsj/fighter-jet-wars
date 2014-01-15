@@ -2,67 +2,35 @@
 "use strict";
 
 // Update game objects
-var update = function (modifier) {
+var update = function (dT) {
 	
 	player1	.control	(); //MAKE THIS!
 	
-	player1	.move		(modifier);
+	player1	.move		(dT);
+	player2	.move		(dT);
+	comp1	.move		(dT);
 
-	player1	.accelerate	(modifier); //MAKE THIS!
-		
-	laser	.move		(modifier);
+	player1	.accelerate	(dT); //MAKE THIS!
+	
+//	console.log(dT);
+	render();
+//	laser	.move		(dT); 
 
 
-	senseEnvironment(laser); /// WHAT DO WE ACTUALLY HAVE HERE
+//	senseEnvironment(laser); /// WHAT DO WE ACTUALLY HAVE HERE
 	
 	// Sensing for Buildings;
 	// currently only in static square
 	 
-	if (senseBuilding(hero.x,hero.y) === true) {
+/*	if (senseBuilding(hero.x,hero.y) === true) {
 		alert('you suck');
 	}
-	
-	if(true == hero.tryingToFire && false == laser.active){
-		laser.x=hero.x;
-		laser.y=hero.y;
-		laser.direction=hero.direction;
-		laser.active=true;
-		laser.speed = laser.launchSpeed + hero.speed;
-	}
+*/	
+
 
 };
 
 
-
-var firstTime = 0;
-
-function move(ob, dT){
-
-//alert(ob.turning);
-
-
-	if (0 == firstTime++){ console.log( ob ); }
-
-	if (ob.active){
-
-
-
-
-
-		// -- ADVANCEMENT -- //
-
-/* THIS IS stuff.move, and it already has that. sukit.
-		var d = ob.speed * dT;
-		//alert("distance: " + d);
-		//alert("ob.direction: " + ob.direction);
-		ob.y += Math.sin(ob.direction) * d;
-		ob.x += Math.cos(ob.direction) * d;	
-
-*/
-	}
-
-
-}
  
  function senseBuilding(x,y){
 		// Am I touching a building?
