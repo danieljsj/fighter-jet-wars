@@ -15,7 +15,6 @@ var update = function (dT) {
 //	comp1	.accelerate	(dT);
 
 //	console.log(dT);
-	render(dT);
 //	laser	.move		(dT); 
 
 

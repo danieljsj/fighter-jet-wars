@@ -147,11 +147,11 @@ function Plane() {
 
 	// Permanent attributes
 	this.atts = {
-		baseAccel  			: 5, 	// afterburnerAccel in pixels per second^2
+		baseAccel  			: 50, 	// afterburnerAccel in pixels per second^2
 		afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
-		baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
+		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
-		turnRate	 		: 1, 	// turn rate in radians per second
+		turnRate	 		: 3, 	// turn rate in radians per second
 		laserRefreshTime	: .25	// 
 	};
 
@@ -162,7 +162,7 @@ function Plane() {
 
 			//alert("setStartingStatuses");
 			// set Physical statuses
-			this.p.speed 		= 0; // pixels per second
+			this.p.speed 		= this.atts.baseAccel / this.atts.baseDrag; // pixels per second
 			this.p.x 			= Math.random()*canvas.width;
 			this.p.y 			= Math.random()*canvas.height;
 			this.p.direction 	= Math.atan( 
@@ -194,11 +194,11 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 	// -- DRAG -- //
 
 	// Base Drag
-	this.p.speed *= 1-(this.atts.baseDrag * dT);
+	this.p.speed -= this.p.speed * this.atts.baseDrag * dT;
 
 	// Braking Drag
 	if (this.ctrls.braking){
-		this.p.speed *= 1-(this.atts.brakesDrag * dT);
+		this.p.speed -= this.p.speed * this.atts.brakesDrag * dT;
 	}	
 
 
@@ -375,7 +375,7 @@ function Laser() {
 	// Permanent attributes
 	this.atts = {
 		baseAccel  	: 0, 	// afterburnerAccel in pixels per second
-		baseDrag	: 0.3, 	// base coefficient of loss of velocity per second
+		baseDrag	: 0.8, 	// base coefficient of loss of velocity per second
 		launchSpeed	: 700, 	// launch speed in pixels per ssecond
 	}
 
