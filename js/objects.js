@@ -189,7 +189,6 @@ Plane.prototype = Object.create(Flyer.prototype); 	// THIS IS SO YOU GET FUNCTIO
 Plane.prototype.constructor = Plane; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
-
 Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundler for stuff that needs dT...
 	// -- DRAG -- //
 
@@ -208,7 +207,7 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 	this.p.speed += this.atts.baseAccel * dT;
 
 	// Afterburning Thrust
-	if (this.afterburning) {
+	if (this.ctrls.afterburning) {
 		this.p.speed += this.atts.afterburnerAccel * dT;
 	}
 

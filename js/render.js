@@ -41,6 +41,13 @@ var render = function (dT) {
 	ctx.textBaseline = "top";
 	ctx.fillText("player1 speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
 	ctx.fillText("player1 burns: " 	+ player1.p.afterburning, 	lineHeight, ++i*lineHeight);
+
+	ctx.fillText("player1.ctrls.afterburning: " + player1.ctrls.afterburning, 	lineHeight, ++i*lineHeight ); 	
+	ctx.fillText("player1.ctrls.braking		: " + player1.ctrls.braking		, 	lineHeight, ++i*lineHeight ); 			
+	ctx.fillText("player1.ctrls.turning		: " + player1.ctrls.turning		, 	lineHeight, ++i*lineHeight ); 		
+	ctx.fillText("player1.ctrls.tryingToFire: " + player1.ctrls.tryingToFire, 	lineHeight, ++i*lineHeight ); 	
+
+
 	ctx.fillText("Interval (ms): " 	+ dT, 	lineHeight, ++i*lineHeight);
 
 
