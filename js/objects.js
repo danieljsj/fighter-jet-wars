@@ -147,11 +147,11 @@ function Plane() {
 
 	// Permanent attributes
 	this.atts = {
-		baseAccel  			: 20, 	// afterburnerAccel in pixels per second^2
+		baseAccel  			: 5, 	// afterburnerAccel in pixels per second^2
 		afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
 		baseDrag	 		: 0.1, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
-		turnRate	 		: 3, 	// turn rate in radians per second
+		turnRate	 		: 1, 	// turn rate in radians per second
 		laserRefreshTime	: .25	// 
 	};
 
@@ -213,7 +213,7 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 	}
 
 
-	// -- TURNING -- //
+	// -- TURNING -- //f
 
 	// Turning
 	this.p.direction -= this.ctrls.turning * this.atts.turnRate * dT; // why negative?

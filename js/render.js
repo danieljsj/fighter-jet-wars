@@ -6,12 +6,9 @@ var drawRotated = function (image, x, y, direction, readyboolean) {
 		ctx.rotate(+1*direction);
 		ctx.translate(-image.width/2, -image.height/2)
 		ctx.drawImage(image.img, 0, 0);
-
-		ctx.setTransform(1, 0, 0, 1, 0, 0); // resetting the canvas
-		// should set all this to ctx.restore()
-/*		ctx.translate(+image.width/2, +image.height/2)
+		ctx.translate(+image.width/2, +image.height/2)
 		ctx.rotate(-1*direction);
-		ctx.translate(-1*x, -1*y) */
+		ctx.translate(-1*x, -1*y)
 	}
 
 }
@@ -28,9 +25,9 @@ var render = function () {
 //	drawRotated(   bldg1.image.img,    bldg1.x+bldg1.image.offsetX,    bldg1.y+bldg1.image.offsetY,    0,    bldg1.image.ready)
 
 //	console.log(player1.image, 	player1.p.x, 	player1.p.y, 	player1.p.y, player1.image.img.ready);
-	drawRotated(player1.image, 	player1.p.x, 	player1.p.y, 	player1.p.y, player1.image.img.ready);
-	drawRotated(player2.image, 	player2.p.x, 	player2.p.y, 	player2.p.y, player2.image.img.ready);
-	drawRotated(comp1  .image, 	comp1  .p.x, 	comp1  .p.y, 	comp1  .p.y, comp1  .image.img.ready);
+	drawRotated(player1.image, 	player1.p.x, 	player1.p.y, 	player1.p.direction, player1.image.img.ready);
+	drawRotated(player2.image, 	player2.p.x, 	player2.p.y, 	player2.p.direction, player2.image.img.ready);
+	drawRotated(comp1  .image, 	comp1  .p.x, 	comp1  .p.y, 	comp1  .p.direction, comp1  .image.img.ready);
 	
 
 
@@ -45,18 +42,7 @@ var render = function () {
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-//	ctx.fillText("Planes Destroyed: "	+ monstersCaught, 	lineHeight, ++i*lineHeight);
-/*	ctx.fillText("Hero direction: " 	+ hero.direction, 	lineHeight, ++i*lineHeight);
-	ctx.fillText("Hero x: " 			+ hero.x, 			lineHeight, ++i*lineHeight);
-	ctx.fillText("Hero speed: " 		+ hero.speed, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Hero tryin to fire: " + hero.tryingToFire,lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser active: " 		+ laser.active, 	lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser y: " 			+ laser.y, 			lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser x: " 			+ laser.x, 			lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser direction: " 	+ laser.direction, 	lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser speed: " 		+ laser.speed, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser X: " 			+ laser.x, 			lineHeight, ++i*lineHeight);
-	ctx.fillText("Laser Y: " 			+ laser.y, 			lineHeight, ++i*lineHeight); */
+	ctx.fillText("Hero direction: " 	+ player1.p.direction, 	lineHeight, ++i*lineHeight);
 
 
 };
