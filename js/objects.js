@@ -6,7 +6,6 @@ var nullFunc = function(){return null;}
 
 
 
-
 // -- CANVAS -- //
 
 
