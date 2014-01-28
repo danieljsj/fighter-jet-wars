@@ -53,3 +53,13 @@ Entity.prototype.init = function(){
 	}
 
 };
+
+Entity.prototype.draw = function(){
+	
+		ctx.translate(+1*this.p.x, +1*this.p.y)
+		ctx.rotate(+1*this.p.direction);
+		ctx.translate(-this.image.width/2, -this.image.height/2)
+		ctx.drawImage(this.image.img, 0, 0);
+		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
+
+}

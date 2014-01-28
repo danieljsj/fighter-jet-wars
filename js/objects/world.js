@@ -7,13 +7,24 @@ var nullFunc = function(){return null;}
 
 
 
+
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth*1;
-canvas.height = window.innerHeight*1;
+
+// Canvas resizing
+function setCanvasWidth(){
+	canvas.width = window.innerWidth*1;
+	canvas.height = window.innerHeight*1;
+}
+
+window.onload 	= setCanvasWidth;
+window.onresize = setCanvasWidth;
+
 
 document.body.appendChild(canvas);
+
+
 /*document.getElementById("controls").setAttribute(
 	"style",
 	"margin-top: -"+canvas.height+"px;"

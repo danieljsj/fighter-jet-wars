@@ -19,7 +19,7 @@ function Plane() {
 		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
 		turnRate	 		: 3, 	// turn rate in radians per second
-		laserRefreshTime	: .25	// 
+		laserRefreshTime	: .5	// 
 	};
 
 	this.inits.push({
