@@ -17,6 +17,11 @@ function Laser(shooter) {
 		width:32,
 	}
 
+	this.body = {
+		width:32,
+		height:16,
+	}
+
 	// Permanent attributes
 	this.atts = {
 		baseAccel  	: 0, 	// afterburnerAccel in pixels per second
@@ -25,6 +30,8 @@ function Laser(shooter) {
 	}
 
 
+
+	// Startup Sequence
 	this.shooter = shooter;
 
 			
@@ -32,6 +39,11 @@ function Laser(shooter) {
 	this.p.direction 		= this.shooter.p.direction;
 	this.p.x 				= this.shooter.p.x;
 	this.p.y 				= this.shooter.p.y;
+
+	// take a head-start move times as much as you so you don't blow up your owner. 
+	this.move( this.body.width/2 + this.shooter.body.width/2, true ); // true means supplied as distance
+
+	// this.move(.3);  
 
 	
 

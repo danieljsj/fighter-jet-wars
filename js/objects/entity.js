@@ -25,14 +25,6 @@ function Entity(){
 
 	});
 
-	this.inits.push({    // may be able to die because stuff will have its own "spawn" functions that do this
-		handle: 'activate',
-		order: 120,
-		func: function(){
-			this.stats.active = true;
-		},
-	});
-
 	this.inits.push({
 		handle: 'register',
 		order: 0,

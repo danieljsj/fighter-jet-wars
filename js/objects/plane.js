@@ -9,7 +9,12 @@ function Plane() {
 	this.image = {
 		src:'images/plane-friendly-gray.png',
 		height:32,
-		width:32,
+		width:32
+	}
+
+	this.body = {
+		height:32,
+		width:32
 	}
 
 	// Permanent attributes
@@ -19,12 +24,15 @@ function Plane() {
 		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
 		turnRate	 		: 1.8, 	// turn rate in radians per second
-		laserRefreshTime	: .5,	// 
+		laserRefreshTime	: .15,	// 
 		respawnTime			: 2
 	};
 
 	// Starting static stuff (lives, score, etc.)
-	this.stats.lives = 10;
+	this.stats = {
+		lives: 10,
+		killCount: 0,
+	};
 
 
 	// Inits
@@ -93,33 +101,6 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 
 
 
-Plane.prototype.spawn = function(){
-
-	// set Physical statuses
-	this.p.speed 		= this.atts.baseAccel / this.atts.baseDrag; // pixels per second
-	this.p.x 			= Math.random()*canvas.width;
-	this.p.y 			= Math.random()*canvas.height;
-	this.p.direction 	= Math.atan( 
-		( 
-			canvas.height / 2  -  this.p.y // THIS NEEDS NOAH MATH HELP
-		)/(
-			canvas.width  / 2  -  this.p.x // THIS NEEDS NOAH MATH HELP
-		)
-	);
-
-	// set Controls statuses
-	this.ctrls.turning 		= 0;
-	this.ctrls.afterburning	= false;
-	this.ctrls.braking 		= false;
-	this.ctrls.tryingToFire = false;
-
-	// Set Various statuses
-	this.stats.laserRefreshLeft = 0;
-
-	console.info('at the end of plane spawn:');
-	console.log(this);
-
-};
 
 
 Plane.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
@@ -147,11 +128,13 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 
 Plane.prototype.getHit = function(){
 	this.stats.lives -= 1;
-	this.stats.active = false;
+	this.stats.dead = true;
 	this.stats.respawnTimeLeft = this.atts.respawnTime;
+	this.stats.respawnReady = false;
 
 
 };
+
 
 
 
@@ -168,14 +151,53 @@ Plane.prototype.refresh = function(dT){
 
 
 	// Respawn
-	if (this.stats.respawnTimeLeft > 0){
+	if ( (this.stats.respawnTimeLeft > 0) && (true === this.stats.dead) ){
+
 		this.stats.respawnTimeLeft -= dT;
+
 	} else {
+
 		this.stats.respawnReady = true;
+
 	}
 
-	if (false === this.stats.active && true === this.stats.respawnReady){
+	if ( (true === this.stats.dead) && (true === this.stats.respawnReady) ){
+
 		this.spawn();
 	}
+
+};
+
+
+
+
+Plane.prototype.spawn = function(){
+
+	// set Physical statuses
+	this.p.speed 		= this.atts.baseAccel / this.atts.baseDrag; // pixels per second
+	this.p.x 			= Math.random()*canvas.width;
+	this.p.y 			= Math.random()*canvas.height;
+	this.p.direction 	= Math.atan( 
+		( 
+			canvas.height / 2  -  this.p.y // THIS NEEDS NOAH MATH HELP SO THEY POINT TO THE MIDDLE
+		)/(
+			canvas.width  / 2  -  this.p.x // THIS NEEDS NOAH MATH HELP SO THEY POINT TO THE MIDDLE
+		)
+	);
+
+	// set Controls statuses
+	this.ctrls.turning 		= 0;
+	this.ctrls.afterburning	= false;
+	this.ctrls.braking 		= false;
+	this.ctrls.tryingToFire = false;
+
+	// Set Various statuses
+	this.stats.laserRefreshLeft = 0;
+	this.stats.respawnTimeLeft = 0;
+	this.stats.respawnReady = false;
+	this.stats.dead = false;
+
+	console.info('at the end of plane spawn:');
+	console.log(this);
 
 };

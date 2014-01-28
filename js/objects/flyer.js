@@ -21,17 +21,15 @@ Flyer.prototype = Object.create(Entity.prototype); 	// THIS IS SO YOU GET FUNCTI
 Flyer.prototype.constructor = Flyer; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
-Flyer.prototype.move = function(dT){
+Flyer.prototype.move = function(amt, distanceSpecified){
 
-	this.p.y += Math.sin(this.p.direction) * this.p.speed * dT;
-	this.p.x += Math.cos(this.p.direction) * this.p.speed * dT;
+	if ( distanceSpecified ) 	{ var dist = amt;	} 
+	else 						{ var dist = amt * this.p.speed; }
+
+	this.p.y += Math.sin(this.p.direction) * dist;
+	this.p.x += Math.cos(this.p.direction) * dist;
 
 };
 
-Flyer.prototype.getHit = function(){
-	unset(this);
-	for ( var registry in registries ) {
-		registry.clean();
-	}
-};
+
 

@@ -36,7 +36,15 @@ var drawStatsBoard = function(dT){
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Interval (ms): " 	+ dT, 	lineHeight, ++i*lineHeight);
+//	ctx.fillText("Frames per second:" 	+ 1/dT, 					lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 1 Lives:" 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
+//	ctx.fillText("Player 1 Kill Count:" + player1.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 2 Lives:" 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
+//	ctx.fillText("Player 2 Kill Count:" + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+
+
 /*
 	ctx.fillText("player1.p.speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
 	ctx.fillText("player1.p.direction: "+ player1.p.direction,lineHeight,++i*lineHeight);
@@ -63,6 +71,12 @@ var drawStatsBoard = function(dT){
 	ctx.fillText("player2.ctrls.tryingToFire: " + player2.ctrls.tryingToFire, 	lineHeight, ++i*lineHeight ); 	 
 
 	ctx.fillText("player2.stats.laserRefreshLeft: " + player2.stats.laserRefreshLeft, 	lineHeight, ++i*lineHeight ); 	
-*/
+
+
+
+	ctx.fillText("player2.stats.dead: " + player2.stats.dead, 	lineHeight, ++i*lineHeight ); 	
+	ctx.fillText("player2.stats.respawnTimeLeft: " + player2.stats.respawnTimeLeft, 	lineHeight, ++i*lineHeight ); 	
+	ctx.fillText("player2.stats.respawnReady: " + player2.stats.respawnReady, 	lineHeight, ++i*lineHeight ); 	
+//*/
 
 }

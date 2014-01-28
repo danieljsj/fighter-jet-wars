@@ -2,20 +2,7 @@
 
 
 
-function pointsTouchingOb( points, ob ) {
-		
-	// loop through the points submitted
-	var l = points.length;
-	for (i = 0; i < l; i++){
 
-		// if the object says that any of the points are touching it, return true.
-		if ( ob.touching(points[i])) {
-			return true;
-		}
-	}
-	// otherwise return false.
-	return false;
-}
 
 
 
@@ -23,12 +10,12 @@ function pointsTouchingOb( points, ob ) {
 
 
 function pointTouchingRectangleOb(pt,ob){
-	// Am I touching a building?
+
 	if (
-		   pt.x <= (ob.x + ob.body.width/2  ) //Am I left of right of bldg body?
-		&& pt.x >= (ob.x - ob.body.width/2  ) //Am I right of left of bldg body?
-		&& pt.y <= (ob.y + ob.body.height/2 ) //Am I below top of bldg body?
-		&& pt.y >= (ob.y - ob.body.height/2 ) //Am I above bottom of bldg body?
+		   pt.x <= (ob.p.x + ob.body.width/2  ) //Am I left of right of bldg body?
+		&& pt.x >= (ob.p.x - ob.body.width/2  ) //Am I right of left of bldg body?
+		&& pt.y <= (ob.p.y + ob.body.height/2 ) //Am I below top of bldg body?
+		&& pt.y >= (ob.p.y - ob.body.height/2 ) //Am I above bottom of bldg body?
 	) { 
 		return true;
 	} else 	{ 
@@ -37,20 +24,21 @@ function pointTouchingRectangleOb(pt,ob){
 }
 
 
-function pointTouchingTriangleOb(pt,ob){
+/* function pointTouchingTriangleOb(pt,ob){
+
+
 	// NOAH MATH IS NEEDED HERE!!!!!!!!!
-	// Am I touching a building?
 	if (
-		   pt.x <= (ob.x + ob.body.width/2  ) //Am I left of right of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.x >= (ob.x - ob.body.width/2  ) //Am I right of left of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y <= (ob.y + ob.body.height/2 ) //Am I below top of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y >= (ob.y - ob.body.height/2 ) //Am I above bottom of bldg body? /// NOAH MATH HERE LATER // will use direction of ob
+		   pt.x <= (ob.p.x + ob.body.width/2  ) //Am I left of right of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.x >= (ob.p.x - ob.body.width/2  ) //Am I right of left of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.y <= (ob.p.y + ob.body.height/2 ) //Am I below top of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.y >= (ob.p.y - ob.body.height/2 ) //Am I above bottom of bldg body? /// NOAH MATH HERE LATER // will use direction of ob
 	) { 
 		return true;
 	} else 	{ 
 		return false;
 	}
-}
+} */
 
 
 Flyer.prototype.getPoints = function(){
@@ -98,11 +86,15 @@ Flyer.prototype.sense = function(){
 
 	for ( var i=0; i<registries.entities.length; i++){
 
-		if ( pointsTouchingThing(points, registries.entities[i]) ) {
+		if ( ! (registries.entities[i] === this)  ){
 
-			registries.entities[i]	.getHit();
-			this					.getHit();
-			return;
+			if ( pointsTouchingThing(points, registries.entities[i]) ) {
+
+				registries.entities[i]	.getHit();
+				this					.getHit();
+				return;
+
+			}
 
 		}
 
@@ -113,12 +105,13 @@ Flyer.prototype.sense = function(){
 
 function pointsTouchingThing(points, thing){
 	for ( var i=0; i<points.length; i++){
-		if ( registries.entities[i].touching(points[i])){
+		if ( thing.touching(points[i]) ){
 			return true;
 		}
 	}
 	return false
 }
+
 
 
 // It's occurring to me that we should have the drawing have an offset, not the touching. because touching will get called more times per frame than drawing.
@@ -132,13 +125,13 @@ function pointsTouchingThing(points, thing){
 
 Plane.prototype.touching = function(point){
 
-	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
+	return pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
 }
 
 
 Entity.prototype.touching = function(point){
 	
-	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
+	return pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
 }
