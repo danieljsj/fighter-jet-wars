@@ -23,7 +23,14 @@ document.body.appendChild(canvas);
 // -- REGISTRY -- //
 
 var registry = {
+	
 	entities: [],
+		flyers: [],
+			planes: [],
+				players: [],
+				comps: [], 
+			lasers: [],
+
 };
 
 
@@ -33,11 +40,12 @@ var registry = {
 
 
 /*
-	Flyer
-		Plane
-			Player
-			Comp
-		Laser
+	Entity
+		Flyer
+			Plane
+				Player
+				Comp
+			Laser
 */
 
 
@@ -222,9 +230,28 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 }
 
 
+Plane.prototype.otherPlaneTurnFuncs = function(dT){
+	if (this.stats.laserRefreshLeft > 0){
+		this.stats.laserRefreshLeft -= dT;
+	}
+}
 
+Player.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
 
+	// Fire Laser
+	if (this.ctrls.tryingToFire && this.stats.laserRefreshLeft <= 0 ){
+		
+		// Laser refresh
+		this.laserRefreshLeft = this.laserRefreshTime;
+		// Create a laser, record its position in the array
+		var i = registry.lasers.push(Object.create(Laser));
+		// Tell it who is shooting it
+		registry.lasers[i].shooter = this;
+		// Start it on its way
+		registry.lasers[i].init();
+	}
 
+}
 
 
 
@@ -261,21 +288,6 @@ Player.prototype.control = function(){  // Eventually, these could be bundled in
 };
 
 
-
-Player.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
-
-	// Fire Laser
-	if (tryingToFire && readyToFire ){
-
-		// Create a laser
-		var shootingLaser = Object.create(Laser);
-		// Tell it who is shooting it
-		shootingLaser.shooter = this;
-		// Start it on its way
-		shootingLaser.init();
-	}
-
-}
 
 // -=-=-=-=-=-=- PLAYERS -=-=-=-=-=-=- //
 
@@ -389,7 +401,7 @@ function Laser() {
 	});
 }; 			
 
-Laser.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
+Laser.prototype = Object.create(Flyer.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
 Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
