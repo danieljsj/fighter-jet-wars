@@ -25,7 +25,7 @@ function Entity(){
 
 	});
 
-	this.inits.push({
+	this.inits.push({    // may be able to die because stuff will have its own "spawn" functions that do this
 		handle: 'activate',
 		order: 120,
 		func: function(){
@@ -37,7 +37,7 @@ function Entity(){
 		handle: 'register',
 		order: 0,
 		func: function(){
-			registry.entities.push(this);
+			registries.entities.push(this);
 		},
 	});
 
@@ -62,4 +62,4 @@ Entity.prototype.draw = function(){
 		ctx.drawImage(this.image.img, 0, 0);
 		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
 
-}
+};

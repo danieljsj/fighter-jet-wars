@@ -5,25 +5,30 @@ var render = function (dT) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
-	player1.draw();
-	player2.draw();
-
 	
-	for (i=0; i<registry.lasers.length; i++){
+	for (i=0; i<registries.planes.length; i++){
 
-		registry.lasers[i].draw();
+		registries.planes[i].draw();
 	
 	}
 
-	for (i=0; i<registry.lasers.length; i++){
+	for (i=0; i<registries.lasers.length; i++){
 
-		registry.lasers[i].draw();
+		registries.lasers[i].draw();
 	
 	}
 
-	
-	// Score
-	
+	drawStatsBoard(dT);
+
+};
+
+
+
+
+
+
+var drawStatsBoard = function(dT){
+
 	var lineHeight = 32;
 	var i = 0;
 	
@@ -32,8 +37,11 @@ var render = function (dT) {
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
 	ctx.fillText("Interval (ms): " 	+ dT, 	lineHeight, ++i*lineHeight);
-
+/*
 	ctx.fillText("player1.p.speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("player1.p.direction: "+ player1.p.direction,lineHeight,++i*lineHeight);
+	ctx.fillText("player1.p.x: " 		+ player1.p.y, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("player1.p.y: " 		+ player1.p.y, 		lineHeight, ++i*lineHeight);
 
 	ctx.fillText("player1.ctrls.afterburning: " + player1.ctrls.afterburning, 	lineHeight, ++i*lineHeight ); 	
 	ctx.fillText("player1.ctrls.braking		: " + player1.ctrls.braking		, 	lineHeight, ++i*lineHeight ); 			
@@ -44,4 +52,17 @@ var render = function (dT) {
 
 
 
-};
+	ctx.fillText("player2.p.speed: " 	+ player2.p.speed, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("player2.p.direction: "+ player2.p.direction,lineHeight,++i*lineHeight);
+	ctx.fillText("player2.p.x: " 		+ player2.p.y, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("player2.p.y: " 		+ player2.p.y, 		lineHeight, ++i*lineHeight);
+
+	ctx.fillText("player2.ctrls.afterburning: " + player2.ctrls.afterburning, 	lineHeight, ++i*lineHeight ); 	
+	ctx.fillText("player2.ctrls.braking		: " + player2.ctrls.braking		, 	lineHeight, ++i*lineHeight ); 			
+	ctx.fillText("player2.ctrls.turning		: " + player2.ctrls.turning		, 	lineHeight, ++i*lineHeight ); 		
+	ctx.fillText("player2.ctrls.tryingToFire: " + player2.ctrls.tryingToFire, 	lineHeight, ++i*lineHeight ); 	 
+
+	ctx.fillText("player2.stats.laserRefreshLeft: " + player2.stats.laserRefreshLeft, 	lineHeight, ++i*lineHeight ); 	
+*/
+
+}

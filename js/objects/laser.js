@@ -33,7 +33,9 @@ function Laser(shooter) {
 	this.p.x 				= this.shooter.p.x;
 	this.p.y 				= this.shooter.p.y;
 
-			
+	
+
+	// Lasers don't need their own registry function, because their shooter creates them directly into the registry
 
 }; 			
 

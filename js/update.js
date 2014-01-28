@@ -3,23 +3,30 @@
 
 // Update game objects
 var update = function (dT) {
-	
-	for (var i = registry.planes.length - 1; i >= 0; i--) {
-		if(registry.planes[i].stats.active){
-			registry.planes[i].control();
-			registry.planes[i].move();
-			registry.planes[i].accelerate();
-			registry.planes[i].communicate();
-			registry.planes[i].otherPlaneTurnFuncs();
-			registry.planes[i].senseEnvironment();
+
+
+	// PLANES:
+	for (var i = registries.planes.length - 1; i >= 0; i--) {
+
+		// only if plane is active
+		if( registries.planes[i].stats.active){
+
+			registries.planes[i].control();
+			registries.planes[i].move(dT);
+			registries.planes[i].accelerate(dT);
+			registries.planes[i].communicate();
+			registries.planes[i].sense();
 
 		}
+		// unconditional
+		registries.planes[i].refresh(dT);
+
 	};
 
-	for (var i=0; i<registry.lasers.length; i++){
+	for (var i=0; i<registries.lasers.length; i++){
 
-		registry.lasers[i].move(dT);
-		registry.lasers[i].senseEnvironment();
+		registries.lasers[i].move(dT);
+		registries.lasers[i].sense();
 	
 	}
 

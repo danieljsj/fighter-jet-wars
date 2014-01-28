@@ -31,9 +31,9 @@ document.body.appendChild(canvas);
 ); this sucks. jquery better. I'm gonna use absolute anyway.*/
 
 
-// -- REGISTRY -- //
+// -- registries -- //
 
-var registry = {
+var registries = {
 	
 	entities: [],
 		flyers: [],
@@ -44,4 +44,13 @@ var registry = {
 
 };
 
-
+// this will be used for cleaning up the registries when something is unset.
+Array.prototype.clean = function() {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == undefined) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};

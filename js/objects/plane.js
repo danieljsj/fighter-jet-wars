@@ -30,7 +30,7 @@ function Plane() {
 	// Inits
 	this.inits.push({
 		handle: 'spawn',
-		order: 200,
+		order: 201,
 		func: function(){
 			this.spawn();
 		}
@@ -41,7 +41,7 @@ function Plane() {
 		handle: 'register',
 		order: 200,
 		func: function(){
-			registry.planes.push(this);
+			registries.planes.push(this);
 		}
 	});
 
@@ -91,27 +91,6 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 }
 
 
-Plane.prototype.otherPlaneTurnFuncs = function(dT){
-	
-	// Laser Refresh
-	if (this.stats.laserRefreshLeft > 0){
-		this.stats.laserRefreshLeft -= dT;
-	} else {
-		this.stats.laserReady = true;
-	}
-
-	// Respawn
-	if (this.stats.respawnTimeLeft > 0){
-		this.stats.respawnTimeLeft -= dT;
-	} else {
-		this.stats.respawnReady = true;
-	}
-
-	if (false === this.stats.active && true === this.stats.respawnReady){
-		this.spawn();
-	}
-
-}
 
 
 Plane.prototype.spawn = function(){
@@ -137,7 +116,10 @@ Plane.prototype.spawn = function(){
 	// Set Various statuses
 	this.stats.laserRefreshLeft = 0;
 
-}
+	console.info('at the end of plane spawn:');
+	console.log(this);
+
+};
 
 
 Plane.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
@@ -154,16 +136,14 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 		console.log( newLaser );
 
 		// Create a laser, record its position in the array
-		registry.lasers.push( newLaser );
+		registries.lasers.push( newLaser );
 
 		// init
 		newLaser.init();
 	}
 
-}
+};
 
-
-Plane.prototype.respawn = 
 
 Plane.prototype.getHit = function(){
 	this.stats.lives -= 1;
@@ -171,4 +151,31 @@ Plane.prototype.getHit = function(){
 	this.stats.respawnTimeLeft = this.atts.respawnTime;
 
 
-}
+};
+
+
+
+
+
+Plane.prototype.refresh = function(dT){
+	
+	// Laser Refresh
+	if (this.stats.laserRefreshLeft > 0){
+		this.stats.laserRefreshLeft -= dT;
+	} else {
+		this.stats.laserReady = true;
+	}
+
+
+	// Respawn
+	if (this.stats.respawnTimeLeft > 0){
+		this.stats.respawnTimeLeft -= dT;
+	} else {
+		this.stats.respawnReady = true;
+	}
+
+	if (false === this.stats.active && true === this.stats.respawnReady){
+		this.spawn();
+	}
+
+};

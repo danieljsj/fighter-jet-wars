@@ -52,6 +52,9 @@ player1.image = {
 	width:32,
 }
 
+console.info("player1:");
+console.log(player1);
+
 // Player 2
 var player2 = new Player();
 
@@ -68,3 +71,6 @@ player2.image = {
 	height:32,
 	width:32,
 }
+
+console.info("player2:");
+console.log(player2);

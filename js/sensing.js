@@ -25,10 +25,10 @@ function pointsTouchingOb( points, ob ) {
 function pointTouchingRectangleOb(pt,ob){
 	// Am I touching a building?
 	if (
-		   pt.x <= (ob.x + ob.body.width/2  + ob.body.offsetX) //Am I left of right of bldg body?
-		&& pt.x >= (ob.x - ob.body.width/2  + ob.body.offsetX) //Am I right of left of bldg body?
-		&& pt.y <= (ob.y + ob.body.height/2 + ob.body.offsetY) //Am I below top of bldg body?
-		&& pt.y >= (ob.y - ob.body.height/2 + ob.body.offsetY) //Am I above bottom of bldg body?
+		   pt.x <= (ob.x + ob.body.width/2  ) //Am I left of right of bldg body?
+		&& pt.x >= (ob.x - ob.body.width/2  ) //Am I right of left of bldg body?
+		&& pt.y <= (ob.y + ob.body.height/2 ) //Am I below top of bldg body?
+		&& pt.y >= (ob.y - ob.body.height/2 ) //Am I above bottom of bldg body?
 	) { 
 		return true;
 	} else 	{ 
@@ -38,12 +38,13 @@ function pointTouchingRectangleOb(pt,ob){
 
 
 function pointTouchingTriangleOb(pt,ob){
+	// NOAH MATH IS NEEDED HERE!!!!!!!!!
 	// Am I touching a building?
 	if (
-		   pt.x <= (ob.x + ob.body.width/2  + ob.body.offsetX) //Am I left of right of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.x >= (ob.x - ob.body.width/2  + ob.body.offsetX) //Am I right of left of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y <= (ob.y + ob.body.height/2 + ob.body.offsetY) //Am I below top of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y >= (ob.y - ob.body.height/2 + ob.body.offsetY) //Am I above bottom of bldg body? /// NOAH MATH HERE LATER // will use direction of ob
+		   pt.x <= (ob.x + ob.body.width/2  ) //Am I left of right of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.x >= (ob.x - ob.body.width/2  ) //Am I right of left of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.y <= (ob.y + ob.body.height/2 ) //Am I below top of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
+		&& pt.y >= (ob.y - ob.body.height/2 ) //Am I above bottom of bldg body? /// NOAH MATH HERE LATER // will use direction of ob
 	) { 
 		return true;
 	} else 	{ 
@@ -52,10 +53,19 @@ function pointTouchingTriangleOb(pt,ob){
 }
 
 
+Flyer.prototype.getPoints = function(){
+	var points = [
+		{
+			x: this.p.x,
+			y: this.p.y
+		}
+	]
+
+	return points;
+}
 
 
-
-Plane.getPoints = function(){
+/*Plane.getPoints = function(){
 
 	var points = [
 		// Nose Point
@@ -77,31 +87,20 @@ Plane.getPoints = function(){
 
 	return points;
 
-};
-
-Laser.prototype.getPoints = function(){
-	var points = [
-		{
-			x: this.p.x,
-			y: this.p.y
-		}
-	]
-
-	return points;
-}
+};*/
 
 
 
 
-Flyer.prototype.senseEnvironment = function(){
+Flyer.prototype.sense = function(){
 	
-	var points = Laser.prototype.getPoints();
+	var points = this.getPoints();
 
-	for ( var i=0; i<registry.entities.length; i++){
+	for ( var i=0; i<registries.entities.length; i++){
 
-		if pointsTouchingThing(points, registry.entites[i]){
+		if ( pointsTouchingThing(points, registries.entities[i]) ) {
 
-			registry.entities[i]	.getHit();
+			registries.entities[i]	.getHit();
 			this					.getHit();
 			return;
 
@@ -114,7 +113,7 @@ Flyer.prototype.senseEnvironment = function(){
 
 function pointsTouchingThing(points, thing){
 	for ( var i=0; i<points.length; i++){
-		if ( registry.entites[i].touching(points[i])){
+		if ( registries.entities[i].touching(points[i])){
 			return true;
 		}
 	}
@@ -125,11 +124,11 @@ function pointsTouchingThing(points, thing){
 // It's occurring to me that we should have the drawing have an offset, not the touching. because touching will get called more times per frame than drawing.
 
 
-Building.prototype.touching = function(point){
+/* Building.prototype.touching = function(point){
 
 	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
-}
+} */
 
 Plane.prototype.touching = function(point){
 
