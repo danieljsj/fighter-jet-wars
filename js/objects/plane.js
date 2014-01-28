@@ -126,7 +126,7 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 };
 
 
-Plane.prototype.getHit = function(){
+Plane.prototype.collide = function(otherObject){
 	this.stats.lives -= 1;
 	this.stats.dead = true;
 	this.stats.respawnTimeLeft = this.atts.respawnTime;

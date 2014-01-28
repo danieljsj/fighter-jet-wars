@@ -90,8 +90,8 @@ Flyer.prototype.sense = function(){
 
 			if ( pointsTouchingThing(points, registries.entities[i]) ) {
 
-				registries.entities[i]	.getHit();
-				this					.getHit();
+				registries.entities[i]	.collide( this );
+				this					.collide( registries.entities[i] );
 				return;
 
 			}

@@ -52,4 +52,17 @@ function Laser(shooter) {
 }; 			
 
 Laser.prototype = Object.create(Flyer.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
-Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
+Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...) // WOULDNT THIS BE CONFLICTING? Since we're saying who the prototype is, if multiple things have the same prototype, wouldln't they override one another here?
+
+
+
+
+
+
+Laser.prototype.collide = function(otherObject){
+	this.shooter.stats.killCount++;
+	unset(this);
+	for ( var registry in registries ) {
+		registry.clean();
+	}
+};

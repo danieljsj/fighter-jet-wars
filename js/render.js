@@ -39,10 +39,10 @@ var drawStatsBoard = function(dT){
 //	ctx.fillText("Frames per second:" 	+ 1/dT, 					lineHeight, ++i*lineHeight);
 	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
 	ctx.fillText("Player 1 Lives:" 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
-//	ctx.fillText("Player 1 Kill Count:" + player1.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 1 Kill Count:" + player1.stats.killCount,	lineHeight, ++i*lineHeight);
 	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
 	ctx.fillText("Player 2 Lives:" 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
-//	ctx.fillText("Player 2 Kill Count:" + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 2 Kill Count:" + player2.stats.killCount,	lineHeight, ++i*lineHeight);
 
 
 /*
