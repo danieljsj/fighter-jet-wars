@@ -4,38 +4,22 @@
 // Update game objects
 var update = function (dT) {
 	
-	player1	.control	(); //MAKE THIS!
-	
-	player1	.move		(dT);
-	player2	.move		(dT);
-//	comp1	.move		(dT);
+	for (var i = registry.planes.length - 1; i >= 0; i--) {
+		if(registry.planes[i].stats.active){
+			registry.planes[i].control();
+			registry.planes[i].move();
+			registry.planes[i].accelerate();
+			registry.planes[i].communicate();
+			registry.planes[i].otherPlaneTurnFuncs();
+			registry.planes[i].senseEnvironment();
 
-	player1	.accelerate	(dT);
-	player2	.accelerate	(dT);
-//	comp1	.accelerate	(dT);
-
-	player1 .communicate();
-	player2 .communicate();
-
-	player1 .otherPlaneTurnFuncs(dT);
-	player2 .otherPlaneTurnFuncs(dT);
-//	console.log(dT);
-//	laser	.move		(dT); 
-
-
-//	senseEnvironment(laser); /// WHAT DO WE ACTUALLY HAVE HERE
-	
-	// Sensing for Buildings;
-	// currently only in static square
-	 
-/*	if (senseBuilding(hero.x,hero.y) === true) {
-		alert('you suck');
-	}
-*/	
+		}
+	};
 
 	for (var i=0; i<registry.lasers.length; i++){
 
 		registry.lasers[i].move(dT);
+		registry.lasers[i].senseEnvironment();
 	
 	}
 

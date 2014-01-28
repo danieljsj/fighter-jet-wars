@@ -20,3 +20,4 @@ Flyer.prototype.move = function(dT){
 	this.p.x += Math.cos(this.p.direction) * D;
 }
 
+

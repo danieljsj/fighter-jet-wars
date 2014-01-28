@@ -18,40 +18,36 @@ function Plane() {
 		afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
 		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
-		turnRate	 		: 3, 	// turn rate in radians per second
-		laserRefreshTime	: .5	// 
+		turnRate	 		: 1.8, 	// turn rate in radians per second
+		laserRefreshTime	: .5,	// 
+		respawnTime			: 2
 	};
 
+	// Starting static stuff (lives, score, etc.)
+	this.stats.lives = 10;
+
+
+	// Inits
 	this.inits.push({
-		handle: 'setStartingStatuses',
-		order: 0,
+		handle: 'spawn',
+		order: 200,
 		func: function(){
-
-			//alert("setStartingStatuses");
-			// set Physical statuses
-			this.p.speed 		= this.atts.baseAccel / this.atts.baseDrag; // pixels per second
-			this.p.x 			= Math.random()*canvas.width;
-			this.p.y 			= Math.random()*canvas.height;
-			this.p.direction 	= Math.atan( 
-				( 
-					canvas.height / 2  -  this.p.y 
-				)/(
-					canvas.width  / 2  -  this.p.x
-				)
-			);
-
-			// set Controls statuses
-			this.ctrls.turning 		= 0;
-			this.ctrls.afterburning	= false;
-			this.ctrls.braking 		= false;
-			this.ctrls.tryingToFire = false;
-
-			// Set Various statuses
-			this.stats.laserRefreshLeft = 0;
-
-		},
+			this.spawn();
+		}
 	});
+
+	// Inits
+	this.inits.push({
+		handle: 'register',
+		order: 200,
+		func: function(){
+			registry.planes.push(this);
+		}
+	});
+
 }; 			
+
+
 Plane.prototype = Object.create(Flyer.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
 Plane.prototype.constructor = Plane; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
@@ -96,17 +92,61 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 
 
 Plane.prototype.otherPlaneTurnFuncs = function(dT){
+	
+	// Laser Refresh
 	if (this.stats.laserRefreshLeft > 0){
 		this.stats.laserRefreshLeft -= dT;
+	} else {
+		this.stats.laserReady = true;
 	}
+
+	// Respawn
+	if (this.stats.respawnTimeLeft > 0){
+		this.stats.respawnTimeLeft -= dT;
+	} else {
+		this.stats.respawnReady = true;
+	}
+
+	if (false === this.stats.active && true === this.stats.respawnReady){
+		this.spawn();
+	}
+
 }
+
+
+Plane.prototype.spawn = function(){
+
+	// set Physical statuses
+	this.p.speed 		= this.atts.baseAccel / this.atts.baseDrag; // pixels per second
+	this.p.x 			= Math.random()*canvas.width;
+	this.p.y 			= Math.random()*canvas.height;
+	this.p.direction 	= Math.atan( 
+		( 
+			canvas.height / 2  -  this.p.y // THIS NEEDS NOAH MATH HELP
+		)/(
+			canvas.width  / 2  -  this.p.x // THIS NEEDS NOAH MATH HELP
+		)
+	);
+
+	// set Controls statuses
+	this.ctrls.turning 		= 0;
+	this.ctrls.afterburning	= false;
+	this.ctrls.braking 		= false;
+	this.ctrls.tryingToFire = false;
+
+	// Set Various statuses
+	this.stats.laserRefreshLeft = 0;
+
+}
+
 
 Plane.prototype.communicate = function(){ // Eventually, these could be bundled into hooks just like init is bundled.
 
 	// Fire Laser
-	if ( this.ctrls.tryingToFire && this.stats.laserRefreshLeft <= 0 ){
+	if ( this.ctrls.tryingToFire && this.stats.laserReady ){
 
 		// Laser refresh
+		this.stats.laserReady = false;
 		this.stats.laserRefreshLeft = this.atts.laserRefreshTime;
 
 		// Create laser
@@ -119,5 +159,16 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 		// init
 		newLaser.init();
 	}
+
+}
+
+
+Plane.prototype.respawn = 
+
+Plane.prototype.getHit = function(){
+	this.stats.lives -= 1;
+	this.stats.active = false;
+	this.stats.respawnTimeLeft = this.atts.respawnTime;
+
 
 }

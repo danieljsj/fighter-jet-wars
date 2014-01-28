@@ -57,8 +57,6 @@ function pointTouchingTriangleOb(pt,ob){
 
 Plane.getPoints = function(){
 
-	console.log(this); // cuz I'm never that certain about what "this" is going to be. // if it's not the right thing, we can change what "this" is by using the "bind" method.
-
 	var points = [
 		// Nose Point
 		{
@@ -80,6 +78,48 @@ Plane.getPoints = function(){
 	return points;
 
 };
+
+Laser.prototype.getPoints = function(){
+	var points = [
+		{
+			x: this.p.x,
+			y: this.p.y
+		}
+	]
+
+	return points;
+}
+
+
+
+
+Flyer.prototype.senseEnvironment = function(){
+	
+	var points = Laser.prototype.getPoints();
+
+	for ( var i=0; i<registry.entities.length; i++){
+
+		if pointsTouchingThing(points, registry.entites[i]){
+
+			registry.entities[i]	.getHit();
+			this					.getHit();
+			return;
+
+		}
+
+	}
+
+}
+
+
+function pointsTouchingThing(points, thing){
+	for ( var i=0; i<points.length; i++){
+		if ( registry.entites[i].touching(points[i])){
+			return true;
+		}
+	}
+	return false
+}
 
 
 // It's occurring to me that we should have the drawing have an offset, not the touching. because touching will get called more times per frame than drawing.
