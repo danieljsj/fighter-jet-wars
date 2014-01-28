@@ -27,7 +27,12 @@ var render = function (dT) {
 //	drawRotated(comp1  .image, 	comp1  .p.x, 	comp1  .p.y, 	comp1  .p.direction, comp1  .image.img.ready);
 	
 
+	
+	for (i=0; i<registry.lasers.length; i++){
 
+		registry.lasers[i].draw();
+	
+	}
 
 	
 	// Score
@@ -39,16 +44,17 @@ var render = function (dT) {
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("player1 speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
-	ctx.fillText("player1 burns: " 	+ player1.p.afterburning, 	lineHeight, ++i*lineHeight);
-/*
+	ctx.fillText("Interval (ms): " 	+ dT, 	lineHeight, ++i*lineHeight);
+
+	ctx.fillText("player1.p.speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
+
 	ctx.fillText("player1.ctrls.afterburning: " + player1.ctrls.afterburning, 	lineHeight, ++i*lineHeight ); 	
 	ctx.fillText("player1.ctrls.braking		: " + player1.ctrls.braking		, 	lineHeight, ++i*lineHeight ); 			
 	ctx.fillText("player1.ctrls.turning		: " + player1.ctrls.turning		, 	lineHeight, ++i*lineHeight ); 		
 	ctx.fillText("player1.ctrls.tryingToFire: " + player1.ctrls.tryingToFire, 	lineHeight, ++i*lineHeight ); 	 
-*/
 
-	ctx.fillText("Interval (ms): " 	+ dT, 	lineHeight, ++i*lineHeight);
+	ctx.fillText("player1.stats.laserRefreshLeft: " + player1.stats.laserRefreshLeft, 	lineHeight, ++i*lineHeight ); 	
+
 
 
 };

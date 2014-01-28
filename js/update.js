@@ -14,6 +14,11 @@ var update = function (dT) {
 	player2	.accelerate	(dT);
 //	comp1	.accelerate	(dT);
 
+	player1 .communicate();
+	player2 .communicate();
+
+	player1 .otherPlaneTurnFuncs(dT);
+	player2 .otherPlaneTurnFuncs(dT);
 //	console.log(dT);
 //	laser	.move		(dT); 
 
@@ -28,45 +33,10 @@ var update = function (dT) {
 	}
 */	
 
+	for (var i=0; i<registry.lasers.length; i++){
+
+		registry.lasers[i].move(dT);
+	
+	}
 
 };
-
-
- 
- function senseBuilding(x,y){
-		// Am I touching a building?
-		if (
-			   x <= (bldg1.x + bldg1.width/2) //Am I left of right of bldg body?
-			&& x >= (bldg1.x - bldg1.width/2) //Am I right of left of bldg body?
-			&& y <= (bldg1.y + bldg1.height/2) //Am I below top of bldg body?
-			&& y >= (bldg1.y - bldg1.height/2) //Am I above bottom of bldg body?
-		) { 
-			return true;
-		} else 	{ 
-			return false;
-		}
- }
- 
- 
-function senseEnvironment(ob){
-	
-	if (true == ob.active) {
-
-		// Am I touching the outer border?
-		if (ob.x > canvas.width || ob.x < 0 || ob.y > canvas.height || ob.y < 0 ) {
-			ob.active = false;
-		}
-
-		// Am I touching a monster?
-		if (
-			ob.x <= (monster.x + 16)
-			&& monster.x <= (ob.x + 16)
-			&& ob.y <= (monster.y + 16)
-			&& monster.y <= (ob.y + 16)
-		) {
-			++monstersCaught;
-			reset();
-		}
-		
-	}
-}

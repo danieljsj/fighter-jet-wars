@@ -4,18 +4,17 @@
 
 function pointsTouchingOb( points, ob ) {
 		
-		// loop through the points submitted
-		var l = points.length;
-		for (i = 0; i < l; i++){
+	// loop through the points submitted
+	var l = points.length;
+	for (i = 0; i < l; i++){
 
-			// if the object says that any of the points are touching it, return true.
-			if ( ob.touching(points[i])) {
-				return true;
-			}
+		// if the object says that any of the points are touching it, return true.
+		if ( ob.touching(points[i])) {
+			return true;
 		}
-		// otherwise return false.
-		return false;
 	}
+	// otherwise return false.
+	return false;
 }
 
 
@@ -86,21 +85,21 @@ Plane.getPoints = function(){
 // It's occurring to me that we should have the drawing have an offset, not the touching. because touching will get called more times per frame than drawing.
 
 
-Building.touching = function(point){
+Building.prototype.touching = function(point){
 
-	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, but it should be the object in question
-
-}
-
-Plane.touching = function(point){
-
-	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, but it should be the object in question
+	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
 }
 
+Plane.prototype.touching = function(point){
 
-Entity.touching = function(point){
+	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
+
+}
+
+
+Entity.prototype.touching = function(point){
 	
-	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, but it should be the object in question
+	pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
 }
