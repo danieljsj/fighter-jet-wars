@@ -2,9 +2,20 @@
 
 
 
+function distBtwPts(pt1,pt2){
+	return (
+		(pt1.x - pt2.x)^2
+		+
+		(pt1.y - pt2.y)^2
+	)^.5;
+}
 
-
-
+function distBtwObs(ob1,ob2){
+	return distBtwPts(
+		{x: ob1.p.x, y:ob1.p.y},
+		{x: ob2.p.x, y:ob2.p.y}
+	);
+}
 
 
 
