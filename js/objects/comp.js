@@ -67,14 +67,14 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 	// Brakes
 	if (false) { this.ctrls.braking = true; } else { this.ctrls.braking = false; }
 
-	// Turn Left
-	if (0 < offset) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
+	// Turn Left // remember: down the page is increasing location! WAIT, I DONT KNOW
+	if (0 > offset) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
 
-	// Turn Right
-	if (0 > offset) { this.ctrls.turning -= 1; } else { }
+	// Turn Right // remember: down the page is increasing location!
+	if (0 < offset) { this.ctrls.turning -= 1; } else { }
 
 	// Fire
-	if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
+	// if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
 
 }
 

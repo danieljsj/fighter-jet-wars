@@ -46,6 +46,7 @@ var drawStatsBoard = function(dT){
 
 	ctx.fillText("Comp 1 Direction:" 		+ comp1.p.direction, 		lineHeight, ++i*lineHeight);
 	ctx.fillText("Comp 1 Target Offset:" 		+ comp1.thoughts.targetAngularOffset, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Comp 1 Target directionToOb:" 		+ comp1.directionToOb, 		lineHeight, ++i*lineHeight);
 
 /*
 	ctx.fillText("player1.p.speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);
