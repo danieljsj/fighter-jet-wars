@@ -13,9 +13,9 @@ console.log(comp1);
 			comp1.init();
 console.log(comp1);
 
-console.log(comp2);
-			comp2.init();
-console.log(comp2);
+// console.log(comp2);
+// 			comp2.init();
+// console.log(comp2);
 
 
 

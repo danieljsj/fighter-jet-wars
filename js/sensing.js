@@ -37,12 +37,15 @@ function directionFromMeToOb(me,ob){
 
 function angularOffsetFromMeToOb(me,ob){
 
+
 	var direction = directionFromMeToOb(me,ob);
 
 	var offset = direction - me.p.direction;
 
-	while ( Math.PI < offset ) { offset -= Math.PI; }
-	while ( -Math.PI > offset ) { offset += Math.PI; }
+	var lineHeight = 32, i = 0;
+
+	if ( Math.PI < offset ) { offset -= Math.PI; }
+	if ( -Math.PI > offset ) { offset += Math.PI; }
 
 	return offset;
 

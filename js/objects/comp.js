@@ -53,11 +53,11 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 
 	var target = this.thoughts.target;
 	console.log(target); 
-	var offset = this.thoughts.targetAngularOffset
+	var offset = this.thoughts.targetAngularOffset;
 
 
 	if ( ! offset ) {
-		offset = angularOffsetFromMeToOb( this, target );
+		offset = this.thoughts.targetAngularOffset = angularOffsetFromMeToOb( this, target );
 	}
 
 	
