@@ -108,30 +108,18 @@ function pointTouchingRectangleOb(pt,ob){
 }
 
 
-/* function pointTouchingTriangleOb(pt,ob){
+/*
+function pointTouchingTriangleOb(pt,ob){
 
+	// COMING SOON / NOAH MATH HERE
 
-	// NOAH MATH IS NEEDED HERE!!!!!!!!!
-	if (
-		   pt.x <= (ob.p.x + ob.body.width/2  ) //Am I left of right of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.x >= (ob.p.x - ob.body.width/2  ) //Am I right of left of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y <= (ob.p.y + ob.body.height/2 ) //Am I below top of bldg body?/// NOAH MATH HERE LATER // will use direction of ob
-		&& pt.y >= (ob.p.y - ob.body.height/2 ) //Am I above bottom of bldg body? /// NOAH MATH HERE LATER // will use direction of ob
-	) { 
-		return true;
-	} else 	{ 
-		return false;
-	}
-} */
+}
+*/
+
 
 
 
 /// SENSING SPECIFIC TO FLYER & PLANE
-
-if ( ! Flyer ) var Flyer = {}; Flyer.prototype = {}; // for testing
-if ( ! Plane ) var Plane = {}; Plane.prototype = {}; // for testing
-if ( ! Entity ) var Entity = {}; Entity.prototype = {}; // for testing
-
 
 Flyer.prototype.getPoints = function(){
 	var points = [
@@ -145,7 +133,8 @@ Flyer.prototype.getPoints = function(){
 }
 
 
-/*Plane.getPoints = function(){
+/*
+Plane.getPoints = function(){
 
 	var points = [
 		// Nose Point
@@ -167,7 +156,8 @@ Flyer.prototype.getPoints = function(){
 
 	return points;
 
-};*/
+};
+*/
 
 
 
