@@ -20,35 +20,41 @@ function Comp() {
 Comp.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
 Comp.prototype.constructor = Comp; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
-Comp.prototype.behaviors = {
-	targetNearestPlayer: function(){
-		var nearestFoeDist = Infinity;
-		for (var i = registries.players.length - 1; i >= 0; i--) {
-			var player = registries.players[i];
-			if (distBtwObs(player,this) < nearestFoeDist){
-				this.thoughts.target = player;
-			}
-		};
-		this.thoughts.targetAngularOffset = null;
-	}
-	// ,targetLeastRotationallyOffsetPlayer = function(){
-	// 	var nearestFoeDist = Infinity;
-	// 	for (var i = registries.players.length - 1; i >= 0; i--) {
-	// 		var player = registries.players[i];
-	// 		if (distBtwObs(player,this) < nearestFoeDist){
-	// 			var updatedTarget = player;
-	// 		}
-	// 	};
-	// },
-}
+Comp.prototype.targetNearestPlayer = function(){
+	var nearestFoeDist = Infinity;
+	for (var i = registries.players.length - 1; i >= 0; i--) {
+		var player = registries.players[i];
+		// console.log(this);
+		if (distBtwObs(player,this) < nearestFoeDist){
+			this.thoughts.target = player;
+		}
+	};
+	this.thoughts.targetAngularOffset = null;
+};
+// Comp.prototype.targetLeastRotationallyOffsetPlayer = function(){
+// 	var nearestFoeDist = Infinity;
+// 	for (var i = registries.players.length - 1; i >= 0; i--) {
+// 		var player = registries.players[i];
+// 		if (distBtwObs(player,this) < nearestFoeDist){
+// 			var updatedTarget = player;
+// 		}
+// 	};
+// };
+
 
 Comp.prototype.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
 
-	var behavior = this.thoughts.currentBehavior;
+	console.log(this);
+
+	// if ( "targetNearestPlayer" == this.thoughts.currentBehavior )
+	this.targetNearestPlayer();
+
+
+
 	var target = this.thoughts.target;
+	console.log(target); 
 	var offset = this.thoughts.targetAngularOffset
 
-	behavior();
 
 	if ( ! offset ) {
 		offset = angularOffsetFromMeToOb( this, target );
@@ -80,7 +86,7 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 
 // -=-=-=-=-=-=- COMPUTERS -=-=-=-=-=-=- //
 
-var comp1 = Object.create(Comp);
+var comp1 = new Comp();
 
 comp1.image = {
 	src:'images/plane-mean-red.png',
@@ -88,7 +94,7 @@ comp1.image = {
 	width:32,
 }
 
-var comp2 = Object.create(Comp);
+var comp2 = new Comp();
 
 comp2.image = {
 	src:'images/plane-mean-red.png',
