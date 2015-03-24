@@ -24,10 +24,9 @@ function distBtwObs(ob1,ob2){
 
 function directionFromMeToOb(me,ob){
 
-	var arctan = Math.atan(
-		(me.p.y-ob.p.y)/
-		(me.p.x-ob.p.x)
-	);
+	var tan = (me.p.y-ob.p.y) / (me.p.x-ob.p.x);
+	var arctan = Math.atan(tan);
+
 	if (ob.p.x < me.p.x)
 		var direction = arctan + Math.PI;
 	else
@@ -49,6 +48,47 @@ function angularOffsetFromMeToOb(me,ob){
 
 }
 
+		// ///////TESTS
+
+		// var TestPlaneA = {
+		// 	p: {
+		// 		x:0,
+		// 		y:0,
+		// 		direction:Math.PI/4
+		// 	}
+		// };
+
+		// var TestPlaneB = {
+		// 	p: {
+		// 		x:-10,
+		// 		y:10,
+		// 		direction:Math.PI/2
+		// 	}
+		// };
+
+		// // DIRECTION TESTS
+
+		// sensingTests = [
+		// 	{
+		// 		name: "directionFromMeToOb",
+		// 		value: directionFromMeToOb( TestPlaneA,TestPlaneB ),
+		// 		expected: Math.PI * 3/4
+		// 	},
+		// 	{
+		// 		name: "angularOffsetFromMeToOb",
+		// 		value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneB ),
+		// 		expected: Math.PI * 1/2
+		// 	},
+		// 	{
+		// 		name: "distBtwObs",
+		// 		value: distBtwObs( TestPlaneA,TestPlaneB ),
+		// 		expected: Math.pow(200,0.5)
+		// 	}
+		// ];
+		// for (var i = 0; i < sensingTests.length; i++) {
+		// 	var test = sensingTests[i];
+		// 	console.info("TEST: succeeded: "+(test.expected == test.value)+"	name:"+test.name+"	value: "+test.value+"	expected:"+test.expected);
+		// };
 
 
 // TOUCHING
@@ -193,45 +233,3 @@ Entity.prototype.touching = function(point){
 
 
 
-
-///////TESTS
-
-var TestPlaneA = {
-	p: {
-		x:0,
-		y:0,
-		direction:Math.PI/2
-	}
-};
-
-var TestPlaneB = {
-	p: {
-		x:-10,
-		y:-10,
-		direction:Math.PI/2
-	}
-};
-
-// DIRECTION TESTS
-
-sensingTests = [
-	{
-		name: "directionFromMeToOb",
-		value: directionFromMeToOb( TestPlaneA,TestPlaneB ),
-		expected: Math.PI * 3/2
-	},
-	{
-		name: "angularOffsetFromMeToOb",
-		value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneB ),
-		expected: Math.PI
-	},
-	{
-		name: "distBtwObs",
-		value: distBtwObs( TestPlaneA,TestPlaneB ),
-		expected: Math.pow(200,0.5)
-	}
-];
-for (var i = sensingTests.length - 1; i >= 0; i--) {
-	var test = sensingTests[i];
-	console.info("TEST: succeeded: "+(test.expected == test.value)+"	name:"+test.name+"	value: "+test.value+"	expected:"+test.expected);
-}
