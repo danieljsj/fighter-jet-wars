@@ -44,12 +44,31 @@ Comp.prototype.behaviors = {
 
 Comp.prototype.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
 
-	// STILL WORKING ON THIS...
-	// this.thoughts.
-	// var Dx = player1.p.x - this.p.x;
-	// var Dy = player1.p.y - this.p.y;
+	var behavior = this.thoughts.currentBehavior;
+	var target = this.thoughts.target;
+	var offset = this.thoughts.targetAngularOffset
+
+	behavior();
+
+	if ( ! offset ) {
+		offset = angularOffsetFromMeToOb( this, target );
+	}
+
 	
-	// var directionToPlayer1 = Math.arctan(Dy/Dx);
+	// Afterburner
+	if (false) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
+
+	// Brakes
+	if (false) { this.ctrls.braking = true; } else { this.ctrls.braking = false; }
+
+	// Turn Left
+	if (0 < offset) { this.ctrls.turning = 1; } else { this.ctrls.turning = 0; }
+
+	// Turn Right
+	if (0 > offset) { this.ctrls.turning -= 1; } else { }
+
+	// Fire
+	if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
 
 }
 
@@ -64,6 +83,14 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 var comp1 = Object.create(Comp);
 
 comp1.image = {
+	src:'images/plane-mean-red.png',
+	height:32,
+	width:32,
+}
+
+var comp2 = Object.create(Comp);
+
+comp2.image = {
 	src:'images/plane-mean-red.png',
 	height:32,
 	width:32,
