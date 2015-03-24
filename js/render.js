@@ -36,7 +36,7 @@ var drawStatsBoard = function(dT){
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	// ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 					lineHeight, ++i*lineHeight);
+	ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 					lineHeight, ++i*lineHeight);
 	// ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
 	// ctx.fillText("Player 1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
 	// ctx.fillText("Player 1 Kill Count: " + player1.stats.killCount,	lineHeight, ++i*lineHeight);
