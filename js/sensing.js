@@ -22,7 +22,7 @@ function distBtwObs(ob1,ob2){
 
 function directionFromMeToOb(me,ob){
 
-	var arctan = Math.arctan(
+	var arctan = Math.atan(
 		(me.p.y-ob.p.y)/
 		(me.p.x-ob.p.x)
 	);
@@ -54,10 +54,10 @@ function angularOffsetFromMeToOb(me,ob){
 function pointTouchingRectangleOb(pt,ob){
 
 	if (
-		   pt.x <= (ob.p.x + ob.body.width/2  ) //Am I left of right of bldg body?
-		&& pt.x >= (ob.p.x - ob.body.width/2  ) //Am I right of left of bldg body?
-		&& pt.y <= (ob.p.y + ob.body.height/2 ) //Am I below top of bldg body?
-		&& pt.y >= (ob.p.y - ob.body.height/2 ) //Am I above bottom of bldg body?
+		   pt.x <= ( ob.p.x + ob.body.width/2  ) //Am I left of right of bldg body?
+		&& pt.x >= ( ob.p.x - ob.body.width/2  ) //Am I right of left of bldg body?
+		&& pt.y <= ( ob.p.y + ob.body.height/2 ) //Am I below top of bldg body?
+		&& pt.y >= ( ob.p.y - ob.body.height/2 ) //Am I above bottom of bldg body?
 	) { 
 		return true;
 	} else 	{ 
@@ -81,6 +81,14 @@ function pointTouchingRectangleOb(pt,ob){
 		return false;
 	}
 } */
+
+
+
+/// SENSING SPECIFIC TO FLYER & PLANE
+
+if ( ! Flyer ) var Flyer = {}; Flyer.prototype = {}; // for testing
+if ( ! Plane ) var Plane = {}; Plane.prototype = {}; // for testing
+if ( ! Entity ) var Entity = {}; Entity.prototype = {}; // for testing
 
 
 Flyer.prototype.getPoints = function(){
@@ -176,4 +184,52 @@ Entity.prototype.touching = function(point){
 	
 	return pointTouchingRectangleOb(point,this); // again, I'm not sure what the "this" is here, (is it going to be the protoype? I don't think so...) but it should be the object in question
 
+}
+
+
+
+
+
+
+
+///////TESTS
+
+var TestPlaneA = {
+	p: {
+		x:0,
+		y:0,
+		direction:Math.PI/2
+	}
+};
+
+var TestPlaneB = {
+	p: {
+		x:-10,
+		y:-10,
+		direction:Math.PI/2
+	}
+};
+
+// DIRECTION TESTS
+
+sensingTests = [
+	{
+		name: "directionFromMeToOb",
+		value: directionFromMeToOb( TestPlaneA,TestPlaneB ),
+		expected: Math.PI * 3/2
+	},
+	{
+		name: "angularOffsetFromMeToOb",
+		value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneB ),
+		expected: Math.PI
+	},
+	{
+		name: "distBtwObs",
+		value: distBtwObs( TestPlaneA,TestPlaneB ),
+		expected: 200^.5
+	}
+];
+for (var i = sensingTests.length - 1; i >= 0; i--) {
+	var test = sensingTests[i];
+	console.info("TEST: succeeded: "+(test.expected == test.value)+"	name:"+test.name+"	value: "+test.value+"	expected:"+test.expected);
 }
