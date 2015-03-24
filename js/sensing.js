@@ -1,6 +1,6 @@
 
 
-
+// DISTANCE
 
 function distBtwPts(pt1,pt2){
 	return (
@@ -18,7 +18,38 @@ function distBtwObs(ob1,ob2){
 }
 
 
+// ANGLE
 
+function directionFromMeToOb(me,ob){
+
+	var arctan = Math.arctan(
+		(me.p.y-ob.p.y)/
+		(me.p.x-ob.p.x)
+	);
+	if (ob.p.x < me.p.x)
+		var direction = arctan + Math.PI;
+	else
+		var direction = arctan;
+
+	return direction;
+}
+
+function angularOffsetFromMeToOb(me,ob){
+
+	var direction = directionFromMeToOb(me,ob);
+
+	var offset = direction - me.p.direction;
+
+	while ( Math.PI < offset ) { offset -= Math.PI; }
+	while ( -Math.PI > offset ) { offset += Math.PI; }
+
+	return offset;
+
+}
+
+
+
+// TOUCHING
 
 function pointTouchingRectangleOb(pt,ob){
 
