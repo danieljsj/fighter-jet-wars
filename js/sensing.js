@@ -3,11 +3,13 @@
 // DISTANCE
 
 function distBtwPts(pt1,pt2){
-	return (
-		(pt1.x - pt2.x)^2
-		+
-		(pt1.y - pt2.y)^2
-	)^.5;
+	return Math.pow(
+		(
+			Math.pow( pt1.x-pt2.x, 2 ) +
+			Math.pow( pt1.y-pt2.y, 2 )
+		),
+		.5
+	);
 }
 
 function distBtwObs(ob1,ob2){
@@ -226,7 +228,7 @@ sensingTests = [
 	{
 		name: "distBtwObs",
 		value: distBtwObs( TestPlaneA,TestPlaneB ),
-		expected: 200^.5
+		expected: Math.pow(200,0.5)
 	}
 ];
 for (var i = sensingTests.length - 1; i >= 0; i--) {
