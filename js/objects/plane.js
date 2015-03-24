@@ -44,7 +44,6 @@ function Plane() {
 		}
 	});
 
-	// Inits
 	this.inits.push({
 		handle: 'register',
 		order: 200,

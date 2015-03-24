@@ -5,11 +5,30 @@
 function Comp() { 
 	// Superclass stuff builds this
 	Plane.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
-	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
+	
+	this.inits.push({
+		handle: 'register',
+		order: 200,
+		func: function(){
+			registries.comps.push(this);
+		}
+	});
 }; 			
 
 Comp.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
 Comp.prototype.constructor = Comp; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
+
+
+Comp.prototype.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
+
+	// STILL WORKING ON THIS...
+	// var Dx = player1.p.x - this.p.x;
+	// var Dy = player1.p.y - this.p.y;
+	
+	// var directionToPlayer1 = Math.arctan(Dy/Dx);
+
+}
+
 
 
 

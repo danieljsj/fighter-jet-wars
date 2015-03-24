@@ -5,7 +5,14 @@
 function Player() { 
 	// Superclass stuff builds this
 	Plane.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
-	// OTHER BUILDER FUNCS WOULD GO HERE BUT THEY WONT FOR NOW.
+	
+	this.inits.push({
+		handle: 'register',
+		order: 200,
+		func: function(){
+			registries.players.push(this);
+		}
+	});
 }; 			
 
 Player.prototype = Object.create(Plane.prototype); 	// THIS IS SO YOU GET FUNCTIONS.
