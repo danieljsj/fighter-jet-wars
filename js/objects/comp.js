@@ -44,15 +44,11 @@ Comp.prototype.targetNearestPlayer = function(){
 
 Comp.prototype.control = function(){  // Eventually, these could be bundled into hooks just like init is bundled.
 
-	console.log(this);
-
 	// if ( "targetNearestPlayer" == this.thoughts.currentBehavior )
 	this.targetNearestPlayer();
 
 
-
 	var target = this.thoughts.target;
-	console.log(target); 
 	var offset = this.thoughts.targetAngularOffset;
 
 
@@ -73,8 +69,10 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 	// Turn Right // remember: down the page is increasing location!
 	if (0 < offset) { this.ctrls.turning -= 1; } else { }
 
+	// MAKE THEM DUMBER:
+	this.ctrls.turning *= .5;
 	// Fire
-	// if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
+	if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
 
 }
 

@@ -61,8 +61,8 @@ Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 Laser.prototype.collide = function(otherObject){
 	this.shooter.stats.killCount++;
-	unset(this);
-	for ( var registry in registries ) {
-		registry.clean();
-	}
+	// unset(this); // no such thing as unset!
+	// for ( var registry in registries ) {
+	// 	registry.clean(); // undefined is not a function
+	// } 
 };

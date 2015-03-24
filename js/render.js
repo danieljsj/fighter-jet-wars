@@ -36,17 +36,17 @@ var drawStatsBoard = function(dT){
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-//	ctx.fillText("Frames per second:" 	+ 1/dT, 					lineHeight, ++i*lineHeight);
+	// ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 					lineHeight, ++i*lineHeight);
 	// ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	// ctx.fillText("Player 1 Lives:" 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
-	// ctx.fillText("Player 1 Kill Count:" + player1.stats.killCount,	lineHeight, ++i*lineHeight);
-	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("Player 2 Lives:" 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Player 2 Kill Count:" + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+	// ctx.fillText("Player 1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
+	// ctx.fillText("Player 1 Kill Count: " + player1.stats.killCount,	lineHeight, ++i*lineHeight);
+	// ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+	// ctx.fillText("Player 2 Lives: " 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
+	// ctx.fillText("Player 2 Kill Count: " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
 
-	ctx.fillText("Comp 1 Direction:" 		+ comp1.p.direction, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Comp 1 Target Offset:" 		+ comp1.thoughts.targetAngularOffset, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Comp 1 Target directionToOb:" 		+ comp1.directionToOb, 		lineHeight, ++i*lineHeight);
+	// ctx.fillText("Comp 1 Direction: " 		+ comp1.p.direction, 		lineHeight, ++i*lineHeight);
+	// ctx.fillText("Comp 1 Target Offset: " 		+ comp1.thoughts.targetAngularOffset, 		lineHeight, ++i*lineHeight);
+	// ctx.fillText("Comp 1 Target directionToOb: " 		+ comp1.directionToOb, 		lineHeight, ++i*lineHeight);
 
 /*
 	ctx.fillText("player1.p.speed: " 	+ player1.p.speed, 	lineHeight, ++i*lineHeight);

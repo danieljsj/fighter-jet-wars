@@ -26,7 +26,6 @@ function directionFromMeToOb(me,ob){
 
 	var tan = (me.p.y-ob.p.y) / (me.p.x-ob.p.x);
 	var arctan = Math.atan(tan);
-									console.info("arctan: "+arctan);
 
 	if (ob.p.x > me.p.x && ob.p.y > me.p.y)
 		var direction = arctan;
@@ -70,57 +69,57 @@ function angularOffsetFromMeToOb(me,ob){
 
 		// DIRECTION TESTS
 
-		sensingTests = [
-			{
-				name: "directionFromMeToOb_____(-10,10)",
-				value: directionFromMeToOb( TestPlaneA,TestPlaneB ),
-				expected: Math.PI * 3/4
-			},
-			{
-				name: "angularOffsetFromMeToOb_(-10,10)",
-				value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneB ),
-				expected: Math.PI * 1/2
-			},
-			{
-				name: "directionFromMeToOb_____(-10,-10)",
-				value: directionFromMeToOb( TestPlaneA,TestPlaneC ),
-				expected: Math.PI * -3/4
-			},
-			{
-				name: "angularOffsetFromMeToOb_(-10,-10)",
-				value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneC ),
-				expected: Math.PI * -1
-			},
-			{
-				name: "directionFromMeToOb_____(10,10)",
-				value: directionFromMeToOb( TestPlaneC,TestPlaneA ),
-				expected: Math.PI * 1/4
-			},
-			{
-				name: "angularOffsetFromMeToOb_(10,10)",
-				value: angularOffsetFromMeToOb( TestPlaneC,TestPlaneA ),
-				expected: Math.PI * 0
-			},			
-			{
-				name: "directionFromMeToOb_____(10,-10)",
-				value: directionFromMeToOb( TestPlaneB,TestPlaneA ),
-				expected: Math.PI * -1/4
-			},
-			{
-				name: "angularOffsetFromMeToOb_(10,-10)",
-				value: angularOffsetFromMeToOb( TestPlaneB,TestPlaneA ),
-				expected: Math.PI * -1/2
-			}			
-			// ,{
-			// 	name: "distBtwObs",
-			// 	value: distBtwObs( TestPlaneA,TestPlaneB ),
-			// 	expected: Math.pow(200,0.5)
-			// }
-		];
-		for (var i = 0; i < sensingTests.length; i++) {
-			var test = sensingTests[i];
-			console.info("TEST: succeeded: "+(test.expected == test.value)+"	name:"+test.name+"	value: "+test.value+"	expected:"+test.expected);
-		};
+		// sensingTests = [
+		// 	{
+		// 		name: "directionFromMeToOb_____(-10,10)",
+		// 		value: directionFromMeToOb( TestPlaneA,TestPlaneB ),
+		// 		expected: Math.PI * 3/4
+		// 	},
+		// 	{
+		// 		name: "angularOffsetFromMeToOb_(-10,10)",
+		// 		value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneB ),
+		// 		expected: Math.PI * 1/2
+		// 	},
+		// 	{
+		// 		name: "directionFromMeToOb_____(-10,-10)",
+		// 		value: directionFromMeToOb( TestPlaneA,TestPlaneC ),
+		// 		expected: Math.PI * -3/4
+		// 	},
+		// 	{
+		// 		name: "angularOffsetFromMeToOb_(-10,-10)",
+		// 		value: angularOffsetFromMeToOb( TestPlaneA,TestPlaneC ),
+		// 		expected: Math.PI * -1
+		// 	},
+		// 	{
+		// 		name: "directionFromMeToOb_____(10,10)",
+		// 		value: directionFromMeToOb( TestPlaneC,TestPlaneA ),
+		// 		expected: Math.PI * 1/4
+		// 	},
+		// 	{
+		// 		name: "angularOffsetFromMeToOb_(10,10)",
+		// 		value: angularOffsetFromMeToOb( TestPlaneC,TestPlaneA ),
+		// 		expected: Math.PI * 0
+		// 	},			
+		// 	{
+		// 		name: "directionFromMeToOb_____(10,-10)",
+		// 		value: directionFromMeToOb( TestPlaneB,TestPlaneA ),
+		// 		expected: Math.PI * -1/4
+		// 	},
+		// 	{
+		// 		name: "angularOffsetFromMeToOb_(10,-10)",
+		// 		value: angularOffsetFromMeToOb( TestPlaneB,TestPlaneA ),
+		// 		expected: Math.PI * -1/2
+		// 	}			
+		// 	// ,{
+		// 	// 	name: "distBtwObs",
+		// 	// 	value: distBtwObs( TestPlaneA,TestPlaneB ),
+		// 	// 	expected: Math.pow(200,0.5)
+		// 	// }
+		// ];
+		// for (var i = 0; i < sensingTests.length; i++) {
+		// 	var test = sensingTests[i];
+		// 	console.info("TEST: succeeded: "+(test.expected == test.value)+"	name:"+test.name+"	value: "+test.value+"	expected:"+test.expected);
+		// };
 
 
 // TOUCHING

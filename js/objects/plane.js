@@ -24,7 +24,7 @@ function Plane() {
 		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
 		turnRate	 		: 1.8, 	// turn rate in radians per second
-		laserRefreshTime	: .15,	// 
+		laserRefreshTime	: .5,	// 
 		respawnTime			: 2
 	};
 
@@ -113,7 +113,6 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 
 		// Create laser
 		var newLaser = new Laser(this); 
-		console.log( newLaser );
 
 		// Create a laser, record its position in the array
 		registries.lasers.push( newLaser );
@@ -195,8 +194,5 @@ Plane.prototype.spawn = function(){
 	this.stats.respawnTimeLeft = 0;
 	this.stats.respawnReady = false;
 	this.stats.dead = false;
-
-	console.info('at the end of plane spawn:');
-	console.log(this);
 
 };
