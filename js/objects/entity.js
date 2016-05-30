@@ -30,10 +30,10 @@ function Entity(){
 		order: 101,
 		func: function(){
 			this.marker = new L.marker([44.9120038,-93.2663044], {
-				// icon: new L.icon({
-				// 	iconUrl: this.image.src,
-				// 	iconSize: [5,5]
-				// })
+				icon: new L.icon({
+					iconUrl: this.image.src,
+					iconSize: [5,5]
+				})
 			});
 			var that=this;
 			setTimeout(function(){
