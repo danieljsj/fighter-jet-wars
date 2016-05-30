@@ -27,6 +27,7 @@ function Laser(shooter) {
 		baseAccel  	: 0, 	// afterburnerAccel in pixels per second
 		baseDrag	: 0.8, 	// base coefficient of loss of velocity per second
 		launchSpeed	: 700, 	// launch speed in pixels per ssecond
+		range		: 10000 // in px
 	}
 
 
@@ -61,8 +62,4 @@ Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 Laser.prototype.collide = function(otherObject){
 	this.shooter.stats.killCount++;
-	// unset(this); // no such thing as unset!
-	// for ( var registry in registries ) {
-	// 	registry.clean(); // undefined is not a function
-	// } 
 };

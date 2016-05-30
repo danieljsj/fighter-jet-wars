@@ -29,6 +29,14 @@ Flyer.prototype.move = function(amt, distanceSpecified){
 	this.p.y += Math.sin(this.p.direction) * dist;
 	this.p.x += Math.cos(this.p.direction) * dist;
 
+	if (!this.stats.rangeLeft ) { 
+		this.stats.rangeLeft = this.atts.range; 
+	}
+	this.stats.rangeLeft -= dist;
+
+	if ( (this.stats.rangeLeft < 0) ) {
+		this.remove();
+	}
 };
 
 

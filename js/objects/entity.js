@@ -83,6 +83,15 @@ Entity.prototype.getLatLng = function(){
 	return latLngFromXY([this.p.x,this.p.y]);
 }
 
+Entity.prototype.remove = function(){	
+	lMap.removeLayer(this.marker);
+	for ( var registryName in registries ) {
+		registries[registryName].splice(1, registries[registryName].indexOf(this) );
+	} 
+}
+
+
+
 function latLngFromXY(x,y){
 	if (x.length){
 		y = x[1];

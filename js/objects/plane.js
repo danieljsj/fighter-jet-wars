@@ -26,7 +26,8 @@ function Plane() {
 		turnRate	 		: 1.8, 	// turn rate in radians per second
 		laserRefreshTime	: .5,	// 
 		// respawnTime			: 2
-		respawnTime			: 0
+		respawnTime			: 0,
+		range				: 999999999999999999999999
 	};
 
 	// Starting static stuff (lives, score, etc.)
