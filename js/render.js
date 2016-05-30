@@ -1,10 +1,14 @@
+var lastDrawn = 0;
+
+var viewPoint;
 
 // Draw everything
 var render = function (dT) {
 
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-	var viewPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y,}
+	viewPoint = {x:0,y:0}
+	viewPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y,}
 	
 	for (i=0; i<registries.planes.length; i++){
 
@@ -18,7 +22,21 @@ var render = function (dT) {
 	
 	}
 
+	lastDrawn += dT;
+
+
+	if (lastDrawn > 0.2) {
+		lastDrawn = 0;
+		var lat = homeLat - (viewPoint.y / 10000);
+		var lng = homeLng + (viewPoint.x / 10000) / Math.cos(homeLng) ; // should use "lng" but that'd be circular; may need to if using actual geo stuff later.
+		lMap.setView([lat, lng], 11);
+		// console.log(lat,lng);
+		console.log(lat-homeLat,lng-homeLng);
+
+	}
+	
 	drawStatsBoard(dT);
+
 
 };
 
