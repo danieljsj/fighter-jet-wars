@@ -10,6 +10,7 @@ var nullFunc = function(){return null;}
 
 // Create the canvas
 var canvas = document.createElement("canvas");
+canvas.style["z-index"] = 1;
 var ctx = canvas.getContext("2d");
 
 // Canvas resizing
