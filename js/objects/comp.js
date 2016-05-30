@@ -49,13 +49,10 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 
 
 	var target = this.thoughts.target;
-	var offset = this.thoughts.targetAngularOffset;
 
-
-	if ( ! offset ) {
-		offset = this.thoughts.targetAngularOffset = angularOffsetFromMeToOb( this, target );
-	}
-
+	offset = this.thoughts.targetAngularOffset = angularOffsetFromMeToOb( this, target );
+	distance = this.thoughts.targetDistance = distBtwObs(this, target);
+// distBtwObs
 	
 	// Afterburner
 	if (false) { this.ctrls.afterburning = true; } else { this.ctrls.afterburning = false; }
@@ -69,10 +66,24 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 	// Turn Right // remember: down the page is increasing location!
 	if (0 < offset) { this.ctrls.turning -= 1; } else { }
 
-	// MAKE THEM DUMBER:
+
+	// DUMB THEM DOWN A BIT:
 	this.ctrls.turning *= .5;
+
+
 	// Fire
-	if ( (Math.PI/8) > Math.abs(offset) ) { this.ctrls.tryingToFire = true; } else { this.ctrls.tryingToFire = false; }
+	if ( 
+		(
+			(Math.PI/8) > Math.abs(offset) 
+		) && (
+			distance < 10000 // should be same as laser range. may change depending on weapons.
+		)
+
+	) {
+		this.ctrls.tryingToFire = true;
+	} else { 
+		this.ctrls.tryingToFire = false; 
+	}
 
 }
 
