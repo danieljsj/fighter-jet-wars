@@ -4,17 +4,17 @@ var render = function (dT) {
 
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
+	var viewPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y,}
 	
 	for (i=0; i<registries.planes.length; i++){
 
-		registries.planes[i].draw();
+		registries.planes[i].draw(viewPoint);
 	
 	}
 
 	for (i=0; i<registries.lasers.length; i++){
 
-		registries.lasers[i].draw();
+		registries.lasers[i].draw(viewPoint);
 	
 	}
 

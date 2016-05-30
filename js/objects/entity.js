@@ -46,9 +46,9 @@ Entity.prototype.init = function(){
 
 };
 
-Entity.prototype.draw = function(){
+Entity.prototype.draw = function(viewPoint){
 	
-		ctx.translate(+1*this.p.x, +1*this.p.y)
+		ctx.translate(+1*this.p.x - viewPoint.x + window.innerWidth / 2, +1*this.p.y - viewPoint.y + window.innerHeight / 2)
 		ctx.rotate(+1*this.p.direction);
 		ctx.translate(-this.image.width/2, -this.image.height/2)
 		ctx.drawImage(this.image.img, 0, 0);
