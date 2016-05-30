@@ -73,6 +73,7 @@ Entity.prototype.draw = function(viewPoint){
 		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
 
 		this.marker.setLatLng(this.getLatLng());
+		this.marker.setRotationAngle(this.p.direction);
 
 };
 
