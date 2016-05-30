@@ -27,9 +27,7 @@ var render = function (dT) {
 
 	if (lastDrawn > 0.2) {
 		lastDrawn = 0;
-		var lat = homeLat - (viewPoint.y / 50000);
-		var lng = homeLng + (viewPoint.x / 50000) / Math.cos(homeLng) ; // should use "lng" but that'd be circular; may need to if using actual geo stuff later.
-		lMap.setView([lat, lng], 12);
+		lMap.setView(latLngFromXY(viewPoint.x,viewPoint.y), 12);
 		// console.log(lat,lng);
 		// console.log(lat-homeLat,lng-homeLng);
 

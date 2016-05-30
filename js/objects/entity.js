@@ -72,6 +72,21 @@ Entity.prototype.draw = function(viewPoint){
 		ctx.drawImage(this.image.img, 0, 0);
 		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
 
-		this.mapMarker
+		this.marker.setLatLng(this.getLatLng());
 
 };
+
+Entity.prototype.getLatLng = function(){
+	return latLngFromXY([this.p.x,this.p.y]);
+}
+
+function latLngFromXY(x,y){
+	if (x.length){
+		y = x[1];
+		x = x[0];
+	}
+	var scale = 1/50000;
+	var lat = homeLat - (y * scale);
+	var lng = homeLng + (x * scale) / Math.cos(homeLng) ; // should use "lng" but that'd be circular; may need to if using actual geo stuff later.
+	return [lat,lng];
+}
