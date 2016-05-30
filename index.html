@@ -46,7 +46,10 @@
 			MAP:<div id="mapid"></div>
 			<script>
 				window.onload = function(){
-					var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+					var homeLat = 44.956541044, homeLng = -93.2710840;
+					var lat = homeLat,lng = homeLng;
+
+					var mymap = L.map('mapid').setView([homeLat, homeLng], 13);
 
 					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 					    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -54,6 +57,11 @@
 					    id: 'danieljsj.095ld7lm',
 					    accessToken: 'pk.eyJ1IjoiZGFuaWVsanNqIiwiYSI6ImNpb3VnNnFtazAwcWZ0em01N2xzcGpwaDUifQ.2qEVaJ4R-TeXw4LxJzIJ-A'
 					}).addTo(mymap);
+
+					setInterval(function(){
+						lat += 0.001, lng += 0.001;
+						mymap.panTo(new L.LatLng(lat,lng));
+					},100)
 				}
 			</script>
 
