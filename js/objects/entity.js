@@ -26,6 +26,24 @@ function Entity(){
 	});
 
 	this.inits.push({
+		handle: 'giveMarker',
+		order: 101,
+		func: function(){
+			this.marker = new L.marker([44.9120038,-93.2663044], {
+				// icon: new L.icon({
+				// 	iconUrl: this.image.src,
+				// 	iconSize: [5,5]
+				// })
+			});
+			var that=this;
+			setTimeout(function(){
+				that.marker.addTo(lMap);
+			},0);
+		}
+
+	});
+
+	this.inits.push({
 		handle: 'register',
 		order: 0,
 		func: function(){
@@ -53,5 +71,7 @@ Entity.prototype.draw = function(viewPoint){
 		ctx.translate(-this.image.width/2, -this.image.height/2)
 		ctx.drawImage(this.image.img, 0, 0);
 		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
+
+		this.mapMarker
 
 };
