@@ -25,7 +25,8 @@ function Plane() {
 		brakesDrag 			: 0.4, 	// brakes coefficient of loss of velocity per second
 		turnRate	 		: 1.8, 	// turn rate in radians per second
 		laserRefreshTime	: .5,	// 
-		respawnTime			: 2
+		// respawnTime			: 2
+		respawnTime			: 0
 	};
 
 	// Starting static stuff (lives, score, etc.)
