@@ -20,6 +20,7 @@ function setCanvasWidth(){
 
 window.onload 	= setCanvasWidth;
 window.onresize = setCanvasWidth;
+setInterval(setCanvasWidth, 1000);
 
 
 document.body.appendChild(canvas);
