@@ -40,9 +40,17 @@ function Entity(){
 				opacity: iconOpacity
 			});
 			var that=this;
-			setTimeout(function(){ // eventually I'd have some better async stuff making these settimeouts not needed
-				that.marker.addTo(lMap);
-			},7000);
+			var tryToAddToLmap = function() {
+				if ('undefined' != typeof lMap) {
+					that.marker.addTo(lMap);
+				} else {
+					setTimeout(function(){ // eventually I'd have some better async stuff making these settimeouts not needed
+						tryToAddToLmap();
+					},1000);
+				}
+			}
+			tryToAddToLmap();
+
 		}
 
 	});
