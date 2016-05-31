@@ -1,3 +1,4 @@
+'use strict';
 var lastDrawn = 0;
 
 var viewPoint;
@@ -10,13 +11,13 @@ var render = function (dT) {
 	// viewPoint = {x:0,y:0}
 	viewPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 	
-	for (i=0; i<registries.planes.length; i++){
+	for (var i=0; i<registries.planes.length; i++){
 
 		registries.planes[i].draw(viewPoint);
 	
 	}
 
-	for (i=0; i<registries.lasers.length; i++){
+	for (var i=0; i<registries.lasers.length; i++){
 
 		registries.lasers[i].draw(viewPoint);
 	
@@ -56,19 +57,15 @@ var drawStatsBoard = function(dT){
 	ctx.textBaseline = "top";
 	ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 					lineHeight, ++i*lineHeight);
 	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	// ctx.fillText("Player 1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
-	// ctx.fillText("Player 1 Kill Count: " + player1.stats.killCount,	lineHeight, ++i*lineHeight);
-	// ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+	ctx.fillText("player1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("player1 Kill Count: "	+ player1.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
 	ctx.fillText("player2 Lives: " 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
 	ctx.fillText("player2 Kill Count: " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
-
 	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-
 	ctx.fillText("comp1 Lives: " 		+ comp1.stats.lives, 		lineHeight, ++i*lineHeight);
 	ctx.fillText("comp1 Kill Count: " 	+ comp1.stats.killCount,	lineHeight, ++i*lineHeight);
-
 	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-
 	ctx.fillText("comp2 Lives: " 		+ comp2.stats.lives, 		lineHeight, ++i*lineHeight);
 	ctx.fillText("comp2 Kill Count: " 	+ comp2.stats.killCount,	lineHeight, ++i*lineHeight);
 

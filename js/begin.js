@@ -1,7 +1,8 @@
+'use strict';
 // Let's play this game!
 
 
-// player1.init();
+player1.init();
 player2.init();
 
 comp1.init();

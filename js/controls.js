@@ -1,3 +1,4 @@
+'use strict';
 // Handle keyboard controls
 var keysDown = {};
 

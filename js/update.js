@@ -1,5 +1,4 @@
-
-"use strict";
+'use strict';;
 
 // Update game objects
 var update = function (dT) {

@@ -1,3 +1,4 @@
+'use strict';
 // The main game loop
 var main = function () {
 	var now = Date.now();

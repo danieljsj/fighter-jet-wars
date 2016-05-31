@@ -1,3 +1,4 @@
+'use strict';
 //== Entity > Flyer > Plane > 
 //======================== C O M P U T E R ========================//
 
@@ -56,8 +57,8 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 
 	var target = this.thoughts.target;
 
-	offset = this.thoughts.targetAngularOffset = angularOffsetFromMeToOb( this, target );
-	distance = this.thoughts.targetDistance = distBtwObs(this, target);
+	var offset = this.thoughts.targetAngularOffset = angularOffsetFromMeToOb( this, target );
+	var distance = this.thoughts.targetDistance = distBtwObs(this, target);
 // distBtwObs
 	
 	// Afterburner

@@ -1,5 +1,4 @@
-
-"use strict";
+'use strict';
 
 var nullFunc = function(){return null;}
 
