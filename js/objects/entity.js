@@ -40,9 +40,9 @@ function Entity(){
 				opacity: iconOpacity
 			});
 			var that=this;
-			setTimeout(function(){
+			setTimeout(function(){ // eventually I'd have some better async stuff making these settimeouts not needed
 				that.marker.addTo(lMap);
-			},0);
+			},7000);
 		}
 
 	});
