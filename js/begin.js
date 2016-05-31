@@ -11,6 +11,5 @@ comp2.init();
 
 var then = Date.now();
 
-// setInterval(main, 1); // Execute as fast as possible
 
-setInterval(main, 1); // Execute as fast as possible
+setInterval(main, 1000/60); // no need to go faster than 60 hz
