@@ -214,6 +214,24 @@ Flyer.prototype.sense = function(){
 
 	}
 
+	/////// WHAT THE HECK... COMPS ARE FALLING OUT OF THE ENTITIES REGISTRY... .... .... so we do this as a fix:
+	for ( var i=0; i<registries.comps.length; i++){
+
+		if ( ! (registries.comps[i] === this)  ){
+
+			if ( pointsTouchingThing(points, registries.comps[i]) ) {
+
+				registries.comps[i]	.collide( this );
+				this					.collide( registries.comps[i] );
+				// debugger;
+				return;
+
+			}
+
+		}
+
+	}
+
 }
 
 

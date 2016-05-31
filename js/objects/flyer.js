@@ -34,7 +34,7 @@ Flyer.prototype.move = function(amt, distanceSpecified){
 	}
 	this.stats.rangeLeft -= dist;
 
-	if ( (this.stats.rangeLeft < 0) ) {
+	if ( this instanceof Laser && (this.stats.rangeLeft < 0) ) {
 		this.remove();
 	}
 };
