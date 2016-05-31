@@ -46,12 +46,28 @@
 			<div id="mapid" style="position:absolute; top:0;left:0; width:100vw; height:100vh; z-index:-1;"></div>
 			<script>
 				var lMap;
-				var homeLat = 44.8847554, homeLng = -93.2222846;
-				window.onload = function(){
-					var lat = homeLat,lng = homeLng;
+				var homeLat;
+				var homeLng;
+
+				if ("geolocation" in navigator) {
+				  	/* geolocation is available */
+					navigator.geolocation.getCurrentPosition(function(position) {
+					  homeLat = position.coords.latitude; 
+					  homeLng = position.coords.longitude;
+					  startMap()
+					});
+				} else {
+				  	/* geolocation IS NOT available */
+					homeLat = 44.8847554; homeLng = -93.2222846;
+					startMap();
+				}
+
+				function startMap(){
+
 
 					lMap = L.map('mapid').setView([homeLat, homeLng], 13);
-					console.log("view set. ");
+					
+					L.marker([homeLat, homeLng], {icon: L.icon({iconUrl: 'http://www.iconarchive.com/download/i85581/graphicloads/100-flat/home.ico', iconSize:[12,12]}) }).addTo(lMap);
 
 					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 					    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
