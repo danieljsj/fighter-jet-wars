@@ -205,6 +205,7 @@ Flyer.prototype.sense = function(){
 
 				registries.entities[i]	.collide( this );
 				this					.collide( registries.entities[i] );
+				// debugger;
 				return;
 
 			}
