@@ -67,5 +67,7 @@ Laser.prototype.constructor = Laser; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
 Laser.prototype.collide = function(otherObject){
-	this.shooter.stats.killCount++;
+	if ( otherObject instanceof Plane ) {
+		this.shooter.stats.killCount++;
+	}
 };

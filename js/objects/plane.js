@@ -128,10 +128,11 @@ Plane.prototype.communicate = function(){ // Eventually, these could be bundled 
 
 Plane.prototype.collide = function(otherObject){
 	this.stats.lives -= 1;
-	this.stats.dead = true;
-	this.stats.respawnTimeLeft = this.atts.respawnTime;
-	this.stats.respawnReady = false;
+	// this.stats.dead = true;
+	// this.stats.respawnTimeLeft = this.atts.respawnTime;
+	// this.stats.respawnReady = false;
 
+	this.spawn();
 
 };
 
@@ -150,21 +151,21 @@ Plane.prototype.refresh = function(dT){
 	}
 
 
-	// Respawn
-	if ( (this.stats.respawnTimeLeft > 0) && (true === this.stats.dead) ){
+	// // Respawn
+	// if ( (this.stats.respawnTimeLeft > 0) && (true === this.stats.dead) ){
 
-		this.stats.respawnTimeLeft -= dT;
+	// 	this.stats.respawnTimeLeft -= dT;
 
-	} else {
+	// } else {
 
-		this.stats.respawnReady = true;
+	// 	this.stats.respawnReady = true;
 
-	}
+	// }
 
-	if ( (true === this.stats.dead) && (true === this.stats.respawnReady) ){
+	// if ( (true === this.stats.dead) && (true === this.stats.respawnReady) ){
 
-		this.spawn();
-	}
+	// 	this.spawn();
+	// }
 
 };
 

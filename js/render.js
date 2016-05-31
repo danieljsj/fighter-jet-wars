@@ -59,8 +59,19 @@ var drawStatsBoard = function(dT){
 	// ctx.fillText("Player 1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
 	// ctx.fillText("Player 1 Kill Count: " + player1.stats.killCount,	lineHeight, ++i*lineHeight);
 	// ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("Player 2 Lives: " 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("Player 2 Kill Count: " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText("player2 Lives: " 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("player2 Kill Count: " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+
+	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+
+	ctx.fillText("comp1 Lives: " 		+ comp1.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("comp1 Kill Count: " 	+ comp1.stats.killCount,	lineHeight, ++i*lineHeight);
+
+	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
+
+	ctx.fillText("comp2 Lives: " 		+ comp2.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("comp2 Kill Count: " 	+ comp2.stats.killCount,	lineHeight, ++i*lineHeight);
+
 
 	// ctx.fillText("Comp 1 Direction: " 		+ comp1.p.direction, 		lineHeight, ++i*lineHeight);
 	// ctx.fillText("Comp 1 Target Offset: " 		+ comp1.thoughts.targetAngularOffset, 		lineHeight, ++i*lineHeight);

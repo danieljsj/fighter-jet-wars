@@ -21,7 +21,7 @@ var update = function (dT) {
 			registries.planes[i].move(dT);
 			registries.planes[i].accelerate(dT);
 			registries.planes[i].communicate();
-			registries.planes[i].sense();
+			// registries.planes[i].sense(); // just let lasers do the sensing for now. this will mean no crashes.
 
 		}
 		// always
