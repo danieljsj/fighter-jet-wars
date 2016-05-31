@@ -17,6 +17,12 @@ function Laser(shooter) {
 		width:32,
 	}
 
+	this.shadowIcon = {
+		src:'images/laser-shadow.png',
+		height:52,
+		width:52,
+	}
+
 	this.body = {
 		width:32,
 		height:16,

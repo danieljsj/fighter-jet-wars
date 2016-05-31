@@ -6,6 +6,12 @@ function Player() {
 	// Superclass stuff builds this
 	Plane.apply(this);  // THIS IS SO YOU GET X AND Y GENERATED NOW AND INDEPENDENTLY.
 	
+	this.shadowIcon = {
+		src:'images/plane-friendly-shadow.png',
+		height:52,
+		width:52,
+	}
+
 	this.inits.push({
 		handle: 'register',
 		order: 200,

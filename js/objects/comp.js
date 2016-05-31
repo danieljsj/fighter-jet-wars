@@ -8,6 +8,12 @@ function Comp() {
 	
 	this.thoughts = {};
 
+	this.shadowIcon = {
+		src:'images/plane-mean-shadow.png',
+		height:52,
+		width:52,
+	}
+
 	this.inits.push({
 		handle: 'register',
 		order: 200,

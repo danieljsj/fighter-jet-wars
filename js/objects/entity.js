@@ -25,15 +25,19 @@ function Entity(){
 
 	});
 
+	var shadowSizeModifier 	= 0.1;
+	var iconOpacity 		= 0.8;
+
 	this.inits.push({
-		handle: 'giveMarker',
+		handle: 'giveShadowMarker',
 		order: 101,
 		func: function(){
 			this.marker = new L.marker([44.9120038,-93.2663044], {
 				icon: new L.icon({
-					iconUrl: this.image.src,
-					iconSize: [5,5]
-				})
+					iconUrl: this.shadowIcon.src,
+					iconSize: [this.shadowIcon.width * shadowSizeModifier, this.shadowIcon.height * shadowSizeModifier]
+				}),
+				opacity: iconOpacity
 			});
 			var that=this;
 			setTimeout(function(){
