@@ -25,8 +25,8 @@ function Entity(){
 
 	});
 
-	var shadowSizeModifier 	= 0.1;
-	var iconOpacity 		= 0.8;
+	var shadowSizeModifier 	= 0.15;
+	var iconOpacity 		= 0.6;
 
 	this.inits.push({
 		handle: 'giveShadowMarker',

@@ -33,7 +33,7 @@ function Laser(shooter) {
 		baseAccel  	: 0, 	// afterburnerAccel in pixels per second
 		baseDrag	: 0.8, 	// base coefficient of loss of velocity per second
 		launchSpeed	: 700, 	// launch speed in pixels per ssecond
-		range		: 10000 // in px
+		range		: 4356 // in px
 	}
 
 

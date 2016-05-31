@@ -82,7 +82,7 @@ Comp.prototype.control = function(){  // Eventually, these could be bundled into
 		(
 			(Math.PI/8) > Math.abs(offset) 
 		) && (
-			distance < 10000 // should be same as laser range. may change depending on weapons.
+			distance < 4356 // should be same as laser range. may change depending on weapons.
 		)
 
 	) {
