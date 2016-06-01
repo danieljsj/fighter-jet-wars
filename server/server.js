@@ -51,7 +51,8 @@ setInterval(function(){
 
 	if (p1.controls){
 		p1.p.x += dT * (p1.controls.turningRight - p1.controls.turningLeft);
-		p1.p.y += dT * (p1.controls.decelerating - p1.controls.accellerating);
+		p1.p.y += dT * (p1.controls.braking - p1.controls.accellerating); // needs some renames here...
+		console.log(p1.p);
 		p1Ref.child('p').set(p1.p);
 	}
 
