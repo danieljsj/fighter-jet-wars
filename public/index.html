@@ -18,6 +18,10 @@
     storageBucket: "fighter-jets.appspot.com",
   };
   firebase.initializeApp(config);
+  // old "rules": {
+  //   ".read": "auth != null",
+  //   ".write": "auth != null"
+  // }
 </script>
 
 
@@ -30,12 +34,13 @@
 var p1Ref = firebase.database().ref("players/1")
 
 p1Ref.on('value', function(snapshot){
+	// console.log(snapshot.val());
 	//SOON:
 	// tickX = snapshot.p.x;
 	// tickY = snapshot.p.y;
 	//TEMP:
-	tickX = tickX + snapshot.controls.turningRight - snapshot.controls.turningLeft;
-	tickY = tickY - snapshot.controls.accellerating + snapshot.controls.braking;
+	tickX = tickX + snapshot.val().controls.turningRight - snapshot.val().controls.turningLeft;
+	tickY = tickY - snapshot.val().controls.accellerating + snapshot.val().controls.braking;
 });
 
 </script>
