@@ -7,10 +7,11 @@ var firebase = require('firebase');
 // console.log("|||");
 
 var firebaseConfig = {
-// apiKey: "AIzaSyB0wRqUQWX0nfOl7TC8ydGgs0MGXnLJ_9Y", // no good on server
-// authDomain: "fighter-jets.firebaseapp.com", // not relevant
-databaseURL: "https://fighter-jets.firebaseio.com",
-// storageBucket: "fighter-jets.appspot.com", // not relevant
+	// apiKey: "AIzaSyB0wRqUQWX0nfOl7TC8ydGgs0MGXnLJ_9Y", // no good on server
+	// authDomain: "fighter-jets.firebaseapp.com", // not relevant
+	databaseURL: "https://fighter-jets.firebaseio.com",
+	// storageBucket: "fighter-jets.appspot.com", // not relevant
+	serviceAccount: "server/auth-config.json"
 };
 
 /*var app = */firebase.initializeApp(firebaseConfig);
@@ -37,8 +38,10 @@ setInterval(function(){
 	var dT = newTime - time;
 	time = newTime;
 
-	p1.p.x += dT * (p1.controls.turningRight - p1.controls.turningLeft);
-	p1.p.y += dT * (p1.controls.decelerating - p1.controls.accellerating);
-	p1Ref.child('p').set(p1.p);
+	if (p1.controls){
+		p1.p.x += dT * (p1.controls.turningRight - p1.controls.turningLeft);
+		p1.p.y += dT * (p1.controls.decelerating - p1.controls.accellerating);
+		p1Ref.child('p').set(p1.p);
+	}
 
 },1);
