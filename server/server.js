@@ -10,7 +10,7 @@ var firebaseConfig = {
 
 	
 	// SHOULD BE GOOD:
-	serviceAccount: "server/auth-config-default.json",
+	serviceAccount: "server/config/auth-config-default.json",
 	databaseURL: "https://fighter-jets.firebaseio.com",
 	
 	// MIGHT ALSO WORK:
