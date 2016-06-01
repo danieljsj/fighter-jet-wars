@@ -7,11 +7,22 @@ var firebase = require('firebase');
 // console.log("|||");
 
 var firebaseConfig = {
+
+	
+	// SHOULD BE GOOD:
+	serviceAccount: "server/auth-config-default.json",
+	databaseURL: "https://fighter-jets.firebaseio.com",
+	
+	// MIGHT ALSO WORK:
+	// projectId: "fighter-jets",
+ 	// clientEmail: "game-server-0@fighter-jets.iam.gserviceaccount.com",
+ 	// privateKey: "-----BEGIN PRIVATE KEY-----lalalalal\n-----END PRIVATE KEY-----\n",
+	
+
+	// NOT NEEDED:
 	// apiKey: "AIzaSyB0wRqUQWX0nfOl7TC8ydGgs0MGXnLJ_9Y", // no good on server
 	// authDomain: "fighter-jets.firebaseapp.com", // not relevant
-	databaseURL: "https://fighter-jets.firebaseio.com",
 	// storageBucket: "fighter-jets.appspot.com", // not relevant
-	serviceAccount: "server/auth-config.json"
 };
 
 /*var app = */firebase.initializeApp(firebaseConfig);
