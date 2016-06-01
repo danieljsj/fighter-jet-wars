@@ -1,3 +1,7 @@
+// TODOS OF INTEREST:
+// "lead"; figure out in general how far behind the server (not firebase) time, and render everything at where it theoretically is on the server. (whoah... wait... does that work? show me the current state? or better yet - show me a predicted future state -- a state as far ahead of the server's reality as my commands are from reaching the server. which will mean some jumpiness... not too fancy; each plane's draw() function would project it ahead by a dT.)
+// rebuild the whole thing without firebase, with only websockets (hosting costs?!)
+
 var firebase = require('firebase');
 
 // console.log("|||");
