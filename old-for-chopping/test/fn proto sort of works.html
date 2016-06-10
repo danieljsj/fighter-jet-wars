@@ -1,0 +1,20 @@
+<script type="text/javascript">
+
+	function Flyer(){
+		this.speed = 20;
+	}
+
+	var myFlyer = new Flyer();
+
+	console.log(myFlyer);
+
+	function Plane(){
+		this.prototype = new Flyer();
+		this.health = 100;
+	}
+
+	var myPlane = new Plane();
+
+	console.log(myPlane); // IT WORKS! It logs a thing with both sets of properties.
+
+</script>
