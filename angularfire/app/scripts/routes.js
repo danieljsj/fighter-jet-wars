@@ -74,6 +74,10 @@ angular.module('angularfireApp')
         templateUrl: 'views/account.html',
         controller: 'AccountCtrl'
       })
+      .when('/singleUnit', {
+        templateUrl: 'views/singleunit.html',
+        controller: 'SingleunitCtrl'
+      })
       .otherwise({redirectTo: '/'});
   }])
 
