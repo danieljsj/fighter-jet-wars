@@ -49,14 +49,25 @@
 				var lMap;
 				var homeLat;
 				var homeLng;
+				var fallbackHomeLat = 44.9374744;
+				var fallbackHomeLng = -93.0862457;
 
 				if ("geolocation" in navigator) {
 				  	/* geolocation is available */
-					navigator.geolocation.getCurrentPosition(function(position) {
-					  homeLat = position.coords.latitude; 
-					  homeLng = position.coords.longitude;
-					  startMap()
-					});
+					navigator.geolocation.getCurrentPosition(
+						// TODO: make the whole app start once location is found
+						function(position) {
+						  homeLat = position.coords.latitude; 
+						  homeLng = position.coords.longitude;
+						  startMap();
+						},
+						function error(err) {
+						  console.warn('getCurrentPosition ERROR(' + err.code + '): ' + err.message);
+						  homeLat = fallbackHomeLat; 
+						  homeLng = fallbackHomeLng;
+						  startMap();
+						}
+					);
 				} else {
 				  	/* geolocation IS NOT available */
 					homeLat = 44.8847554; homeLng = -93.2222846;
