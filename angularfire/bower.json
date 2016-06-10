@@ -19,5 +19,8 @@
     "angular-mocks": "^1.3.0"
   },
   "appPath": "app",
-  "moduleName": "angularfireApp"
+  "moduleName": "angularfireApp",
+  "resolutions": {
+    "angular": "1.5.6"
+  }
 }
