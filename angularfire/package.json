@@ -1,7 +1,9 @@
 {
   "name": "angularfire",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "firebase-token-generator": "^2.0.0"
+  },
   "repository": {},
   "devDependencies": {
     "chalk": "^0.4.0",
