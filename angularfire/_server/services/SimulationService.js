@@ -1,16 +1,33 @@
-// var WorldDataService = require('WorldDataService');
+var UnitsDataService = require('UnitsDataService');
 
 
 module.exports.simulate = simulate;
 
+
 function simulate(ref) {
 
-  
+	var units = UnitsDataService.getAll();
+
+	units.forEach(function(unit){ 	unit.control(); 	});
+	units.forEach(function(unit){ 	unit.accelerate(); 	});
+	units.forEach(function(unit){ 	unit.move(); 		});
+	units.forEach(function(unit){ 	unit.sense(); 		});
+
 	var p1Ref = ref.child("players/1");
 
 	var p1 = {
-		controls: 	{turningRight:false,turningLeft:false,accellerating:false,braking:false},
-		p: 			{x:0,y:0,direction:0,speed:0},
+		controls: {
+			turningRight:false,
+			turningLeft:false,
+			accellerating:false,
+			braking:false
+		},
+		p: {
+			x:0,
+			y:0,
+			direction:0,
+			speed:0
+		},
 	};
 
 	p1Ref.on('value', function(p1Snapshot){
