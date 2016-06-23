@@ -42,13 +42,13 @@ ref.authWithCustomToken(token, function(error, authData) {
 	setInterval(function(){
 
 		var newTime = new Date().getTime();
-		var dT = newTime - lastTime;
+		var dT = (newTime - lastTime) / 1000;
 		lastTime = newTime;
 
 		if (p1.p && p1.controls){
 			p1.p.direction += dT * (p1.controls.turningRight - p1.controls.turningLeft);
 			p1.p.speed += dT * (p1.controls.accellerating - p1.controls.braking); // needs some renames here...
-
+			console.log('dT',dT);
 			p1.p.x += Math.cos(p1.p.direction) * p1.p.speed * dT;
 			p1.p.y += Math.sin(p1.p.direction) * p1.p.speed * dT;
 
