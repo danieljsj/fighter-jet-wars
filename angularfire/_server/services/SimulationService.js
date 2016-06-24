@@ -1,4 +1,4 @@
-// var WorldDataService = require('WorldDataService');
+var UnitsDataService = require('UnitsDataService');
 
 var GameDataService = require('./GameDataService');
 var GameParamsService = require('./GameParamsService');
@@ -48,5 +48,4 @@ function gameTick(){
 	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
 			flyer.sense(); // THOUGHT: For this I'll eventually want to do crazy chunking so you're only sensing against people near you, and not against planes in russia... but I've already got the code working for this so I'll start with this.
 	});});
-	
 }
