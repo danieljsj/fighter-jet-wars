@@ -1,7 +1,7 @@
 'use strict';
 
-var p = require('./components/common/p');
-var controls = require('./components/common/controls');
+var p = require('./components/nulls/p');
+var controls = require('./components/nulls/controls');
 
 
 class Fighter {
