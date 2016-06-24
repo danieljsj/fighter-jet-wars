@@ -1,9 +1,11 @@
 'use strict';
 
-module.exports = {
-	initThen: initThen,
-	getRef: getRef,
-}
+var Firebase = require('firebase');
+var FirebaseTokenGenerator = require("firebase-token-generator");
+
+
+//////////
+
 
 var ref = false;
 
@@ -11,9 +13,6 @@ function initThen(cb){
 
 	if (ref) return cb();
 
-	var Firebase = require('firebase');
-
-	var FirebaseTokenGenerator = require("firebase-token-generator");
 	var fbSecret = 'M6mwQVaUkf0wrVd0I0aQIvM5QS1TW5Z2hbNguWol';
 	var tokenGenerator = new FirebaseTokenGenerator(fbSecret);
 	var token = tokenGenerator.createToken(
@@ -23,7 +22,8 @@ function initThen(cb){
 	ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
 
 	ref.authWithCustomToken(token, function(error, authData) {
-	    console.log(error,authData);
+	    console.log("|||||| error |||||| ",error);
+		console.log("|||||| authData |||||| ", authData);
 	    cb(ref); // seems a little wierd...
 	});
 
@@ -31,4 +31,12 @@ function initThen(cb){
 
 function getRef(){
 	return ref;
+}
+
+
+/////////
+
+module.exports = {
+	initThen: initThen,
+	getRef: getRef,
 }
