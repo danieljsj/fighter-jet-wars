@@ -14,20 +14,40 @@ function sendUpdate() {
 
 	// console.log("JK not sending update; disabled."); return;
 
+	publishEntitiesData();
+	publishPlayersData();
+
+}
+
+function publishEntitiesData() {
 	var redactedEntities = {};
 	gD.entities.forEach(function(entity){
-		console.log(entity);
-		redactedEntities[entity.$id] = {
+		redactedEntities[entity.id] = {
 			entityTypeName: entity.entityTypeName,
 			p: entity.p,
-			player: entity.player.$id,
+			player: entity.player.id,
 		};
 	});
-
-	console.log('redactedEntities:', redactedEntities);
-
+	// console.log('redactedEntities:', redactedEntities);
 	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
 		if (err) throw err;
-		console.log('SENT A PILE OF DATA');
-	}); // set rewrites whole node, whereas update just changes vals.
+		console.log('set/sent redactedEntities');
+	});
+}
+
+
+function publishPlayersData() {
+	var redactedPlayers = {};
+	gD.players.forEach(function(player){
+		console.log(player);
+		redactedPlayers[player.id] = {
+			id: player.id,
+			userId: (player.user ? player.user.id : false )
+		};
+	});
+	// console.log('redactedPlayers:', redactedPlayers);
+	FirebaseRefService.getRef().child('players').set(redactedPlayers, function(err){
+		if (err) throw err;
+		console.log('set/sent redactedPlayers');
+	});
 }

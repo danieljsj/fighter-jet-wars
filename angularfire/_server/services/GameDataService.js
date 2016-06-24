@@ -44,7 +44,7 @@ function listenToFbUserAdds(){
 		
 	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
 
-	ref.child('users').limitToFirst(1).on('child_added', function(ss, prevChildId){
+	ref.child('users').on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
 			name: ss.val().name,
 			id: ss.key()
@@ -64,8 +64,8 @@ function addPlayer(params){
 
 	var playerRef = ref.child('players').push(); // node-client generates the key syncly.
 	var player = {
-		$id: playerRef.key(),
-		user: false,
+		id: playerRef.key(),
+		user: params.user,
 	};
 	gD.players.push(player);
 
@@ -88,8 +88,8 @@ function createEntitiesForPlayer(entityQuantities, player){
 			var entityRef = ref.child('entities').push();
 
 			var entity = new playerEntityTypeConstructors[entityTypeName]({
-				$id: entityRef.key(),
-				$ref: entityRef,
+				id: entityRef.key(),
+				fbRef: entityRef,
 				player: player,
 			});
 

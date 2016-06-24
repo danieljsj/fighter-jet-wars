@@ -9,8 +9,8 @@ class Blimp {
 	constructor(params){
 		this.entityTypeName = 'blimp';
 
-		this.$ref = params.$ref;
-		this.$id = params.$id;
+		this.fbRef = params.fbRef;
+		this.id = params.id;
 		this.player = params.player || false;
 		
 		// null-starts:
