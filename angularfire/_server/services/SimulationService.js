@@ -36,7 +36,7 @@ function gameTick(){
 
 	var flyers2dArr = GameDataService.getFlyers2dArr();
 
-	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
+	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){ // this is just too dang annoying. I need to break it down by allEntities and entitiesByType so I don't have to do this crazy 2dArr stuff.
 			flyer.control();
 	});});
 	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){

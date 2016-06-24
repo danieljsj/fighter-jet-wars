@@ -8,6 +8,7 @@ var fighterAi = require()
 class Fighter {
 
 	constructor(player){
+		this.entityTypeName = 'fighter';
 		this.p = p;
 		this.player = player;
 		this.id = 1; // TODO: Get this entity id from firebase!

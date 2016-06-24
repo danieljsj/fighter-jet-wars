@@ -19,6 +19,7 @@ module.exports = {
 var data = {
 	users: [],
 	players: [],
+	entities: [],
 	entitiesByType: {
 		fighters: []
 	},
@@ -67,14 +68,15 @@ function _addComputerPlayer(){
 
 
 function _createEntitiesForPlayer(entityQuantities, player){
-	var playerEntityConstructors = { // note; some entities cannot be spawned directly for players, but must be spawned for fighters, etc. (i.e. lasers, missiles) ... however, I don't yet want to divide things out into Units, Projectiles, because in case of Missiles, you may want to control them directly, so for now I'm keeping it flat in Models.
+	var playerEntityTypeConstructors = { // note; some entities cannot be spawned directly for players, but must be spawned for fighters, etc. (i.e. lasers, missiles) ... however, I don't yet want to divide things out into Units, Projectiles, because in case of Missiles, you may want to control them directly, so for now I'm keeping it flat in Models.
 		'fighter': Fighter,
 		'blimp': Blimp, // COMING SOON!
 	};
 	for (var entityTypeName in entityQuantities){
 		for (var i = 0; i < entityQuantities[entityTypeName]; i++) {
-			var entity = new playerEntityConstructors[entityTypeName]({player: player});
-			data.entitiesByType[].push(entity);
+			var entity = new playerEntityTypeConstructors[entityTypeName]({player: player});
+			data.entities.push(entity);
+			data.entitiesByType[entityTypeName].push(entity);
 		}
 	}
 }
@@ -82,15 +84,14 @@ function _createEntitiesForPlayer(entityQuantities, player){
 
 
 
-function getFlyers2dArr(){ // went with a 2dArr because I'd think it takes less cpuwork than Concatting everything into a flat array.
-	var flyerTypeNames = [
+function getFlyers(){ // went with a 2dArr because I'd think it takes less cpuwork than Concatting everything into a flat array.
+	return filterEntitiesToFlyers(data.entities);
+}
+function filterEntitiesToFlyers(entities){
+	var flyerEntityTypeNames = [
 		'fighter',
 		'blimp',
 		'laser',
 	];
-	var flyers2dArr = [];
-	for (flyerTypeName in flyerTypeNames){
-		flyers2dArr.push(data.entities[flyerTypeName]);
-	}
-	return flyers2dArr;
+	return entities.filter(function(entity){ return -1 < flyerEntityTypeNames.indexOf(entity.entityTypeName); });	
 }
