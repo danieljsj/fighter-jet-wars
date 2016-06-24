@@ -1,3 +1,5 @@
+'use strict';
+
 var FirebaseRefService = require('./FirebaseRefService');
 var gD = require('./GameDataService').data;
 
@@ -5,7 +7,7 @@ module.exports = {
 	sendUpdate: sendUpdate,
 }
 
-function sendUpdate {
+function sendUpdate() {
 	var redactedEntities = {};
 	gD.entities.forEach(function(entity){
 		redactedEntities[entity.$id] = {

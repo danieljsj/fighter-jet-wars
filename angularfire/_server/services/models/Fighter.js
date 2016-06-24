@@ -1,9 +1,8 @@
-module.exports = Fighter;
+'use strict';
 
 var p = require('./components/common/p');
 var controls = require('./components/common/controls');
 
-var fighterAi = require()
 
 class Fighter {
 
@@ -43,3 +42,5 @@ class Fighter {
 	}
 
 }
+
+module.exports = Fighter;

@@ -1,5 +1,7 @@
+'use strict';
+
 var FirebaseRefService = require('./FirebaseRefService');
-var GameParamsService = require('./GameGlobalsService');
+var GameParamsService = require('./GameParamsService');
 
 var Fighter = require('./models/Fighter.js');
 var Blimp = require('./models/Blimp.js');
@@ -40,7 +42,7 @@ function listenToFbUserAdds(){
 
 	ref.child('users').on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
-			name: ss.val().name
+			name: ss.val().name,
 			id: ss.key()
 		};
 		addUserPlayer(user);

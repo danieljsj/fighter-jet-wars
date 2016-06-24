@@ -1,7 +1,7 @@
-var UnitsDataService = require('UnitsDataService');
+'use strict';
 
 var GameDataService = require('./GameDataService');
-var gD = GameParamsService.data;
+var gD = GameDataService.data;
 
 var GameParamsService = require('./GameParamsService');
 

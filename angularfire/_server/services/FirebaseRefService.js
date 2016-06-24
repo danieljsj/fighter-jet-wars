@@ -1,6 +1,8 @@
+'use strict';
+
 module.exports = {
-	initThen: initThen;
-	getRef: getRef;
+	initThen: initThen,
+	getRef: getRef,
 }
 
 var ref = false;

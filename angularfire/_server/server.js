@@ -1,3 +1,5 @@
+'use strict';
+
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
 

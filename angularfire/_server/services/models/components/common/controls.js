@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 	fore: null,
 	back: null,

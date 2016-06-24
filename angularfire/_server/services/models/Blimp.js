@@ -1,7 +1,8 @@
-module.exports = Blimp;
+'use strict';
 
-var p = require('./common/p');
-var controls = require('./common/controls');
+
+var p = require('./components/common/p');
+var controls = require('./components/common/controls');
 
 class Blimp {
 	constructor(player){
@@ -9,3 +10,6 @@ class Blimp {
 		this.player = player;
 	}
 }
+
+
+module.exports = Blimp;
