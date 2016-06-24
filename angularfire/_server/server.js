@@ -1,6 +1,7 @@
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
 
-FirebaseRefService.authThen(function(ref){
-	SimulationService.simulate(ref);
+// todo: switch to some cool async waterfall or something
+FirebaseRefService.initThen(function(){
+	SimulationService.simulate();
 });

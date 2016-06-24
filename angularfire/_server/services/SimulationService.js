@@ -1,52 +1,52 @@
 // var WorldDataService = require('WorldDataService');
 
+var GameDataService = require('./GameDataService');
+var GameParamsService = require('./GameParamsService');
 
-module.exports.simulate = simulate;
+module.exports.simulate = simulate; function simulate(ref) {
 
-function simulate(ref) {
+	GameDataService.initDataThen(startTicks);  // todo: i want a better middleware stack or something
 
-  
-	var p1Ref = ref.child("players/1");
-
-	var p1 = {
-		controls: 	{turningRight:false,turningLeft:false,accellerating:false,braking:false},
-		p: 			{x:0,y:0,direction:0,speed:0},
-	};
-
-	p1Ref.on('value', function(p1Snapshot){
-		p1.controls = p1Snapshot.val().controls;
-		p1.p = p1Snapshot.val().p;
-	});
+}
 
 
-	var lastTime = new Date().getTime();
-	var p1LastTimeJSON = JSON.stringify(p1);
-	var p1LastTime = JSON.parse(p1LastTimeJSON);
-	setInterval(function(){
+var lastTickStartTime = null;
 
-		var newTime = new Date().getTime();
-		var dT = (newTime - lastTime) / 1000;
-		lastTime = newTime;
+function watchControls(){
+	// p1Ref.on('value', function(p1Snapshot){
+	// 	p1.controls = p1Snapshot.val().controls;
+	// 	p1.p = p1Snapshot.val().p;
+	// });
+}
 
-		if (p1.p && p1.controls){
-			p1.p.direction += dT * (p1.controls.turningRight - p1.controls.turningLeft);
-			p1.p.speed += dT * (p1.controls.accellerating - p1.controls.braking); // needs some renames here...
-			console.log('dT',dT);
-			p1.p.x += Math.cos(p1.p.direction) * p1.p.speed * dT;
-			p1.p.y += Math.sin(p1.p.direction) * p1.p.speed * dT;
+function startTicks(){
+	lastTickStartTime = new Date().getTime();
+	setInterval(gameTick, GameParamsService.params.tickIntervalMs);
+}
 
-			var newJSON = JSON.stringify(p1.p);
+function getDt(){
+	var newTickStartTime = new Date().getTime();
+	var dT = (newTickStartTime - lastTickStartTime) / 1000;
+	lastTickStartTime = newTickStartTime;
+	return dT;
+}
 
-			if ( newJSON !== p1LastTimeJSON ) {
-				// console.log(newJSON + '!==' + p1LastTimeJSON);
-				console.log('sending '+ newJSON);
-				p1Ref.child('p').set(p1.p);
-				p1LastTimeJSON = newJSON;
-				p1LastTime = JSON.parse(p1LastTimeJSON);
-			}
-		}
+function gameTick(){
+	var dT = getDt();
 
-	},1);
+	var flyers2dArr = GameDataService.getFlyers2dArr();
 
-
+	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
+			flyer.control();
+	});});
+	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
+			flyer.accelerate();
+	});});
+	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
+			flyer.move();
+	});});
+	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
+			flyer.sense(); // THOUGHT: For this I'll eventually want to do crazy chunking so you're only sensing against people near you, and not against planes in russia... but I've already got the code working for this so I'll start with this.
+	});});
+	
 }

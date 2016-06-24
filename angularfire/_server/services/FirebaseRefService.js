@@ -1,7 +1,13 @@
-module.exports.authThen = authThen;
+module.exports = {
+	initThen: initThen;
+	getRef: getRef;
+}
 
+var ref = false;
 
-function authThen(cb){
+function initThen(cb){
+
+	if (ref) return cb();
 
 	var Firebase = require('firebase');
 
@@ -12,11 +18,15 @@ function authThen(cb){
 	   {uid: "my-awesome-server"}, 
 	   {expires: 3600*24*7}
 	);
-	var ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
+	ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
 
 	ref.authWithCustomToken(token, function(error, authData) {
 	    console.log(error,authData);
 	    cb(ref); // seems a little wierd...
 	});
 
+}
+
+function getRef(){
+	return ref;
 }
