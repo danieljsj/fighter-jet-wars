@@ -1,18 +1,23 @@
 var UnitsDataService = require('UnitsDataService');
 
 var GameDataService = require('./GameDataService');
-var GameParamsService = require('./GameParamsService');
 var gD = GameParamsService.data;
 
+var GameParamsService = require('./GameParamsService');
+
+var BroadcastingService = require('./BroadcastingService');
 
 
-module.exports.simulate = simulate; 
+//////////////
 
-function simulate(ref) {
+
+module.exports.start = start; 
+
+function start(ref) {
 
 	startTicks(); // ticks start first; app spins fine on empty data tree.
 	GameDataService.start(); // data streams in gracefully
-	
+
 }
 
 //////////////
@@ -41,6 +46,8 @@ function gameTick(){
 	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  	});
 	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
 	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
+
+	BroadcastingService.sendUpdate();
 }
 
 

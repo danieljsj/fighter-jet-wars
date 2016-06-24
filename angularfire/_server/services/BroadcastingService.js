@@ -2,10 +2,10 @@ var FirebaseRefService = require('./FirebaseRefService');
 var gD = require('./GameDataService').data;
 
 module.exports = {
-	send: send,
+	sendUpdate: sendUpdate,
 }
 
-function send {
+function sendUpdate {
 	var redactedEntities = {};
 	gD.entities.forEach(function(entity){
 		redactedEntities[entity.$id] = {

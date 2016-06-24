@@ -1,5 +1,6 @@
 module.exports = {
 	params: {
+		
 		fightersPerNewUserPlayer: 2,
 		fightersPerNewNonuserPlayer: 10,
 

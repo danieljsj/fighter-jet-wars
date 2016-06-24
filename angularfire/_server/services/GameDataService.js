@@ -26,28 +26,26 @@ module.exports = {
 
 function start(){
 	addComputerPlayer();
-	startReadingFBData();
+	listenToFbUserAdds();
 }
 
 
 ///////////
 
 
-function startReadingFbData(){
-	
-	// 1 Computer player. but for now we're putting it in startReadingFBData so that we know our app spins fine on an empty gDset, because that may be needed for various iterations of the game.
-	
-	
-	// 1 Human player for every registered user (regardless of whether logged in or not)
+function listenToFbUserAdds(){
+		
+	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
 	var ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
 
-	ref.child('users').on('childadded', function(ss, prevChildId){
+	ref.child('users').on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
 			name: ss.val().name
 			id: ss.key()
 		};
 		addUserPlayer(user);
 	});
+
 }
 
 
