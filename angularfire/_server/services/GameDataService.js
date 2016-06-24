@@ -15,7 +15,9 @@ var gD = {
 	players: [],
 	entities: [],
 	entitiesByType: {
-		fighters: []
+		fighter: [],
+		blimp: [],
+		laser: [],
 	},
 };
 
@@ -82,6 +84,7 @@ function createEntitiesForPlayer(entityQuantities, player){
 		'fighter': Fighter,
 		'blimp': Blimp, // COMING SOON!
 	};
+	console.log(entityQuantities, gD.entitiesByType);
 	for (var entityTypeName in entityQuantities){
 		for (var i = 0; i < entityQuantities[entityTypeName]; i++) {
 			var entity = new playerEntityTypeConstructors[entityTypeName]({player: player});
