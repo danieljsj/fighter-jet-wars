@@ -1,5 +1,7 @@
 'use strict';
 
+// NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO IF WE WANT. OR NOT. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
+
 var FirebaseRefService = require('./FirebaseRefService');
 var GameParamsService = require('./GameParamsService');
 
@@ -21,15 +23,16 @@ var gD = {
 	},
 };
 
+var ref;
 
 module.exports = {
 	data: gD,
 	start: start,
 }
 
-
 function start(){
-	addComputerPlayer();
+	ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
+	addPlayer({user:false});
 	listenToFbUserAdds();
 }
 
@@ -40,14 +43,14 @@ function start(){
 function listenToFbUserAdds(){
 		
 	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
-	var ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
 
 	ref.child('users').on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
 			name: ss.val().name,
 			id: ss.key()
 		};
-		addUserPlayer(user);
+		console.log('USER FOUND:   ',user);
+		addPlayer({user:user});
 	});
 
 }
@@ -55,25 +58,20 @@ function listenToFbUserAdds(){
 
 
 
-function addUserPlayer(user){
+function addPlayer(opts){
+	opts = opts || {};
+	opts.user = opts.user || false;
 
-	gD.users.push(user);
-
-	var player = {user: user}; // NOTE: NEED TO MAKE THIS BE A FIREBASE PUSH, SINCE WE'LL LIKELY WANT TO PUBLISH PLAYER LISTS. NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
-	gD.players.push(player);
-
-	var entityQuantities = { // might want to set this up with ability to do configs, but for now we'll stick to quantities.
-		'fighter': GameParamsService.params.fightersPerNewUserPlayer,
-	}
-	createEntitiesForPlayer(entityQuantities,player);
-}
-
-function addComputerPlayer(){
-	var player = {user: false}; // NOTE: SAME AS ABOVE.
+	var playerRef = ref.child('players').push(); // node-client generates the key syncly.
+	var player = {
+		$id: playerRef.key(),
+		user: false,
+	};
 	gD.players.push(player);
 
 	var entityQuantities = {
-		'fighter': GameParamsService.params.fightersPerNewUserPlayer,
+		'fighter': (opts.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),
+		'blimp': (opts.user ? GameParamsService.params.blimpsPerNewUserPlayer : GameParamsService.params.blimpsPerNewNonuserPlayer ),
 	}
 	createEntitiesForPlayer(entityQuantities,player);
 }
@@ -84,10 +82,13 @@ function createEntitiesForPlayer(entityQuantities, player){
 		'fighter': Fighter,
 		'blimp': Blimp, // COMING SOON!
 	};
-	console.log(entityQuantities, gD.entitiesByType);
 	for (var entityTypeName in entityQuantities){
 		for (var i = 0; i < entityQuantities[entityTypeName]; i++) {
-			var entity = new playerEntityTypeConstructors[entityTypeName]({player: player});
+			var entityRef = ref.child('entities').push();
+			var entity = new playerEntityTypeConstructors[entityTypeName]({
+				$id: entityRef.key(),
+				player: player,
+			});
 			gD.entities
 				.push(entity);
 			gD.entitiesByType[entityTypeName]

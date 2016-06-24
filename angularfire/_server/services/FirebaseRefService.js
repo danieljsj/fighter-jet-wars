@@ -22,8 +22,8 @@ function initThen(cb){
 	ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
 
 	ref.authWithCustomToken(token, function(error, authData) {
-	    console.log("|||||| error |||||| ",error);
-		console.log("|||||| authData |||||| ", authData);
+	    // console.log("|||||| error |||||| ",error);
+		// console.log("|||||| authData |||||| ", authData);
 	    cb(ref); // seems a little wierd...
 	});
 

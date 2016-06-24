@@ -37,13 +37,12 @@ function getDt(){
 }
 
 function gameTick(){
+	
 	var dT = getDt();
 
-	var flyers2dArr = GameDataService.getFlyers2dArr();
-
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
-	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  		});
-	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  	});
+	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  	});
+	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });
 	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
 	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
 
