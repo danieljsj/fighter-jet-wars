@@ -9,7 +9,9 @@ var Fighter = require('./models/Fighter.js');
 var Blimp = require('./models/Blimp.js');
 
 
+
 ///////////
+
 
 
 var gD = {
@@ -37,7 +39,9 @@ function start(){
 }
 
 
+
 ///////////
+
 
 
 function listenToFbUserAdds(){
@@ -75,6 +79,7 @@ function addPlayer(params){
 	}
 	createEntitiesForPlayer(entityQuantities,player);
 }
+
 
 
 function createEntitiesForPlayer(entityQuantities, player){
