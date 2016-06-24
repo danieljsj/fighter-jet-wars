@@ -4,19 +4,11 @@ var GameParamsService = require('./GameGlobalsService');
 var Fighter = require('./models/Fighter.js');
 var Blimp = require('./models/Blimp.js');
 
-// privates:
-// 
-// 
+
+///////////
 
 
-module.exports = {
-	data: data,
-	initDataThen: initDataThen,
-	getFlyers2dArr: getFlyers2dArr,
-}
-
-
-var data = {
+var gD = {
 	users: [],
 	players: [],
 	entities: [],
@@ -26,64 +18,66 @@ var data = {
 };
 
 
-function initDataThen(cb){
+module.exports = {
+	data: gD,
+	start: start,
+}
+
+
+function start(){
+	addComputerPlayer();
+	startReadingFBData();
+}
+
+
+///////////
+
+
+function startReadingFbData(){
 	
-	// 1 Computer player
-	data.players.push({user: false});
+	// 1 Computer player. but for now we're putting it in startReadingFBData so that we know our app spins fine on an empty gDset, because that may be needed for various iterations of the game.
+	
 	
 	// 1 Human player for every registered user (regardless of whether logged in or not)
 	var ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
 
-	var usersRef = ref.child('users');
-
-	usersRef.on('value', function(initialSnapshot){
-
-		initialUserIds = Object.keys(initialSnapshot.val());
-
-		var lastInitialUserId = initialUserIds.sort()[initialUserIds.length];
-
-		usersRef.on('child_added', function(ss, prevChildId){
-			var user = { // TODO: MAKE THIS BE A REAL MODEL...
-				name: ss.val().name
-				id: ss.key()
-			};
-			_addUserPlayer(user);
-			if (ss.key() == lastInitialUserId) {
-				cb();
-			}
-		});
+	ref.child('users').on('childadded', function(ss, prevChildId){
+		var user = { // TODO: MAKE THIS BE A REAL MODEL...
+			name: ss.val().name
+			id: ss.key()
+		};
+		addUserPlayer(user);
 	});
-
-	// DO SOME ASYNC STUFF AND THEN RUN CB WHEN ITS ALL DONE. cb()
-
 }
 
 
-function _addUserPlayer(user){
 
-	data.users.push(user);
+
+function addUserPlayer(user){
+
+	gD.users.push(user);
 
 	var player = {user: user}; // NOTE: NEED TO MAKE THIS BE A FIREBASE PUSH, SINCE WE'LL LIKELY WANT TO PUBLISH PLAYER LISTS. NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
-	data.players.push(player);
+	gD.players.push(player);
 
 	var entityQuantities = { // might want to set this up with ability to do configs, but for now we'll stick to quantities.
 		'fighter': GameParamsService.params.fightersPerNewUserPlayer,
 	}
-	_createEntitiesForPlayer(entityQuantities,player);
+	createEntitiesForPlayer(entityQuantities,player);
 }
 
-function _addComputerPlayer(){
+function addComputerPlayer(){
 	var player = {user: false}; // NOTE: SAME AS ABOVE.
-	data.players.push(player);
+	gD.players.push(player);
 
 	var entityQuantities = {
 		'fighter': GameParamsService.params.fightersPerNewUserPlayer,
 	}
-	_createEntitiesForPlayer(entityQuantities,player);
+	createEntitiesForPlayer(entityQuantities,player);
 }
 
 
-function _createEntitiesForPlayer(entityQuantities, player){
+function createEntitiesForPlayer(entityQuantities, player){
 	var playerEntityTypeConstructors = { // note; some entities cannot be spawned directly for players, but must be spawned for fighters, etc. (i.e. lasers, missiles) ... however, I don't yet want to divide things out into Units, Projectiles, because in case of Missiles, you may want to control them directly, so for now I'm keeping it flat in Models.
 		'fighter': Fighter,
 		'blimp': Blimp, // COMING SOON!
@@ -91,23 +85,10 @@ function _createEntitiesForPlayer(entityQuantities, player){
 	for (var entityTypeName in entityQuantities){
 		for (var i = 0; i < entityQuantities[entityTypeName]; i++) {
 			var entity = new playerEntityTypeConstructors[entityTypeName]({player: player});
-			data.entities.push(entity);
-			data.entitiesByType[entityTypeName].push(entity);
+			gD.entities
+				.push(entity);
+			gD.entitiesByType[entityTypeName]
+				.push(entity);
 		}
 	}
 }
-
-
-
-// I DON'T THINK WE NEED ANY OF THIS.
-// function getFlyers(){ // went with a 2dArr because I'd think it takes less cpuwork than Concatting everything into a flat array.
-// 	return filterEntitiesToFlyers(data.entities);
-// }
-// function filterEntitiesToFlyers(entities){ // rather than making these filtered lists, might be faster to do some object inheritance, or injection, and give things an isFlyer() function... OR just run our entity type checks right there in the code. OR use flexible duck typing; if it has move, let it move();
-// 	var flyerEntityTypeNames = [
-// 		'fighter',
-// 		'blimp',
-// 		'laser',
-// 	];
-// 	return entities.filter(function(entity){ return -1 < flyerEntityTypeNames.indexOf(entity.entityTypeName); });	
-// }
