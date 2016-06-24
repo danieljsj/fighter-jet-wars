@@ -17,7 +17,7 @@ function initThen(cb){
 	var tokenGenerator = new FirebaseTokenGenerator(fbSecret);
 	var token = tokenGenerator.createToken(
 	   {uid: "my-awesome-server"}, 
-	   {expires: 3600*24*7}
+	   {expires: (new Date).getTime() + 3600*24*7}
 	);
 	ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
 
