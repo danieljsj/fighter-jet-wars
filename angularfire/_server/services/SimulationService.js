@@ -2,6 +2,7 @@ var UnitsDataService = require('UnitsDataService');
 
 var GameDataService = require('./GameDataService');
 var GameParamsService = require('./GameParamsService');
+var gD = GameParamsService.data;
 
 module.exports.simulate = simulate; function simulate(ref) {
 
@@ -12,7 +13,7 @@ module.exports.simulate = simulate; function simulate(ref) {
 
 var lastTickStartTime = null;
 
-function watchControls(){
+function watchControls(){ // THIS WILL GO INTO USERS OR MAYBE PLAYERS. OOOOH RIGHT. WE WANT THEM TO BE ABLE TO HAVE MULTIPLE WINDOWS OPEN SO THEY CAN SEE MULTIPLE PLANES FIGHTING! "ENTER" KEY TO TOGGLE AI. WHEN CONTROLLING, ARROWS SWITCH WEAPONS; WHEN AI, ARROWS SWITCH SCRIPTS, WSAD SWITCHES TARGETS OR SOMETHING. BUT THAT'S TREATS FOR ANOTHER DAY. I CAN SAFELY ASSUME ONE USER ONE WINDOW FOR NOW... JUST KEEPING THE SHENANIGANS IN MIND!
 	// p1Ref.on('value', function(p1Snapshot){
 	// 	p1.controls = p1Snapshot.val().controls;
 	// 	p1.p = p1Snapshot.val().p;
@@ -36,16 +37,9 @@ function gameTick(){
 
 	var flyers2dArr = GameDataService.getFlyers2dArr();
 
-	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){ // this is just too dang annoying. I need to break it down by allEntities and entitiesByType so I don't have to do this crazy 2dArr stuff.
-			flyer.control();
-	});});
-	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
-			flyer.accelerate();
-	});});
-	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
-			flyer.move();
-	});});
-	flyers2dArr.forEach(function(fArr){fArr.forEach(function(flyer){
-			flyer.sense(); // THOUGHT: For this I'll eventually want to do crazy chunking so you're only sensing against people near you, and not against planes in russia... but I've already got the code working for this so I'll start with this.
-	});});
+	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
+	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  		});
+	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  	});
+	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
+	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
 }

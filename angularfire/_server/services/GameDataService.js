@@ -33,8 +33,25 @@ function initDataThen(cb){
 	
 	// 1 Human player for every registered user (regardless of whether logged in or not)
 	var ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
-	ref.child('users').on('child_added', function(ss){
-		_addUserPlayer(ss.val());
+
+	var usersRef = ref.child('users');
+
+	usersRef.on('value', function(initialSnapshot){
+
+		initialUserIds = Object.keys(initialSnapshot.val());
+
+		var lastInitialUserId = initialUserIds.sort()[initialUserIds.length];
+
+		usersRef.on('child_added', function(ss, prevChildId){
+			var user = { // TODO: MAKE THIS BE A REAL MODEL...
+				name: ss.val().name
+				id: ss.key()
+			};
+			_addUserPlayer(user);
+			if (ss.key() == lastInitialUserId) {
+				cb();
+			}
+		});
 	});
 
 	// DO SOME ASYNC STUFF AND THEN RUN CB WHEN ITS ALL DONE. cb()
@@ -42,9 +59,8 @@ function initDataThen(cb){
 }
 
 
-function _addUserPlayer(userSsVal){
+function _addUserPlayer(user){
 
-	var user = {name: userSsVal.name};
 	data.users.push(user);
 
 	var player = {user: user}; // NOTE: NEED TO MAKE THIS BE A FIREBASE PUSH, SINCE WE'LL LIKELY WANT TO PUBLISH PLAYER LISTS. NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
@@ -83,15 +99,15 @@ function _createEntitiesForPlayer(entityQuantities, player){
 
 
 
-
-function getFlyers(){ // went with a 2dArr because I'd think it takes less cpuwork than Concatting everything into a flat array.
-	return filterEntitiesToFlyers(data.entities);
-}
-function filterEntitiesToFlyers(entities){
-	var flyerEntityTypeNames = [
-		'fighter',
-		'blimp',
-		'laser',
-	];
-	return entities.filter(function(entity){ return -1 < flyerEntityTypeNames.indexOf(entity.entityTypeName); });	
-}
+// I DON'T THINK WE NEED ANY OF THIS.
+// function getFlyers(){ // went with a 2dArr because I'd think it takes less cpuwork than Concatting everything into a flat array.
+// 	return filterEntitiesToFlyers(data.entities);
+// }
+// function filterEntitiesToFlyers(entities){ // rather than making these filtered lists, might be faster to do some object inheritance, or injection, and give things an isFlyer() function... OR just run our entity type checks right there in the code. OR use flexible duck typing; if it has move, let it move();
+// 	var flyerEntityTypeNames = [
+// 		'fighter',
+// 		'blimp',
+// 		'laser',
+// 	];
+// 	return entities.filter(function(entity){ return -1 < flyerEntityTypeNames.indexOf(entity.entityTypeName); });	
+// }
