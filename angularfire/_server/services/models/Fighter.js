@@ -6,15 +6,18 @@ var controls = require('./components/common/controls');
 
 class Fighter {
 
-	constructor(player){
+	constructor(params){
 		this.entityTypeName = 'fighter';
+		
+		this.$ref = params.$ref;
+		this.$id = params.$id;
+		this.player = params.player || false;
+		
+		// null-starts:
 		this.p = p;
-		this.player = player;
-		this.id = 1; // TODO: Get this entity id from firebase!
-
 		this.controls = null; // will support: fore,back,left,right,tryFire,trySwitch ... but potentially more? Anyway we're not going to declare the object here because I don't want to have to recopy controls a bunch of times. Each turn we're going to just set the controls ref on each unit to either a player's controls, or an ai-generated controls object. AND we'll run validateControls(), where we get to define all this stuff!
-
 		this.thoughts = {}; // TODO! BRING THIS IN FROM THE OLD APP!
+
 	}
 
 	control(dT){ // dT could potentially be used by AI.
@@ -39,6 +42,22 @@ class Fighter {
 			left: true,
 			tryFire: true
 		} 
+	}
+
+	accelerate(dT){
+
+	}
+
+	move(dT){
+
+	}
+
+	sense(dT){
+
+	}
+
+	fbPublish(dT){
+
 	}
 
 }

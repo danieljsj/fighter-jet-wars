@@ -44,7 +44,7 @@ function listenToFbUserAdds(){
 		
 	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
 
-	ref.child('users').on('child_added', function(ss, prevChildId){
+	ref.child('users').limitToFirst(1).on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
 			name: ss.val().name,
 			id: ss.key()
@@ -58,9 +58,9 @@ function listenToFbUserAdds(){
 
 
 
-function addPlayer(opts){
-	opts = opts || {};
-	opts.user = opts.user || false;
+function addPlayer(params){
+	params = params || {};
+	params.user = params.user || false;
 
 	var playerRef = ref.child('players').push(); // node-client generates the key syncly.
 	var player = {
@@ -70,8 +70,8 @@ function addPlayer(opts){
 	gD.players.push(player);
 
 	var entityQuantities = {
-		'fighter': (opts.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),
-		'blimp': (opts.user ? GameParamsService.params.blimpsPerNewUserPlayer : GameParamsService.params.blimpsPerNewNonuserPlayer ),
+		'fighter': (params.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),
+		'blimp': (params.user ? GameParamsService.params.blimpsPerNewUserPlayer : GameParamsService.params.blimpsPerNewNonuserPlayer ),
 	}
 	createEntitiesForPlayer(entityQuantities,player);
 }
@@ -84,11 +84,15 @@ function createEntitiesForPlayer(entityQuantities, player){
 	};
 	for (var entityTypeName in entityQuantities){
 		for (var i = 0; i < entityQuantities[entityTypeName]; i++) {
+			
 			var entityRef = ref.child('entities').push();
+
 			var entity = new playerEntityTypeConstructors[entityTypeName]({
 				$id: entityRef.key(),
+				$ref: entityRef,
 				player: player,
 			});
+
 			gD.entities
 				.push(entity);
 			gD.entitiesByType[entityTypeName]

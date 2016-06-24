@@ -3,11 +3,11 @@
 module.exports = {
 	params: {
 		
-		fightersPerNewUserPlayer: 2,
+		fightersPerNewUserPlayer: 1,
 		blimpsPerNewUserPlayer: 1,
 
-		fightersPerNewNonuserPlayer: 10,
-		blimpsPerNewNonuserPlayer: 3,
+		fightersPerNewNonuserPlayer: 1,
+		blimpsPerNewNonuserPlayer: 1,
 
 		tickIntervalMs: 1000 / 60,
 	}

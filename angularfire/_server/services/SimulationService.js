@@ -45,6 +45,7 @@ function gameTick(){
 	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });
 	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
 	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
+	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
 
 	BroadcastingService.sendUpdate();
 }
