@@ -1,7 +1,19 @@
 'use strict';
 
+// nulls:
 var p = require('./components/nulls/p');
-var controls = require('./components/nulls/controls');
+var nullControls = require('./components/nulls/controls');
+
+// atts:
+var FighterBaseAtts = require('./components/atts/FighterBaseAtts');
+
+// methods:
+var AircraftMethods = require('./components/methods/AircraftMethods');
+var EntityMethods = require('./components/methods/EntityMethods');
+var FlyerMethods = require('./components/methods/FlyerMethods');
+
+
+//////////////
 
 
 class Fighter {
@@ -13,6 +25,8 @@ class Fighter {
 		this.id = params.id;
 		this.player = params.player || false;
 		
+		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
+
 		// null-starts:
 		this.p = p;
 		this.controls = null; // will support: fore,back,left,right,tryFire,trySwitch ... but potentially more? Anyway we're not going to declare the object here because I don't want to have to recopy controls a bunch of times. Each turn we're going to just set the controls ref on each unit to either a player's controls, or an ai-generated controls object. AND we'll run validateControls(), where we get to define all this stuff!
@@ -30,6 +44,10 @@ class Fighter {
 			this.controls = this.getAiControls(dT)
 		}
 
+		for (var key in nullControls){
+			if (!this.controls[key]) this.controls[key] = nullControls[key];
+		}
+
 	}
 
 	getAiControls(dT){
@@ -39,17 +57,19 @@ class Fighter {
 		this.visibleEntities; // let the game calibrate how many things can go into this visibleEntities object based on server load. It also lets us scope what kind of entities can be "seen" -- i.e. if we're going to let comps see and dodge lasers! ALSO -- we might end up maintaining a per-player list of visibleEntities, to reduce redundancy and simulate internet/hive-mind.
 		
 		return {
-			left: true,
-			tryFire: true
-		} 
+			left: 1,
+			tryFire: 1,
+		}
 	}
 
 	accelerate(dT){
-
+		AircraftMethods.accelerate
+		.call(this,dT);
 	}
 
 	move(dT){
-
+		FlyerMethods.move
+		.call(this,dT);
 	}
 
 	sense(dT){

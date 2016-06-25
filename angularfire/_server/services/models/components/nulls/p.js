@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-	x: null,
-	y: null,
-	direction: null,
-	speed: null
+	x: 0,
+	y: 0,
+	direction: 0,
+	speed: 0
 };

@@ -28,7 +28,7 @@ function publishEntitiesData() {
 			player: entity.player.id,
 		};
 	});
-	// console.log('redactedEntities:', redactedEntities);
+	console.log('redactedEntities:', redactedEntities);
 	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
 		if (err) throw err;
 		console.log('set/sent redactedEntities');
