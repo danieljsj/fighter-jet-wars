@@ -23,7 +23,7 @@ angular.module('angularfireApp')
 	SkyCanvasService.initCanvas('skyCanvas');
 
 
-	KnownEntitiesService.listenRenderingThen( function(entities){vm.entities = entities;} );
+	KnownEntitiesService.pullEntitiesAndRenderThen( function(entities){vm.entities = entities;} );
 
 
 

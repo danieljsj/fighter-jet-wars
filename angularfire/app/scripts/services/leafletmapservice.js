@@ -1,5 +1,26 @@
 'use strict';
 
+
+
+
+
+
+
+
+
+		// WHOAH - this is for the map!
+		// this.marker.setLatLng(this.getLatLng());
+		// var newAngle = (360/(2*3.14)) * this.p.direction;
+		// this.marker.setRotationAngle( newAngle );
+
+
+
+
+
+
+
+
+
 /**
  * @ngdoc service
  * @name angularfireApp.LeafletMapService

@@ -2,11 +2,9 @@
 
 require('look').start();
 
-
+// vendor
 var express = require('express');
-var app = express();
-
-
+// src
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
 var SnapshotService = require('./services/SnapshotService');
@@ -17,6 +15,14 @@ FirebaseRefService.initThen(function(){
 	SimulationService.start();
 });
 
+
+var app = express();
+
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
 
 app.get('/snapshot', function(req,res){
 	SnapshotService.doSnapshotAfterTick(

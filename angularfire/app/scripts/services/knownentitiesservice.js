@@ -8,7 +8,7 @@
  * Service in the angularfireApp.
  */
 angular.module('angularfireApp')
-  .service('KnownEntitiesService', function (Ref, SkyCanvasService, EntityTypesAppearanceService, $timeout, $rootScope) {
+  .service('KnownEntitiesService', function (SnapshotRetrievalService, SkyCanvasService, EntityTypesAppearanceService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     
 
@@ -28,13 +28,13 @@ angular.module('angularfireApp')
 
     var entities;
 
-    var entitiesRef = Ref.child('entities');
+	function pullEntitiesAndRenderThen(cb){
 
-	function listenRenderingThen(cb){
 
-		entitiesRef.on('value', function(ss){
+		SnapshotRetrievalService.getSnapshotThen(function(gameSnapshot){
 
-			var entitiesDataById = ss.val();
+			var entitiesDataById = gameSnapshot.entities;
+			
 			entities = [];
 			for (var id in entitiesDataById ){
 				var entity = new Entity(entitiesDataById[id]);
@@ -42,27 +42,18 @@ angular.module('angularfireApp')
 			}
 	  		
 	  		SkyCanvasService.renderEntities(entities);
-	  		
+  			
+  			if (cb) cb(entities);
 
-
-
-		// WHOAH - this is for the map!
-		// this.marker.setLatLng(this.getLatLng());
-		// var newAngle = (360/(2*3.14)) * this.p.direction;
-		// this.marker.setRotationAngle( newAngle );
-
-
-
-	  		cb(entities);
-
-	  		$timeout(function(){$rootScope.$apply()});
 		});
+
+
 	}
 
 	/////////
 	
 	return {
-		listenRenderingThen: listenRenderingThen,
+		pullEntitiesAndRenderThen: pullEntitiesAndRenderThen,
 	}
 
   });
