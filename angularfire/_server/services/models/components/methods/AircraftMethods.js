@@ -43,7 +43,7 @@ function accelerate(dT){
 		}
 	}
 
-	console.log(this.p);
+	// console.log(this.p);
 
 }
 

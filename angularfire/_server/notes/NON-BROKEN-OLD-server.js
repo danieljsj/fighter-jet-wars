@@ -59,8 +59,6 @@ ref.authWithCustomToken(token, function(error, authData) {
 			var newJSON = JSON.stringify(p1.p);
 
 			if ( newJSON !== p1LastTimeJSON ) {
-				// console.log(newJSON + '!==' + p1LastTimeJSON);
-				console.log('sending '+ newJSON);
 				p1Ref.child('p').set(p1.p);
 				p1LastTimeJSON = newJSON;
 				p1LastTime = JSON.parse(p1LastTimeJSON);

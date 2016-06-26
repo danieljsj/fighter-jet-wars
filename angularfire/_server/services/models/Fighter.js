@@ -1,7 +1,7 @@
 'use strict';
 
 // nulls:
-var p = require('./components/nulls/p');
+var nullP = require('./components/nulls/p');
 var nullControls = require('./components/nulls/controls');
 
 // atts:
@@ -28,8 +28,12 @@ class Fighter {
 		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
 
 		// null-starts:
-		this.p = p;
-		this.controls = null; // will support: fore,back,left,right,tryFire,trySwitch ... but potentially more? Anyway we're not going to declare the object here because I don't want to have to recopy controls a bunch of times. Each turn we're going to just set the controls ref on each unit to either a player's controls, or an ai-generated controls object. AND we'll run validateControls(), where we get to define all this stuff!
+		this.p = JSON.parse(JSON.stringify(nullP));
+		this.p.x += (Math.random()-0.5) * 100;
+		this.p.y += (Math.random()-0.5) * 100;
+
+		this.controls = JSON.parse(JSON.stringify(nullControls));
+
 		this.thoughts = {}; // TODO! BRING THIS IN FROM THE OLD APP!
 
 	}
