@@ -1,5 +1,7 @@
 'use strict';
 
+// PLAN: in player (or, temporarily, user), we save a "controlledEntityId --- I may have even written that somewhere; then entities check if their user is controlling them, and if not, they run their ais. you can have multiple windows open, multiple computers. also maybe a browser-instance can be kept; a 'console' object, and if a console is viewing a unit, then it skips over that unit when you toggle other consoles. actually that's goofy because sometimes you could infinite loop if you added a new console. better to let them select any."
+
 /**
  * @ngdoc function
  * @name angularfireApp.controller:SingleunitCtrl
@@ -86,6 +88,7 @@ angular.module('angularfireApp')
 			// down arrow	40
 	  }
 	}
+
 
 
 
