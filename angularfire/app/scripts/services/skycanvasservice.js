@@ -61,8 +61,7 @@ angular.module('angularfireApp')
 
 		// reset:
 		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
-		ctx.translate(canvas.innerWidth / 2, canvas.innerHeight / 2); // shift ctx to center of canvas
-
+		ctx.translate(canvas.width / 2, canvas.height / 2); // shift ctx to center of canvas
 		// based on p
 		ctx.translate(e.p.x-centerPoint.x, e.p.y-centerPoint.y); // shift to entity's position relative to centerpoint		
 		ctx.rotate(e.p.direction);
