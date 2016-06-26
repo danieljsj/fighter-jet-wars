@@ -5,8 +5,6 @@ var gD = GameDataService.data;
 
 var GameParamsService = require('../../_commonServices/GameParamsService');
 
-var BroadcastingService = require('./BroadcastingService');
-
 
 //////////////
 
@@ -21,6 +19,10 @@ function start(ref) {
 }
 
 //////////////
+
+// SWITCH TO USING ACTUAL TICKS:
+// something like this, sort of;
+//  Math.round((new Date()).getTime()/GameParamsService.params.ticksPerSecond); 
 
 var lastTickStartTime = null;
 
@@ -37,39 +39,36 @@ function getDt(){
 }
 
 function gameTick(){
-	process.stdout.write('\x1B[2J'); // clear console
+
+	var c = false;
+
+	if (c) process.stdout.write('\x1B[2J'); // clear console
 	
 
 	var dT = getDt();
 
-	console.log('dT: ',dT);
+	if (c) console.log('dT: ',dT);
 
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
-	console.time('control');
+	if (c) console.time('control');
 	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  	});
-	console.timeEnd('control');
+	if (c) console.timeEnd('control');
 
-	console.time('accelerate');
+	if (c) console.time('accelerate');
 	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });
-	console.timeEnd('accelerate');
+	if (c) console.timeEnd('accelerate');
 
-	console.time('move');
+	if (c) console.time('move');
 	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
-	console.timeEnd('move');
+	if (c) console.timeEnd('move');
 
-	console.time('sense');
+	if (c) console.time('sense');
 	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
-	console.timeEnd('sense');
+	if (c) console.timeEnd('sense');
 
-	console.time('fbPublish');
+	if (c) console.time('fbPublish');
 	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
-	console.timeEnd('fbPublish');
-
-	// disabling for now; this will be used when people first join the game
-	console.time('sendUpdate');
-	BroadcastingService.sendUpdate();
-	console.timeEnd('sendUpdate');
-
+	if (c) console.timeEnd('fbPublish');
 
 }
 

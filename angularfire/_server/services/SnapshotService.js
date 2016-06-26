@@ -7,33 +7,26 @@ var FirebaseRefService = require('./FirebaseRefService');
 var gD = require('./GameDataService').data;
 
 module.exports = {
-	sendUpdate: sendUpdate,
+	doSnapshotAfterTick: doSnapshotAfterTick,
 }
 
-function sendUpdate() {
 
-	// alert("NOT READY; MAKE IT SEND TICK INFORMATION FIRST! ALSO RENAME TO SNAPSHOT PUBLICATION"); return;
 
-	publishEntitiesData();
-	publishPlayersData();
+function doSnapshotAfterTick(snapshotCb){
+	var doSnapshot = function(){
+
+	} 
+	snapshotCb({ // actually, should be ""
+		// tick: TickService.getCurrentTickNumber();
+		time: (new Date()).getTime(),
+		entities: getRedactedEntities(),
+		players: getRedactedPlayers(),
+	})
 
 }
-
 
 //////////////
 
-
-function publishEntitiesData() {
-		 publishEntitiesDataToFirebase();
-}
-
-function publishEntitiesDataToFirebase() {
-	
-	FirebaseRefService.getRef().child('entities').set(getRedactedEntities(), function(err){
-		if (err) throw err;
-	});
-
-}
 
 function getRedactedEntities(){
 	var redactedEntities = {};
@@ -53,19 +46,6 @@ function getRedactedEntities(){
 	return redactedEntities;
 }
 
-
-//////////////
-
-
-function publishPlayersData() {
-		 publishPlayersDataToFirebase();
-}
-
-function publishPlayersDataToFirebase() { // I do think we can keep using firebase for players data -- reason being that it's not updated very often and thus won't use up our bandwidth, and is nice to have as interactive vs. just a readonly stream/slideshow
-	FirebaseRefService.getRef().child('players').set(getRedactedPlayers(), function(err){
-		if (err) throw err;
-	});
-}
 
 function getRedactedPlayers(){
 	var redactedPlayers = {};
