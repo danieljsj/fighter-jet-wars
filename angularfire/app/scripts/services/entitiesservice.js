@@ -8,14 +8,14 @@
  * Service in the angularfireApp.
  */
 angular.module('angularfireApp')
-  .service('EntitiesService', function (Ref, SkyCanvasService, EntityTypesService, $timeout, $rootScope) {
+  .service('EntitiesService', function (Ref, SkyCanvasService, EntityTypesAppearanceService, $timeout, $rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     
 
 
     function Entity(entityData){
     	this.typeName = entityData.entityTypeName;
-    	this.type = EntityTypesService.getType(entityData.entityTypeName); // "Name" is redundant since we know we're getting it out of the database. Except I suppose it could have been a type ID.
+    	this.type = EntityTypesAppearanceService.getType(entityData.entityTypeName); // "Name" is redundant since we know we're getting it out of the database. Except I suppose it could have been a type ID.
     	this.p = entityData.p;
     	this.playerId = entityData.player;
     	// console.log(this);

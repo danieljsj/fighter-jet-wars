@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name angularfireApp.EntityTypesService
+ * @name angularfireApp.EntityTypesAppearanceService
  * @description
- * # EntityTypesService
+ * # EntityTypesAppearanceService
  * Service in the angularfireApp.
  */
 angular.module('angularfireApp')
-  .service('EntityTypesService', function (CanvasImageService) {
+  .service('EntityTypesAppearanceService', function (CanvasImageService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     
     var typesByName = {};
