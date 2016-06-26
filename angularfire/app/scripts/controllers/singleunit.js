@@ -43,16 +43,19 @@ angular.module('angularfireApp')
 	  console.log(keyCode);
 	  switch (keyCode) {
 	    case 87: //w
-	      p1Ref.child('controls/accellerating').set(1);
+	      p1Ref.child('controls/fore').set(1);
 	      break;
 	    case 83: //s
-	      p1Ref.child('controls/braking').set(1);
+	      p1Ref.child('controls/back').set(1);
 	      break;
 	    case 65: //a
-	      p1Ref.child('controls/turningLeft').set(1);
+	      p1Ref.child('controls/left').set(1);
 	      break;
 	    case 68: //d      
-	      p1Ref.child('controls/turningRight').set(1);
+	      p1Ref.child('controls/right').set(1);
+	      break;
+	    case 32: //space      
+	      p1Ref.child('controls/tryFire').set(1);
 	      break;
 	  }
 	}
@@ -62,17 +65,25 @@ angular.module('angularfireApp')
 
 	  switch (keyCode) {
 	    case 87: //w
-	      p1Ref.child('controls/accellerating').set(0);
+	      p1Ref.child('controls/fore').set(0);
 	      break;
 	    case 83: //s
-	      p1Ref.child('controls/braking').set(0);
+	      p1Ref.child('controls/back').set(0);
 	      break;
 	    case 65: //a
-	      p1Ref.child('controls/turningLeft').set(0);
+	      p1Ref.child('controls/left').set(0);
 	      break;
 	    case 68: //d      
-	      p1Ref.child('controls/turningRight').set(0);
+	      p1Ref.child('controls/right').set(0);
 	      break;
+	    case 32: //space      
+	      p1Ref.child('controls/tryFire').set(0);
+	      break;
+	      // later: controls/trySwitch? tryNext,tryPrev?
+			// left arrow	37
+			// up arrow	38
+			// right arrow	39
+			// down arrow	40
 	  }
 	}
 
