@@ -17,7 +17,23 @@ function sendUpdate() {
 
 }
 
+
+//////////////
+
+
 function publishEntitiesData() {
+		 publishEntitiesDataToFirebase();
+}
+
+function publishEntitiesDataToFirebase() {
+	
+	FirebaseRefService.getRef().child('entities').set(getRedactedEntities(), function(err){
+		if (err) throw err;
+	});
+
+}
+
+function getRedactedEntities(){
 	var redactedEntities = {};
 	gD.entities.forEach(function(entity, index){
 		var redactedEntity = {
@@ -32,13 +48,24 @@ function publishEntitiesData() {
 		if (0 == index) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;
 	});
-	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
+	return redactedEntities;
+}
+
+
+//////////////
+
+
+function publishPlayersData() {
+		 publishPlayersDataToFirebase();
+}
+
+function publishPlayersDataToFirebase() { // I do think we can keep using firebase for players data -- reason being that it's not updated very often and thus won't use up our bandwidth, and is nice to have as interactive vs. just a readonly stream/slideshow
+	FirebaseRefService.getRef().child('players').set(getRedactedPlayers(), function(err){
 		if (err) throw err;
 	});
 }
 
-
-function publishPlayersData() {
+function getRedactedPlayers(){
 	var redactedPlayers = {};
 	gD.players.forEach(function(player){
 		redactedPlayers[player.id] = {
@@ -46,7 +73,5 @@ function publishPlayersData() {
 			userId: (player.user ? player.user.id : false )
 		};
 	});
-	FirebaseRefService.getRef().child('players').set(redactedPlayers, function(err){
-		if (err) throw err;
-	});
+	return redactedPlayers;
 }
