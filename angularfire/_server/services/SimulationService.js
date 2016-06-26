@@ -65,9 +65,10 @@ function gameTick(){
 	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
 	console.timeEnd('fbPublish');
 
-	console.time('sendUpdate');
-	BroadcastingService.sendUpdate();
-	console.timeEnd('sendUpdate');
+	// disabling for now; this will be used when people first join the game
+	// console.time('sendUpdate');
+	// BroadcastingService.sendUpdate();
+	// console.timeEnd('sendUpdate');
 
 
 }

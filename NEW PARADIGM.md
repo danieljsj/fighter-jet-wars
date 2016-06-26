@@ -18,7 +18,7 @@ alternately: server works like clients; simulates but re-simulates... NOPE. serv
 ## Capabilities for down the road
 
 	PHYSICS:
-		theoretically it might be cool if I kept the physics working so that things
+		theoretically it might be cool if I kept the physics working so that things could simulate with a fixed function rather than tick-by-tick; but I think tick-by-tick will be fine; as mentioned it's easy to re-sim. ESPECIALLY if the browser isn't having to think for the AIs EXCEPT for the most basic AIs.
 
 	ZONING: 
 		when entering a zone, you're sent a snapshot, and you start streaming entrances.
