@@ -1,5 +1,7 @@
 'use strict';
 
+require('look').start();
+
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
 

@@ -37,19 +37,39 @@ function getDt(){
 }
 
 function gameTick(){
+	process.stdout.write('\x1B[2J'); // clear console
 	
+
 	var dT = getDt();
 
 	console.log('dT: ',dT);
 
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
+	console.time('control');
 	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  	});
-	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });
-	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
-	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
-	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
+	console.timeEnd('control');
 
+	console.time('accelerate');
+	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });
+	console.timeEnd('accelerate');
+
+	console.time('move');
+	gD.entities.forEach(function(entity){	if (entity.move) 		entity.move(dT);  		});
+	console.timeEnd('move');
+
+	console.time('sense');
+	gD.entities.forEach(function(entity){	if (entity.sense) 		entity.sense(dT);  		});
+	console.timeEnd('sense');
+
+	console.time('fbPublish');
+	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
+	console.timeEnd('fbPublish');
+
+	console.time('sendUpdate');
 	BroadcastingService.sendUpdate();
+	console.timeEnd('sendUpdate');
+
+
 }
 
 

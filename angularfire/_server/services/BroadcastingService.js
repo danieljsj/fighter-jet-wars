@@ -19,12 +19,18 @@ function sendUpdate() {
 
 function publishEntitiesData() {
 	var redactedEntities = {};
-	gD.entities.forEach(function(entity){
-		redactedEntities[entity.id] = {
+	gD.entities.forEach(function(entity, index){
+		var redactedEntity = {
 			entityTypeName: entity.entityTypeName,
-			p: entity.p,
-			player: entity.player.id,
+			p: {
+				x: Math.round(entity.p.x),
+				y: Math.round(entity.p.y),
+				direction: Math.round(entity.p.direction * 100) / 100,
+			},
+			// player: entity.player.id,
 		};
+		if (0 == index) console.log(redactedEntity);
+		redactedEntities[entity.id] = redactedEntity;
 	});
 	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
 		if (err) throw err;
