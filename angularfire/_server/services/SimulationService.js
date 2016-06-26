@@ -3,7 +3,7 @@
 var GameDataService = require('./GameDataService');
 var gD = GameDataService.data;
 
-var GameParamsService = require('./GameParamsService');
+var GameParamsService = require('../../_commonServices/GameParamsService');
 
 var BroadcastingService = require('./BroadcastingService');
 
@@ -66,9 +66,9 @@ function gameTick(){
 	console.timeEnd('fbPublish');
 
 	// disabling for now; this will be used when people first join the game
-	// console.time('sendUpdate');
-	// BroadcastingService.sendUpdate();
-	// console.timeEnd('sendUpdate');
+	console.time('sendUpdate');
+	BroadcastingService.sendUpdate();
+	console.timeEnd('sendUpdate');
 
 
 }

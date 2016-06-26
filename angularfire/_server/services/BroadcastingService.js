@@ -12,7 +12,7 @@ module.exports = {
 
 function sendUpdate() {
 
-	alert("NOT READY; MAKE IT SEND TICK INFORMATION FIRST! ALSO RENAME TO SNAPSHOT PUBLICATION"); return;
+	// alert("NOT READY; MAKE IT SEND TICK INFORMATION FIRST! ALSO RENAME TO SNAPSHOT PUBLICATION"); return;
 
 	publishEntitiesData();
 	publishPlayersData();
