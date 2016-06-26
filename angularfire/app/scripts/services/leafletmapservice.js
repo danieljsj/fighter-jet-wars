@@ -20,7 +20,7 @@ angular.module('angularfireApp')
 
 
 
-    	function startMap(mapHtmlId){
+    	function initMap(mapHtmlId){
 
 			if ("geolocation" in navigator) {
 			  	/* geolocation is available */
@@ -29,25 +29,25 @@ angular.module('angularfireApp')
 					function(position) {
 					  homeLat = position.coords.latitude; 
 					  homeLng = position.coords.longitude;
-					  startMapNow(mapHtmlId);
+					  initMapNow(mapHtmlId);
 					},
 					function error(err) {
 					  console.warn('getCurrentPosition ERROR(' + err.code + '): ' + err.message);
 					  homeLat = fallbackHomeLat; 
 					  homeLng = fallbackHomeLng;
-					  startMapNow(mapHtmlId);
+					  initMapNow(mapHtmlId);
 					}
 				);
 			} else {
 			  	/* geolocation IS NOT available */
 				homeLat = 44.8847554; homeLng = -93.2222846;
-				startMapNow(mapHtmlId);
+				initMapNow(mapHtmlId);
 			}
     	
     	}
 
 
-		function startMapNow(mapHtmlId){
+		function initMapNow(mapHtmlId){
 			console.log('[homeLat, homeLng], [homeLat, homeLng]');
 			lMap = L.map(mapHtmlId).setView([homeLat, homeLng], 13);
 			
@@ -64,7 +64,7 @@ angular.module('angularfireApp')
 
 
 		return {
-			startMap: startMap,
+			initMap: initMap,
 		}
 
 

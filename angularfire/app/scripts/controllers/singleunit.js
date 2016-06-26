@@ -11,25 +11,19 @@
  * Controller of the angularfireApp
  */
 angular.module('angularfireApp')
-  .controller('SingleunitCtrl', function (Ref, user, $rootScope, $timeout, LeafletMapService) {
+  .controller('SingleunitCtrl', function (Ref, user, $rootScope, $timeout, EntitiesService, LeafletMapService, SkyCanvasService) {
   	var vm = this;
 
 
 
   	// SINGLE UNIT VIEW-MODEL:
 
-	var entitiesRef = Ref.child('entities');
-
-	entitiesRef.on('value', function(ss){
-		vm.entities = ss.val();
-  		$timeout(function(){$rootScope.$apply()});
-	});
-
 	
-	LeafletMapService.startMap('leafletMap')
+	LeafletMapService.initMap('leafletMap');
+	SkyCanvasService.initCanvas('skyCanvas');
 
 
-
+	EntitiesService.listenRenderingThen( function(entities){vm.entities = entities;} );
 
 
 
