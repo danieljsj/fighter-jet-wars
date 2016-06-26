@@ -8,7 +8,7 @@
  * Service in the angularfireApp.
  */
 angular.module('angularfireApp')
-  .service('LeafletMapService', function () {
+  .service('LeafletMapService', function (/*L <-- for leaflet... might not need this; maybe just makes it a global... which I guess I can be fine with, right? kinda like how I'm using Firebase as a global also here? */) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
 		var fallbackHomeLat = 44.9374744;
@@ -18,30 +18,37 @@ angular.module('angularfireApp')
 		var homeLat;
 		var homeLng;
 
-		if ("geolocation" in navigator) {
-		  	/* geolocation is available */
-			navigator.geolocation.getCurrentPosition(
-				// TODO: make the whole app start once location is found
-				function(position) {
-				  homeLat = position.coords.latitude; 
-				  homeLng = position.coords.longitude;
-				  startMap();
-				},
-				function error(err) {
-				  console.warn('getCurrentPosition ERROR(' + err.code + '): ' + err.message);
-				  homeLat = fallbackHomeLat; 
-				  homeLng = fallbackHomeLng;
-				  startMap();
-				}
-			);
-		} else {
-		  	/* geolocation IS NOT available */
-			homeLat = 44.8847554; homeLng = -93.2222846;
-			startMap();
-		}
 
-		function startMap(mapHtmlId){
 
+    	function startMap(mapHtmlId){
+
+			if ("geolocation" in navigator) {
+			  	/* geolocation is available */
+				navigator.geolocation.getCurrentPosition(
+					// TODO: make the whole app start once location is found
+					function(position) {
+					  homeLat = position.coords.latitude; 
+					  homeLng = position.coords.longitude;
+					  startMapNow(mapHtmlId);
+					},
+					function error(err) {
+					  console.warn('getCurrentPosition ERROR(' + err.code + '): ' + err.message);
+					  homeLat = fallbackHomeLat; 
+					  homeLng = fallbackHomeLng;
+					  startMapNow(mapHtmlId);
+					}
+				);
+			} else {
+			  	/* geolocation IS NOT available */
+				homeLat = 44.8847554; homeLng = -93.2222846;
+				startMapNow(mapHtmlId);
+			}
+    	
+    	}
+
+
+		function startMapNow(mapHtmlId){
+			console.log('[homeLat, homeLng], [homeLat, homeLng]');
 			lMap = L.map(mapHtmlId).setView([homeLat, homeLng], 13);
 			
 			L.marker([homeLat, homeLng], {icon: L.icon({iconUrl: 'http://www.iconarchive.com/download/i85581/graphicloads/100-flat/home.ico', iconSize:[12,12]}) }).addTo(lMap);

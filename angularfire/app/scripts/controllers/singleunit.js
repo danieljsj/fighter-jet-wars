@@ -8,10 +8,18 @@
  * Controller of the angularfireApp
  */
 angular.module('angularfireApp')
-  .controller('SingleunitCtrl', function (Ref, $rootScope) {
+  .controller('SingleunitCtrl', function (Ref, $rootScope, LeafletMapService) {
   	var vm = this;
 
 	var p1Ref = Ref.child('players/1');
+
+
+
+
+	// MAP:
+	
+	LeafletMapService.startMap('leafletMap')
+
 
   	// SINGLE UNIT DISPLAY:
 
@@ -19,6 +27,8 @@ angular.module('angularfireApp')
   		vm.p1 = snapshot.val();
   		$rootScope.$apply();
   	});
+
+
 
 
   	// SINGLE UNIT CONTROL:
