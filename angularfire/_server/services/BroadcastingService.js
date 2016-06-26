@@ -12,8 +12,6 @@ module.exports = {
 
 function sendUpdate() {
 
-	// console.log("JK not sending update; disabled."); return;
-
 	publishEntitiesData();
 	publishPlayersData();
 
@@ -28,10 +26,8 @@ function publishEntitiesData() {
 			player: entity.player.id,
 		};
 	});
-	// console.log('redactedEntities:', redactedEntities);
 	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
 		if (err) throw err;
-		// console.log('set/sent redactedEntities');
 	});
 }
 
@@ -39,15 +35,12 @@ function publishEntitiesData() {
 function publishPlayersData() {
 	var redactedPlayers = {};
 	gD.players.forEach(function(player){
-		console.log(player);
 		redactedPlayers[player.id] = {
 			id: player.id,
 			userId: (player.user ? player.user.id : false )
 		};
 	});
-	// console.log('redactedPlayers:', redactedPlayers);
 	FirebaseRefService.getRef().child('players').set(redactedPlayers, function(err){
 		if (err) throw err;
-		// console.log('set/sent redactedPlayers');
 	});
 }

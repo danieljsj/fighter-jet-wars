@@ -4,11 +4,6 @@
 
 var Firebase = require('firebase');
 
-// console.log("|||");
-// console.log(Firebase);
-// console.log("|||");
-// console.log(firebase.initializeApp);
-// console.log("|||");
 
 // should be its own service:
 var FirebaseTokenGenerator = require("firebase-token-generator");
@@ -18,13 +13,9 @@ var token = tokenGenerator.createToken(
    {uid: "my-awesome-server"}, 
    {expires: (new Date).getTime() + 3600*24*7}
 );
-console.log('token',token);
 
 var ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
 ref.authWithCustomToken(token, function(error, authData) {
-
-    console.log("|||||| error |||||| ",error);
-	console.log("|||||| authData |||||| ", authData);
 
 	var p1Ref = ref.child("players/1");
 
@@ -42,7 +33,6 @@ ref.authWithCustomToken(token, function(error, authData) {
 	var lastTime = new Date().getTime();
 	var p1LastTimeJSON = JSON.stringify(p1);
 	var p1LastTime = JSON.parse(p1LastTimeJSON);
-	console.log('starting our interval');
 	setInterval(function(){
 
 		var newTime = new Date().getTime();
@@ -52,7 +42,6 @@ ref.authWithCustomToken(token, function(error, authData) {
 		if (p1.p && p1.controls){
 			p1.p.direction += dT * (p1.controls.turningRight - p1.controls.turningLeft);
 			p1.p.speed += dT * (p1.controls.accellerating - p1.controls.braking); // needs some renames here...
-			// console.log('dT',dT);
 			p1.p.x += Math.cos(p1.p.direction) * p1.p.speed * dT;
 			p1.p.y += Math.sin(p1.p.direction) * p1.p.speed * dT;
 

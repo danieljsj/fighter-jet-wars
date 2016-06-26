@@ -11,15 +11,10 @@ function move(dT, px){
 		var dist = dT * this.p.speed; 
 	}
 
-	console.log('dT',dT);
-	console.log('dist',dist);
-
 
 	//  /\/\/\  CORE MOVEMENT:  /\/\/\ //
 	this.p.y += Math.sin(this.p.direction) * dist;
 	this.p.x += Math.cos(this.p.direction) * dist;
-
-
 
 
 	//  /\/\/\  RANGE:  /\/\/\ // // COMING SOON TO A LASER NEAR YOU

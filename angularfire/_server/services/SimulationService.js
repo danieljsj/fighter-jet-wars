@@ -40,6 +40,8 @@ function gameTick(){
 	
 	var dT = getDt();
 
+	console.log('dT: ',dT);
+
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
 	gD.entities.forEach(function(entity){ 	if (entity.control) 	entity.control(dT);  	});
 	gD.entities.forEach(function(entity){	if (entity.accelerate) 	entity.accelerate(dT);  });

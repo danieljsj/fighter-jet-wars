@@ -53,7 +53,6 @@ function listenToFbUserAdds(){
 			name: ss.val().name,
 			id: ss.key()
 		};
-		console.log('USER FOUND:   ',user);
 		addPlayer({user:user});
 	});
 
