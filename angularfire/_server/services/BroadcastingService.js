@@ -28,10 +28,10 @@ function publishEntitiesData() {
 			player: entity.player.id,
 		};
 	});
-	console.log('redactedEntities:', redactedEntities);
+	// console.log('redactedEntities:', redactedEntities);
 	FirebaseRefService.getRef().child('entities').set(redactedEntities, function(err){
 		if (err) throw err;
-		console.log('set/sent redactedEntities');
+		// console.log('set/sent redactedEntities');
 	});
 }
 
@@ -48,6 +48,6 @@ function publishPlayersData() {
 	// console.log('redactedPlayers:', redactedPlayers);
 	FirebaseRefService.getRef().child('players').set(redactedPlayers, function(err){
 		if (err) throw err;
-		console.log('set/sent redactedPlayers');
+		// console.log('set/sent redactedPlayers');
 	});
 }

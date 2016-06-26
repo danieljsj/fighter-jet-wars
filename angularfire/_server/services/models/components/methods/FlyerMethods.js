@@ -5,11 +5,14 @@
 function move(dT, px){
 
 	//  /\/\/\  OPTION TO MOVE A SET NUMBER OF PIXELS; USEFUL FOR INITIAL MOVEMENT AWAY FROM AIRCRAFT HULLS  /\/\/\ //
-	if (px) { 
+	if (false && px) { 
 		var dist = px;	
 	} else { 
 		var dist = dT * this.p.speed; 
 	}
+
+	console.log('dT',dT);
+	console.log('dist',dist);
 
 
 	//  /\/\/\  CORE MOVEMENT:  /\/\/\ //

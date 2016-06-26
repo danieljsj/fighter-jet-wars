@@ -27,8 +27,8 @@ function accelerate(dT){
 
 
 	// -- TURNING -- //
-		console.log(this.p, this.controls);
-		console.log(dT);
+		// console.log(this.p, this.controls);
+		// console.log(dT);
 
 	// Turning
 	if (this.controls.left || this.controls.right){
