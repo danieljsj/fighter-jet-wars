@@ -4,6 +4,8 @@
 // Ultimately I'm pretty certain that they're going to want me to do things on a model-by-model basis; but for now, like i said, just going to stick with slapping everything up there all at once.
 
 var FirebaseRefService = require('./FirebaseRefService');
+// var SimulationService = require('./SimulationService');
+
 var gD = require('./GameDataService').data;
 
 module.exports = {
@@ -11,18 +13,18 @@ module.exports = {
 }
 
 
+function Snapshot(){
+	this.time = (new Date()).getTime(); // switch to a tick service
+	this.players = getRedactedPlayers();
+	this.entities = getRedactedEntities();
+}
+
+
+
+
 
 function doSnapshotAfterTick(snapshotCb){
-	var doSnapshot = function(){
-
-	} 
-	snapshotCb({ // actually, should be ""
-		// tick: TickService.getCurrentTickNumber();
-		time: (new Date()).getTime(),
-		entities: getRedactedEntities(),
-		players: getRedactedPlayers(),
-	})
-
+	snapshotCb(new Snapshot()); // LIES!!!! IT NEEDS TO DO IT AFTER A TICK!
 }
 
 //////////////

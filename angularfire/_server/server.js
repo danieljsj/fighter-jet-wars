@@ -19,7 +19,11 @@ FirebaseRefService.initThen(function(){
 
 
 app.get('/snapshot', function(req,res){
-	res.json({foo:'bar'});
+	SnapshotService.doSnapshotAfterTick(
+		function(gameSnapshot){
+			res.json(gameSnapshot);
+		}
+	);
 });
 
 app.listen(4242, function() {
