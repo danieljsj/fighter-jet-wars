@@ -74,7 +74,7 @@ angular.module('angularfireApp')
         templateUrl: 'views/account.html',
         controller: 'AccountCtrl'
       })
-      .when('/singleUnit', {
+      .whenAuthenticated('/singleUnit', {
         templateUrl: 'views/singleunit.html',
         controller: 'SingleunitCtrl as vm'
       })

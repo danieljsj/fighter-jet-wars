@@ -8,10 +8,10 @@
  * Controller of the angularfireApp
  */
 angular.module('angularfireApp')
-  .controller('SingleunitCtrl', function (Ref, $rootScope, LeafletMapService) {
+  .controller('SingleunitCtrl', function (Ref, user, $rootScope, LeafletMapService) {
   	var vm = this;
 
-	var p1Ref = Ref.child('players/1');
+	var userRef = Ref.child('users/'+user.uid); // NOTE! At some point I may want to switch this to being playerRef since with multiple servers a user will associate to multiple "players", one per server.
 
 
 
@@ -23,7 +23,7 @@ angular.module('angularfireApp')
 
   	// SINGLE UNIT DISPLAY:
 
-  	p1Ref.on('value', function(snapshot){
+  	userRef.on('value', function(snapshot){
   		vm.p1 = snapshot.val();
   		$rootScope.$apply();
   	});
@@ -43,19 +43,19 @@ angular.module('angularfireApp')
 	  console.log(keyCode);
 	  switch (keyCode) {
 	    case 87: //w
-	      p1Ref.child('controls/fore').set(1);
+	      userRef.child('controls/fore').set(1);
 	      break;
 	    case 83: //s
-	      p1Ref.child('controls/back').set(1);
+	      userRef.child('controls/back').set(1);
 	      break;
 	    case 65: //a
-	      p1Ref.child('controls/left').set(1);
+	      userRef.child('controls/left').set(1);
 	      break;
 	    case 68: //d      
-	      p1Ref.child('controls/right').set(1);
+	      userRef.child('controls/right').set(1);
 	      break;
 	    case 32: //space      
-	      p1Ref.child('controls/tryFire').set(1);
+	      userRef.child('controls/tryFire').set(1);
 	      break;
 	  }
 	}
@@ -65,19 +65,19 @@ angular.module('angularfireApp')
 
 	  switch (keyCode) {
 	    case 87: //w
-	      p1Ref.child('controls/fore').set(0);
+	      userRef.child('controls/fore').set(0);
 	      break;
 	    case 83: //s
-	      p1Ref.child('controls/back').set(0);
+	      userRef.child('controls/back').set(0);
 	      break;
 	    case 65: //a
-	      p1Ref.child('controls/left').set(0);
+	      userRef.child('controls/left').set(0);
 	      break;
 	    case 68: //d      
-	      p1Ref.child('controls/right').set(0);
+	      userRef.child('controls/right').set(0);
 	      break;
 	    case 32: //space      
-	      p1Ref.child('controls/tryFire').set(0);
+	      userRef.child('controls/tryFire').set(0);
 	      break;
 	      // later: controls/trySwitch? tryNext,tryPrev?
 			// left arrow	37
