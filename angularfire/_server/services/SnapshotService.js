@@ -3,8 +3,7 @@
 // Trying a broadcasting service that sends them all at once. We'll see if that works. We can test it against sending incremental tiny changes one by one. Basically trying to find optimum request number/size tradeoff.
 // Ultimately I'm pretty certain that they're going to want me to do things on a model-by-model basis; but for now, like i said, just going to stick with slapping everything up there all at once.
 
-var FirebaseRefService = require('./FirebaseRefService');
-// var SimulationService = require('./SimulationService');
+var SimulationService = require('./SimulationService');
 
 var gD = require('./GameDataService').data;
 
@@ -24,7 +23,9 @@ function Snapshot(){
 
 
 function doSnapshotAfterTick(snapshotCb){
-	snapshotCb(new Snapshot()); // LIES!!!! IT NEEDS TO DO IT AFTER A TICK!
+	SimulationService.afterTick(function(){
+		snapshotCb(new Snapshot()); 		// TODO: CACHING SO WE DON'T HAVE TO REGEN A TICK FOR EACH PERSON EVER JOINING; WE COULD IN FACT GIVE SNAPSHOTS A TTL OF HOWEVER LONG WE WANT.
+	});
 }
 
 //////////////

@@ -8,8 +8,10 @@ var GameParamsService = require('../../_commonServices/GameParamsService');
 
 //////////////
 
-
-module.exports.start = start; 
+module.exports = {
+	start: start,
+	afterTick: afterTick,
+}
 
 function start(ref) {
 
@@ -18,12 +20,18 @@ function start(ref) {
 
 }
 
+function afterTick(cb){
+	queue.push(cb);
+}
+
+
 //////////////
 
 // SWITCH TO USING ACTUAL TICKS:
 // something like this, sort of;
 //  Math.round((new Date()).getTime()/GameParamsService.params.ticksPerSecond); 
 
+var queue = [];
 var lastTickStartTime = null;
 
 function startTicks(){
@@ -69,6 +77,11 @@ function gameTick(){
 	if (c) console.time('fbPublish');
 	gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
 	if (c) console.timeEnd('fbPublish');
+
+	while (queue[0]) {
+		queue[0]();
+		queue.shift();
+	}
 
 }
 
