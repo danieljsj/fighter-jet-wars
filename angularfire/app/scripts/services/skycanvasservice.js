@@ -41,12 +41,17 @@ angular.module('angularfireApp')
 		// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 		var centerPoint = {x:0,y:0};
 
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		clear();
 
 		entities.forEach(function(entity){
 			draw(entity, centerPoint);
 		});
 
+    }
+
+    function clear(){
+		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     function draw(entity, centerPoint){
