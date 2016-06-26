@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc service
- * @name angularfireApp.EntitiesService
+ * @name angularfireApp.KnownEntitiesService
  * @description
- * # EntitiesService
+ * # KnownEntitiesService
  * Service in the angularfireApp.
  */
 angular.module('angularfireApp')
-  .service('EntitiesService', function (Ref, SkyCanvasService, EntityTypesAppearanceService, $timeout, $rootScope) {
+  .service('KnownEntitiesService', function (Ref, SkyCanvasService, EntityTypesAppearanceService, $timeout, $rootScope) {
     // AngularJS will instantiate a singleton by calling "new" on this function
     
 

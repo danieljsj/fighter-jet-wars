@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: EntitiesService', function () {
+describe('Service: KnownEntitiesService', function () {
 
   // load the service's module
   beforeEach(module('angularfireApp'));
 
   // instantiate service
-  var EntitiesService;
-  beforeEach(inject(function (_EntitiesService_) {
-    EntitiesService = _EntitiesService_;
+  var KnownEntitiesService;
+  beforeEach(inject(function (_KnownEntitiesService_) {
+    KnownEntitiesService = _KnownEntitiesService_;
   }));
 
   it('should do something', function () {
-    expect(!!EntitiesService).toBe(true);
+    expect(!!KnownEntitiesService).toBe(true);
   });
 
 });

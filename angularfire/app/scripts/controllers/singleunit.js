@@ -11,7 +11,7 @@
  * Controller of the angularfireApp
  */
 angular.module('angularfireApp')
-  .controller('SingleunitCtrl', function (Ref, user, $rootScope, $timeout, EntitiesService, LeafletMapService, SkyCanvasService) {
+  .controller('SingleunitCtrl', function (Ref, user, $rootScope, $timeout, KnownEntitiesService, LeafletMapService, SkyCanvasService) {
   	var vm = this;
 
 
@@ -23,7 +23,7 @@ angular.module('angularfireApp')
 	SkyCanvasService.initCanvas('skyCanvas');
 
 
-	EntitiesService.listenRenderingThen( function(entities){vm.entities = entities;} );
+	KnownEntitiesService.listenRenderingThen( function(entities){vm.entities = entities;} );
 
 
 
