@@ -42,19 +42,19 @@ angular.module('angularfireApp')
     new Type('fighter', {
 		width: 32,
 		height: 32,
-		imageUrl: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+		imageUrl: "http://10x.agency/games/fighter-jet-wars/images/plane-friendly-gray.png"
     });
 
     new Type('blimp', {
 		width: 182,
 		height: 182,
-		imageUrl: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+		imageUrl: "http://10x.agency/games/fighter-jet-wars/images/plane-friendly-gray.png"
     });
 
     new Type('laser', {
 		width: 32,
 		height: 4,
-		imageUrl: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+		imageUrl: "http://10x.agency/games/fighter-jet-wars/images/plane-friendly-gray.png"
     });
 
     ///////////////

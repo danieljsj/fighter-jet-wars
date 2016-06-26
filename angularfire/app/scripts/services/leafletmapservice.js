@@ -48,7 +48,6 @@ angular.module('angularfireApp')
 
 
 		function initMapNow(mapHtmlId){
-			console.log('[homeLat, homeLng], [homeLat, homeLng]');
 			lMap = L.map(mapHtmlId).setView([homeLat, homeLng], 13);
 			
 			L.marker([homeLat, homeLng], {icon: L.icon({iconUrl: 'http://www.iconarchive.com/download/i85581/graphicloads/100-flat/home.ico', iconSize:[12,12]}) }).addTo(lMap);

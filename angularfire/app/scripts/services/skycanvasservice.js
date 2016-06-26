@@ -41,6 +41,8 @@ angular.module('angularfireApp')
 		// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 		var centerPoint = {x:0,y:0};
 
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 		entities.forEach(function(entity){
 			draw(entity, centerPoint);
 		});
@@ -48,23 +50,26 @@ angular.module('angularfireApp')
     }
 
     function draw(entity, centerPoint){
-	
+		
+
 		var e = entity;
 
+		// reset:
+		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
+		ctx.translate(canvas.innerWidth / 2, canvas.innerHeight / 2); // shift ctx to center of canvas
 
-
-		// based on P
-		ctx.translate(+1*e.p.x - centerPoint.x + window.innerWidth / 2, +1*e.p.y - centerPoint.y + window.innerHeight / 2)
-		ctx.rotate(+1*e.p.direction);
+		// based on p
+		ctx.translate(e.p.x-centerPoint.x, e.p.y-centerPoint.y); // shift to entity's position relative to centerpoint		
+		ctx.rotate(e.p.direction);
 
 		// based on Img
 		var canvasImage = e.getCanvasImage();
 		ctx.translate(-canvasImage.width/2, -canvasImage.height/2); // MAYBE FOLD THIS INTO DRAWIMAGE?? ALSO... A BIT WEIRD THAT THIS IS HAPPENING AFTER THE ROTATE, EH?
-		ctx.drawImage(canvasImage.domImage, 0, 0);
-
-		// based on nothing
-		ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
-
+		try{
+			ctx.drawImage(canvasImage.domImage, 0, 0);
+		} catch(err) {
+			console.log("IMAGE NOT READY YET");
+		}
 
     }
 

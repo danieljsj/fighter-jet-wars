@@ -20,7 +20,7 @@ angular.module('angularfireApp')
 		this.height = params.height;
 
 		this.domImage = new Image();
-		console.log(this.domImage);
+
 		// this.domImage.onload(function(){
 		// 	this.ready = true;
 		// }.bind(this));

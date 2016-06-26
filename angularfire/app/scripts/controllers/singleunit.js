@@ -44,7 +44,7 @@ angular.module('angularfireApp')
 
 	function onKeyDown(event) {
 	  var keyCode = event.keyCode;
-	  console.log(keyCode);
+	  // console.log(keyCode);
 	  switch (keyCode) {
 	    case 87: //w
 	      userRef.child('controls/fore').set(1);
