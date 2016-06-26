@@ -18,7 +18,7 @@ function Plane() {
 	}
 
 	// Permanent attributes
-	this.atts = {
+	/*this.atts = {
 		baseAccel  			: 50, 	// afterburnerAccel in pixels per second^2
 		afterburnerAccel 	: 100, 	// afterburnerAccel in pixels per second^2
 		baseDrag	 		: 0.2, 	// base coefficient of loss of velocity per second
@@ -28,7 +28,7 @@ function Plane() {
 		// respawnTime			: 2
 		respawnTime			: 0,
 		range				: 999999999999999999999999
-	};
+	};*/
 
 	// Starting static stuff (lives, score, etc.)
 	this.stats = {
@@ -62,7 +62,7 @@ Plane.prototype.constructor = Plane; 				// WHY DO I NEED THIS? (TRY WITHOUT...)
 
 
 Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a separate bundler for stuff that needs dT...
-	// -- DRAG -- //
+/*	// -- DRAG -- //
 
 	// Base Drag
 	this.p.speed -= this.p.speed * this.atts.baseDrag * dT;
@@ -96,7 +96,7 @@ Plane.prototype.accelerate = function(dT){ /// NOTE: You'd need to create a sepa
 	if (this.p.direction <  -3.141592654*2) {
 		this.p.direction -= -3.141592654*2;
 	}
-
+*/
 }
 
 
