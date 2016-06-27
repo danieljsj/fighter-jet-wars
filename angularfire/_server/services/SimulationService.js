@@ -109,15 +109,3 @@ function doTick(){
 	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
 
 }
-
-
-
-
-
-
-function watchControls(){ // THIS WILL GO INTO USERS OR MAYBE PLAYERS. OOOOH RIGHT. WE WANT THEM TO BE ABLE TO HAVE MULTIPLE WINDOWS OPEN SO THEY CAN SEE MULTIPLE PLANES FIGHTING! "ENTER" KEY TO TOGGLE AI. WHEN CONTROLLING, ARROWS SWITCH WEAPONS; WHEN AI, ARROWS SWITCH SCRIPTS, WSAD SWITCHES TARGETS OR SOMETHING. BUT THAT'S TREATS FOR ANOTHER DAY. I CAN SAFELY ASSUME ONE USER ONE WINDOW FOR NOW... JUST KEEPING THE SHENANIGANS IN MIND!
-	// p1Ref.on('value', function(p1Snapshot){
-	// 	p1.controls = p1Snapshot.val().controls;
-	// 	p1.p = p1Snapshot.val().p;
-	// });
-}

@@ -8,10 +8,10 @@ let MathService = require('../../../MathService');
 function move(dT, px){
 
 	//  /\/\/\  OPTION TO MOVE A SET NUMBER OF PIXELS; USEFUL FOR INITIAL MOVEMENT AWAY FROM AIRCRAFT HULLS  /\/\/\ //
-	if (false && px) { 
+	if (px) { 
 		var dist = px;	
 	} else { 
-		var dist = TicksCalcService.perSToPerTickRoundedTo(this.p.speed,10e-2); // speed is per-second!
+		var dist = dT * TicksCalcService.perSToPerTickRoundedTo(this.p.speed,10e-2); // speed is per-second!
 	}
 
 
