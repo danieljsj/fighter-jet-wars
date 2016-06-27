@@ -7,25 +7,20 @@ var SimulationService = require('./SimulationService');
 
 var gD = require('./GameDataService').data;
 
-module.exports = {
-	doSnapshotAfterTick: doSnapshotAfterTick,
-}
 
 
-function Snapshot(){
-	this.time = (new Date()).getTime(); // switch to a tick service
-	this.players = getRedactedPlayers();
-	this.entities = getRedactedEntities();
-}
-
-
-
-
+//////////
 
 function doSnapshotAfterTick(snapshotCb){
-	SimulationService.afterTick(function(){
-		snapshotCb(new Snapshot()); 		// TODO: CACHING SO WE DON'T HAVE TO REGEN A TICK FOR EACH PERSON EVER JOINING; WE COULD IN FACT GIVE SNAPSHOTS A TTL OF HOWEVER LONG WE WANT.
+	SimulationService.afterTick(function(currTick,dT){
+		snapshotCb(new Snapshot(currTick)); 		// TODO: CACHING SO WE DON'T HAVE TO REGEN A TICK FOR EACH PERSON EVER JOINING; WE COULD IN FACT GIVE SNAPSHOTS A TTL OF HOWEVER LONG WE WANT.
 	});
+}
+
+function Snapshot(currTick){
+	this.tick = currTick;
+	this.players = getRedactedPlayers();
+	this.entities = getRedactedEntities();
 }
 
 //////////////
@@ -59,4 +54,12 @@ function getRedactedPlayers(){
 		};
 	});
 	return redactedPlayers;
+}
+
+
+
+////////
+
+module.exports = {
+	doSnapshotAfterTick: doSnapshotAfterTick,
 }

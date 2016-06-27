@@ -97,7 +97,7 @@ function doTick(){
 	if (c) console.timeEnd('fbPublish');
 
 	while (queue[0]) {
-		queue[0]();
+		queue[0](currTick, dT);
 		queue.shift();
 	}
 
