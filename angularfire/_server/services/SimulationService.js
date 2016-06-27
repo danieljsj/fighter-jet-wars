@@ -73,6 +73,7 @@ function doTick(){
 	let dT = getDt(currTick);
 
 	if (c) console.log('dT: ',dT);
+	if (c) console.log('currTick: ',currTick);
 
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
 	if (c) console.time('control');
@@ -100,7 +101,9 @@ function doTick(){
 		queue.shift();
 	}
 
-	setTimeout(doTick,TicksCalcService.timeTillNext());
+	let timeout = TicksCalcService.timeTillNext()+1;
+	if (c) console.log('timeout: ',timeout);
+	setTimeout(doTick,timeout);
 
 }
 
