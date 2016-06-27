@@ -33,10 +33,10 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 	}
 
 
-	msToRoundTicks(ms){
+	msToRoundedTicks(ms){
 		return Math.round(this.msToTicks(s));
 	}
-	sToRoundTicks(s){
+	sToRoundedTicks(s){
 		return Math.round(this.sToTicks(s));
 	}
 
