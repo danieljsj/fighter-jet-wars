@@ -9,6 +9,5 @@ module.exports = {
 		fightersPerNewNonuserPlayer: 500,
 		blimpsPerNewNonuserPlayer: 0,
 
-		tickIntervalMs: 1000 / 60,
 	}
 }

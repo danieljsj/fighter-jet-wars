@@ -1,3 +1,5 @@
+'use strict';
+
 const standardGraduation = 0.1;
 
 class MathService {

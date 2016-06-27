@@ -1,3 +1,4 @@
+'use strict';
 
 ///// SIDE-IDEA: stream of ticks is published like this: tickNum: ticksPerTick. as server load grows it will be like this 11111111020202020202003003003003003
 
@@ -13,7 +14,7 @@ function now(){	return (new Date()).getTime() }
 
 
 
-class TicksCalcService {
+class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
 	latest(){
 		return Math.floor(
@@ -24,11 +25,11 @@ class TicksCalcService {
 		return this.msToTicks(now());		
 	}
 
-	msTillNext(){
+	timeTillNext(){
 		return this.nextTime()-now();
 	}
 	nextTime(){
-		return Math.ceil(this.latest()*msPerTick); // ceil to aim high so that when we come back from our 'timeout', the last tick is barely in the past.
+		return Math.ceil(this.latest()*msPerTick); // ceil to aim high so that when we come back from our 'timeout', the latest tick is barely in the past.
 	}
 
 

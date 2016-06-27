@@ -1,9 +1,10 @@
 'use strict';
 
-var GameDataService = require('./GameDataService');
-var gD = GameDataService.data;
+let GameDataService = require('./GameDataService');
+let gD = GameDataService.data;
 
-var GameParamsService = require('../../_commonServices/GameParamsService');
+let GameParamsService = require('../../_commonServices/GameParamsService');
+let TicksCalcService = require('../../_commonServices/TicksCalcService');
 
 
 //////////////
@@ -31,29 +32,45 @@ function afterTick(cb){
 // something like this, sort of;
 //  Math.round((new Date()).getTime()/GameParamsService.params.ticksPerSecond); 
 
-var queue = [];
-var lastTickStartTime = null;
+
+let serverFirstTick = null;
 
 function startTicks(){
-	lastTickStartTime = new Date().getTime();
-	setInterval(gameTick, GameParamsService.params.tickIntervalMs);
+	serverFirstTick = TicksCalcService.latest();
+	latestSimulatedTick = serverFirstTick-1; // with these equal, it would spin a sim with dT=0 on its first cycle. That could give some weird effects.
+	doTick();
 }
 
-function getDt(){
-	var newTickStartTime = new Date().getTime();
-	var dT = (newTickStartTime - lastTickStartTime) / 1000;
-	lastTickStartTime = newTickStartTime;
+
+let latestSimulatedTick = null;
+let skippedTicks = []; // if we detect we skipped a tick, we'll post it in a feed; browsers will be told about this, and can re-simulate using the same skips-and-double-ticks sequence as the server to retain fidelity
+
+function getDt(currTick){
+	let dT=0;
+	let t = latestSimulatedTick;
+	while ( t < currTick ) {
+		t++; dT++;
+		if ( t < currTick ) {
+			skippedTicks[t] = true;
+		}
+	}
+	latestSimulatedTick = currTick;
 	return dT;
 }
 
-function gameTick(){
 
-	var c = false;
+let queue = [];
+
+function doTick(){
+
+
+	let c = true;
 
 	if (c) process.stdout.write('\x1B[2J'); // clear console
 	
+	let currTick = TicksCalcService.latest();
 
-	var dT = getDt();
+	let dT = getDt(currTick);
 
 	if (c) console.log('dT: ',dT);
 
@@ -82,6 +99,8 @@ function gameTick(){
 		queue[0]();
 		queue.shift();
 	}
+
+	setTimeout(doTick,TicksCalcService.timeTillNext());
 
 }
 
