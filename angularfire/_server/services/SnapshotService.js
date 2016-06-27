@@ -37,9 +37,9 @@ function getRedactedEntities(){
 		var redactedEntity = {
 			entityTypeName: entity.entityTypeName,
 			p: {
-				x: Math.round(entity.p.x),
-				y: Math.round(entity.p.y),
-				direction: Math.round(entity.p.direction * 100) / 100,
+				x: entity.p.x,
+				y: entity.p.y,
+				direction: entity.p.direction,
 			},
 			// player: entity.player.id,
 		};
