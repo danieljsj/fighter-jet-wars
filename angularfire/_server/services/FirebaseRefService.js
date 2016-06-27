@@ -38,3 +38,8 @@ module.exports = {
 	initThen: initThen,
 	getRef: getRef,
 }
+if ('undefined' != typeof define) {
+	define([], function(){
+		return module.exports;
+	});
+}
