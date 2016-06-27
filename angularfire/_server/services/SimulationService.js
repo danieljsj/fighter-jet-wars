@@ -105,6 +105,9 @@ function doTick(){
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
+	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].p: \n',GameDataService.data.entities[0].p);
+	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
+
 }
 
 

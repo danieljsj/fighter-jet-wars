@@ -53,7 +53,10 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 
 
 	perSToPerTickRoundedTo(rate, graduation){
-		return MathService.roundTo(rate,graduation);
+		return MathService.roundTo(this.perSToPerTick(rate),graduation);
+	}
+	perSToPerTick(pS){
+		return pS*sPerTick;
 	}
 
 }

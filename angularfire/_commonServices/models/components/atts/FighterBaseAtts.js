@@ -12,11 +12,11 @@ let FighterBaseAtts = {
 	respawnTime			: S_T(0.0), // s
 
 	// rates (/tick)
-	engineAccel  		: pS_rpT(50,  10e0 ), 	// afterburnerAccel in pixels per second^2
-	afterburnerAccel 	: pS_rpT(100, 10e0 ), 	// afterburnerAccel in pixels per second^2
-	bodyDrag	 		: pS_rpT(0.2, 10e-3), 	// base coefficient of loss of velocity per second
-	brakesDrag 			: pS_rpT(0.4, 10e-3), 	// brakes coefficient of loss of velocity per second
-	turnRate	 		: pS_rpT(1.8, 10e-2), 	// turn rate in radians per second
+	engineAccel  		: pS_rpT(55,  10e-3), 	// afterburnerAccel in pixels per second^2
+	afterburnerAccel 	: pS_rpT(102, 10e-3), 	// afterburnerAccel in pixels per second^2
+	bodyDrag	 		: pS_rpT(0.2, 10e-4), 	// base coefficient of loss of velocity per second
+	brakesDrag 			: pS_rpT(0.4, 10e-4), 	// brakes coefficient of loss of velocity per second
+	turnRate	 		: pS_rpT(1.8, 10e-4), 	// turn rate in radians per second
 
 	// pixels
 	range				: 999999999999999999999999, // px

@@ -5,6 +5,7 @@ const standardGraduation = 0.1;
 const coss = [];
 
 class MathService {
+	
 	roundTo(float,graduation){
 		graduation = graduation || standardGraduation;
 		return Math.round(float/graduation)*graduation;
