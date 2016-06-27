@@ -33,8 +33,10 @@ angular.module('angularfireApp')
 
 		SnapshotRetrievalService.getSnapshotThen(function(gameSnapshot){
 
-			var entitiesDataById = gameSnapshot.entities;
+			var entitiesDataById = gameSnapshot.entitiesData;
 			
+			// COMEBACK!!!!!!!!!!!!!!: Fix this so it actually sends the entities through...
+
 			entities = [];
 			for (var id in entitiesDataById ){
 				var entity = new Entity(entitiesDataById[id]);
