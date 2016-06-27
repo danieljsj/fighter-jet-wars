@@ -101,7 +101,7 @@ function doTick(){
 		queue.shift();
 	}
 
-	let timeout = TicksCalcService.timeTillNext()+1;
+	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 

@@ -16,6 +16,9 @@ function now(){	return (new Date()).getTime() }
 
 class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
+	next(){
+		return this.latest()+1;
+	}
 	latest(){
 		return Math.floor(
 			this.float()
@@ -29,7 +32,7 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 		return this.nextTime()-now();
 	}
 	nextTime(){
-		return Math.ceil(this.latest()*msPerTick); // ceil to aim high so that when we come back from our 'timeout', the latest tick is barely in the past.
+		return Math.ceil(this.next()*msPerTick); // ceil to aim high so that when we come back from our 'timeout', the latest tick is barely in the past.
 	}
 
 
