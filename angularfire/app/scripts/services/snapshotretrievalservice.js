@@ -22,7 +22,7 @@ angular.module('angularfireApp')
 
 
     // function getA(cb){ // A stands for Async... trying out that naming...
-    function getSnapshotThen(cb){
+    function retrieveThen(cb){
 	    $http({
 	    	method: 'GET',
 	    	url: 'http://localhost:4242/snapshot'
@@ -35,6 +35,6 @@ angular.module('angularfireApp')
     }
 
 
-    this.getSnapshotThen = getSnapshotThen;
+    this.retrieveThen = retrieveThen;
 
   });
