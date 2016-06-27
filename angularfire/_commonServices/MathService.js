@@ -5,13 +5,13 @@ const standardGraduation = 0.1;
 const coss = [];
 
 class MathService {
-	
+
 	roundTo(float,graduation){
 		graduation = graduation || standardGraduation;
 		return Math.round(float/graduation)*graduation;
 	}
 
-	cos(theta){ // IMPORTANT! this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
+	cos(theta){ 
 
 		/*NOTES: 
 
@@ -38,6 +38,7 @@ class MathService {
 
 
 		*/
+		theta = this.roundTo(theta,10e-2); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
 		const cached = coss[theta];
 		return cached || (coss[theta] = this.RoundTo(Math.cos(theta),10e-2));
 	}

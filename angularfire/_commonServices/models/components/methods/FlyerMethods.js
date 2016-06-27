@@ -1,5 +1,7 @@
 'use strict';
 
+let TicksCalcService = require('../../../TicksCalcService');
+
 /////////////
 
 function move(dT, px){
@@ -8,7 +10,7 @@ function move(dT, px){
 	if (false && px) { 
 		var dist = px;	
 	} else { 
-		var dist = dT * this.p.speed; 
+		var dist = TicksCalcService.perSToPerTickRoundedTo(this.p.speed,10e-2); // speed is per-second!
 	}
 
 
