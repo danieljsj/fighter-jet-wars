@@ -18,11 +18,6 @@ var gD = {
 	users: [],
 	players: [],
 	entities: [],
-	entitiesByType: {
-		fighter: [],
-		blimp: [],
-		laser: [],
-	},
 };
 
 var ref;
@@ -95,12 +90,11 @@ function createEntitiesForPlayer(entityQuantities, player){
 				id: entityRef.key(),
 				fbRef: entityRef,
 				player: player,
+				playerId: player.id,
 			});
 
-			gD.entities
-				.push(entity);
-			gD.entitiesByType[entityTypeName]
-				.push(entity);
+			gD.entities.push(entity);
+
 		}
 	}
 }
