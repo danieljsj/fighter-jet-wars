@@ -66,7 +66,7 @@ function doTick(){
 
 	let c = true;
 
-	if (c) process.stdout.write('\x1B[2J'); // clear console
+	if (c) process.stdout.write('\x1B[2J'); // pseudo clear console
 	
 	let currTick = TicksCalcService.latest();
 
