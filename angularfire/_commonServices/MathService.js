@@ -8,6 +8,8 @@ const sins = [];
 class MathService {
 
 	roundTo(float,graduation){
+		return float; // DISABLES THIS WHOLE FUNCTION; I AM ANNOYED WITH DEALING WITH ROUNDING ATTEMPTS AT THE MOMENT;
+
 		graduation = graduation || standardGraduation;
 		return Math.round(float/graduation)*graduation;
 	}
@@ -19,6 +21,8 @@ class MathService {
 
 
 	// MAYBE DON'T MESS WITH THIS OPTIMIZATION JUNK:
+	// 
+	// // AND IF I DO, MAYBE USE THIS KIND OF ROUNDING SO IT DOESN'T SUFFER ROUNDING ERRORS: http://www.jacklmoore.com/notes/rounding-in-javascript/
 
 	cos(theta){ 
 		theta = this.roundTo(theta,10e-3); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
