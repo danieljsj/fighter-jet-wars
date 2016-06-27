@@ -1,6 +1,7 @@
 'use strict';
 
 let TicksCalcService = require('../../../TicksCalcService');
+let MathService = require('../../../MathService');
 
 /////////////
 
@@ -17,6 +18,9 @@ function move(dT, px){
 	//  /\/\/\  CORE MOVEMENT:  /\/\/\ //
 	this.p.y += Math.sin(this.p.direction) * dist;
 	this.p.x += Math.cos(this.p.direction) * dist;
+	// // LATER: OPTIMIZING: MAYBE:
+	// this.p.y += MathService.sin(this.p.direction) * dist;
+	// this.p.x += MathService.cos(this.p.direction) * dist;
 
 
 	//  /\/\/\  RANGE:  /\/\/\ // // COMING SOON TO A LASER NEAR YOU

@@ -3,6 +3,7 @@
 const standardGraduation = 0.1;
 
 const coss = [];
+const sins = [];
 
 class MathService {
 
@@ -11,7 +12,28 @@ class MathService {
 		return Math.round(float/graduation)*graduation;
 	}
 
+
+
+
+
+
+
+	// MAYBE DON'T MESS WITH THIS OPTIMIZATION JUNK:
+
 	cos(theta){ 
+		theta = this.roundTo(theta,10e-3); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
+		const cached = coss[theta];
+		return cached || (coss[theta] = this.roundTo(Math.cos(theta),10e-3));
+	}
+	sin(theta){ 
+		theta = this.roundTo(theta,10e-3); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
+		const cached = sins[theta];
+		return cached || (sins[theta] = this.roundTo(Math.sin(theta),10e-3));
+	}
+	tan(theta){ 
+		theta = this.roundTo(theta,10e-3); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
+		return this.sin(theta)/this.cos(theta);
+	}
 
 		/*NOTES: 
 
@@ -38,10 +60,7 @@ class MathService {
 
 
 		*/
-		theta = this.roundTo(theta,10e-2); // OPTION TO OPTMIZE MORE: MAKE IT BE LIKE THIS: this lookup table requires that incoming theta be pre-rounded; i don't want to round them here because i don"t want to use extra cycles re-rounding things whose direction has not change!
-		const cached = coss[theta];
-		return cached || (coss[theta] = this.RoundTo(Math.cos(theta),10e-2));
-	}
+
 }
 
 module.exports = new MathService();
