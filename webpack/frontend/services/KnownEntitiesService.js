@@ -1,53 +1,45 @@
 'use strict';
 
-
-/**
- * @ngdoc service
- * @name angularfireApp.KnownEntitiesService
- * @description
- * # KnownEntitiesService
- * Service in the angularfireApp.
- */
-angular.module('angularfireApp')
-  .service('KnownEntitiesService', function(SnapshotRetrievalService) {
-    // AngularJS will instantiate a singleton by calling "new" on this class
-
-    const gD = {
-		users: [],
-		players: [],
-		entities: [],
-	};
-
-    const Fighter = require('../../../_commonServices/Fighter');
-    const Blimp = require('../../../_commonServices/Blimp');
-    // const Laser = require('../../../_commonServices/Laser'); // coming soon
-  	
-	const entityConstructors = {
-		'fighter': Fighter,
-		'blimp': Blimp,
-		// 'laser': Laser, // coming soon
-	};
+const SnapshotRetrievalService = require('./SnapshotRetrievalService');
 
 
-    function importSnapshot(){
-    	SnapshotRetrievalService.retrieve(function useSnapshotData(snapshotData){
-	    	snapshotData.players.forEach(function createPlayer(playerData){
 
-    		});
-	    	snapshotData.entities.forEach(function createEntity(entityData){
-				
-				var entity = new entityConstructors[entityData.entityTypeName]({
-					id: entityData.id,
-					playerId: entityData.player,
-				});
+const gD = { //// WAIT... this is looking like a clone not fully converted of GameDataService
+	users: [],
+	players: [],
+	entities: [],
+};
 
-				gD.entities.push(entity);
+const Fighter = require('../../common/services/Fighter');
+const Blimp = 	require('../../common/services/Blimp');
+// const Laser = require('../../common/services/Laser'); // coming soon
+	
+const entityConstructors = {
+	'fighter': Fighter,
+	'blimp': Blimp,
+	// 'laser': Laser, // coming soon
+};
 
+
+function importSnapshot(){
+	SnapshotRetrievalService.retrieve(function useSnapshotData(snapshotData){
+    	snapshotData.players.forEach(function createPlayer(playerData){
+
+		});
+    	snapshotData.entities.forEach(function createEntity(entityData){
+			var entity = new entityConstructors[entityData.entityTypeName]({
+				id: entityData.id,
+				playerId: entityData.player,
 			});
-	    });
-    }
+			gD.entities.push(entity);
+		});
+    });
+}
 
-    
+module.exports = {
+	importSnapshot: importSnapshot,
+	data: gD,
+}
 
 	
 
@@ -66,7 +58,7 @@ angular.module('angularfireApp')
 
 
 
-  });
+  
 
 
 

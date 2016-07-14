@@ -1,4 +1,8 @@
+'use strict';
+
+
 // NEEDS userRef!!!!!!!!!!
+// NEEDS module.exports!!!!!!!!!!
 
 
 //event listener
