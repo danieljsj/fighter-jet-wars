@@ -1,1 +1,1 @@
-entry.js
+const singleUnitControl = require('./controllers/singleunit');
