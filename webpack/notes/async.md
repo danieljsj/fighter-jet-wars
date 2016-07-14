@@ -52,7 +52,9 @@ commands are sent with 1)clientTime and 2)serverTime, from which can be derived 
 
 		cmd.tick = Math.round(cmd.eventTime/framesPerSecond);
 
+		latestValidTick = Math.min(cmd.tick, latestValidTick);
 
+		clearMatchingLocalTempCommand(cmd); // WAIT... this isn't needed because the command is already stored... BUT I wonder when it gets its timestamp added.... 
 
 	});
 
@@ -61,6 +63,8 @@ commands are sent with 1)clientTime and 2)serverTime, from which can be derived 
 
 
 
+
+
 authoritative server version is behind.
 
-
+sends authoritative snapshots (which also invalidate a pile of old ticks for a browser)
