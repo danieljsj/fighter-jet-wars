@@ -1,3 +1,4 @@
 *auth-config*.json
 node_modules
 *npm-debug.log*
+*.png
