@@ -1,5 +1,7 @@
 <html>
     <head>
+    	<!-- SHOULD NOT BE HERE, BUT IS, BECAUSE WEBPACK HIT AN UNEXPECTED IDENTIFIER -->
+
         <meta charset="utf-8">
     </head>
     <body>
@@ -8,9 +10,10 @@
 
         <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
 
-        <!-- todo: make this come in via js, like through react or something -->
-		<canvas id="skyCanvas" width="900" height="600" style="border: 1px solid gray;"></canvas>
-		<div id="leafletMap" style="width:400px; height:400px;"></div>
+        <!-- todo: make this come in via js, like through react or something ... yup, because webpack-dev-server doesn't actually readindex.html! ... just runs bundle.js...-->
+    	<!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
+		<!-- <canvas id="skyCanvas" width="900" height="600" style="border: 1px solid gray;"></canvas> -->
+		<!-- <div id="leafletMap" style="width:400px; height:400px;"></div> -->
 
 
     </body>

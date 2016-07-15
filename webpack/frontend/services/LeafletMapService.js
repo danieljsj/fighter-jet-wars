@@ -37,7 +37,14 @@ function initMap(mapHtmlId){
 	
 }
 
-function initMapNow(mapHtmlId){
+function initMapNow(){
+
+	const mapHtmlId = 'leafletMap'
+
+	const lMapDiv = document.createElement('div');
+	lMapDiv.id = mapHtmlId;
+	document.body.appendChild(lMapDiv);
+
 	lMap = L.map(mapHtmlId).setView([homeLat, homeLng], 13);
 	
 	L.marker([homeLat, homeLng], {icon: L.icon({iconUrl: 'http://www.iconarchive.com/download/i85581/graphicloads/100-flat/home.ico', iconSize:[12,12]}) }).addTo(lMap);

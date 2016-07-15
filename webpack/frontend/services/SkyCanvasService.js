@@ -5,8 +5,11 @@ var canvas, ctx;
 
 function initCanvas(canvasId){
 
+	if (canvas) return;
+
 	// Create the canvas
-	canvas = document.getElementById(canvasId);
+	canvas = document.createElement('canvas');
+	document.body.appendChild(canvas);
 	// canvas.style["z-index"] = 1;
 	ctx = canvas.getContext("2d");
 
