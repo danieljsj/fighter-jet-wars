@@ -3,8 +3,8 @@
 let GameDataService = require('./GameDataService');
 let gD = GameDataService.data;
 
-let GameParamsService = require('../../_commonServices/GameParamsService');
-let TicksCalcService = require('../../_commonServices/TicksCalcService');
+let GameParamsService = require('../../common/services/GameParamsService');
+let TicksCalcService = require('../../common/services/TicksCalcService');
 
 
 //////////////

@@ -3,10 +3,10 @@
 // NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO IF WE WANT. OR NOT. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
 
 var FirebaseRefService = require('./FirebaseRefService');
-var GameParamsService = require('../../_commonServices/GameParamsService');
+var GameParamsService = require('../../common/services/GameParamsService');
 
-var Fighter = require('../../_commonServices/models/Fighter.js');
-var Blimp = require('../../_commonServices/models/Blimp.js');
+var Fighter = require('../../common/services/models/Fighter.js');
+var Blimp = require('../../common/services/models/Blimp.js');
 
 
 
