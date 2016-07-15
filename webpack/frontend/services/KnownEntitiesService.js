@@ -2,6 +2,9 @@
 
 const SnapshotRetrievalService = require('./SnapshotRetrievalService');
 
+const Fighter = require('../../common/services/models/Fighter');
+const Blimp = 	require('../../common/services/models/Blimp');
+
 
 
 const gD = { //// WAIT... this is looking like a clone not fully converted of GameDataService
@@ -10,8 +13,6 @@ const gD = { //// WAIT... this is looking like a clone not fully converted of Ga
 	entities: [],
 };
 
-const Fighter = require('../../common/services/Fighter');
-const Blimp = 	require('../../common/services/Blimp');
 // const Laser = require('../../common/services/Laser'); // coming soon
 	
 const entityConstructors = {

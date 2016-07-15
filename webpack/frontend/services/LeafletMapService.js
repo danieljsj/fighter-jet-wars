@@ -30,9 +30,8 @@ function initMap(mapHtmlId){
 		homeLat = 44.8847554; homeLng = -93.2222846;
 		initMapNow(mapHtmlId);
 	}
-
+	
 }
-
 
 function initMapNow(mapHtmlId){
 	lMap = L.map(mapHtmlId).setView([homeLat, homeLng], 13);
@@ -47,7 +46,6 @@ function initMapNow(mapHtmlId){
 	}).addTo(lMap);
 
 }
-
 
 module.exports = {
 	initMap: initMap,

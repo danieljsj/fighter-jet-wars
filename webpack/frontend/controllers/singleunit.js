@@ -6,50 +6,35 @@
 
 
 
-const KnownEntitiesService = require('./services/KnownEntitiesService');
-const LeafletMapService = require('./services/LeafletMapService');
-const SkyCanvasService = require('./services/SkyCanvasService');
-const KeyboardControlsService = require('./services/KeyboardControlsService');
+const KnownEntitiesService = require('../services/KnownEntitiesService');
+const LeafletMapService = require('../services/LeafletMapService');
+const SkyCanvasService = require('../services/SkyCanvasService');
+const KeyboardControlsService = require('../services/KeyboardControlsService');
+
+// NEED Ref!
+
+
+// SINGLE UNIT VIEW-MODEL:
+
+LeafletMapService.initMap('leafletMap');
+SkyCanvasService.initCanvas('skyCanvas');
+
+KnownEntitiesService.pullEntitiesAndRenderThen(function(entities){
+	console.log('entities pulled into vm:',entities);
+	vm.entities = entities;
+});
 
 
 
+// SINGLE UNIT CONTROL:
 
-
-/**
- * @ngdoc function
- * @name angularfireApp.controller:SingleunitCtrl
- * @description
- * # SingleunitCtrl
- * Controller of the angularfireApp
- */
-angular.module('angularfireApp')
-  .controller('SingleunitCtrl', 
-  	var vm = this;
-
-
-  	// SINGLE UNIT VIEW-MODEL:
-	
-	LeafletMapService.initMap('leafletMap');
-	SkyCanvasService.initCanvas('skyCanvas');
-
-	KnownEntitiesService.pullEntitiesAndRenderThen(function(entities){
-		console.log('entities pulled into vm:',entities);
-		vm.entities = entities;
+var userRef = Ref.child('users/'+user.uid); // NOTE! At some point I may want to switch this to being playerRef since with multiple servers a user will associate to multiple "players", one per server.
+/// userRef WILL NEED TO TURN INTO A SERVICE... WE'LL NEED FIREBASEDATASERVICE
+/// 
+// FOR DEBUGGING; won't need to see/subscribe to our own controls... unless we really want to...
+	userRef.on('value', function(ss){ // should eventually be Player, but haven't set it to be that yet
+		vm.player = ss.val();
+		$timeout(function(){$rootScope.$apply()});
 	});
 
 
-
-  	// SINGLE UNIT CONTROL:
-
-	var userRef = Ref.child('users/'+user.uid); // NOTE! At some point I may want to switch this to being playerRef since with multiple servers a user will associate to multiple "players", one per server.
-	/// userRef WILL NEED TO TURN INTO A SERVICE... WE'LL NEED FIREBASEDATASERVICE
-	/// 
-	// FOR DEBUGGING; won't need to see/subscribe to our own controls... unless we really want to...
-  	userRef.on('value', function(ss){ // should eventually be Player, but haven't set it to be that yet
-  		vm.player = ss.val();
-  		$timeout(function(){$rootScope.$apply()});
-  	});
-
-
-
-  });
