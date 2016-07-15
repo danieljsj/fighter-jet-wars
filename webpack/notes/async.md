@@ -54,7 +54,8 @@ commands are sent with 1)clientTime and 2)serverTime, from which can be derived 
 
 		latestValidTick = Math.min(cmd.tick, latestValidTick);
 
-		clearMatchingLocalTempCommand(cmd); // WAIT... this isn't needed because the command is already stored... BUT I wonder when it gets its timestamp added.... 
+		clearMatchingLocalTempCommand(cmd); 
+			// WAIT... this isn't needed because the command is already stored... BUT I wonder when it gets its timestamp added.... 
 
 	});
 
