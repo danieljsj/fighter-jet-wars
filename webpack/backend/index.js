@@ -1,37 +1,11 @@
 'use strict';
-
-
-var requirejs = require('requirejs');
-
-requirejs.config({
-    //Pass the top-level main.js/index.js require function to requirejs so that node modules are loaded relative to the top-level JS file.
-    nodeRequire: require,
-    paths: {
-    	services: '../_commonServices',
-    	
-    	models: '../_commonServices/models',
-    	
-    	atts: 	'../_commonServices/models/components/atts',
-    	methods:'../_commonServices/models/components/methods',
-    	nulls: 	'../_commonServices/models/components/nulls',
-    }
-});
-
-
 // require('look').start(); // using node-debug instead
 
 
 // vendor
-var express = requirejs('express');
+var express = require('express');
+
 // src
-
-requirejs(['services/FirebaseRefService'],
-  function( FbRefServ ){
-  	FbRefServ;
-  }
-)
-
-
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
 var SnapshotService = require('./services/SnapshotService');
