@@ -19,8 +19,9 @@ FirebaseRefService.initThen(function(){
 
 	LeafletMapService.initMap('leafletMap');
 	SkyCanvasService.initCanvas('skyCanvas');
-
+	console.log("HELLO");
 	KnownEntitiesService.importSnapshotThen(function(){
+		console.log("HELLO AGAIN");
 		console.log(KnownEntitiesService.data);
 	});
 

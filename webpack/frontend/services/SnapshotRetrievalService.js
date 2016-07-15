@@ -30,6 +30,13 @@ function retrieveThen(cb){
       if (request.status >= 200 && request.status < 400) {
         // Success!
         var resp = request.responseText;
+
+        var data = JSON.parse(resp);
+
+        console.log(data);
+        
+        cb(data);
+
       } else {
         // We reached our target server, but it returned an error
 
