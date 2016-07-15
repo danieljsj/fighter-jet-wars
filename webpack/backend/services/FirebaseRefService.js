@@ -3,6 +3,7 @@
 var Firebase = require('firebase');
 var FirebaseTokenGenerator = require("firebase-token-generator");
 
+const GameParamsService = require('../../common/GameParamsService');
 
 //////////
 
@@ -19,7 +20,7 @@ function initThen(cb){
 	   {uid: "my-awesome-server"}, 
 	   {expires: (new Date).getTime() + 3600*24*7}
 	);
-	ref = new Firebase("https://fighter-jets-oldfire.firebaseio.com");
+	ref = new Firebase(GameParamsService.params.firebaseUrl);
 
 	ref.authWithCustomToken(token, function(error, authData) {
 	    cb(ref);

@@ -9,5 +9,6 @@ module.exports = {
 		fightersPerNewNonuserPlayer: 1,
 		blimpsPerNewNonuserPlayer: 0,
 
+		firebaseUrl: 'https://fighter-jets-oldfire.firebaseio.com',
 	}
 }
