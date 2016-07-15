@@ -1,5 +1,9 @@
 'use strict';
 
+
+var L = require('leaflet');
+
+
 var fallbackHomeLat = 44.9374744;
 var fallbackHomeLng = -93.0862457;
 
