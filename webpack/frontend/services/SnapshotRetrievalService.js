@@ -38,7 +38,7 @@ function retrieveThen(cb){
 
     request.onerror = function() {
       // There was a connection error of some sort
-      throw 'there was an error with this request: '+request.toJSON();
+      throw 'there was an error with this request';
     };
 
     request.send();

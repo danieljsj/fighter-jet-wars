@@ -44,9 +44,9 @@ FirebaseRefService.initThen(function(){
 	/// userRef WILL NEED TO TURN INTO A SERVICE... WE'LL NEED FIREBASEDATASERVICE
 	/// 
 	// FOR DEBUGGING; won't need to see/subscribe to our own controls... unless we really want to...
-	userRef.on('value', function(ss){ // should eventually be Player, but haven't set it to be that yet
-		vm.player = ss.val();
-		$timeout(function(){$rootScope.$apply()});
-	});
+	// userRef.on('value', function(ss){ // should eventually be Player, but haven't set it to be that yet
+	// 	vm.player = ss.val();
+	// 	$timeout(function(){$rootScope.$apply()});
+	// });
 
 });
