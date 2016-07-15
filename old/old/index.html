@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<title>Fighter Jet Wars</title>
+
+
+		<link href="style.css" rel="stylesheet" type="text/css">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+		<script src="node_modules/leaflet-rotatedmarker/leaflet.rotatedMarker.js"></script>
+
+		<style>
+			#mapid { height: 180px; }
+		</style>
+
+	</head>
+	<body>
+			<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAvm8G62q80FJ3eqqn8EcbPFM6N5SlhN1s"></script>-->
+			
+			<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+
+		    <!-- <script src="js/mapBkg.js" type="text/javascript"></script> -->
+
+
+			<script src="js/objects/world.js"></script>
+			<script src="js/objects/entity.js"></script>
+				<script src="js/objects/flyer.js"></script>
+					<script src="js/objects/plane.js"></script>
+						<script src="js/objects/player.js"></script>
+						<script src="js/objects/comp.js"></script>
+					<script src="js/objects/laser.js"></script>
+
+
+			<script src="js/controls.js"></script>
+			<script src="js/sensing.js"></script>
+
+			<script src="js/update.js"></script>
+			<script src="js/render.js"></script>
+			<script src="js/gameLoop.js"></script>
+
+			<script src="js/begin.js"></script>
+
+			<div id="mapid" style="position:absolute; top:0;left:0; width:100vw; height:100vh; z-index:-1;"></div>
+			<script>
+				'use strict';
+				var lMap;
+				var homeLat;
+				var homeLng;
+				var fallbackHomeLat = 44.9374744;
+				var fallbackHomeLng = -93.0862457;
+
+				if ("geolocation" in navigator) {
+				  	/* geolocation is available */
+					navigator.geolocation.getCurrentPosition(
+						// TODO: make the whole app start once location is found
+						function(position) {
+						  homeLat = position.coords.latitude; 
+						  homeLng = position.coords.longitude;
+						  startMap();
+						},
+						function error(err) {
+						  console.warn('getCurrentPosition ERROR(' + err.code + '): ' + err.message);
+						  homeLat = fallbackHomeLat; 
+						  homeLng = fallbackHomeLng;
+						  startMap();
+						}
+					);
+				} else {
+				  	/* geolocation IS NOT available */
+					homeLat = 44.8847554; homeLng = -93.2222846;
+					startMap();
+				}
+
+				function startMap(){
+
+
+					lMap = L.map('mapid').setView([homeLat, homeLng], 13);
+					
+					L.marker([homeLat, homeLng], {icon: L.icon({iconUrl: 'http://www.iconarchive.com/download/i85581/graphicloads/100-flat/home.ico', iconSize:[12,12]}) }).addTo(lMap);
+
+					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+					    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+					    maxZoom: 18,
+					    id: 'danieljsj.095ld7lm',
+					    accessToken: 'pk.eyJ1IjoiZGFuaWVsanNqIiwiYSI6ImNpb3VnNnFtazAwcWZ0em01N2xzcGpwaDUifQ.2qEVaJ4R-TeXw4LxJzIJ-A'
+					}).addTo(lMap);
+
+				}
+			</script>
+
+
+			<div id="controls" style="display:none;">
+				<h1 
+				class="button" 
+				onclick="player1.init();" 
+				style="cursor:url('images/plane-mean-red.gif'),auto;/*required either the hardcode/path or the ,auto, don't fel like testing which." 
+				>InitP1</h1>
+			</div>
+
+	</body>
+</html>

@@ -1,0 +1,31 @@
+body{
+	background-image: 	url('images/desert-missile-base.jpg');
+	background-size: 	auto;
+
+	position:relative;
+
+}
+
+div, html, body, canvas{
+	margin:0 !important;
+	padding:0 !important;
+}
+
+
+canvas{
+	float:left; /* This is what did the trick for the canvas!!! Perfect fit :-) */
+}
+
+#screen{
+}
+#controls{
+	position:absolute;
+	top:20px;
+	left:20px;
+	width:80%;
+	height:80%;
+}
+
+#controls .button {
+	/* Yes, this works. */
+}
