@@ -11,13 +11,9 @@ const LeafletMapService = require('../services/LeafletMapService');
 const SkyCanvasService = require('../services/SkyCanvasService');
 const KeyboardControlsService = require('../services/KeyboardControlsService');
 const FirebaseRefService = require('../services/FirebaseRefService');
-const UserService = require('../services/UserService');
 
 
 FirebaseRefService.initThen(function(){
-
-	var ref = FirebaseRefService.ref;
-	console.log(FirebaseRefService);
 
 	// SINGLE UNIT VIEW-MODEL:
 
@@ -27,7 +23,6 @@ FirebaseRefService.initThen(function(){
 	KnownEntitiesService.importSnapshotThen(function(){
 		console.log(KnownEntitiesService.data);
 	});
-
 
 	// SINGLE UNIT CONTROL:
 
