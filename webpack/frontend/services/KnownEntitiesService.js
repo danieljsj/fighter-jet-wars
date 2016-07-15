@@ -22,8 +22,8 @@ const entityConstructors = {
 };
 
 
-function importSnapshot(){
-	SnapshotRetrievalService.retrieve(function useSnapshotData(snapshotData){
+function importSnapshotThen(cb){
+	SnapshotRetrievalService.retrieveThen(function useSnapshotData(snapshotData){
     	snapshotData.players.forEach(function createPlayer(playerData){
 
 		});
@@ -34,11 +34,12 @@ function importSnapshot(){
 			});
 			gD.entities.push(entity);
 		});
+		cb();
     });
 }
 
 module.exports = {
-	importSnapshot: importSnapshot,
+	importSnapshotThen: importSnapshotThen,
 	data: gD,
 }
 

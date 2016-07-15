@@ -19,9 +19,8 @@ const KeyboardControlsService = require('../services/KeyboardControlsService');
 LeafletMapService.initMap('leafletMap');
 SkyCanvasService.initCanvas('skyCanvas');
 
-KnownEntitiesService.pullEntitiesAndRenderThen(function(entities){
-	console.log('entities pulled into vm:',entities);
-	vm.entities = entities;
+KnownEntitiesService.importSnapshotThen(function(){
+	console.log(KnownEntitiesService.data);
 });
 
 
