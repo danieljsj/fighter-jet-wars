@@ -11,6 +11,8 @@ function initCanvas(canvasId){
 
 	// Create the canvas
 	canvas = document.createElement('canvas');
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	document.body.appendChild(canvas);
 	// canvas.style["z-index"] = 1;
 	ctx = canvas.getContext("2d");
@@ -59,6 +61,7 @@ function draw(entity, centerPoint){
 	ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
 	ctx.translate(canvas.width / 2, canvas.height / 2); // shift ctx to center of canvas
 	// based on p
+	console.log(e.p.x,e.p.y);
 	ctx.translate(e.p.x-centerPoint.x, e.p.y-centerPoint.y); // shift to entity's position relative to centerpoint		
 	ctx.rotate(e.p.direction);
 
