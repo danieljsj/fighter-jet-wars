@@ -30,14 +30,12 @@ function getRedactedEntities(){
 	var redactedEntities = {};
 	gD.entities.forEach(function(entity, index){
 		var redactedEntity = {
+			// different than ob:
+			player: 		entity.player.id,
+			// same as ob:
 			entityTypeName: entity.entityTypeName,
-			p: {
-				x: entity.p.x,
-				y: entity.p.y,
-				direction: entity.p.direction,
-				speed: entity.p.speed,
-			},
-			player: entity.player.id,
+			p: 				entity.p,
+			controls: 		entity.controls,
 		};
 		if (0 == index) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;

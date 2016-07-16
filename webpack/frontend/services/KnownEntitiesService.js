@@ -34,11 +34,7 @@ function importSnapshotThen(cb){
 
     	for (const uid in snapshotData.entities) {
     		const entityData = snapshotData.entities[uid];
-			const entity = new entityConstructors[entityData.entityTypeName]({
-				id: entityData.id,
-				playerId: entityData.player,
-				p: entityData.p,
-			});
+			const entity = new entityConstructors[entityData.entityTypeName](entityData);
 			gD.entities.push(entity);
 		}
 

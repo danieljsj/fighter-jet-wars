@@ -32,7 +32,7 @@ class Fighter {
 
 		this.p = JSON.parse(JSON.stringify(params.p||nullP));
 
-		this.controls = JSON.parse(JSON.stringify(nullControls)); // TODO: GET THESE FROM FIREBASE! ... dude... complicated
+		this.controls = JSON.parse(JSON.stringify(params.controls||nullControls)); // TODO: GET THESE FROM FIREBASE! ... dude... complicated
 
 		this.thoughts = {}; // TODO! BRING THIS IN FROM THE OLD APP!
 
