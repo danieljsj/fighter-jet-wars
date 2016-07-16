@@ -1,5 +1,7 @@
 'use strict';
 
+var KnownEntitiesService = require('./KnownEntitiesService');
+var EntityTypesAppearanceService = require('./EntityTypesAppearanceService');
 
 var canvas, ctx;
 
@@ -27,15 +29,18 @@ function initCanvas(canvasId){
 
 
 
-function renderEntities(entities){
+function renderEntities(){
 	// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 	var centerPoint = {x:0,y:0};
 
 	clear();
 
-	entities.forEach(function(entity){
+	const entities = KnownEntitiesService.data.entities;
+
+	for (const uid in entities){
+		const entity = entities[uid];
 		draw(entity, centerPoint);
-	});
+	};
 
 }
 
@@ -48,6 +53,7 @@ function draw(entity, centerPoint){
 	
 
 	var e = entity;
+	console.log('e/entity:',e);
 
 	// reset:
 	ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);
@@ -57,7 +63,7 @@ function draw(entity, centerPoint){
 	ctx.rotate(e.p.direction);
 
 	// based on Img
-	var canvasImage = e.getCanvasImage();
+	var canvasImage = EntityTypesAppearanceService.getType(entity.entityTypeName).getCanvasImage();
 	ctx.translate(-canvasImage.width/2, -canvasImage.height/2); // MAYBE FOLD THIS INTO DRAWIMAGE?? ALSO... A BIT WEIRD THAT THIS IS HAPPENING AFTER THE ROTATE, EH?
 	try{
 		ctx.drawImage(canvasImage.domImage, 0, 0);

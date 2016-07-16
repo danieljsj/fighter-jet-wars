@@ -1,5 +1,8 @@
 'use strict';
 
+const CanvasImageService = require('./CanvasImageService');
+
+
 var typesByName = {};
 
 function Type(name, typeData){

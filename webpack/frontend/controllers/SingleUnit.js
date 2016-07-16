@@ -4,10 +4,11 @@
 // UNLESS we want you to be able to have your user account controlling multiple... but I think that's perhaps cheating because then we're giving the user-controlled powerup to multiple planes on your team, allowing more fame points for your team. Which maybe is cool. An option for another day.
 
 
+console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
 
 const KnownEntitiesService = require('../services/KnownEntitiesService');
-const LeafletMapService = require('../services/LeafletMapService');
+// const LeafletMapService = require('../services/LeafletMapService');
 const SkyCanvasService = require('../services/SkyCanvasService');
 const KeyboardControlsService = require('../services/KeyboardControlsService');
 const FirebaseRefService = require('../services/FirebaseRefService');
@@ -17,12 +18,11 @@ FirebaseRefService.initThen(function(){
 
 	// SINGLE UNIT VIEW-MODEL:
 
-	LeafletMapService.initMap('leafletMap');
+	// LeafletMapService.initMap('leafletMap');
 	SkyCanvasService.initCanvas('skyCanvas');
-	console.log("HELLO");
 	KnownEntitiesService.importSnapshotThen(function(){
-		console.log("HELLO AGAIN");
-		console.log(KnownEntitiesService.data);
+		console.log('KnownEntitiesService.data',KnownEntitiesService.data);
+		SkyCanvasService.renderEntities();
 	});
 
 	// SINGLE UNIT CONTROL:
