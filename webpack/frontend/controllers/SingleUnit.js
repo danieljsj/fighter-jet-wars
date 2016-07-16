@@ -12,7 +12,7 @@ const KnownEntitiesService = require('../services/KnownEntitiesService');
 const SkyCanvasService = require('../services/SkyCanvasService');
 const KeyboardControlsService = require('../services/KeyboardControlsService');
 const FirebaseRefService = require('../services/FirebaseRefService');
-
+const SimService = require('../services/SimService');
 
 FirebaseRefService.initThen(function(){
 
@@ -23,6 +23,7 @@ FirebaseRefService.initThen(function(){
 	KnownEntitiesService.importSnapshotThen(function(){
 		console.log('KnownEntitiesService.data',KnownEntitiesService.data);
 		SkyCanvasService.renderEntities();
+		SimService.start();
 	});
 
 	// SINGLE UNIT CONTROL:
