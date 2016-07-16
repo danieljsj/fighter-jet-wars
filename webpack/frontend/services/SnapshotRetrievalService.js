@@ -9,8 +9,6 @@ function GameSnapshot(data){
 // function getA(cb){ // A stands for Async... trying out that naming...
 function retrieveThen(cb){
 
-
-
     // $http({
     // 	method: 'GET',
     // 	url: 'http://localhost:4242/snapshot'
@@ -25,29 +23,19 @@ function retrieveThen(cb){
 
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
-
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
-        // Success!
         var resp = request.responseText;
-
         var data = JSON.parse(resp);
-
         console.log(data);
-        
         cb(data);
-
       } else {
-        // We reached our target server, but it returned an error
-
+        throw '"We reached our target server, but it returned an error", i.e. requrest.status is not a happy number.';
       }
     };
-
     request.onerror = function() {
-      // There was a connection error of some sort
-      throw 'there was an error with this request';
+      throw '"There was a connection error of some sort", i.e. onerror fired.';
     };
-
     request.send();
 
 }

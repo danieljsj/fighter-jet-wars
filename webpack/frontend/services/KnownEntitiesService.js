@@ -24,16 +24,21 @@ const entityConstructors = {
 
 function importSnapshotThen(cb){
 	SnapshotRetrievalService.retrieveThen(function useSnapshotData(snapshotData){
-    	snapshotData.players.forEach(function createPlayer(playerData){
 
-		});
-    	snapshotData.entities.forEach(function createEntity(entityData){
-			var entity = new entityConstructors[entityData.entityTypeName]({
+    	for (const uid in snapshotData.players) {
+    		const playerData = snapshotData.players[uid];
+    		//...
+    	}
+
+    	for (const uid in snapshotData.entities) {
+    		const entityData = snapshotData.entities[uid];
+			const entity = new entityConstructors[entityData.entityTypeName]({
 				id: entityData.id,
 				playerId: entityData.player,
 			});
 			gD.entities.push(entity);
-		});
+		}
+
 		cb();
     });
 }
@@ -91,7 +96,7 @@ module.exports = {
 
  //    ///////
 
- //    var entities;
+ //    const entities;
 
 	// function pullEntitiesAndRenderThen(cb){
 
