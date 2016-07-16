@@ -35,8 +35,9 @@ function getRedactedEntities(){
 				x: entity.p.x,
 				y: entity.p.y,
 				direction: entity.p.direction,
+				speed: entity.p.speed,
 			},
-			// player: entity.player.id,
+			player: entity.player.id,
 		};
 		if (0 == index) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;

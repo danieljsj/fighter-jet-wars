@@ -19,6 +19,8 @@ var FlyerMethods = require('./components/methods/FlyerMethods');
 class Fighter {
 
 	constructor(params){
+		params = params || {};
+
 		this.entityTypeName = 'fighter';
 		
 		this.fbRef = params.fbRef;
@@ -28,12 +30,9 @@ class Fighter {
 		
 		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
 
-		// null-starts:
-		this.p = JSON.parse(JSON.stringify(nullP));
-		this.p.x += (Math.random()-0.5) * 100;
-		this.p.y += (Math.random()-0.5) * 100;
+		this.p = JSON.parse(JSON.stringify(params.p||nullP));
 
-		this.controls = JSON.parse(JSON.stringify(nullControls));
+		this.controls = JSON.parse(JSON.stringify(nullControls)); // TODO: GET THESE FROM FIREBASE! ... dude... complicated
 
 		this.thoughts = {}; // TODO! BRING THIS IN FROM THE OLD APP!
 

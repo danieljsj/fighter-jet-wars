@@ -25,6 +25,8 @@ const entityConstructors = {
 function importSnapshotThen(cb){
 	SnapshotRetrievalService.retrieveThen(function useSnapshotData(snapshotData){
 
+		console.log('snapshotData',snapshotData);
+
     	for (const uid in snapshotData.players) {
     		const playerData = snapshotData.players[uid];
     		//...
@@ -35,6 +37,7 @@ function importSnapshotThen(cb){
 			const entity = new entityConstructors[entityData.entityTypeName]({
 				id: entityData.id,
 				playerId: entityData.player,
+				p: entityData.p,
 			});
 			gD.entities.push(entity);
 		}
