@@ -55,7 +55,7 @@ function draw(entity, centerPoint){
 	
 
 	var e = entity;
-	console.log('e/entity:',e);
+	// console.log('e/entity:',e);
 
 	// reset:
 	ctx.setTransform(1,0,0,1,0,0); // (scaleX, skewX, skewY, scaleY, translateX, translateY);

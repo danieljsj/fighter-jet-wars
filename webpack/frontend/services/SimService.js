@@ -17,8 +17,7 @@ module.exports = {
 
 function start(ref) {
 
-	startTicks(); // ticks start first; app spins fine on empty data tree.
-	KnownEntitiesService.start(); // data streams in gracefully
+	startTicks();
 
 }
 
@@ -103,7 +102,7 @@ function doTick(){
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
-	if (c && KnownEntitiesService.data.entities[0]) console.log('KnownEntitiesService.data.entities[0].p: \n',KnownEntitiesService.data.entities[0].p);
-	if (c && KnownEntitiesService.data.entities[0]) console.log('KnownEntitiesService.data.entities[0].atts: \n',KnownEntitiesService.data.entities[0].atts);
+	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].p: \n',GameDataService.data.entities[0].p);
+	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
 
 }
