@@ -1,39 +1,46 @@
 'use strict';
 
-const UserService = require('../services/UserService');
+const CurrentUserService = require('../services/CurrentUserService');
 const FirebaseRefService = require('./FirebaseRefService');
+const GameDataService = require('./GameDataService');
 
-var userRef;
 
+
+
+let commandsRef;
+let offset;
 FirebaseRefService.initThen(function(){
-  userRef = FirebaseRefService.ref.child('users/'+UserService.user.uid);
-}); // TODO: make a UserRefService so I don't have to do this everywhere... // ALSO... figure out smarter ways of init'ing everything... once I need to wait for auth this is going to get annoying again...
+  
+  commandsRef = FirebaseRefService.ref.child('commands');
+  
+  var offsetRef = FirebaseRefService.ref.child(".info/serverTimeOffset");
+  offsetRef.on("value", function(snap) {
+    offset = snap.val();
+  });
 
+}); // TODO: make a CommandsRefService? so I don't have to do this everywhere?... // ALSO... figure out smarter ways of init'ing everything... once I need to wait for auth this is going to get annoying again...
 
-
-
-// NEEDS userRef!!!!!!!!!!
-// NEEDS module.exports!!!!!!!!!!
 
 
 function onKeyDown(event) {
+
   var keyCode = event.keyCode;
   // console.log(keyCode);
   switch (keyCode) {
     case 87: //w
-      userRef.child('controls/fore').set(1);
+      sendCommand('fore', 1);
       break;
     case 83: //s
-      userRef.child('controls/back').set(1);
+      sendCommand('back', 1);
       break;
     case 65: //a
-      userRef.child('controls/left').set(1);
+      sendCommand('left', 1);
       break;
     case 68: //d      
-      userRef.child('controls/right').set(1);
+      sendCommand('right', 1);
       break;
     case 32: //space      
-      userRef.child('controls/tryFire').set(1);
+      sendCommand('tryFire', 1);
       break;
   }
 }
@@ -43,19 +50,19 @@ function onKeyUp(event) {
 
   switch (keyCode) {
     case 87: //w
-      userRef.child('controls/fore').set(0);
+      sendCommand('fore', 0);
       break;
     case 83: //s
-      userRef.child('controls/back').set(0);
+      sendCommand('back', 0);
       break;
     case 65: //a
-      userRef.child('controls/left').set(0);
+      sendCommand('left', 0);
       break;
     case 68: //d      
-      userRef.child('controls/right').set(0);
+      sendCommand('right', 0);
       break;
     case 32: //space      
-      userRef.child('controls/tryFire').set(0);
+      sendCommand('tryFire', 0);
       break;
       // later: controls/trySwitch? tryNext,tryPrev?
     // left arrow 37
@@ -64,6 +71,32 @@ function onKeyUp(event) {
     // down arrow 40
   }
 }
+
+function sendCommand(key,val){
+
+  var entities = GameDataService.data.entities;
+  
+  let id;
+  for (const idYup in entities){
+    id = idYup;
+    break;
+  }
+
+  const cmd = {
+    eId: id,
+    key: key,
+    val: val,
+    bT: (new Date()).getTime() + offset,
+    sT: require('firebase').ServerValue.TIMESTAMP,
+  };
+
+  console.log('sending cmd: ',cmd);
+
+  commandsRef.push().set(cmd);
+}
+
+
+
 
 function start(){
 

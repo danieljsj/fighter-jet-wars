@@ -2,9 +2,10 @@
 
 // makes or reads text-only (no refs) literals
 
+const Fighter = require('../../common/services/models/Fighter.js');
+const Blimp = require('../../common/services/models/Blimp.js');
+// const FirebaseRefService = require('./FirebaseRefService'); // later... for when I... wait... no... i don't need this... we're streaming a single pile of commands, so I don't need to apply refs onto the entities themselves...
 
-const Fighter = require('../../common/services/models/Fighter');
-const Blimp = 	require('../../common/services/models/Blimp');
 
 const entityConstructors = {
 	'fighter': Fighter,
@@ -59,6 +60,8 @@ function makeRedactedEntities(gDEntities){
 
 
 
+
+
 function makeGameDataFromSnapshot(snapshot){
 
 	const gD = {
@@ -68,7 +71,10 @@ function makeGameDataFromSnapshot(snapshot){
 	};
 
 	for (const id in snapshot.users){
-		gD.users[id] = snapshot.users[id];
+		var user = snapshot.users[id]
+		user.fbRef = 
+		// WARNING!!! THIS MIGHT CREATE A MEMORY LEAK!!!!!!!!
+		gD.users[id] = user;
 	}
 
 	for (const id in snapshot.players) {

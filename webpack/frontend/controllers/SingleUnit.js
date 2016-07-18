@@ -16,6 +16,7 @@ const SimService = require('../services/SimService');
 const SnapshotRetrievalService = require('../services/SnapshotRetrievalService');
 const SnapshotService = require('../../common/services/SnapshotService');
 const GameDataService = require('../services/GameDataService');
+const CommandsReadingService = require('../../common/services/CommandsReadingService');
 
 FirebaseRefService.initThen(function(){
 
@@ -27,6 +28,7 @@ FirebaseRefService.initThen(function(){
 		console.log('snapshot',snapshot);
 		GameDataService.data = SnapshotService.makeGameDataFromSnapshot(snapshot);
 		SimService.start();
+		CommandsReadingService.start();
 	});
 
 	// SINGLE UNIT CONTROL:
