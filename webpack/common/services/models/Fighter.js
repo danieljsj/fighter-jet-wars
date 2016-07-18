@@ -26,7 +26,7 @@ class Fighter {
 		this.fbRef = params.fbRef;
 		this.id = params.id;
 		this.player = params.player || false;
-		this.playerId = params.playerId || false;
+		// this.playerId = params.playerId || false; for the moment, .player is the only thing used, and can be either a string or an object; things that user .player will eventually want to test for whether it is a string or an object
 		
 		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
 
