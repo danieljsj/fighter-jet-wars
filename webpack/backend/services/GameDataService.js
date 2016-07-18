@@ -15,9 +15,9 @@ var Blimp = require('../../common/services/models/Blimp.js');
 
 
 var gD = {
-	users: [],
-	players: [],
-	entities: [],
+	users: {},
+	players: {},
+	entities: {},
 };
 
 var ref;
@@ -65,7 +65,7 @@ function addPlayer(params){
 		id: playerRef.key(),
 		user: params.user,
 	};
-	gD.players.push(player);
+	gD.players[player.id] = player;
 
 	var entityQuantities = {
 		'fighter': (params.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),
@@ -93,7 +93,7 @@ function createEntitiesForPlayer(entityQuantities, player){
 				// playerId: player.id,
 			});
 
-			gD.entities.push(entity);
+			gD.entities[entity.id] = entity;
 
 		}
 	}

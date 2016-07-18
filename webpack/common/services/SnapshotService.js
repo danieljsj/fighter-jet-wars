@@ -24,20 +24,21 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 
 function makeRedactedPlayers(gDPlayers){
 	var redactedPlayers = {};
-	gDPlayers.forEach(function(player){
+	for (const id in gDPlayers) {
+		const player = gDPlayers[id];
 		redactedPlayers[player.id] = {
 			id: player.id,
 			userId: (player.user ? player.user.id : false )
 		};
-	});
+	};
 	return redactedPlayers;
 }
-
 function makeRedactedEntities(gDEntities){
-	var redactedEntities = {};
-	gDEntities.forEach(function(entity, index){
-		console.log(entity, index);
-		var redactedEntity = {
+	let lolz = 0;
+	const redactedEntities = {};
+	for (const id in gDEntities) {
+		const entity = gDEntities[id];
+		const redactedEntity = {
 			// different than ob:
 			player: 		entity.player.id,
 			// same as ob:
@@ -46,9 +47,9 @@ function makeRedactedEntities(gDEntities){
 			p: 				entity.p,
 			controls: 		entity.controls,
 		};
-		if (0 == index) console.log(redactedEntity);
+		// if (0 == lolz++) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;
-	});
+	};
 	return redactedEntities;
 }
 
