@@ -6,7 +6,10 @@
 const Fighter = require('../../common/services/models/Fighter');
 const Blimp = 	require('../../common/services/models/Blimp');
 
-
+const entityConstructors = {
+	'fighter': Fighter,
+	'blimp': Blimp
+}
 
 //////////
 
@@ -81,7 +84,7 @@ function makeGameDataFromSnapshot(snapshot){
 	for (const id in gD.entities) {
 		var entity = gD.entities[id]
 		entity.parent = gD.entities[entity.parent] || entity.parent;
-		for (const childUid in entities.children){
+		for (const childUid in entity.children){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
 		}
 	}

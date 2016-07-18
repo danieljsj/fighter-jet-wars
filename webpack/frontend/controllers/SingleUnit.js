@@ -7,12 +7,15 @@
 console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
 
-const KnownEntitiesService = require('../services/KnownEntitiesService');
 // const LeafletMapService = require('../services/LeafletMapService');
 const SkyCanvasService = require('../services/SkyCanvasService');
 const KeyboardControlsService = require('../services/KeyboardControlsService');
 const FirebaseRefService = require('../services/FirebaseRefService');
 const SimService = require('../services/SimService');
+
+const SnapshotRetrievalService = require('../services/SnapshotRetrievalService');
+const SnapshotService = require('../../common/services/SnapshotService');
+const GameDataService = require('../services/GameDataService');
 
 FirebaseRefService.initThen(function(){
 
@@ -20,9 +23,9 @@ FirebaseRefService.initThen(function(){
 
 	// LeafletMapService.initMap('leafletMap');
 	SkyCanvasService.initCanvas('skyCanvas');
-	KnownEntitiesService.importSnapshotThen(function(){
-		console.log('KnownEntitiesService.data',KnownEntitiesService.data);
-		SkyCanvasService.renderEntities();
+	SnapshotRetrievalService.retrieveThen(function(snapshot){
+		console.log('snapshot',snapshot);
+		GameDataService.data = SnapshotService.makeGameDataFromSnapshot(snapshot);
 		SimService.start();
 	});
 

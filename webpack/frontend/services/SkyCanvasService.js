@@ -1,6 +1,6 @@
 'use strict';
 
-var KnownEntitiesService = require('./KnownEntitiesService');
+var GameDataService = require('./GameDataService');
 var EntityTypesAppearanceService = require('./EntityTypesAppearanceService');
 
 var canvas, ctx;
@@ -37,7 +37,7 @@ function renderEntities(){
 
 	clear();
 
-	const entities = KnownEntitiesService.data.entities;
+	const entities = GameDataService.data.entities;
 
 	for (const uid in entities){
 		const entity = entities[uid];
