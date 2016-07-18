@@ -88,7 +88,7 @@ function createEntitiesForPlayer(entityQuantities, player){
 
 			var entity = new playerEntityTypeConstructors[entityTypeName]({
 				id: entityRef.key(),
-				fbRef: entityRef,
+				// fbRef: entityRef, // I don't think we need to store the fbRef since FB won't store actual entities.
 				player: player,
 				playerId: player.id,
 			});

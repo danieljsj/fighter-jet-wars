@@ -39,6 +39,7 @@ function makeRedactedEntities(gDEntities){
 			player: 		entity.player.id,
 			// same as ob:
 			entityTypeName: entity.entityTypeName,
+			id: 			entity.id,
 			p: 				entity.p,
 			controls: 		entity.controls,
 		};

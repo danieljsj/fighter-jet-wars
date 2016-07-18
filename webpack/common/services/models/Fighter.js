@@ -23,7 +23,6 @@ class Fighter {
 
 		this.entityTypeName = 'fighter';
 		
-		this.fbRef = params.fbRef;
 		this.id = params.id;
 		this.player = params.player || false;
 		this.playerId = params.playerId || false;
