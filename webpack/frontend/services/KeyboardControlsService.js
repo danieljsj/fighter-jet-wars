@@ -72,27 +72,41 @@ function onKeyUp(event) {
   }
 }
 
+const lasts = {
+  'fore':null,
+  'back':null,
+  'left':null,
+  'right':null,
+  'tryFire':null
+}
+
 function sendCommand(key,val){
 
-  var entities = GameDataService.data.entities;
-  
-  let id;
-  for (const idYup in entities){
-    id = idYup;
-    break;
+  if (lasts[key] != val){
+    
+    lasts[key] = val;
+
+    var entities = GameDataService.data.entities;
+    
+    let id;
+    for (const idYup in entities){
+      id = idYup;
+      break;
+    }
+
+    const cmd = {
+      eId: id,
+      key: key,
+      val: val,
+      bT: (new Date()).getTime() + offset,
+      sT: require('firebase').ServerValue.TIMESTAMP,
+    };
+
+    console.log('sending cmd: ',cmd);
+
+    commandsRef.push().set(cmd);
   }
 
-  const cmd = {
-    eId: id,
-    key: key,
-    val: val,
-    bT: (new Date()).getTime() + offset,
-    sT: require('firebase').ServerValue.TIMESTAMP,
-  };
-
-  console.log('sending cmd: ',cmd);
-
-  commandsRef.push().set(cmd);
 }
 
 
