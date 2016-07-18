@@ -11,16 +11,29 @@ const Blimp = 	require('../../common/services/models/Blimp');
 //////////
 
 function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
+	// console.log(gD);
 	this.tick = currTick;
 	this.players = makeRedactedPlayers(gD.players);
-	this.entities = makeRedactedEntities(gD.players);
+	this.entities = makeRedactedEntities(gD.entities);
 }
 
 //////////////
 
-function makeRedactedEntities(){
+function makeRedactedPlayers(gDPlayers){
+	var redactedPlayers = {};
+	gDPlayers.forEach(function(player){
+		redactedPlayers[player.id] = {
+			id: player.id,
+			userId: (player.user ? player.user.id : false )
+		};
+	});
+	return redactedPlayers;
+}
+
+function makeRedactedEntities(gDEntities){
 	var redactedEntities = {};
-	gD.entities.forEach(function(entity, index){
+	gDEntities.forEach(function(entity, index){
+		console.log(entity, index);
 		var redactedEntity = {
 			// different than ob:
 			player: 		entity.player.id,
@@ -36,16 +49,6 @@ function makeRedactedEntities(){
 }
 
 
-function makeRedactedPlayers(){
-	var redactedPlayers = {};
-	gD.players.forEach(function(player){
-		redactedPlayers[player.id] = {
-			id: player.id,
-			userId: (player.user ? player.user.id : false )
-		};
-	});
-	return redactedPlayers;
-}
 
 /////////////
 

@@ -8,7 +8,7 @@ var express = require('express');
 // src
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
-var SnapshotService = require('./services/SnapshotService');
+var SnapshotService = require('../common/services/SnapshotService');
 
 
 // todo: switch to some cool async waterfall or something
@@ -26,11 +26,11 @@ app.all('*', function(req, res, next) {
  });
 
 app.get('/snapshot', function(req,res){
-	SnapshotService.doSnapshotAfterTick(
-		function(gameSnapshot){
-			res.json(gameSnapshot);
-		}
-	);
+	SimulationService.afterTick(function(currTick,dT){
+		SimulationService.snapshotThen(currTick, function(snapshot){ // TODO: get CurrTick into gD so I don't have to pass it all over the dang place!!
+			res.json(snapshot);
+		});
+	});
 });
 
 app.listen(4242, function() {

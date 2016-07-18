@@ -6,12 +6,15 @@ let gD = GameDataService.data;
 let GameParamsService = require('../../common/services/GameParamsService');
 let TicksCalcService = require('../../common/services/TicksCalcService');
 
+let SnapshotService = require('../../common/services/SnapshotService');
+
 
 //////////////
 
 module.exports = {
 	start: start,
 	afterTick: afterTick,
+	snapshotThen: snapshotThen,
 }
 
 function start(ref) {
@@ -108,4 +111,8 @@ function doTick(){
 	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].p: \n',GameDataService.data.entities[0].p);
 	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
 
+}
+
+function snapshotThen(currTick,cb){
+	cb( new SnapshotService.Snapshot( GameDataService.data , currTick) );
 }
