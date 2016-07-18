@@ -39,17 +39,18 @@ class Fighter {
 
 	control(dT){ // dT could potentially be used by AI.
 
-		var user = this.player.user;
+		// ventually this would be real because you'd need to go scan the stream of commands for controls for this entity... but for now we're just letting new commands land on the entity and modify it right away.
+		// var user = this.player.user;
 
-		if ( user && (this.id===user.controlledEntityId) ) {
-			this.controls = user.controls;
-		} else {
-			this.controls = this.getAiControls(dT)
-		}
+		// if ( user && (this.id===user.controlledEntityId) ) {
+		// 	this.controls = user.controls;
+		// } else {
+		// 	this.controls = this.getAiControls(dT)
+		// }
 
-		for (var key in nullControls){
-			if (!this.controls[key]) this.controls[key] = nullControls[key];
-		}
+		// for (var key in nullControls){
+		// 	if (!this.controls[key]) this.controls[key] = nullControls[key];
+		// }
 
 	}
 
