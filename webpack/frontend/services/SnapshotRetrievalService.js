@@ -1,10 +1,10 @@
 'use strict';
 
-function GameSnapshot(data){
-	this.time = data.time;
-	this.playersData = data.players;
-	this.entitiesData = data.entities;
-}
+// function GameSnapshot(data){
+// 	this.time = data.time;
+// 	this.playersData = data.players;
+// 	this.entitiesData = data.entities;
+// }
 
 // function getA(cb){ // A stands for Async... trying out that naming...
 function retrieveThen(cb){

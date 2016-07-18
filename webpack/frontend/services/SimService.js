@@ -66,7 +66,7 @@ const queue = [];
 function doTick(){
 
 
-	const c = true;
+	const c = false;
 	
 	let currTick = TicksCalcService.latest();
 
