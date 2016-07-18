@@ -5,7 +5,7 @@ function start(){
 
 	FirebaseRefService.initThen(function(){
 		const commandsRef = FirebaseRefService.ref.child('commands');
-		commandsRef.on('child_added', function(commandSnapshot){
+		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
 
 			const cmd = commandSnapshot.val();
 
