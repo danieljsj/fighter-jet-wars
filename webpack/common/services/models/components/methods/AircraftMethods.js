@@ -30,7 +30,7 @@ function accelerate(dT){
 
 	// Turning
 	if (this.controls.left || this.controls.right){
-		this.p.direction -= (this.controls.right - this.controls.left ) * this.atts.turnRate * dT; // why negative?
+		this.p.direction += (this.controls.right - this.controls.left ) * this.atts.turnRate * dT;
 
 		// Reign in the radians
 		if (this.p.direction >   3.141592654*2) {
