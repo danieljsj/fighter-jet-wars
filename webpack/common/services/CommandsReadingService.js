@@ -11,7 +11,8 @@ function start(){
 
 			console.log('received cmd: ',cmd);
 
-			GameDataService.data.entities[cmd.eId].controls[cmd.key] = cmd.val;
+			var entity = GameDataService.data.entities[cmd.eId];
+			if (entity) entity.controls[cmd.key] = cmd.val;
 
 			// COMING SOON: Crazy stuff involving ticks and so on!
 

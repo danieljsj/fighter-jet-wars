@@ -8,6 +8,7 @@ let TicksCalcService = require('../../common/services/TicksCalcService');
 
 let SnapshotService = require('../../common/services/SnapshotService');
 
+let CommandsReadingService = require('../../common/services/CommandsReadingService');
 
 //////////////
 
@@ -21,7 +22,7 @@ function start(ref) {
 
 	startTicks(); // ticks start first; app spins fine on empty data tree.
 	GameDataService.start(); // data streams in gracefully
-
+	CommandsReadingService.start();
 }
 
 function afterTick(cb){
@@ -108,8 +109,9 @@ function doTick(){
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
-	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].p: \n',GameDataService.data.entities[0].p);
-	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
+	for (var id in GameDataService.data.entities){
+		if (c) console.log('GameDataService.data.entities[id].p: \n',GameDataService.data.entities[id].p);
+	}
 
 }
 
