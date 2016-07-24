@@ -3,7 +3,7 @@
 var Firebase = require('firebase');
 var FirebaseTokenGenerator = require("firebase-token-generator");
 
-const GameParamsService = require('../../common/services/GameParamsService');
+const GameParamsService = require('../../services/GameParamsService');
 
 //////////
 

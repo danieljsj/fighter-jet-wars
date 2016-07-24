@@ -1,7 +1,7 @@
 'use strict';
 
 const Firebase = require('firebase');
-const GameParamsService = require('../../common/services/GameParamsService');
+const GameParamsService = require('../../services/GameParamsService');
 
 
 function initThen(cb){

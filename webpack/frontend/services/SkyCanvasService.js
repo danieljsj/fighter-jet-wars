@@ -1,6 +1,6 @@
 'use strict';
 
-const GameDataService = require('../../common/services/GameDataService');
+const GameDataService = require('../../services/GameDataService');
 const EntityTypesAppearanceService = require('./EntityTypesAppearanceService');
 
 let canvas, ctx;
