@@ -66,31 +66,31 @@ function doTick(){
 
 	const gD = GameDataService.data;
 
-	const c = false;
+	const clt = false;
 	
 	let currTick = TicksCalcService.latest();
 
 	let dT = getDt(currTick);
 
-	if (c) console.log('dT: ',dT);
-	if (c) console.log('currTick: ',currTick);
+	if (clt) console.log('dT: ',dT);
+	if (clt) console.log('currTick: ',currTick);
 
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
-	if (c) console.time('control');
+	if (clt) console.time('control');
 	for (const id in gD.entities) { if (gD.entities[id].control) gD.entities[id].control(dT); }
-	if (c) console.timeEnd('control');
+	if (clt) console.timeEnd('control');
 
-	if (c) console.time('accelerate');
+	if (clt) console.time('accelerate');
 	for (const id in gD.entities) { if (gD.entities[id].accelerate) gD.entities[id].accelerate(dT); }
-	if (c) console.timeEnd('accelerate');
+	if (clt) console.timeEnd('accelerate');
 
-	if (c) console.time('move');
+	if (clt) console.time('move');
 	for (const id in gD.entities) { if (gD.entities[id].move) gD.entities[id].move(dT); }
-	if (c) console.timeEnd('move');
+	if (clt) console.timeEnd('move');
 
-	if (c) console.time('sense');
+	if (clt) console.time('sense');
 	for (const id in gD.entities) { if (gD.entities[id].sense) gD.entities[id].sense(dT); }
-	if (c) console.timeEnd('sense');
+	if (clt) console.timeEnd('sense');
 
 	while (queue[0]) {
 		queue[0](currTick, dT);
@@ -100,10 +100,14 @@ function doTick(){
 	SkyCanvasService.renderEntities();
 
 	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
-	if (c) console.log('timeout: ',timeout);
+	if (clt) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
-	for (const id in gD.entities) { console.log(GameDataService.data.entities[id].p); break; }
+
+	const clp = true;
+	if (clp){
+		for (const id in gD.entities) { console.log(GameDataService.data.entities[id].p); }
+	}
 
 	
 
