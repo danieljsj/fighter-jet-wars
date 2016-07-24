@@ -2,8 +2,7 @@ const Firebase = require('firebase');
 const GameParamsService = require('./GameParamsService');
 const FirebaseTokenGenerator = require('firebase-token-generator');
 
-const env = require('./EnvService').env;
-const envs = require('./EnvService').envs;
+const env = require('./env');
 
 var serv = {
 	ref: false,
@@ -17,15 +16,15 @@ function initThen(callback){
 
 	serv.ref = new Firebase(GameParamsService.params.firebaseUrl);
 
-	switch (env()) {
+	switch (true) {
 
-		case envs.BROWSER : 
+		case env.isBrowser() : 
 
 			callback();
 
 			break;
 
-		case envs.CORE_SERVER : 
+		case env.isCoreServer() : 
 
 			// TODO: put these into a config file
 			var fbSecret = 'M6mwQVaUkf0wrVd0I0aQIvM5QS1TW5Z2hbNguWol';

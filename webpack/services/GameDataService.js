@@ -1,4 +1,4 @@
-const ES = require('./EnvService'); const env = ES.env; const envs = ES.envs;
+const env = require('./env');
 
 //////////
 
@@ -8,10 +8,11 @@ const serv = {
 }
 
 function init(){ // maybe in some other world this should have callbacks... but ideally the app can sit there and do nothing on false or empty data. so for now I'm leaving this as-is.
-	switch (env()) {
-		case envs.BROWSER : browser_init(); break;
-		case envs.CORE_SERVER : coreServer_init(); break;
-		// case envs.AI_SERVER : aiServerInit(); break;
+	switch (true) {
+		case env.isBrowser() : browser_init(); break;
+		case env.isCoreServer() : coreServer_init(); break;
+		// case env.isAiServer() : coreServer_init(); break;
+		default : throw 'env not recognized';
 	}
 }
 

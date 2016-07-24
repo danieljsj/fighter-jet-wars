@@ -12,8 +12,7 @@ const GDS = require('../../GameDataService');
 
 ///////////
 
-
-var ref;
+let ref;
 
 module.exports = {
 	run: run,
@@ -26,7 +25,8 @@ function run(){
 		entities: {},
 	};
 	FirebaseRefService.initThen(function(){
-		console.log('added computer player');
+		ref = FirebaseRefService.ref;
+		console.log('added a computer player');
 		addPlayer({user:false});
 		listenToFbUserAdds();
 	});
@@ -41,7 +41,6 @@ function run(){
 // NOTE: these two might should be common...
 
 function listenToFbUserAdds(){
-		
 	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
 
 	ref.child('users').on('child_added', function(ss, prevChildId){

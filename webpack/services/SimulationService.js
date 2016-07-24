@@ -1,13 +1,13 @@
 'use strict';
 
-const ES = require('./EnvService');  const env = ES.env;  const envs = ES.envs;
+const env = require('./env');
 
 const GDS = require('./GameDataService');
 
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
 
-if (env() === envs.BROWSER) {
+if (env.isBrowser()) {
 	const SkyCanvasService = require('./env/browser/SkyCanvasService');
 }
 
@@ -68,7 +68,7 @@ const queue = [];
 
 function doTick(){
 	
-	const clt = false;
+	const clt = true;
 	
 	const gD = GDS.data;
 	
@@ -104,7 +104,7 @@ function doTick(){
 			queue.shift();
 		}
 		
-		if (env() === envs.BROWSER) {
+		if (env.isBrowser()) {
 			SkyCanvasService.renderEntities();
 	 	}
 
@@ -113,7 +113,7 @@ function doTick(){
 	 		console.log(GDS);
 	 	}
 
-		const clp = false;
+		const clp = true;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
