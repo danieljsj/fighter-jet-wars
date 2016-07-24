@@ -9,6 +9,7 @@ const TicksCalcService = require('./TicksCalcService');
 
 if (env.isBrowser()) {
 	var SkyCanvasService = require('./env/browser/SkyCanvasService');
+	var KeyboardControlsService = require('./env/browser/KeyboardControlsService');
 }
 
 
@@ -22,9 +23,13 @@ module.exports = {
 function start(ref) {
 
 	startTicks();
+
 	if (env.isBrowser()){
+
 		SkyCanvasService.initCanvas();
+		KeyboardControlsService.start();
 	}
+
 }
 
 function afterTick(cb){
@@ -115,7 +120,7 @@ function doTick(){
 	 		console.log(GDS);
 	 	}
 
-		const clp = false;
+		const clp = true;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
