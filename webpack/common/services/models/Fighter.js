@@ -45,7 +45,13 @@ class Fighter {
 		// if ( user && (this.id===user.controlledEntityId) ) {
 		// 	this.controls = user.controls;
 		// } else {
-			this.controls = this.getAiControls(dT)
+
+
+			// to debug, run only this line:
+			// this.controls = this.getAiControls(dT)
+
+
+
 		// }
 
 		// for (var key in nullControls){
