@@ -6,10 +6,10 @@ const GDS = require('./GameDataService');
 
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
+const CommandsReadingService = require('./CommandsReadingService');
 
 if (env.isBrowser()) {
 	var SkyCanvasService = require('./env/browser/SkyCanvasService');
-	var KeyboardControlsService = require('./env/browser/KeyboardControlsService');
 }
 
 
@@ -21,15 +21,8 @@ module.exports = {
 }
 
 function start(ref) {
-
+	CommandsReadingService.start();
 	startTicks();
-
-	if (env.isBrowser()){
-
-		SkyCanvasService.initCanvas();
-		KeyboardControlsService.start();
-	}
-
 }
 
 function afterTick(cb){
@@ -120,7 +113,7 @@ function doTick(){
 	 		console.log(GDS);
 	 	}
 
-		const clp = true;
+		const clp = false;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
