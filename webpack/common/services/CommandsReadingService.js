@@ -1,7 +1,7 @@
 'use strict';
 
 const FirebaseRefService = require('./FirebaseRefService');
-const GameDataService = require('./GameDataService');
+const GDS = require('./GameDataService');
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
 
@@ -9,7 +9,11 @@ const knownCommandsByTick = [];
 
 let latestKnownValidTick = 9999999999999999999; ///////WHERE AND HOW ARE WE GOING TO STORE THIS?
 
-function reRender(){}; ///////// WHERE AND HOW
+let commandCallback;
+
+
+
+function reSimulate(){}; ///////// WHERE AND HOW
 
 let maxLagTicksAllowed = TicksCalcService.msToRoundedTicks(100);
 
@@ -24,7 +28,7 @@ function start(){
 			console.log('received cmd: ',cmd);
 
 			// temporary:
-			var entity = GameDataService.data.entities[cmd.eId];
+			var entity = GDS.data.entities[cmd.eId];
 			if (entity) entity.controls[cmd.key] = cmd.val;
 
 			// up and coming:
@@ -35,7 +39,7 @@ function start(){
 
 }
 
-
+// setting the .tick in common is good because server and browser should definitely agree! just hopefully the server's rendering is enough behind (and I bet it could gauge itself to prevent excessive backtracking-needing) that the tick of a command the server is receiving is always ahead of what the server is simulating, so no backtracking.
 function intakeCommand(cmd){
 
 	cmd.tick = getCommandTick(cmd);
@@ -45,7 +49,7 @@ function intakeCommand(cmd){
 	knownCommandsByTick[cmd.tick].push(cmd);
 	if (latestKnownValidTick > cmd.tick) {
 		latestKnownValidTick = cmd.tick - 1;
-		reRender();
+		reSimulate(latestKnownValidTick);
 	}
 }
 
@@ -57,6 +61,16 @@ function getCommandTick(cmd){
 	);
 }
 
+function setCommandCallback(fn){
+	commandCallback = fn;
+}
+function setReSimulateFn(fn){
+	reSimulate = fn;
+}
+
 module.exports = {
-	start: start
+	start: start,
+	setCommandCallback: setCommandCallback,
+	setReSimulateFn: setReSimulateFn,
+	knownCommandsByTick: knownCommandsByTick,
 }
