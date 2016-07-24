@@ -6,10 +6,10 @@
 var express = require('express');
 
 // src
-var FirebaseRefService = require('./services/FirebaseRefService');
-var SimulationService = require('./services/SimulationService');
+var FirebaseRefService = require('../../FirebaseRefService');
+var SimulationService = require('./SimulationService');
 
-require('./Server'); // at the moment it 
+require('./Server'); // at the moment it doesn't return anything needed 
 
 // todo: switch to some cool async waterfall or something
 FirebaseRefService.initThen(function(){

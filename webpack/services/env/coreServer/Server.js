@@ -20,3 +20,4 @@ app.listen(4242, function() {
 	console.log('Game Server listening on port 4242');
 });
 
+module.exports = {};

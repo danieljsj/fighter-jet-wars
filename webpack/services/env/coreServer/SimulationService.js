@@ -1,14 +1,14 @@
 'use strict';
 
 const GameDataInitiationService = require('./GameDataInitiationService');
-const GDS = require('../../services/GameDataService');
+const GDS = require('../../GameDataService');
 
-const GameParamsService = require('../../services/GameParamsService');
-const TicksCalcService = require('../../services/TicksCalcService');
+const GameParamsService = require('../../GameParamsService');
+const TicksCalcService = require('../../TicksCalcService');
 
-const SnapshotService = require('../../services/SnapshotService');
+const SnapshotService = require('../../SnapshotService');
 
-const CommandsReadingService = require('../../services/CommandsReadingService');
+const CommandsReadingService = require('../../CommandsReadingService');
 
 //////////////
 

@@ -1,8 +1,8 @@
 'use strict';
 
-const CurrentUserService = require('../services/CurrentUserService');
-const FirebaseRefService = require('./FirebaseRefService');
-const GameDataService = require('../../services/GameDataService');
+const CurrentUserService = require('./CurrentUserService');
+const FirebaseRefService = require('../../FirebaseRefService');
+const GameDataService = require('../../GameDataService');
 
 
 

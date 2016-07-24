@@ -1,9 +1,9 @@
 'use strict';
 
-const GameDataService = require('../../services/GameDataService');
+const GameDataService = require('../../GameDataService');
 
-const GameParamsService = require('../../services/GameParamsService');
-const TicksCalcService = require('../../services/TicksCalcService');
+const GameParamsService = require('../../GameParamsService');
+const TicksCalcService = require('../../TicksCalcService');
 
 const SkyCanvasService = require('./SkyCanvasService');
 
