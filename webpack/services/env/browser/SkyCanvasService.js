@@ -11,12 +11,8 @@ function initCanvas(canvasId){
 
 	// Create the canvas
 	canvas = document.createElement('canvas');
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-
-	// debug/hardcode... because the webpack-debug-server seems not to be able to get window innerHeight...:
-	canvas.width = 300;
-	canvas.height = 400;
+	canvas.width = window.innerWidth || 300;
+	canvas.height = window.innerHeight || 400;
 
 
 	document.body.appendChild(canvas);
