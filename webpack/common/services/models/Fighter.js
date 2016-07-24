@@ -45,7 +45,7 @@ class Fighter {
 		// if ( user && (this.id===user.controlledEntityId) ) {
 		// 	this.controls = user.controls;
 		// } else {
-			this.controls = this.getAiControls(dT)
+		// 	this.controls = this.getAiControls(dT)
 		// }
 
 		// for (var key in nullControls){
@@ -61,9 +61,6 @@ class Fighter {
 		this.visibleEntities; // let the game calibrate how many things can go into this visibleEntities object based on server load. It also lets us scope what kind of entities can be "seen" -- i.e. if we're going to let comps see and dodge lasers! ALSO -- we might end up maintaining a per-player list of visibleEntities, to reduce redundancy and simulate internet/hive-mind.
 		
 		return {
-			fore: 0,
-			back: 1,
-			right: 0,
 			left: 1,
 			tryFire: 1,
 		}
