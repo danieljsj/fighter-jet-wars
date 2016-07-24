@@ -11,3 +11,5 @@ initGDS();
 
 SkyCanvasService.initCanvas();
 KeyboardControlsService.start();
+
+require('./assets/sass/style.scss');
