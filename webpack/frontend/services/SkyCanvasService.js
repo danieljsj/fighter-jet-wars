@@ -13,6 +13,12 @@ function initCanvas(canvasId){
 	canvas = document.createElement('canvas');
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
+
+	// debug/hardcode... because the webpack-debug-server seems not to be able to get window innerHeight...:
+	canvas.width = 300;
+	canvas.height = 400;
+
+
 	document.body.appendChild(canvas);
 	// canvas.style["z-index"] = 1;
 	ctx = canvas.getContext("2d");
@@ -36,6 +42,12 @@ function renderEntities(){
 	var centerPoint = {x:0,y:0};
 
 	clear();
+
+	// FOR DEBUGGING: BACKGROUND:
+	ctx.beginPath();
+	ctx.rect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "#eeeeff";
+	ctx.fill();
 
 	const entities = GameDataService.data.entities;
 
