@@ -3,4 +3,4 @@ const initGDS = require('./services/GameDataService').init;
 
 
 SimServ.start();
-GDS.init();
+initGDS();

@@ -1,11 +1,11 @@
 'use strict';
 
-const ES = Require('./EnvService');  const env = ES.env;  const envs = ES.envs;
+const ES = require('./EnvService');  const env = ES.env;  const envs = ES.envs;
 
-const GDS = require('../../GameDataService');
+const GDS = require('./GameDataService');
 
-const GameParamsService = require('../../GameParamsService');
-const TicksCalcService = require('../../TicksCalcService');
+const GameParamsService = require('./GameParamsService');
+const TicksCalcService = require('./TicksCalcService');
 
 if (env() === envs.BROWSER) {
 	const SkyCanvasService = require('./env/browser/SkyCanvasService');
@@ -68,11 +68,12 @@ const queue = [];
 
 function doTick(){
 	
+	const clt = true;
+	
 	const gD = GDS.data;
 	
 	if (gD) {
 
-		const clt = false;
 		
 		let currTick = TicksCalcService.latest();
 
@@ -106,6 +107,17 @@ function doTick(){
 		if (env() === envs.BROWSER) {
 			SkyCanvasService.renderEntities();
 	 	}
+
+	 	const cld = true;
+	 	if (cld){
+	 		console.log(GDS);
+	 	}
+
+		const clp = true;
+		if (clp){
+			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
+		}
+
 	}
 
 	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
@@ -113,10 +125,6 @@ function doTick(){
 	setTimeout(doTick,timeout);
 
 
-	const clp = true;
-	if (clp){
-		for (const id in gD.entities) { console.log(GameDataService.data.entities[id].p); }
-	}
 
 
 }

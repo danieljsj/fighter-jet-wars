@@ -22,7 +22,7 @@ function browser_init() {
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;
 
 	retrieveThen(function(snapshot){
-		const serv.data = makeGD(snapshot);
+		serv.data = makeGD(snapshot);
 	});
 }
 

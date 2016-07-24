@@ -2,7 +2,7 @@
 
 // NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO IF WE WANT. OR NOT. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
 
-var FirebaseRefService = require('./FirebaseRefService');
+var FirebaseRefService = require('../../FirebaseRefService');
 var GameParamsService = require('../../GameParamsService');
 
 var Fighter = require('../../models/Fighter.js');
@@ -25,9 +25,11 @@ function run(){
 		players: {},
 		entities: {},
 	};
-	ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
-	addPlayer({user:false});
-	listenToFbUserAdds();
+
+	FirebaseRefService.initThen(function(){
+		addPlayer({user:false});
+		listenToFbUserAdds();
+	});
 }
 
 

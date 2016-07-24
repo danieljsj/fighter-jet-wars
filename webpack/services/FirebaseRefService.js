@@ -6,7 +6,6 @@ const envs = require('./EnvService').envs;
 
 var serv = {
 	ref: false,
-	getRef: getRef,
 	initThen: initThen,
 }
 
