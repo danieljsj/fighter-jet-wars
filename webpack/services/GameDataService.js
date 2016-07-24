@@ -19,7 +19,7 @@ function init(){ // maybe in some other world this should have callbacks... but 
 //////////
 
 function browser_init() {
-	const retrieveThen = require('./SnapshotRetrievalService').retrieveThen;
+	const retrieveThen = require('./env/browser/SnapshotRetrievalService').retrieveThen;
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;
 
 	retrieveThen(function(snapshot){
