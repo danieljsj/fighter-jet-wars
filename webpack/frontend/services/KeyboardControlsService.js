@@ -2,7 +2,7 @@
 
 const CurrentUserService = require('../services/CurrentUserService');
 const FirebaseRefService = require('./FirebaseRefService');
-const GameDataService = require('./GameDataService');
+const GameDataService = require('../../common/services/GameDataService');
 
 
 

@@ -15,7 +15,7 @@ const SimService = require('../services/SimService');
 
 const SnapshotRetrievalService = require('../services/SnapshotRetrievalService');
 const SnapshotService = require('../../common/services/SnapshotService');
-const GameDataService = require('../services/GameDataService');
+const GameDataService = require('../../common/services/GameDataService');
 const CommandsReadingService = require('../../common/services/CommandsReadingService');
 
 FirebaseRefService.initThen(function(){
