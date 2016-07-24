@@ -8,11 +8,9 @@ var GameParamsService = require('../../common/services/GameParamsService');
 var Fighter = require('../../common/services/models/Fighter.js');
 var Blimp = require('../../common/services/models/Blimp.js');
 
-
+const GameDataService = require('../../common/services/GameDataService');
 
 ///////////
-
-
 
 var gD = {
 	users: {},
@@ -23,7 +21,6 @@ var gD = {
 var ref;
 
 module.exports = {
-	data: gD,
 	start: start,
 }
 
@@ -39,6 +36,8 @@ function start(){
 
 
 
+// NOTE: these two might should be common...
+
 function listenToFbUserAdds(){
 		
 	// 1 user player for every registered user (regardless of whether logged in or not) -- their planes will run on AI.
@@ -52,9 +51,6 @@ function listenToFbUserAdds(){
 	});
 
 }
-
-
-
 
 function addPlayer(params){
 	params = params || {};
@@ -75,6 +71,8 @@ function addPlayer(params){
 }
 
 
+
+// this one maybe should be common too.... just like CommandsReadingService? Well, maybe... but when a BROWSER starts, it should start by asking the server for all existing stuff... and then do a subscribe for only followups. Perhaps the code for new adds is available in common as well, but specific to the browser vs. backend is some code that differentiates what happens at startup. I.e. there's an "AddPlayer" func that fires both server and browser for new players... it just happens that the server will run it for a whole batch of users, whereas the browser will, on startup, read a snapshot from the server, not batch the fb users.
 
 function createEntitiesForPlayer(entityQuantities, player){
 	var playerEntityTypeConstructors = { // note; some entities cannot be spawned directly for players, but must be spawned for fighters, etc. (i.e. lasers, missiles) ... however, I don't yet want to divide things out into Units, Projectiles, because in case of Missiles, you may want to control them directly, so for now I'm keeping it flat in Models.
