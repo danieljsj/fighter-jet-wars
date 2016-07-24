@@ -25,8 +25,8 @@ function run(){
 		players: {},
 		entities: {},
 	};
-
 	FirebaseRefService.initThen(function(){
+		console.log('added computer player');
 		addPlayer({user:false});
 		listenToFbUserAdds();
 	});

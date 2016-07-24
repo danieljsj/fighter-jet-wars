@@ -1,5 +1,6 @@
 const Firebase = require('firebase');
 const GameParamsService = require('./GameParamsService');
+const FirebaseTokenGenerator = require('firebase-token-generator');
 
 const env = require('./EnvService').env;
 const envs = require('./EnvService').envs;
@@ -24,7 +25,7 @@ function initThen(callback){
 
 			break;
 
-		case envs.CORE_SEVER : 
+		case envs.CORE_SERVER : 
 
 			// TODO: put these into a config file
 			var fbSecret = 'M6mwQVaUkf0wrVd0I0aQIvM5QS1TW5Z2hbNguWol';
@@ -35,12 +36,17 @@ function initThen(callback){
 			);
 
 			serv.ref.authWithCustomToken(token, function(error, authData) {
-
+				if (error) throw error;
+				console.log('authData',authData);
 			    callback();
 
 			});
 			
 			break;
+
+		default : 
+
+			throw 'env not recognized';
 
 	}
 

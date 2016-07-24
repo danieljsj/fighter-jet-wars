@@ -68,7 +68,7 @@ const queue = [];
 
 function doTick(){
 	
-	const clt = true;
+	const clt = false;
 	
 	const gD = GDS.data;
 	
@@ -108,12 +108,12 @@ function doTick(){
 			SkyCanvasService.renderEntities();
 	 	}
 
-	 	const cld = true;
+	 	const cld = false;
 	 	if (cld){
 	 		console.log(GDS);
 	 	}
 
-		const clp = true;
+		const clp = false;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
