@@ -6,6 +6,7 @@ const Fighter = require('../../common/services/models/Fighter.js');
 const Blimp = require('../../common/services/models/Blimp.js');
 // const FirebaseRefService = require('./FirebaseRefService'); // later... for when I... wait... no... i don't need this... we're streaming a single pile of commands, so I don't need to apply refs onto the entities themselves...
 
+const tickSnapshots = {};
 
 const entityConstructors = {
 	'fighter': Fighter,
@@ -19,6 +20,12 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 	this.tick = currTick;
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
+
+	console.log(typeof currTick);
+
+	tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
+	console.log(tickSnapshots);
+	console.log(tickSnapshots[currTick]);
 }
 
 //////////////
@@ -107,4 +114,5 @@ function makeGameDataFromSnapshot(snapshot){
 module.exports = {
 	Snapshot: Snapshot,
 	makeGameDataFromSnapshot: makeGameDataFromSnapshot,
+	tickSnapshots: tickSnapshots,
 }

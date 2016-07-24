@@ -28,7 +28,7 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 		);
 	}
 	float(){
-		return this.msToTicks(now());		
+		return this.msToTicks(now()); // otherwise ticks is too big for our array
 	}
 
 	timeTillNext(){

@@ -68,13 +68,13 @@ let queue = [];
 function doTick(){
 
 
-	let c = true;
+	const c = false;
 
 	if (c) process.stdout.write('\x1B[2J'); // pseudo clear console
 	
-	let currTick = TicksCalcService.latest();
+	const currTick = TicksCalcService.latest();
 
-	let dT = getDt(currTick);
+	const dT = getDt(currTick);
 
 	if (c) console.log('dT: ',dT);
 	if (c) console.log('currTick: ',currTick);
@@ -105,7 +105,7 @@ function doTick(){
 		queue.shift();
 	}
 
-	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
+	const timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
