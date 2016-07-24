@@ -31,7 +31,12 @@ function initCanvas(canvasId){
 
 }
 
-
+function fillSkyBlue(){
+	ctx.beginPath();
+	ctx.rect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "#eeeeff";
+	ctx.fill();
+}
 
 function renderEntities(){
 	// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
@@ -39,11 +44,7 @@ function renderEntities(){
 
 	clear();
 
-	// FOR DEBUGGING: BACKGROUND:
-	ctx.beginPath();
-	ctx.rect(0, 0, canvas.width, canvas.height);
-	ctx.fillStyle = "#eeeeff";
-	ctx.fill();
+	// fillSkyBlue();
 
 	const entities = GameDataService.data.entities;
 

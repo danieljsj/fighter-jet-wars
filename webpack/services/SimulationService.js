@@ -68,7 +68,7 @@ const queue = [];
 
 function doTick(){
 	
-	const clt = false;
+	const clt = true;
 	
 	const gD = GDS.data;
 	
