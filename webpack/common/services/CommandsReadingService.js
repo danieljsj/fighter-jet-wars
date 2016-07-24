@@ -5,7 +5,7 @@ const GDS = require('./GameDataService');
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
 
-const knownCommandsByTick = [];
+const knownCommandsByTick = {};
 
 
 let commandCallback;
