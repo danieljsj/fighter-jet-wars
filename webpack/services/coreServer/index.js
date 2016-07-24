@@ -8,7 +8,7 @@ var express = require('express');
 // src
 var FirebaseRefService = require('./services/FirebaseRefService');
 var SimulationService = require('./services/SimulationService');
-var SnapshotService = require('../services/SnapshotService');
+
 require('./Server'); // at the moment it 
 
 // todo: switch to some cool async waterfall or something
