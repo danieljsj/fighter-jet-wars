@@ -68,7 +68,7 @@ const queue = [];
 
 function doTick(){
 	
-	const clt = true;
+	const clt = false;
 	
 	const gD = GDS.data;
 	
@@ -113,7 +113,7 @@ function doTick(){
 	 		console.log(GDS);
 	 	}
 
-		const clp = true;
+		const clp = false;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
