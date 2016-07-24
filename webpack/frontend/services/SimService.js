@@ -36,6 +36,7 @@ function afterTick(cb){
 let browserFirstTick = null;
 
 function startTicks(){
+	console.log('startTicks');
 	browserFirstTick = TicksCalcService.latest();
 	latestSimulatedTick = browserFirstTick-1; // with these equal, it would spin a sim with dT=0 on its first cycle. That could give some weird effects.
 	doTick();
@@ -102,7 +103,8 @@ function doTick(){
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
-	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].p: \n',GameDataService.data.entities[0].p);
-	if (c && GameDataService.data.entities[0]) console.log('GameDataService.data.entities[0].atts: \n',GameDataService.data.entities[0].atts);
+	for (const id in gD.entities) { console.log(GameDataService.data.entities[id].p); break; }
+
+	
 
 }

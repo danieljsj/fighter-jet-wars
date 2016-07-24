@@ -27,7 +27,9 @@ function retrieveThen(cb){
       if (request.status >= 200 && request.status < 400) {
         var resp = request.responseText;
         var data = JSON.parse(resp);
+
         cb(data);
+        
       } else {
         throw '"We reached our target server, but it returned an error", i.e. requrest.status is not a happy number.';
       }

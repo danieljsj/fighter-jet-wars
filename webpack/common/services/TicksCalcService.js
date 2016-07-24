@@ -40,7 +40,7 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 
 
 	msToRoundedTicks(ms){
-		return Math.round(this.msToTicks(s));
+		return Math.round(this.msToTicks(ms));
 	}
 	sToRoundedTicks(s){
 		return Math.round(this.sToTicks(s));
