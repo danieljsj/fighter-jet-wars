@@ -113,7 +113,7 @@ function doTick(){
 	 		console.log(GDS);
 	 	}
 
-		const clp = false;
+		const clp = true;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
