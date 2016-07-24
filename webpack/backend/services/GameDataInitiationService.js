@@ -8,23 +8,23 @@ var GameParamsService = require('../../common/services/GameParamsService');
 var Fighter = require('../../common/services/models/Fighter.js');
 var Blimp = require('../../common/services/models/Blimp.js');
 
-const GameDataService = require('../../common/services/GameDataService');
+const GDS = require('../../common/services/GameDataService');
 
 ///////////
 
-var gD = {
-	users: {},
-	players: {},
-	entities: {},
-};
 
 var ref;
 
 module.exports = {
-	start: start,
+	run: run,
 }
 
-function start(){
+function run(){
+	GDS.data = {
+		users: {},
+		players: {},
+		entities: {},
+	};
 	ref = FirebaseRefService.getRef(); if (!ref) throw "GameErr: FirebaseRefService has not initialized yet!";
 	addPlayer({user:false});
 	listenToFbUserAdds();
@@ -61,7 +61,7 @@ function addPlayer(params){
 		id: playerRef.key(),
 		user: params.user,
 	};
-	gD.players[player.id] = player;
+	GDS.data.players[player.id] = player;
 
 	var entityQuantities = {
 		'fighter': (params.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),
@@ -91,7 +91,7 @@ function createEntitiesForPlayer(entityQuantities, player){
 				// playerId: player.id,
 			});
 
-			gD.entities[entity.id] = entity;
+			GDS.data.entities[entity.id] = entity;
 
 		}
 	}

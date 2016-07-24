@@ -1,14 +1,14 @@
 'use strict';
 
-let GameDataService = require('./GameDataService');
-let gD = GameDataService.data;
+const GameDataInitiationService = require('./GameDataInitiationService');
+const GDS = require('../../common/services/GameDataService');
 
-let GameParamsService = require('../../common/services/GameParamsService');
-let TicksCalcService = require('../../common/services/TicksCalcService');
+const GameParamsService = require('../../common/services/GameParamsService');
+const TicksCalcService = require('../../common/services/TicksCalcService');
 
-let SnapshotService = require('../../common/services/SnapshotService');
+const SnapshotService = require('../../common/services/SnapshotService');
 
-let CommandsReadingService = require('../../common/services/CommandsReadingService');
+const CommandsReadingService = require('../../common/services/CommandsReadingService');
 
 //////////////
 
@@ -21,7 +21,7 @@ module.exports = {
 function start(ref) {
 
 	startTicks(); // ticks start first; app spins fine on empty data tree.
-	GameDataService.start(); // data streams in gracefully
+	GameDataInitiationService.run(); // data streams in gracefully
 	CommandsReadingService.start();
 }
 
@@ -81,23 +81,23 @@ function doTick(){
 
 	// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
 	if (c) console.time('control');
-	for (const id in gD.entities) { if (gD.entities[id].control) gD.entities[id].control(dT); }
+	for (const id in GDS.data.entities) { if (GDS.data.entities[id].control) GDS.data.entities[id].control(dT); }
 	if (c) console.timeEnd('control');
 
 	if (c) console.time('accelerate');
-	for (const id in gD.entities) { if (gD.entities[id].accelerate) gD.entities[id].accelerate(dT); }
+	for (const id in GDS.data.entities) { if (GDS.data.entities[id].accelerate) GDS.data.entities[id].accelerate(dT); }
 	if (c) console.timeEnd('accelerate');
 
 	if (c) console.time('move');
-	for (const id in gD.entities) { if (gD.entities[id].move) gD.entities[id].move(dT); }
+	for (const id in GDS.data.entities) { if (GDS.data.entities[id].move) GDS.data.entities[id].move(dT); }
 	if (c) console.timeEnd('move');
 
 	if (c) console.time('sense');
-	for (const id in gD.entities) { if (gD.entities[id].sense) gD.entities[id].sense(dT); }
+	for (const id in GDS.data.entities) { if (GDS.data.entities[id].sense) GDS.data.entities[id].sense(dT); }
 	if (c) console.timeEnd('sense');
 
 	// if (c) console.time('fbPublish');
-	// gD.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
+	// GDS.data.entities.forEach(function(entity){	if (entity.fbPublish)	entity.fbPublish(dT);  	});
 	// if (c) console.timeEnd('fbPublish');
 
 	while (queue[0]) {
@@ -109,12 +109,12 @@ function doTick(){
 	if (c) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
-	for (var id in GameDataService.data.entities){
-		if (c) console.log('GameDataService.data.entities[id].p: \n',GameDataService.data.entities[id].p);
+	for (var id in GDS.data.entities){
+		if (c) console.log('GDS.data.entities[id].p: \n',GDS.data.entities[id].p);
 	}
 
 }
 
 function snapshotThen(currTick,cb){
-	cb( new SnapshotService.Snapshot( GameDataService.data , currTick) );
+	cb( new SnapshotService.Snapshot( GDS.data , currTick) );
 }
