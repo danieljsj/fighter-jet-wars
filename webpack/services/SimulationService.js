@@ -8,7 +8,7 @@ const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
 
 if (env.isBrowser()) {
-	const SkyCanvasService = require('./env/browser/SkyCanvasService');
+	var SkyCanvasService = require('./env/browser/SkyCanvasService');
 }
 
 
@@ -22,7 +22,9 @@ module.exports = {
 function start(ref) {
 
 	startTicks();
-
+	if (env.isBrowser()){
+		SkyCanvasService.initCanvas();
+	}
 }
 
 function afterTick(cb){
