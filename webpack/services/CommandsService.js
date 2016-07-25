@@ -29,9 +29,11 @@ const lasts = {
 
 function send(key,val){
 
+	const INTERVAL = 10000;
+
 	if (!commandsRef) return;
 	//////// 1-second refresh is for DEBUGGING!!!
-  if ((lasts[key] != val) || (lasts['TIMESTAMP'] < new Date().getTime() - 1000)){
+  if ((lasts[key] != val) || (lasts['TIMESTAMP'] < new Date().getTime() - INTERVAL)){
     
     lasts['TIMESTAMP'] = new Date().getTime();
 
@@ -55,8 +57,11 @@ function send(key,val){
 
     console.log('sending cmd: ',cmd);
 
+    // console.log('commandsRef',commandsRef);
+
     commandsRef.push().set(cmd,function(error) {
 	  if (error) throw("cmd could not be saved." + error);
+	  console.log('command successfully sent');
 	});
   }
 
