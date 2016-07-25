@@ -17,9 +17,8 @@ FirebaseRefService.initThen(function(){
 
 // SENDING //////////////////////////////////////////
 
-
 const lasts = {
-  'TIMESTAMP':0,
+  'timestamp':0,
   'fore':null,
   'back':null,
   'left':null,
@@ -27,15 +26,17 @@ const lasts = {
   'tryFire':null
 }
 
+
 function send(key,val){
+
 
 	const INTERVAL = 10000;
 
 	if (!commandsRef) return;
 	//////// 1-second refresh is for DEBUGGING!!!
-  if ((lasts[key] != val) || (lasts['TIMESTAMP'] < new Date().getTime() - INTERVAL)){
+  	if ((lasts[key] != val) || (lasts['timestamp'] < new Date().getTime() - INTERVAL)){
     
-    lasts['TIMESTAMP'] = new Date().getTime();
+    lasts['timestamp'] = new Date().getTime();
 
     lasts[key] = val;
 
@@ -52,7 +53,7 @@ function send(key,val){
       key: key,
       val: val,
       bT: (new Date()).getTime(),
-      sT: require('firebase').ServerValue.TIMESTAMP,
+      sT: require('firebase').database.ServerValue.TIMESTAMP,
     };
 
     console.log('sending cmd: ',cmd);
