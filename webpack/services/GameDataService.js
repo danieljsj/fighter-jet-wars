@@ -9,17 +9,26 @@ const serv = {
 
 function init(){ // maybe in some other world this should have callbacks... but ideally the app can sit there and do nothing on false or empty data. so for now I'm leaving this as-is.
 	switch (true) {
-		case env.isBrowser() : browser_init(); break;
-		case env.isCoreServer() : coreServer_init(); break;
-		// case env.isAiServer() : coreServer_init(); break;
-		default : throw 'env not recognized';
+		
+		case env.isBrowser() : 
+		case env.isAiServer() :
+
+			client_init(); break;
+		
+		case env.isCoreServer() : 
+		
+			coreServer_init(); break;
+		
+		default : 
+
+			throw 'env not recognized';
 	}
 }
 
 //////////
 
-function browser_init() {
-	const retrieveThen = require('./env/browser/SnapshotRetrievalService').retrieveThen;
+function client_init() {
+	const retrieveThen = require('./env/browser/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;
 
 	retrieveThen(function(snapshot){
@@ -32,6 +41,8 @@ function coreServer_init() {
 
 	init();
 }
+
+
 
 /////////
 

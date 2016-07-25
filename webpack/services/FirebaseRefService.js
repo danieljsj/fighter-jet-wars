@@ -1,11 +1,13 @@
-const Firebase = require('firebase');
-const GameParamsService = require('./GameParamsService');
-const FirebaseTokenGenerator = require('firebase-token-generator');
+'use strict';
 
+const firebase = require("firebase");
+const GameParamsService = require('./GameParamsService');
 const env = require('./env');
+
 
 var serv = {
 	ref: false,
+	app: false,
 	initThen: initThen,
 }
 
@@ -14,41 +16,27 @@ function initThen(callback){
 
 	if (serv.ref) return callback();
 
-	serv.ref = new Firebase(GameParamsService.params.firebaseUrl);
+	var config = {
+		authDomain: "fighter-jets.firebaseapp.com",
+	    databaseURL: "https://fighter-jets.firebaseio.com",
+	    storageBucket: "fighter-jets.appspot.com",
+	}
 
 	switch (true) {
 
 		case env.isBrowser() : 
-
-			callback();
-
+			config.apiKey = "AIzaSyB0wRqUQWX0nfOl7TC8ydGgs0MGXnLJ_9Y";
 			break;
-
-		case env.isCoreServer() : 
-
-			// TODO: put these into a config file
-			var fbSecret = 'M6mwQVaUkf0wrVd0I0aQIvM5QS1TW5Z2hbNguWol';
-			var tokenGenerator = new FirebaseTokenGenerator(fbSecret);
-			var token = tokenGenerator.createToken(
-			   {uid: "my-awesome-server"}, 
-			   {expires: (new Date).getTime() + 3600*24*7}
-			);
-
-			serv.ref.authWithCustomToken(token, function(error, authData) {
-				if (error) throw error;
-				console.log('authData',authData);
-			    callback();
-
-			});
-			
+		case env.isNodejs() : 
+			config.serviceAccount = "firebase-service-account-auth-config-9213f17c7853.json";
 			break;
-
 		default : 
-
 			throw 'env not recognized';
-
 	}
 
+	serv.app = firebase.initializeApp(config); // HOPING THIS IS ALSO TRUE FOR THE BROWSER: initializeApp is synchronous: http://stackoverflow.com/questions/37527247/firebase-initializeapp-callback-promise
+	serv.ref = firebase.database().ref()
+	callback();
 
 }
 
