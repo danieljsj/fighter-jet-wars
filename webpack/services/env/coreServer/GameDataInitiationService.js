@@ -59,7 +59,7 @@ function addPlayer(params){
 
 	var playerRef = ref.child('players').push(); // node-client generates the key syncly.
 	var player = {
-		id: playerRef.key(),
+		id: playerRef.key,
 		user: params.user,
 	};
 	GDS.data.players[player.id] = player;
@@ -86,7 +86,7 @@ function createEntitiesForPlayer(entityQuantities, player){
 			var entityRef = ref.child('entities').push();
 
 			var entity = new playerEntityTypeConstructors[entityTypeName]({
-				id: entityRef.key(),
+				id: entityRef.key,
 				// fbRef: entityRef, // I don't think we need to store the fbRef since FB won't store actual entities.
 				player: player,
 				// playerId: player.id,
