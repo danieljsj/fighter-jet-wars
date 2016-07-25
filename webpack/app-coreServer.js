@@ -22,13 +22,13 @@ server.start();
 //////////// DEBUG /////
 
 
-const FirebaseRefService = require('./services/FirebaseRefService');
+// const FirebaseRefService = require('./services/FirebaseRefService');
 
-FirebaseRefService.initThen(function(){
-	const ref = FirebaseRefService.ref;
-	const testRef = ref.child('test/coreServerSetData');
-	testRef.push().set({foo:'bar'}, function(err){
-		if (err) throw err;
-		console.log('foo set to bar');
-	});
-});
+// FirebaseRefService.initThen(function(){
+// 	const ref = FirebaseRefService.ref;
+// 	const testRef = ref.child('test/coreServerSetData');
+// 	testRef.push().set({foo:'bar'}, function(err){
+// 		if (err) throw err;
+// 		console.log('foo set to bar');
+// 	});
+// });
