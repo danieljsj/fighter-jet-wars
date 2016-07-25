@@ -1,5 +1,7 @@
 'use strict';
 
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest; // perhaps a cooler way exists but this works for now
+
 // function GameSnapshot(data){
 // 	this.time = data.time;
 // 	this.playersData = data.players;
