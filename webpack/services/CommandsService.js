@@ -19,6 +19,7 @@ FirebaseRefService.initThen(function(){
 
 
 const lasts = {
+  'TIMESTAMP':0,
   'fore':null,
   'back':null,
   'left':null,
@@ -29,9 +30,11 @@ const lasts = {
 function send(key,val){
 
 	if (!commandsRef) return;
-
-  if (lasts[key] != val){
+	//////// 1-second refresh is for DEBUGGING!!!
+  if ((lasts[key] != val) || (lasts['TIMESTAMP'] < new Date().getTime() - 1000)){
     
+    lasts['TIMESTAMP'] = new Date().getTime();
+
     lasts[key] = val;
 
     var entities = GDS.data.entities;
