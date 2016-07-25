@@ -20,15 +20,33 @@ function retrieveThen(cb){
         path: '/snapshot',
     }
 
-    http.get(options, function(res){
+    const req = http.get(options, function(res){
+
+        if (res.statusCode != 200) {
+          console.log("non-200 response status code:");
+          console.log(res.statusCode);
+          console.log("for url:");
+          console.log(url);
+          return;
+        }
+
         let str = '';
         res.on('data', function (chunk) {
             str += chunk;
         });
         res.on('end', function () {
-            console.log('str',str);
             cb(JSON.parse(str));
         });
+    });
+
+    req.on('error', function(e){
+        console.log(e);
+        console.log('');
+        console.log('**PROBABLY SERVER JUST NOT STARTED YET; RETRYING IN 100ms**');
+        console.log('');
+        setTimeout(function(){
+            retrieveThen(cb);
+        },100);
     });
 
 }
