@@ -55,7 +55,9 @@ function send(key,val){
 
     console.log('sending cmd: ',cmd);
 
-    commandsRef.push().set(cmd);
+    commandsRef.push().set(cmd,function(error) {
+	  if (error) throw("cmd could not be saved." + error);
+	});
   }
 
 }

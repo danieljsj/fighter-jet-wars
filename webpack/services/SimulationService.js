@@ -1,4 +1,8 @@
 'use strict';
+const clt = false;
+const cld = false;
+const clp = false;
+
 
 const env = require('./env');
 
@@ -68,7 +72,6 @@ const queue = [];
 
 function doTick(){
 	
-	const clt = true;
 	
 	const gD = GDS.data;
 	
@@ -108,12 +111,10 @@ function doTick(){
 			SkyCanvasService.renderEntities();
 	 	}
 
-	 	const cld = false;
 	 	if (cld){
 	 		console.log(GDS);
 	 	}
 
-		const clp = true;
 		if (clp){
 			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
 		}
