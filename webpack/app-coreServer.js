@@ -9,3 +9,26 @@ SimServ.start();
 initGDS();
 
 server.start();
+
+
+
+
+
+
+
+
+//////////// DEBUG /////
+//////////// DEBUG /////
+//////////// DEBUG /////
+
+
+const FirebaseRefService = require('./services/FirebaseRefService');
+
+FirebaseRefService.initThen(function(){
+	const ref = FirebaseRefService.ref;
+	const testRef = ref.child('test');
+	testRef.push().set({foo:'bar'}, function(err){
+		if (err) throw err;
+		console.log('foo set to bar');
+	});
+});
