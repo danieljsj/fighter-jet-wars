@@ -7,17 +7,64 @@ const TicksCalcService = require('./TicksCalcService');
 
 const knownCommandsByTick = {};
 
+////////////////////////////////////////////////////
+
+let commandsRef;
+
+FirebaseRefService.initThen(function(){
+	commandsRef = FirebaseRefService.ref.child('commands');
+});
+
+// SENDING //////////////////////////////////////////
+
+
+const lasts = {
+  'fore':null,
+  'back':null,
+  'left':null,
+  'right':null,
+  'tryFire':null
+}
+
+function send(key,val){
+
+	if (!commandsRef) return;
+
+  if (lasts[key] != val){
+    
+    lasts[key] = val;
+
+    var entities = GDS.data.entities;
+    
+    let id;
+    for (const idYup in entities){
+      id = idYup;
+      break;
+    }
+
+    const cmd = {
+      eId: id,
+      key: key,
+      val: val,
+      bT: (new Date()).getTime(),
+      sT: require('firebase').ServerValue.TIMESTAMP,
+    };
+
+    console.log('sending cmd: ',cmd);
+
+    commandsRef.push().set(cmd);
+  }
+
+}
+
+// READING //////////////////////////////////////////
 
 let commandCallback;
 
-
-
-function reSimulate(){}; ///////// WHERE AND HOW
-
-function start(){
+function startReading(){
 
 	FirebaseRefService.initThen(function(){
-		const commandsRef = FirebaseRefService.ref.child('commands');
+		commandsRef = FirebaseRefService.ref.child('commands');
 		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
 
 			const cmd = commandSnapshot.val();
@@ -55,7 +102,15 @@ function config(opts){
 	commandCallback = opts.commandCallback || function(cmd){};
 }
 
+
+
+
+
+//////////////////////////////////////////
+
+
 module.exports = {
 	config: config,
-	start: start,
+	startReading: startReading,
+	send: send,
 }

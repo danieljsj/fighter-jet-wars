@@ -6,7 +6,7 @@ const GDS = require('./GameDataService');
 
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
-const CommandsReadingService = require('./CommandsReadingService');
+const CommandsService = require('./CommandsService');
 
 if (env.isBrowser()) {
 	var SkyCanvasService = require('./env/browser/SkyCanvasService');
@@ -21,7 +21,7 @@ module.exports = {
 }
 
 function start(ref) {
-	CommandsReadingService.start();
+	CommandsService.startReading();
 	startTicks();
 }
 

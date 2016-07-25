@@ -3,23 +3,7 @@
 const CurrentUserService = require('./CurrentUserService');
 const FirebaseRefService = require('../../FirebaseRefService');
 const GameDataService = require('../../GameDataService');
-
-
-
-
-let commandsRef;
-let offset;
-FirebaseRefService.initThen(function(){
-  
-  commandsRef = FirebaseRefService.ref.child('commands');
-  
-  var offsetRef = FirebaseRefService.ref.child(".info/serverTimeOffset");
-  offsetRef.on("value", function(snap) {
-    offset = snap.val();
-  });
-
-}); // TODO: make a CommandsRefService? so I don't have to do this everywhere?... // ALSO... figure out smarter ways of init'ing everything... once I need to wait for auth this is going to get annoying again...
-
+const sendCommand = require('../../CommandsService').send;
 
 
 function onKeyDown(event) {
@@ -71,44 +55,6 @@ function onKeyUp(event) {
     // down arrow 40
   }
 }
-
-const lasts = {
-  'fore':null,
-  'back':null,
-  'left':null,
-  'right':null,
-  'tryFire':null
-}
-
-function sendCommand(key,val){
-
-  if (lasts[key] != val){
-    
-    lasts[key] = val;
-
-    var entities = GameDataService.data.entities;
-    
-    let id;
-    for (const idYup in entities){
-      id = idYup;
-      break;
-    }
-
-    const cmd = {
-      eId: id,
-      key: key,
-      val: val,
-      bT: (new Date()).getTime() + offset,
-      sT: require('firebase').ServerValue.TIMESTAMP,
-    };
-
-    console.log('sending cmd: ',cmd);
-
-    commandsRef.push().set(cmd);
-  }
-
-}
-
 
 
 
