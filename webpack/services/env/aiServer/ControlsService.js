@@ -9,6 +9,76 @@ const sendCommand = require('../../CommandsService').send;
 /////////
 
 
+const _aiPlayers = {
+
+}
+
+
+function start(){
+	FirebaseRefService.initThen(function(){
+
+		///// not sure if I need this... but I just got a list of _aiPlayers...
+		const players = GDS.data.players;
+		for (pId in players) {
+			const player = players[pId];
+			if (!player.user){
+				_aiPlayers.push(player);
+			}
+		}
+
+		console.log('_aiPlayers:',_aiPlayers);
+
+		turnLeftAlways();
+
+	});
+
+}
+
+
+
+
+
+
+
+function tickWork(){
+
+	SimulationService.afterTick(function(currTick,dT){
+
+
+	});
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function turnLeftAlways(){
 
 	var lastEntityId;
@@ -34,11 +104,8 @@ function turnLeftAlways(){
 }
 
 
-function start(){
-	FirebaseRefService.initThen(function(){
-		turnLeftAlways();
-	});
-}
+
+
 
 
 module.exports = {

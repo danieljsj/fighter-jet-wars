@@ -4,6 +4,7 @@ const FirebaseRefService = require('./FirebaseRefService');
 const GDS = require('./GameDataService');
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
+const getCommandNulls = require('./models/////////////////////////////???COME BACK!@!@@!!!!!')
 
 const knownCommandsByTick = {};
 
@@ -17,38 +18,36 @@ FirebaseRefService.initThen(function(){
 
 // SENDING //////////////////////////////////////////
 
-const lasts = {
-  'timestamp':0,
-  'fore':null,
-  'back':null,
-  'left':null,
-  'right':null,
-  'tryFire':null
-}
 
+const entitiesLasts = {}
 
 function send(key,val,eId){
 
+	if (!eId){
+	    for (const id in entities){
+	      var eId = id;
+	      break;
+	    }
+	}
 
+	//////// 1-second refresh is for DEBUGGING!!! in-game, don't do this.
 	const INTERVAL = 10000;
 
 	if (!commandsRef) return;
-	//////// 1-second refresh is for DEBUGGING!!!
-  	if ((lasts[key] != val) || (lasts['timestamp'] < new Date().getTime() - INTERVAL)){
-    
-    lasts['timestamp'] = new Date().getTime();
 
-    lasts[key] = val;
+	if (!entitiesLasts[eId]) entitiesLasts[eId] = new ();
+
+  	if ((entitiesLasts[eId][key] !== val) || (entitiesLasts[eId]['timestamp'] < new Date().getTime() - INTERVAL)){
+    
+    entitiesLasts['timestamp'] = new Date().getTime();
+
+    entitiesLasts[key] = val;
 
     var entities = GDS.data.entities;
     
-    for (const idYup in entities){
-      var firstEntityId = idYup;
-      break;
-    }
 
     const cmd = {
-      eId: eId || firstEntityId,
+      eId: eId,
       key: key,
       val: val,
       bT: (new Date()).getTime(),

@@ -1,10 +1,13 @@
 'use strict';
 
-module.exports = {
-	fore: 0,
-	back: 0,
-	left: 0,
-	right: 0,
-	tryFire: 0,
-	trySwitch: 0,
+module.exports = function(){
+	return {
+		timestamp: 0,
+		fore: null,
+		back: null,
+		left: null,
+		right: null,
+		tryFire: null,
+		trySwitch: null,
+	}
 }
