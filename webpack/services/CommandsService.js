@@ -4,7 +4,7 @@ const FirebaseRefService = require('./FirebaseRefService');
 const GDS = require('./GameDataService');
 const GameParamsService = require('./GameParamsService');
 const TicksCalcService = require('./TicksCalcService');
-const getCommandNulls = require('./models/////////////////////////////???COME BACK!@!@@!!!!!')
+const ControlsNulls = require('./models/components/nulls/controls');
 
 const knownCommandsByTick = {};
 
@@ -35,7 +35,7 @@ function send(key,val,eId){
 
 	if (!commandsRef) return;
 
-	if (!entitiesLasts[eId]) entitiesLasts[eId] = new ();
+	if (!entitiesLasts[eId]) entitiesLasts[eId] = new ControlsNulls();
 
   	if ((entitiesLasts[eId][key] !== val) || (entitiesLasts[eId]['timestamp'] < new Date().getTime() - INTERVAL)){
     
