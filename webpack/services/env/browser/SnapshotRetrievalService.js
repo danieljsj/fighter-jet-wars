@@ -23,10 +23,8 @@ function retrieveThen(cb){
     const req = http.get(options, function(res){
 
         if (res.statusCode != 200) {
-          console.log("non-200 response status code:");
-          console.log(res.statusCode);
-          console.log("for url:");
-          console.log(url);
+          console.error("non-200 response status code:");
+          console.error(res.statusCode);
           return;
         }
 

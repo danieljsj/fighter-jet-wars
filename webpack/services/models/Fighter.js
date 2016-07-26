@@ -1,8 +1,8 @@
 'use strict';
 
 // nulls:
-var nullP = require('./components/nulls/p');
-var nullControls = require('./components/nulls/controls');
+var NullP = require('./components/nulls/p');
+var NullControls = require('./components/nulls/controls');
 
 // atts:
 var FighterBaseAtts = require('./components/atts/FighterBaseAtts');
@@ -29,9 +29,9 @@ class Fighter {
 		
 		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
 
-		this.p = JSON.parse(JSON.stringify(params.p||nullP));
+		this.p = params.p || new NullP();
 
-		this.controls = JSON.parse(JSON.stringify(params.controls||nullControls)); // TODO: GET THESE FROM FIREBASE! ... dude... complicated
+		this.controls = params.controls || new NullControls(); // TODO: GET THESE FROM FIREBASE! ... dude... complicated
 
 		this.thoughts = {}; // TODO! BRING THIS IN FROM THE OLD APP!
 

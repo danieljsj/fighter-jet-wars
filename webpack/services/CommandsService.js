@@ -25,7 +25,7 @@ function send(key,val,eId){
 
 	if (!eId){
 	    for (const id in entities){
-	      var eId = id;
+	      var eId = id; // break, so get first.
 	      break;
 	    }
 	}
@@ -90,12 +90,16 @@ function startReading(){
 		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
  
 			const cmd = commandSnapshot.val();
-
 			console.log('received cmd: ',cmd);
+ 			
+ 			const entities = GDS.data.entities;
+
 
 			// temporary, non-queued:
-			var entity = GDS.data.entities[cmd.eId];
-			if (entity) entity.controls[cmd.key] = cmd.val;
+			if (entities){
+				var entity = entities[cmd.eId];
+				if (entity) entity.controls[cmd.key] = cmd.val;
+			}
 			// endTemporary
 
 
