@@ -1,7 +1,7 @@
 'use strict';
 const clt = false;
 const cld = false;
-const clp = false;
+const clp = true;
 
 
 const env = require('./env');
@@ -116,7 +116,8 @@ function doTick(){
 	 	}
 
 		if (clp){
-			for (const id in gD.entities) { console.log(GDS.data.entities[id].p); }
+			let i = 0;
+			for (const id in gD.entities) { console.log(i++, GDS.data.entities[id].p); }
 		}
 
 	}

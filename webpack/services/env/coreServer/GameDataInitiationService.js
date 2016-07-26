@@ -28,14 +28,15 @@ function run(){
 		ref = FirebaseRefService.ref;
 		console.log('added a computer player');
 		addPlayer({user:false});
+		addPlayer({user:false});
 		listenToFbUserAdds();
 	});
 }
 
 
-
+ 
 ///////////
-
+ 
 
 
 // NOTE: these two might should be common...

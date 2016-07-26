@@ -89,14 +89,17 @@ function startReading(){
 	FirebaseRefService.initThen(function(){
 		commandsRef = FirebaseRefService.ref.child('commands');
 		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
-
+ 
 			const cmd = commandSnapshot.val();
 
 			console.log('received cmd: ',cmd);
 
-								// temporary:
-								var entity = GDS.data.entities[cmd.eId];
-								if (entity) entity.controls[cmd.key] = cmd.val;
+			// temporary, non-queued:
+			var entity = GDS.data.entities[cmd.eId];
+			if (entity) entity.controls[cmd.key] = cmd.val;
+			// endTemporary
+
+
 
 			cmd.tick = getCommandTick(cmd);
 
