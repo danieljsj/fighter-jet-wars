@@ -11,8 +11,11 @@ function initCanvas(canvasId){
 
 	// Create the canvas
 	canvas = document.createElement('canvas');
-	canvas.width = window.innerWidth || 300;
-	canvas.height = window.innerHeight || 400;
+
+	fullscreenifyCanvas();
+	setInterval(function(){
+		fullscreenifyCanvas();
+	},100);
 
 
 	document.body.appendChild(canvas);
@@ -85,6 +88,10 @@ function draw(entity, centerPoint){
 
 }
 
+function fullscreenifyCanvas(){
+	canvas.width = window.innerWidth || 300;
+	canvas.height = window.innerHeight || 400;
+}
 
 module.exports = {
 	initCanvas: initCanvas,
