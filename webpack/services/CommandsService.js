@@ -42,14 +42,13 @@ function send(key,val){
 
     var entities = GDS.data.entities;
     
-    let id;
     for (const idYup in entities){
-      id = idYup;
+      var firstEntityId = idYup;
       break;
     }
 
     const cmd = {
-      eId: id,
+      eId: firstEntityId,
       key: key,
       val: val,
       bT: (new Date()).getTime(),
