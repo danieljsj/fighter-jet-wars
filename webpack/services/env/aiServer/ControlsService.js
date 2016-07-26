@@ -6,45 +6,36 @@ const FirebaseRefService = require('../../FirebaseRefService');
 
 const sendCommand = require('../../CommandsService').send;
 
+const turnLeft = require('./aiScripts/turnLeft');
+
 /////////
-
-
-const _aiPlayers = {
-
-}
 
 
 function start(){
 	FirebaseRefService.initThen(function(){
 
-		///// not sure if I need this... but I just got a list of _aiPlayers...
-		const players = GDS.data.players;
-		for (pId in players) {
-			const player = players[pId];
-			if (!player.user){
-				_aiPlayers.push(player);
-			}
-		}
-
-		console.log('_aiPlayers:',_aiPlayers);
-
-		turnLeftAlways();
+		tickWork();
 
 	});
 
 }
 
-
-
-
-
-
-
 function tickWork(){
 
 	SimulationService.afterTick(function(currTick,dT){
 
+		const entities = GDS.data.entities;
 
+		for (var id in entities) {
+			const entity = entities[id];
+			if (! entity.player.user){
+				turnLeft(entity.id)
+			}
+		}
+
+		setTimeout(function reQueue(){
+			tickWork();
+		},5);
 	});
 
 }

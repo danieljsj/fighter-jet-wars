@@ -24,7 +24,7 @@ const entitiesLasts = {}
 function send(key,val,eId){
 
     var entities = GDS.data.entities;
-    
+
 	if (!eId){
 	    for (const id in entities){
 	      eId = id; // break, so get first.
@@ -61,7 +61,7 @@ function send(key,val,eId){
 
     commandsRef.push().set(cmd, function onComplete(error) {
 	  if (error) throw("cmd could not be saved." + error);
-	  console.log('cmd successfully sent');
+	  console.log('cmd successfully sent:', cmd);
 	});
 
 
