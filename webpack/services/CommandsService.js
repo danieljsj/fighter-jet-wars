@@ -92,7 +92,7 @@ function startReading(){
 
 			const cmd = commandSnapshot.val();
 
-								console.log('received cmd: ',cmd);
+			console.log('received cmd: ',cmd);
 
 								// temporary:
 								var entity = GDS.data.entities[cmd.eId];

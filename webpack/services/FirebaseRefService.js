@@ -35,7 +35,7 @@ function initThen(callback){
 	}
 
 	serv.app = firebase.initializeApp(config); // HOPING THIS IS ALSO TRUE FOR THE BROWSER: initializeApp is synchronous: http://stackoverflow.com/questions/37527247/firebase-initializeapp-callback-promise
-	serv.ref = firebase.database().ref()
+	serv.ref = firebase.database().ref();
 	callback();
 
 }
