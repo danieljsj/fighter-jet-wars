@@ -40,9 +40,9 @@ function retrieveThen(cb){
     });
 
     req.on('error', function(e){
-        console.log(e);
+        // console.log(e);
         console.log('');
-        console.log('**PROBABLY SERVER JUST NOT STARTED YET; RETRYING IN 100ms**');
+        console.log('**ERROR IS PROBABLY "ECONNREFUSED"; PROBABLY SERVER JUST NOT STARTED YET; RETRYING IN 100ms**');
         console.log('');
         setTimeout(function(){
             retrieveThen(cb);
