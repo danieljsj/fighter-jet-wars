@@ -23,9 +23,11 @@ const entitiesLasts = {}
 
 function send(key,val,eId){
 
+    var entities = GDS.data.entities;
+    
 	if (!eId){
 	    for (const id in entities){
-	      var eId = id; // break, so get first.
+	      eId = id; // break, so get first.
 	      break;
 	    }
 	}
@@ -43,7 +45,6 @@ function send(key,val,eId){
 
     entitiesLasts[key] = val;
 
-    var entities = GDS.data.entities;
     
 
     const cmd = {
