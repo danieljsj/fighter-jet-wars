@@ -13,9 +13,8 @@ function initCanvas(canvasId){
 	canvas = document.createElement('canvas');
 
 	fullscreenifyCanvas();
-	setInterval(function(){
-		fullscreenifyCanvas();
-	},100);
+	setTimeout(fullscreenifyCanvas,100);
+	window.onresize = fullscreenifyCanvas;
 
 
 	document.body.appendChild(canvas);
@@ -89,8 +88,12 @@ function draw(entity, centerPoint){
 }
 
 function fullscreenifyCanvas(){
-	canvas.width = window.innerWidth || 300;
-	canvas.height = window.innerHeight || 400;
+	if (canvas.width != window.innerWidth){
+		canvas.width = window.innerWidth || 300;
+	}
+	if (canvas.height != window.innerHeight){
+		canvas.height = window.innerHeight || 400;
+	}
 }
 
 module.exports = {
