@@ -27,7 +27,7 @@ const lasts = {
 }
 
 
-function send(key,val){
+function send(key,val,eId){
 
 
 	const INTERVAL = 10000;
@@ -48,7 +48,7 @@ function send(key,val){
     }
 
     const cmd = {
-      eId: firstEntityId,
+      eId: eId || firstEntityId,
       key: key,
       val: val,
       bT: (new Date()).getTime(),
@@ -64,14 +64,15 @@ function send(key,val){
 	  console.log('cmd successfully sent');
 	});
 
-    /////////// HOLY SMOKES... this works when I do it from the root js file... but when I do it from here in sendCommand, it doesn't do it! (but it does in the browser...)
-	const ref = FirebaseRefService.ref;
-	console.log('about to make baz:buz (i.e. starting to test sending data in to firebase...)');
-	const testRef = ref.child('test/controlBazBuz/'+(require('./env').isBrowser() ? 'browser' : 'node'));
-	testRef.push().set({baz:'buz'}, function onComplete(err){
-		if (err) throw err;
-		console.log('baz set to buz (i.e. test send was successful)');
-	});
+
+    // FOR DEBUG:
+	// const ref = FirebaseRefService.ref;
+	// console.log('about to make baz:buz (i.e. starting to test sending data in to firebase...)');
+	// const testRef = ref.child('test/controlBazBuz/'+(require('./env').isBrowser() ? 'browser' : 'node'));
+	// testRef.push().set({baz:'buz'}, function onComplete(err){
+	// 	if (err) throw err;
+	// 	console.log('baz set to buz (i.e. test send was successful)');
+	// });
 
 
 
