@@ -26,9 +26,8 @@ function run(){
 	};
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
-		console.log('added a computer player');
-		addPlayer({user:false});
-		addPlayer({user:false});
+		addPlayerAndDefaultUnits({user:false});
+		addPlayerAndDefaultUnits({user:false});
 		listenToFbUserAdds();
 	});
 }
@@ -49,12 +48,12 @@ function listenToFbUserAdds(){
 			name: ss.val().name,
 			id: ss.key()
 		};
-		addPlayer({user:user});
+		addPlayerAndDefaultUnits({user:user});
 	});
 
 }
 
-function addPlayer(params){
+function addPlayerAndDefaultUnits(params){
 	params = params || {};
 	params.user = params.user || false;
 
@@ -64,6 +63,7 @@ function addPlayer(params){
 		user: params.user,
 	};
 	GDS.data.players[player.id] = player;
+	console.log('added computer player '+player.id);
 
 	var entityQuantities = {
 		'fighter': (params.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),

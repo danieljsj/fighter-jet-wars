@@ -1,7 +1,9 @@
+require('log-timestamp');
+
 const SimServ = require('./services/SimulationService');      // start sim first to show that sim won't explode if game data is false or empty
 const initGDS = require('./services/GameDataService').init;
 
-const SkyCanvasService = require('./services/env/browser/SkyCanvasService');
+const initCanvas = require('./services/env/browser/SkyCanvasService').initCanvas;
 const KeyboardControlsService = require('./services/env/browser/KeyboardControlsService');
 
 /////
@@ -9,7 +11,7 @@ const KeyboardControlsService = require('./services/env/browser/KeyboardControls
 SimServ.start();
 initGDS();
 
-SkyCanvasService.initCanvas();
+initCanvas();
 KeyboardControlsService.start();
 
 require('./assets/sass/style.scss');

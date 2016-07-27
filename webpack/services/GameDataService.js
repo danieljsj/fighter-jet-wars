@@ -1,4 +1,5 @@
 const env = require('./env');
+const snapshotRetrievalInterval = require('./GameParamsService').snapshotRetrievalInterval;
 
 //////////
 
@@ -28,13 +29,22 @@ function init(){ // maybe in some other world this should have callbacks... but 
 //////////
 
 function client_init() {
+
+	doSnapshotRetrieval();
+}
+
+function doSnapshotRetrieval(){
 	const retrieveThen = require('./env/browser/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;
-
+	
 	retrieveThen(function(snapshot){
 		serv.data = makeGD(snapshot);
 	});
+	setTimeout(doSnapshotRetrieval,snapshotRetrievalInterval);
 }
+
+/////////
+
 
 function coreServer_init() {
 	const init = require('./env/coreServer/GameDataInitiationService').run; // seems not very dependency injected... but... oh well...

@@ -55,26 +55,16 @@ function send(key,val,eId){
       sT: require('firebase').database.ServerValue.TIMESTAMP,
     };
 
-    console.log('sending cmd: ',cmd);
 
-    // console.log('commandsRef',commandsRef);
 
-    commandsRef.push().set(cmd, function onComplete(error) {
-	  if (error) throw("cmd could not be saved." + error);
-	  console.log('cmd successfully sent:', cmd);
+    const cmdRef = commandsRef.push();
+    cmdRef.set(cmd, function onComplete(error) {
+		if (error) throw("cmd could not be saved." + error);
+		// console.log('cmd successfully sent:', cmd);
+    	console.log('cmd sent');
 	});
-
-
-    // FOR DEBUG:
-	// const ref = FirebaseRefService.ref;
-	// console.log('about to make baz:buz (i.e. starting to test sending data in to firebase...)');
-	// const testRef = ref.child('test/controlBazBuz/'+(require('./env').isBrowser() ? 'browser' : 'node'));
-	// testRef.push().set({baz:'buz'}, function onComplete(err){
-	// 	if (err) throw err;
-	// 	console.log('baz set to buz (i.e. test send was successful)');
-	// });
-
-
+    // console.log('sending cmd: ',cmd);
+    console.log('sending cmd '+cmdRef.key);
 
   }
 
@@ -84,33 +74,38 @@ function send(key,val,eId){
 
 let commandCallback;
 
+let numCmdsReceived = 0;
 function startReading(){
 
 	FirebaseRefService.initThen(function(){
 		commandsRef = FirebaseRefService.ref.child('commands');
 		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
  
-			const cmd = commandSnapshot.val();
-			console.log('received cmd: ',cmd);
- 			
- 			const entities = GDS.data.entities;
+ 			if (++numCmdsReceived > 1){
+
+				const cmd = commandSnapshot.val();
+				// console.log('received cmd: ',cmd);
+	 			console.log('cmd received (#'+numCmdsReceived+')');
+
+	 			const entities = GDS.data.entities;
 
 
-			// temporary, non-queued:
-			if (entities){
-				var entity = entities[cmd.eId];
-				if (entity) entity.controls[cmd.key] = cmd.val;
-			}
-			// endTemporary
+				// temporary, non-queued:
+				if (entities){
+					var entity = entities[cmd.eId];
+					if (entity) entity.controls[cmd.key] = cmd.val;
+				}
+				// endTemporary
 
 
 
-			cmd.tick = getCommandTick(cmd);
+				cmd.tick = getCommandTick(cmd);
 
-			// up and coming:
-			if (commandCallback) {
-				commandCallback(cmd); // more wise, involving ticks
-			}
+				// up and coming:
+				if (commandCallback) {
+					commandCallback(cmd); // more wise, involving ticks
+				}
+ 			}
 
 		});
 	});

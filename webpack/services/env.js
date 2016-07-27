@@ -21,8 +21,8 @@ function isAiServer(){
 }
 
 // if (isNodejs()){
-// 	process.argv.forEach(function (val, index, array) {
-// 	  console.log(index + ': ' + val);
+// 	process.argv.forEach(function (val, index) {
+//  // ...
 // 	});
 // }
 

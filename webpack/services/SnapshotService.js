@@ -16,16 +16,13 @@ const entityConstructors = {
 //////////
 
 function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
-	// console.log(gD);
 	this.tick = currTick;
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
-
-	console.log(typeof currTick);
-
-	tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
-	console.log(tickSnapshots);
-	console.log(tickSnapshots[currTick]);
+	
+	// tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
+	
+	console.log('made snapshot');
 }
 
 //////////////
