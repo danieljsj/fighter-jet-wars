@@ -1,7 +1,8 @@
 'use strict';
 
+const ToLog = require('../../ToLog');
 // var request = require('superagent');
-var http = require('http');
+const http = require('http');
 
 function retrieveThen(cb){
 
@@ -14,7 +15,7 @@ function retrieveThen(cb){
     //     });
 
 
-    console.log('requesting snapshot');
+    if (ToLog.snapshots) console.log('requesting snapshot');
 
     const options = {
         host: 'localhost',

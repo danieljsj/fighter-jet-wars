@@ -1,10 +1,7 @@
 'use strict';
 
-let logSnapshots = false;
-// logSnapshots = true;
-
 // makes or reads text-only (no refs) literals
-
+const ToLog = require('./ToLog');
 const Fighter = require('./models/Fighter.js');
 const Blimp = require('./models/Blimp.js');
 // const FirebaseRefService = require('./FirebaseRefService'); // later... for when I... wait... no... i don't need this... we're streaming a single pile of commands, so I don't need to apply refs onto the entities themselves...
@@ -26,9 +23,9 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 
 	// tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
 	
-	if (logSnapshots) console.log('this snapshot created',this);
+	if (ToLog.snapshotsFull) console.log('this snapshot created',this);
 
-	console.log('made snapshot');
+	if (ToLog.snapshots) console.log('made snapshot');
 }
 
 //////////////
@@ -91,7 +88,7 @@ function makeRedactedEntities(gDEntities){
 
 function makeGameDataFromSnapshot(incomingSnapshot){
 
-	if (logSnapshots) console.log('incomingSnapshot',incomingSnapshot);
+	if (ToLog.snapshotsFull) console.log('incomingSnapshot',incomingSnapshot);
 	
 	const gD = {
 		users: {},
