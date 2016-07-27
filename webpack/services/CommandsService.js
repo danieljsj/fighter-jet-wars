@@ -2,7 +2,7 @@
 
 const FirebaseRefService = require('./FirebaseRefService');
 const GDS = require('./GameDataService');
-const GameParamsService = require('./GameParamsService');
+const params = require('./GameParamsService').params;
 const TicksCalcService = require('./TicksCalcService');
 const ControlsNulls = require('./models/components/nulls/controls');
 
@@ -32,20 +32,19 @@ function send(key,val,eId){
 	    }
 	}
 
-	//////// 1-second refresh is for DEBUGGING!!! in-game, don't do this.
-	const INTERVAL = 10000;
+	const interval = params.minimumRedundantCommandInterval;
 
 	if (!commandsRef) return;
 
 	if (!entitiesLasts[eId]) entitiesLasts[eId] = new ControlsNulls();
 
-  	if ((entitiesLasts[eId][key] !== val) || (entitiesLasts[eId]['timestamp'] < new Date().getTime() - INTERVAL)){
+  	if ((entitiesLasts[eId][key] !== val) || (entitiesLasts[eId]['timestamp'] < new Date().getTime() - interval)){
     
-    entitiesLasts['timestamp'] = new Date().getTime();
+    entitiesLasts[eId]['timestamp'] = new Date().getTime();
 
     entitiesLasts[key] = val;
 
-    
+	/////////////////// BLYEORIEUWOIU COME BACK HERE ASKJF DKOJF AODKFJ AND MAKE IT STOP INFINITELY FAST TREAMING REDUNDANT COMMANDS!    
 
     const cmd = {
       eId: eId,
@@ -119,7 +118,7 @@ function getCommandTick(cmd){
 	return Math.max(
 		TicksCalcService.msToRoundedTicks(cmd.bT),
 		// rule: the command happened when you pressed the button, unless that's longer ago than when your command arrived to firebase minus the max allowed lag time, in which case your command registers as being the max amount before arrival to server allowed.
-		TicksCalcService.msToRoundedTicks(cmd.sT)-GameParamsService.params.maxCommandLagTicks
+		TicksCalcService.msToRoundedTicks(cmd.sT)-params.maxCommandLagTicks
 	);
 }
 
