@@ -1,11 +1,5 @@
 'use strict';
-let clt = false;
-let cld = false;
-let clp = false;
-
-// clt = true;
-// cld = true;
-// clp = true;
+const ToLog = require('./ToLog');
 
 const env = require('./env');
 
@@ -75,25 +69,25 @@ function doTick(){
 
 		let dT = getDt(currTick);
 
-		if (clt) console.log('dT: ',dT);
-		if (clt) console.log('currTick: ',currTick);
+		if (ToLog.times) console.log('dT: ',dT);
+		if (ToLog.times) console.log('currTick: ',currTick);
 
 		// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
-		if (clt) console.time('control');
+		if (ToLog.times) console.time('control');
 		for (const id in gD.entities) { if (gD.entities[id].control) gD.entities[id].control(dT); }
-		if (clt) console.timeEnd('control');
+		if (ToLog.times) console.timeEnd('control');
 
-		if (clt) console.time('accelerate');
+		if (ToLog.times) console.time('accelerate');
 		for (const id in gD.entities) { if (gD.entities[id].accelerate) gD.entities[id].accelerate(dT); }
-		if (clt) console.timeEnd('accelerate');
+		if (ToLog.times) console.timeEnd('accelerate');
 
-		if (clt) console.time('move');
+		if (ToLog.times) console.time('move');
 		for (const id in gD.entities) { if (gD.entities[id].move) gD.entities[id].move(dT); }
-		if (clt) console.timeEnd('move');
+		if (ToLog.times) console.timeEnd('move');
 
-		if (clt) console.time('sense');
+		if (ToLog.times) console.time('sense');
 		for (const id in gD.entities) { if (gD.entities[id].sense) gD.entities[id].sense(dT); }
-		if (clt) console.timeEnd('sense');
+		if (ToLog.times) console.timeEnd('sense');
 
 		while (queue[0]) {
 			queue[0](currTick, dT);
@@ -104,11 +98,11 @@ function doTick(){
 			SkyCanvasService.renderEntities();
 	 	}
 
-	 	if (cld){
+	 	if (ToLog.gD){
 	 		console.log(GDS);
 	 	}
 
-		if (clp){
+		if (ToLog.p){
 			let i = 0;
 			if (! (currTick % params.ticksPerSecond) ){
 				for (const id in gD.entities) { 
@@ -129,7 +123,7 @@ function doTick(){
 	}
 
 	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
-	if (clt) console.log('timeout: ',timeout);
+	if (ToLog.times) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
 }
