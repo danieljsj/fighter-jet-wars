@@ -14,7 +14,7 @@ clients simulate to currentmoment.
 
 					ISSUE: what happens when I send a command that I wouldn't have sent if I had known the real world (i.e. during ticks that will be recalculated)
 						- player: no chance to go back and re-change it; world just warps, maybe my opponent "dodges" a bit, and that's that.
-						- aiServer: same. don't want AIs having capabilities that players don't!
+						- aiClient: same. don't want AIs having capabilities that players don't!
 							- rule/limitation: you only get to send commands when you're calculated 'up to speed'; commands are never re-done when backtracking/re-simming.
 
 server simulates far enough back to not be having to re-simulate every frame... and, as a nicety, so that its snapshots are always true, not representing info that's about to be rewritten.

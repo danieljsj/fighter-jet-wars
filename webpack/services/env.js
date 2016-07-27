@@ -2,7 +2,7 @@ const env = {
 	isBrowser: isBrowser,
 	isNodejs: isNodejs,
 	isCoreServer: isCoreServer,
-	isAiServer: isAiServer,
+	isAiClient: isAiClient,
 }
 
 
@@ -16,8 +16,8 @@ function isNodejs(){
 function isCoreServer(){
 	return isNodejs() && (-1 < process.argv[1].indexOf('coreServer')); // a bit janky; doesn't support npm start... but works for now.
 }
-function isAiServer(){
-	return isNodejs() && (-1 < process.argv[1].indexOf('aiServer')); // a bit janky; doesn't support npm start... but works for now.
+function isAiClient(){
+	return isNodejs() && (-1 < process.argv[1].indexOf('aiClient')); // a bit janky; doesn't support npm start... but works for now.
 }
 
 // if (isNodejs()){

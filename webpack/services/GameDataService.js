@@ -12,7 +12,7 @@ function init(){ // maybe in some other world this should have callbacks... but 
 	switch (true) {
 		
 		case env.isBrowser() : 
-		case env.isAiServer() :
+		case env.isAiClient() :
 
 			client_init(); break;
 		

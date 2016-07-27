@@ -47,7 +47,7 @@ function send(key,val,eId){
 	      eId: eId,
 	      key: key,
 	      val: val,
-	      bT: (new Date()).getTime(),
+	      cT: (new Date()).getTime(), // CLOCK
 	      sT: require('firebase').database.ServerValue.TIMESTAMP,
 	    };
 
@@ -57,7 +57,7 @@ function send(key,val,eId){
 	    cmdRef.set(cmd, function onComplete(error) {
 			if (error) throw("cmd could not be saved." + error);
 			// console.log('cmd successfully sent:', cmd);
-	    	console.log('cmd sent --- for '+eId);
+	    	console.log('cmd sent; cT-sT:'+(cmd.cT-cmd.sT));
 		});
 	    // console.log('sending cmd: ',cmd);
 	    console.log('sending cmd '+cmdRef.key);
@@ -81,7 +81,7 @@ function startReading(){
 
 				const cmd = commandSnapshot.val();
 				// console.log('received cmd: ',cmd);
-	 			console.log('cmd received (#'+numCmdsReceived+')');
+	 			console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
 
 	 			const entities = GDS.data.entities;
 
@@ -113,7 +113,7 @@ function startReading(){
 
 function getCommandTick(cmd){
 	return Math.max(
-		TicksCalcService.msToRoundedTicks(cmd.bT),
+		TicksCalcService.msToRoundedTicks(cmd.cT),
 		// rule: the command happened when you pressed the button, unless that's longer ago than when your command arrived to firebase minus the max allowed lag time, in which case your command registers as being the max amount before arrival to server allowed.
 		TicksCalcService.msToRoundedTicks(cmd.sT)-params.maxCommandLagTicks
 	);
