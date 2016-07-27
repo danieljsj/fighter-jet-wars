@@ -26,8 +26,8 @@ function run(){
 	};
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
-		// addPlayerAndDefaultUnits({user:false});
-		// addPlayerAndDefaultUnits({user:false});
+		addPlayerAndDefaultUnits({user:false});
+		addPlayerAndDefaultUnits({user:false});
 		listenToFbUserAdds();
 	});
 }

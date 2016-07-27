@@ -84,18 +84,19 @@ module.exports = {
 function GET_USER_PLAYER_ENTITY(){
   const userId = 'b7sEsa8pUWOyWnDYAQCdPjdhFG02';
   
-  const players = GDS.data.players;
-  for (const playerId in players) {
-    const player = players[playerId];
-    console.log(player.user && player.user.id);
-    if (player.user && (userId === player.user.id) ) {
-
-      const entities = GDS.data.entities;
-      for (const entityId in entities) {
-        const entity = entities[entityId];
-        return entity;
-      }
-
+  const entities = GDS.data.entities;
+  for (const entityId in entities) {
+    const entity = entities[entityId];
+    if (
+      entity 
+      && 
+      entity.player 
+      && 
+      entity.player.user 
+      && 
+      (userId == entity.player.user.id)
+    ) {
+      return entity;
     }
   }
 
@@ -103,5 +104,9 @@ function GET_USER_PLAYER_ENTITY(){
 }
 
 function uPId(){
+  console.log("USER PLAYER ENTITY ID: "+GET_USER_PLAYER_ENTITY().id);
   return GET_USER_PLAYER_ENTITY().id;
 }
+
+
+// setInterval(uPId, 17);
