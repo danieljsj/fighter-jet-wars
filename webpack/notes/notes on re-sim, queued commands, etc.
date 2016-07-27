@@ -1,0 +1,36 @@
+CHECK: is my 'browserTime' clock-offset right consistent? I.e. what the client thinks its ServerTime is, and my server time in-client, are the same?
+
+IDEALLY: my client creates the command, puts it into its own commands queue/log... organized by id, in realtime, and when I receive it back from the server, it overrides and if there's a difference, I have to re-calculate.
+
+SIDENOTE: If needed, if the recalculations started to get me down, I might be
+
+
+commands received into queue of commands.
+
+												rename browserTime to clientTime
+												move SnapshotRetrieval to services/client/
+
+clients simulate to currentmoment.
+
+					ISSUE: what happens when I send a command that I wouldn't have sent if I had known the real world (i.e. during ticks that will be recalculated)
+						- player: no chance to go back and re-change it; world just warps, maybe my opponent "dodges" a bit, and that's that.
+						- aiServer: same. don't want AIs having capabilities that players don't!
+							- rule/limitation: you only get to send commands when you're calculated 'up to speed'; commands are never re-done when backtracking/re-simming.
+
+server simulates far enough back to not be having to re-simulate every frame... and, as a nicety, so that its snapshots are always true, not representing info that's about to be rewritten.
+
+
+are we trusting that the server has seen all commands we've seen? yes, because it is simulating at a point further in the past. and perhaps all servers that clients see go through the server.
+
+also, if the server's snapshot agrees with our own for that tick (note: we should make sure that players and servers make snapshots on the same tick!) then no re-simulation is triggered.
+
+IDEA; make ALL commands, even my own, experience 'lag', so that my airplane jumps/scoots just like my opponents, so I don't feel 'left out'.
+
+WAIT; problem; lasers will be jumping. if my opponents moved and I re-sim, their lasers will jump to what their lasers looked like on their screen! 
+	what do I need to do to make this as small an amount as possible? 
+		1. feel okay; only lasers very near those planes will move, and therefore only by a small arclength. Lasers far will be at correct lengths. Okay, that's good enough for me.
+
+
+IDEA(NOPE): do like React; persist my local data, and when I get a snapshot, instead of completely reconstituting, do a diff against my game data... wait... no, because my game data will have moved on.
+
+IDEA: keep a drawnPs object (only for browser) which keeps current drawn x,y,dir; the effect of gD on drawnPs is to A) apply speed+dir to drawnPs AND each tick to reduce the incorrectness by a fixed amount. a sort of "Scooting".
