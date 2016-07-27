@@ -43,10 +43,6 @@ function send(key,val,eId){
 
 	    entitiesLasts[eId][key] = val;
 
-	    debugger;
-
-		/////////////////// BLYEORIEUWOIU COME BACK HERE ASKJF DKOJF AODKFJ AND MAKE IT STOP INFINITELY FAST TREAMING REDUNDANT COMMANDS!    
-
 	    const cmd = {
 	      eId: eId,
 	      key: key,

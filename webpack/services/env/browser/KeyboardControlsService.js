@@ -88,7 +88,6 @@ function GET_USER_PLAYER_ENTITY(){
   for (const playerId in players) {
     const player = players[playerId];
     console.log(player.user && player.user.id);
-    debugger;
     if (player.user && (userId === player.user.id) ) {
 
       const entities = GDS.data.entities;
@@ -104,5 +103,5 @@ function GET_USER_PLAYER_ENTITY(){
 }
 
 function uPId(){
-  return GET_USER_PLAYER_ENTITY();
+  return GET_USER_PLAYER_ENTITY().id;
 }

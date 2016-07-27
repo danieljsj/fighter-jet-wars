@@ -26,8 +26,8 @@ function run(){
 	};
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
-		addPlayerAndDefaultUnits({user:false});
-		addPlayerAndDefaultUnits({user:false});
+		// addPlayerAndDefaultUnits({user:false});
+		// addPlayerAndDefaultUnits({user:false});
 		listenToFbUserAdds();
 	});
 }
@@ -48,6 +48,7 @@ function listenToFbUserAdds(){
 			name: ss.val().name,
 			id: ss.key
 		};
+		GDS.data.users[user.id] = user;
 		console.log('found/added user '+user.id);
 		addPlayerAndDefaultUnits({user:user});
 	});
