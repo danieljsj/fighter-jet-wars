@@ -34,7 +34,7 @@ function client_init() {
 }
 
 function doSnapshotRetrieval(){
-	const retrieveThen = require('./env/browser/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'
+	const retrieveThen = require('./env/client/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;
 	
 	retrieveThen(function(snapshot){

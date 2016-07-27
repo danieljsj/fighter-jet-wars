@@ -7,9 +7,6 @@ SIDENOTE: If needed, if the recalculations started to get me down, I might be
 
 commands received into queue of commands.
 
-												rename browserTime to clientTime
-												move SnapshotRetrieval to services/client/
-
 clients simulate to currentmoment.
 
 					ISSUE: what happens when I send a command that I wouldn't have sent if I had known the real world (i.e. during ticks that will be recalculated)
