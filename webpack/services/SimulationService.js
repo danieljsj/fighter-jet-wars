@@ -19,7 +19,6 @@ if (env.isBrowser()) {
 	var SkyCanvasService = require('./env/browser/SkyCanvasService');
 }
 
-
 //////////////
 
 module.exports = {
@@ -36,7 +35,6 @@ function afterTick(cb){
 	queue.push(cb);
 }
 
-
 //////////////
 
 let browserFirstTick = null;
@@ -47,7 +45,6 @@ function startTicks(){
 	latestSimulatedTick = browserFirstTick-1; // with these equal, it would spin a sim with dT=0 on its first cycle. That could give some weird effects.
 	doTick();
 }
-
 
 let latestSimulatedTick = null;
 let skippedTicks = []; // if we detect we skipped a tick, we'll post it in a feed; browsers will be told about this, and can re-simulate using the same skips-and-double-ticks sequence as the server to retain fidelity
@@ -65,11 +62,9 @@ function getDt(currTick){
 	return dT;
 }
 
-
 const queue = [];
 
 function doTick(){
-	
 	
 	const gD = GDS.data;
 	
@@ -136,8 +131,5 @@ function doTick(){
 	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
 	if (clt) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
-
-
-
 
 }
