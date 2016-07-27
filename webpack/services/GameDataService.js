@@ -1,5 +1,5 @@
 const env = require('./env');
-const snapshotRetrievalInterval = require('./GameParamsService').snapshotRetrievalInterval;
+const snapshotRetrievalInterval = require('./GameParamsService').params.snapshotRetrievalInterval;
 
 //////////
 

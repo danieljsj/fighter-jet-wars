@@ -14,6 +14,8 @@ function retrieveThen(cb){
     //     });
 
 
+    console.log('requesting snapshot');
+
     const options = {
         host: 'localhost',
         port: 4242,
