@@ -1,7 +1,7 @@
 module.exports = {
-	snapshots:false,
-	snapshotsFull:false,
+	snapshot:false,
+	snapshotFull:false,
 	p:false,
-	times:false,
+	time:false,
 	gD:false,
 }

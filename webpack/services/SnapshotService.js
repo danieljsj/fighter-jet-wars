@@ -23,9 +23,9 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 
 	// tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
 	
-	if (ToLog.snapshotsFull) console.log('this snapshot created',this);
+	if (ToLog.snapshotFull) console.log('this snapshot created',this);
 
-	if (ToLog.snapshots) console.log('made snapshot');
+	if (ToLog.snapshot) console.log('made snapshot');
 }
 
 //////////////
@@ -88,7 +88,7 @@ function makeRedactedEntities(gDEntities){
 
 function makeGameDataFromSnapshot(incomingSnapshot){
 
-	if (ToLog.snapshotsFull) console.log('incomingSnapshot',incomingSnapshot);
+	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot);
 	
 	const gD = {
 		users: {},

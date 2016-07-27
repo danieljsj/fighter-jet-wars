@@ -15,7 +15,7 @@ function retrieveThen(cb){
     //     });
 
 
-    if (ToLog.snapshots) console.log('requesting snapshot');
+    if (ToLog.snapshot) console.log('requesting snapshot');
 
     const options = {
         host: 'localhost',

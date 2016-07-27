@@ -69,25 +69,25 @@ function doTick(){
 
 		let dT = getDt(currTick);
 
-		if (ToLog.times) console.log('dT: ',dT);
-		if (ToLog.times) console.log('currTick: ',currTick);
+		if (ToLog.time) console.log('dT: ',dT);
+		if (ToLog.time) console.log('currTick: ',currTick);
 
 		// flexible "duck" interfacing/typing-- if (entity.quack) 		entity.quack();
-		if (ToLog.times) console.time('control');
+		if (ToLog.time) console.time('control');
 		for (const id in gD.entities) { if (gD.entities[id].control) gD.entities[id].control(dT); }
-		if (ToLog.times) console.timeEnd('control');
+		if (ToLog.time) console.timeEnd('control');
 
-		if (ToLog.times) console.time('accelerate');
+		if (ToLog.time) console.time('accelerate');
 		for (const id in gD.entities) { if (gD.entities[id].accelerate) gD.entities[id].accelerate(dT); }
-		if (ToLog.times) console.timeEnd('accelerate');
+		if (ToLog.time) console.timeEnd('accelerate');
 
-		if (ToLog.times) console.time('move');
+		if (ToLog.time) console.time('move');
 		for (const id in gD.entities) { if (gD.entities[id].move) gD.entities[id].move(dT); }
-		if (ToLog.times) console.timeEnd('move');
+		if (ToLog.time) console.timeEnd('move');
 
-		if (ToLog.times) console.time('sense');
+		if (ToLog.time) console.time('sense');
 		for (const id in gD.entities) { if (gD.entities[id].sense) gD.entities[id].sense(dT); }
-		if (ToLog.times) console.timeEnd('sense');
+		if (ToLog.time) console.timeEnd('sense');
 
 		while (queue[0]) {
 			queue[0](currTick, dT);
@@ -123,7 +123,7 @@ function doTick(){
 	}
 
 	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
-	if (ToLog.times) console.log('timeout: ',timeout);
+	if (ToLog.time) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 
 }
