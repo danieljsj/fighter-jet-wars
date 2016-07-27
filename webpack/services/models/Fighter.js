@@ -25,7 +25,7 @@ class Fighter {
 		
 		this.id = params.id;
 		this.player = params.player || false;
-		// this.playerId = params.playerId || false;
+		this.playerId = params.playerId || false;
 		
 		this.atts = FighterBaseAtts; // at some point, you may be able to "level up" in various atts; but for starters, we'll just use a single global object
 

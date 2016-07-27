@@ -46,8 +46,9 @@ function listenToFbUserAdds(){
 	ref.child('users').on('child_added', function(ss, prevChildId){
 		var user = { // TODO: MAKE THIS BE A REAL MODEL...
 			name: ss.val().name,
-			id: ss.key()
+			id: ss.key
 		};
+		console.log('found/added user '+user.id);
 		addPlayerAndDefaultUnits({user:user});
 	});
 
@@ -63,7 +64,7 @@ function addPlayerAndDefaultUnits(params){
 		user: params.user,
 	};
 	GDS.data.players[player.id] = player;
-	console.log('added computer player '+player.id);
+	console.log('added player '+player.id);
 
 	var entityQuantities = {
 		'fighter': (params.user ? GameParamsService.params.fightersPerNewUserPlayer : GameParamsService.params.fightersPerNewNonuserPlayer ),

@@ -1,5 +1,8 @@
 'use strict';
 
+let logSnapshots = false;
+// logSnapshots = true;
+
 // makes or reads text-only (no refs) literals
 
 const Fighter = require('./models/Fighter.js');
@@ -17,23 +20,43 @@ const entityConstructors = {
 
 function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 	this.tick = currTick;
+	this.users = makeRedactedUsers(gD.users);
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
-	
+
 	// tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
 	
+	if (logSnapshots) console.log('this snapshot created',this);
+
 	console.log('made snapshot');
 }
 
 //////////////
 
+
+function makeRedactedUsers(gDUsers){
+	var redactedUsers = {};
+	for (const id in gDUsers) {
+		const gDUser = gDUsers[id];
+		redactedUsers[gDUser.id] = {
+			// same as ob:
+			id: gDUser.id,
+			name: gDUser.name,
+			// different than ob:
+			// ...
+		};
+	};
+	return redactedUsers;
+}
 function makeRedactedPlayers(gDPlayers){
 	var redactedPlayers = {};
 	for (const id in gDPlayers) {
-		const player = gDPlayers[id];
-		redactedPlayers[player.id] = {
-			id: player.id,
-			userId: (player.user ? player.user.id : false )
+		const gDPlayer = gDPlayers[id];
+		redactedPlayers[gDPlayer.id] = {
+			// same as ob:
+			id: gDPlayer.id,
+			// different than ob:
+			userId: (gDPlayer.user ? gDPlayer.user.id : false )
 		};
 	};
 	return redactedPlayers;
@@ -44,13 +67,13 @@ function makeRedactedEntities(gDEntities){
 	for (const id in gDEntities) {
 		const entity = gDEntities[id];
 		const redactedEntity = {
-			// different than ob:
-			player: 		entity.player.id,
 			// same as ob:
-			entityTypeName: entity.entityTypeName,
 			id: 			entity.id,
+			entityTypeName: entity.entityTypeName,
 			p: 				entity.p,
 			controls: 		entity.controls,
+			// different than ob:
+			playerId: 		entity.player.id,
 		};
 		// if (0 == lolz++) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;
@@ -66,35 +89,44 @@ function makeRedactedEntities(gDEntities){
 
 
 
-function makeGameDataFromSnapshot(snapshot){
+function makeGameDataFromSnapshot(incomingSnapshot){
 
+	if (logSnapshots) console.log('incomingSnapshot',incomingSnapshot);
+	
 	const gD = {
 		users: {},
 		players: {},
 		entities: {},
 	};
 
-	for (const id in snapshot.users){
-		var user = snapshot.users[id]
-		user.fbRef = 
-		// WARNING!!! THIS MIGHT CREATE A MEMORY LEAK!!!!!!!!
+
+	for (const id in incomingSnapshot.users){
+		var user = JSON.parse(JSON.stringify( incomingSnapshot.users[id] ));
+		// WARNING!!! THIS MIGHT CREATE A MEMORY LEAK!!!!!!!! ... wait... why?
+		
 		gD.users[id] = user;
 	}
 
-	for (const id in snapshot.players) {
-		const player = snapshot.players[id]
-		player.user = gD.users[player.user] || player.user;
+	for (const id in incomingSnapshot.players) {
+		const player = JSON.parse(JSON.stringify( incomingSnapshot.players[id] ));
+		
+		player.user = gD.users[player.userId] || null;
+		
 		gD.players[id] = player;
 	}
-	for (const id in snapshot.entities) {
-		const entityData = snapshot.entities[id];
+	for (const id in incomingSnapshot.entities) {
+		const entityData = incomingSnapshot.entities[id];
 		const entity = new entityConstructors[entityData.entityTypeName](entityData);
-		entity.player = gD.players[entity.player] || entity.player;
+		
+		entity.player = gD.players[entityData.playerId] || null;
+		
 		gD.entities[id] = entity;
 	}
 	for (const id in gD.entities) {
 		var entity = gD.entities[id]
-		entity.parent = gD.entities[entity.parent] || entity.parent;
+		
+		entity.parent = gD.entities[entity.parentId] || null;
+		
 		for (const childUid in entity.children){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
 		}

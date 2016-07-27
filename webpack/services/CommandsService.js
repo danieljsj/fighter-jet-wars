@@ -28,11 +28,9 @@ function send(key,val,eId){
 
     var entities = GDS.data.entities;
 
+    // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
 	if (!eId){
-	    for (const id in entities){
-	      eId = id; // break, so get first.
-	      break;
-	    }
+	    throw('NO ENTITY ID WAS SPECIFIED FOR THE COMMAND!');
 	}
 
 	if ( !entitiesLasts[eId] ) entitiesLasts[eId] = new ControlsNulls();
@@ -46,7 +44,7 @@ function send(key,val,eId){
 	    entitiesLasts[eId][key] = val;
 
 	    debugger;
-	    
+
 		/////////////////// BLYEORIEUWOIU COME BACK HERE ASKJF DKOJF AODKFJ AND MAKE IT STOP INFINITELY FAST TREAMING REDUNDANT COMMANDS!    
 
 	    const cmd = {
@@ -63,7 +61,7 @@ function send(key,val,eId){
 	    cmdRef.set(cmd, function onComplete(error) {
 			if (error) throw("cmd could not be saved." + error);
 			// console.log('cmd successfully sent:', cmd);
-	    	console.log('cmd sent');
+	    	console.log('cmd sent --- for '+eId);
 		});
 	    // console.log('sending cmd: ',cmd);
 	    console.log('sending cmd '+cmdRef.key);

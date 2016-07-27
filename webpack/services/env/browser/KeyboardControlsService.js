@@ -2,7 +2,7 @@
 
 const CurrentUserService = require('./CurrentUserService');
 const FirebaseRefService = require('../../FirebaseRefService');
-const GameDataService = require('../../GameDataService');
+const GDS = require('../../GameDataService');
 const sendCommand = require('../../CommandsService').send;
 
 
@@ -12,19 +12,19 @@ function onKeyDown(event) {
   // console.log(keyCode);
   switch (keyCode) {
     case 87: //w
-      sendCommand('fore', 1);
+      sendCommand('fore', 1, uPId());
       break;
     case 83: //s
-      sendCommand('back', 1);
+      sendCommand('back', 1, uPId());
       break;
     case 65: //a
-      sendCommand('left', 1);
+      sendCommand('left', 1, uPId());
       break;
     case 68: //d      
-      sendCommand('right', 1);
+      sendCommand('right', 1, uPId());
       break;
     case 32: //space      
-      sendCommand('tryFire', 1);
+      sendCommand('tryFire', 1, uPId());
       break;
   }
 }
@@ -34,19 +34,19 @@ function onKeyUp(event) {
 
   switch (keyCode) {
     case 87: //w
-      sendCommand('fore', 0);
+      sendCommand('fore', 0, uPId());
       break;
     case 83: //s
-      sendCommand('back', 0);
+      sendCommand('back', 0, uPId());
       break;
     case 65: //a
-      sendCommand('left', 0);
+      sendCommand('left', 0, uPId());
       break;
     case 68: //d      
-      sendCommand('right', 0);
+      sendCommand('right', 0, uPId());
       break;
     case 32: //space      
-      sendCommand('tryFire', 0);
+      sendCommand('tryFire', 0, uPId());
       break;
       // later: controls/trySwitch? tryNext,tryPrev?
     // left arrow 37
@@ -78,3 +78,31 @@ module.exports = {
   start: start,
   stop: stop
 };
+
+
+
+function GET_USER_PLAYER_ENTITY(){
+  const userId = 'b7sEsa8pUWOyWnDYAQCdPjdhFG02';
+  
+  const players = GDS.data.players;
+  for (const playerId in players) {
+    const player = players[playerId];
+    console.log(player.user && player.user.id);
+    debugger;
+    if (player.user && (userId === player.user.id) ) {
+
+      const entities = GDS.data.entities;
+      for (const entityId in entities) {
+        const entity = entities[entityId];
+        return entity;
+      }
+
+    }
+  }
+
+  alert('NO USER PLAYER ENTITY FOUND!');
+}
+
+function uPId(){
+  return GET_USER_PLAYER_ENTITY();
+}

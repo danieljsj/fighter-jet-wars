@@ -28,8 +28,12 @@ function tickWork(){
 
 		for (var id in entities) {
 			const entity = entities[id];
-			if (! entity.player.user){
-				turnLeft(entity.id)
+			if (entity.player) {
+				if (! entity.player.user){
+					turnLeft(entity.id)
+				}
+			} else {
+				debugger;
 			}
 		}
 
