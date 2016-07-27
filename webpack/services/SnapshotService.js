@@ -59,7 +59,6 @@ function makeRedactedPlayers(gDPlayers){
 	return redactedPlayers;
 }
 function makeRedactedEntities(gDEntities){
-	let lolz = 0;
 	const redactedEntities = {};
 	for (const id in gDEntities) {
 		const entity = gDEntities[id];
@@ -72,7 +71,6 @@ function makeRedactedEntities(gDEntities){
 			// different than ob:
 			playerId: 		entity.player.id,
 		};
-		// if (0 == lolz++) console.log(redactedEntity);
 		redactedEntities[entity.id] = redactedEntity;
 	};
 	return redactedEntities;

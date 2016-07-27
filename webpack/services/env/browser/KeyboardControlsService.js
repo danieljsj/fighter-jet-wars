@@ -99,12 +99,10 @@ function GET_USER_PLAYER_ENTITY(){
       return entity;
     }
   }
-
   alert('NO USER PLAYER ENTITY FOUND!');
 }
 
 function uPId(){
-  console.log("USER PLAYER ENTITY ID: "+GET_USER_PLAYER_ENTITY().id);
   return GET_USER_PLAYER_ENTITY().id;
 }
 

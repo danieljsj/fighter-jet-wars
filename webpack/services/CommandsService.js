@@ -1,4 +1,5 @@
 'use strict';
+const ToLog = require('./ToLog');
 
 const FirebaseRefService = require('./FirebaseRefService');
 const GDS = require('./GameDataService');
@@ -56,11 +57,10 @@ function send(key,val,eId){
 	    const cmdRef = commandsRef.push();
 	    cmdRef.set(cmd, function onComplete(error) {
 			if (error) throw("cmd could not be saved." + error);
-			// console.log('cmd successfully sent:', cmd);
-	    	console.log('cmd sent; cT-sT:'+(cmd.cT-cmd.sT));
+			if (ToLog.command) console.log('cmd successfully sent:', cmd);
+	    	if (ToLog.commandTimes) console.log('cmd sent; cT-sT:'+(cmd.cT-cmd.sT));
 		});
-	    // console.log('sending cmd: ',cmd);
-	    console.log('sending cmd '+cmdRef.key);
+	    if (ToLog.command) console.log('sending cmd '+cmdRef.key);
 
   	}
 
@@ -80,8 +80,8 @@ function startReading(){
  			if (++numCmdsReceived > 1){
 
 				const cmd = commandSnapshot.val();
-				// console.log('received cmd: ',cmd);
-	 			console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
+	 			if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+')');
+	 			if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
 
 	 			const entities = GDS.data.entities;
 

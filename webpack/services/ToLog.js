@@ -4,4 +4,6 @@ module.exports = {
 	p:false,
 	time:false,
 	gD:false,
+	command:false,
+	commandTimes:true,
 }

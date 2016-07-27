@@ -98,9 +98,7 @@ function doTick(){
 			SkyCanvasService.renderEntities();
 	 	}
 
-	 	if (ToLog.gD){
-	 		console.log(GDS);
-	 	}
+	 	if (ToLog.gD) console.log(GDS);
 
 		if (ToLog.p){
 			let i = 0;
