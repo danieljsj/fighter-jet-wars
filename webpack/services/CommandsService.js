@@ -52,15 +52,12 @@ function send(key,val,eId){
 	      sT: require('firebase').database.ServerValue.TIMESTAMP,
 	    };
 
-
-
 	    const cmdRef = commandsRef.push();
-	    cmdRef.set(cmd, function onComplete(error) {
-			if (error) throw("cmd could not be saved." + error);
-			if (ToLog.command) console.log('cmd successfully sent:', cmd);
-	    	if (ToLog.commandTimes) console.log('cmd sent; cT-sT:'+(cmd.cT-cmd.sT));
+	    cmdRef.set(cmd, function onComplete(err) {
+			if (err)throw("cmd could not be saved." + err);
+			if (ToLog.commandSuccess) console.log('cmd successfully sent:', cmd);
 		});
-	    if (ToLog.command) console.log('sending cmd '+cmdRef.key);
+	    if (ToLog.command || ToLog.commandTimes ) console.log('sending cmd '+cmdRef.key);
 
   	}
 
