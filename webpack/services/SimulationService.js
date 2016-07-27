@@ -1,14 +1,14 @@
 'use strict';
 const clt = false;
 const cld = false;
-const clp = false;
+const clp = true;
 
 
 const env = require('./env');
 
 const GDS = require('./GameDataService');
 
-const GameParamsService = require('./GameParamsService');
+const params = require('./GameParamsService').params;
 const TicksCalcService = require('./TicksCalcService');
 const CommandsService = require('./CommandsService');
 
@@ -35,11 +35,6 @@ function afterTick(cb){
 
 
 //////////////
-
-// SWITCH TO USING ACTUAL TICKS:
-// something like this, sort of;
-//  Math.round((new Date()).getTime()/GameParamsService.params.ticksPerSecond); 
-
 
 let browserFirstTick = null;
 
@@ -117,7 +112,20 @@ function doTick(){
 
 		if (clp){
 			let i = 0;
-			for (const id in gD.entities) { console.log(i++, GDS.data.entities[id].p); }
+			if (! (currTick % params.ticksPerSecond) ){
+				for (const id in gD.entities) { 
+					let p = GDS.data.entities[id].p; 
+
+					console.log(''
+						+'e'+i++ +': '
+						+'{ x:'+p.x
+						+', y:'+p.y
+						+', dir:'+p.direction
+						+', speed:'+p.speed
+						+'}'
+					); 
+				}
+			}
 		}
 
 	}
