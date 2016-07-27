@@ -16,9 +16,9 @@ function init(){ // maybe in some other world this should have callbacks... but 
 
 			client_init(); break;
 		
-		case env.isCoreServer() : 
+		case env.isServer() : 
 		
-			coreServer_init(); break;
+			server_init(); break;
 		
 		default : 
 
@@ -46,8 +46,8 @@ function doSnapshotRetrieval(){
 /////////
 
 
-function coreServer_init() {
-	const init = require('./env/coreServer/GameDataInitiationService').run; // seems not very dependency injected... but... oh well...
+function server_init() {
+	const init = require('./env/server/GameDataInitiationService').run; // seems not very dependency injected... but... oh well...
 
 	init();
 }
