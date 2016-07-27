@@ -17,5 +17,7 @@ module.exports = {
 		snapshotRetrievalInterval: 1000,
 
 		minimumRedundantCommandInterval: 2000,
+
+		// deleteCommandsAfterTime: 10000, // COMING SOON! Currently just deletes all on startup...
 	}
 }

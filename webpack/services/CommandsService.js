@@ -14,6 +14,7 @@ let commandsRef;
 
 FirebaseRefService.initThen(function(){
 	commandsRef = FirebaseRefService.ref.child('commands');
+	deleteOldCommands();
 });
 
 // SENDING //////////////////////////////////////////
@@ -127,6 +128,13 @@ function getCommandTick(cmd){
 function config(opts){
 	commandCallback = opts.commandCallback || function(cmd){};
 }
+
+
+
+function deleteOldCommands(){
+	commandsRef.remove();
+}
+
 
 
 
