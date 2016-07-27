@@ -20,8 +20,10 @@ FirebaseRefService.initThen(function(){
 
 
 const entitiesLasts = {}
-
+const interval = params.minimumRedundantCommandInterval;
+console.log(interval);
 function send(key,val,eId){
+	if (!commandsRef) return;
 
     var entities = GDS.data.entities;
 
@@ -32,40 +34,40 @@ function send(key,val,eId){
 	    }
 	}
 
-	const interval = params.minimumRedundantCommandInterval;
+	if ( !entitiesLasts[eId] ) entitiesLasts[eId] = new ControlsNulls();
 
-	if (!commandsRef) return;
-
-	if (!entitiesLasts[eId]) entitiesLasts[eId] = new ControlsNulls();
-
-  	if ((entitiesLasts[eId][key] !== val) || (entitiesLasts[eId]['timestamp'] < new Date().getTime() - interval)){
+  	if ( (entitiesLasts[eId][key] !== val) || ( entitiesLasts[eId]['timestamp'] < new Date().getTime() - interval )){
     
-    entitiesLasts[eId]['timestamp'] = new Date().getTime();
+    	console.log(entitiesLasts[eId]['timestamp']);
 
-    entitiesLasts[key] = val;
+	    entitiesLasts[eId]['timestamp'] = new Date().getTime();
 
-	/////////////////// BLYEORIEUWOIU COME BACK HERE ASKJF DKOJF AODKFJ AND MAKE IT STOP INFINITELY FAST TREAMING REDUNDANT COMMANDS!    
+	    entitiesLasts[eId][key] = val;
 
-    const cmd = {
-      eId: eId,
-      key: key,
-      val: val,
-      bT: (new Date()).getTime(),
-      sT: require('firebase').database.ServerValue.TIMESTAMP,
-    };
+	    debugger;
+	    
+		/////////////////// BLYEORIEUWOIU COME BACK HERE ASKJF DKOJF AODKFJ AND MAKE IT STOP INFINITELY FAST TREAMING REDUNDANT COMMANDS!    
+
+	    const cmd = {
+	      eId: eId,
+	      key: key,
+	      val: val,
+	      bT: (new Date()).getTime(),
+	      sT: require('firebase').database.ServerValue.TIMESTAMP,
+	    };
 
 
 
-    const cmdRef = commandsRef.push();
-    cmdRef.set(cmd, function onComplete(error) {
-		if (error) throw("cmd could not be saved." + error);
-		// console.log('cmd successfully sent:', cmd);
-    	console.log('cmd sent');
-	});
-    // console.log('sending cmd: ',cmd);
-    console.log('sending cmd '+cmdRef.key);
+	    const cmdRef = commandsRef.push();
+	    cmdRef.set(cmd, function onComplete(error) {
+			if (error) throw("cmd could not be saved." + error);
+			// console.log('cmd successfully sent:', cmd);
+	    	console.log('cmd sent');
+		});
+	    // console.log('sending cmd: ',cmd);
+	    console.log('sending cmd '+cmdRef.key);
 
-  }
+  	}
 
 }
 
