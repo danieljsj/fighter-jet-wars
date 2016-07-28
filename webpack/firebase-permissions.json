@@ -5,7 +5,7 @@
       "commands": {
         ".indexOn-NOT": "timestamp",
           "$command": {
-            ".write": "!data.exists()"
+            ".write": "!data.exists()",
           }
       }
   }

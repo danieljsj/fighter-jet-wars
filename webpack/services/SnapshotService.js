@@ -16,7 +16,10 @@ const entityConstructors = {
 //////////
 
 function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
-	this.tick = currTick;
+
+	this.tickStarted = currTick;
+	this.tickCompleted = currTick;
+
 	this.users = makeRedactedUsers(gD.users);
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
@@ -26,6 +29,14 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 	if (ToLog.snapshotFull) console.log('this snapshot created',this);
 
 	if (ToLog.snapshot) console.log('made snapshot');
+}
+
+Snapshot.prototype.tick = function(){
+	if (this.tickStarted === this.tickCompleted){
+		return this.tickStarted;
+	} else {
+		throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
+	}
 }
 
 //////////////

@@ -36,7 +36,11 @@ function retrieveThen(cb){
             str += chunk;
         });
         res.on('end', function () {
-            cb(JSON.parse(str));
+            const snapshot = JSON.parse(str);
+
+            snapshot.source = 'server';
+
+            cb(snapshot);
         });
     });
 

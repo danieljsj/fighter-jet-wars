@@ -6,13 +6,16 @@ const doTick = require('./doTick');
 
 
 
+let _latestServerSnapshot = null;
+
+const _serverSkippedTicks = {};
+const _ticksRealCommands = {};
+const _ticksLocalCommands = {};
+
+
 service = {
 	// we can keep these centralized for the whole client
-	knownEventsByTick: {
-		localEntityCommands: {}
-		entityCommands: {}
-		serverSkips: {}
-	}
+	
 
 			
 
@@ -23,15 +26,21 @@ service = {
 
 	constants: keyMirror({
 		// options for what point this simulation should seek to sustain
+
 		SIMULATE_TO_NOW: null,
 		SIMULATE_TO_LAG: null,
 		SIMULATE_TO_TICK: null,
+
 
 	}),
 
 	Simulation: Simulation,
 }
 
+
+function intakeCommand(cmd){
+	const cmdEvent = new Event('',cmd.tick,)
+}
 
 function intakeEvent(event){ 
 	// note: events are things that can never be undone; 
@@ -49,6 +58,7 @@ function Event(tick,type,payload){
 
 
 
+
 function Simulation(opts){
 
 	this.tickSnapshots = {};
@@ -57,6 +67,54 @@ function Simulation(opts){
 
 	this.publishSkip = opts.publishSkip || function(){};
 
-
+	this.useServerSnapshots = opts.useServerSnapshots || true,
+	this.render = opts.render || false, // not sure how this will work; since simulations are now holding their own data, maybe GameDataService is now MainGameDataService, and has a function to getCurrentData out of the simulation saved as main. not sure who injects who into what there.
 
 }
+
+Simulation.prototype.clearAllDataOlderThan = function(cutoffTick){
+	const tickLogs = {
+		serverSkips: _serverSkippedTicks,
+	 	realCommands: _ticksRealCommands,
+	 	localCommands: _ticksLocalCommands,
+	 	localSnapshots: this.tickSnapshots,
+	}
+	for (const logName in tickLogs) { 
+		const tickLog = tickLogs[logName];
+		
+		for (const tickStr in tickLog){
+			if (parseInt(tickStr) < cutoffTick){
+				delete tickLog[tickStr];
+			}
+		}
+	}
+}
+
+Simulation.prototype.rewindPast = function(cutoffTick){
+	this.finishTick().then(function rewindNow(){
+
+		let latestQualifyingSnapshotTick = -Infinity;
+		let latestQualifyingSnapshot = null;
+
+		const checkSnapshot = function(snapshot){
+			if(!snapshot)return;
+
+			if ( (latestQualifyingSnapshotTick<snapshot.tick()) && (snapshot.tick()<cutoffTick) ){
+				latestQualifyingSnapshotTick = snapshot.tick();
+				latestQualifyingSnapshot = snapshot;
+			}
+		}
+		checkSnapshot(_latestServerSnapshot)
+		for (this.tickSnapshots){
+
+		}
+
+		// loop simulation
+
+	});
+}
+
+
+
+
+

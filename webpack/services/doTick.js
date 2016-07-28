@@ -5,7 +5,7 @@ function doTick(gD, dT, tickDoneCb){
 
 	// possible later thing: name. perhaps each gD has a name, like 'main_sim', 'ai_projection', etc.
 	
-	gD.latestTickStarted = gD.latestTickCompleted + dT;
+	gD.tickStarted = gD.tickCompleted + dT;
 
 	if (ToLog.time) console.log('dT: ',dT);
 
@@ -45,7 +45,7 @@ function doTick(gD, dT, tickDoneCb){
 		}
 	}
 
-	gD.latestTickCompleted = gD.latestTickStarted;
+	gD.tickCompleted = gD.tickStarted;
 
 	tickDoneCb();
 
