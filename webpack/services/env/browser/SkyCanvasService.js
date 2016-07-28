@@ -28,7 +28,7 @@ function fillSkyBlue(){
 	ctx.fill();
 }
 
-function renderEntities(){
+function renderEntities(entities){
 	// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 	var centerPoint = {x:0,y:0};
 
@@ -36,7 +36,7 @@ function renderEntities(){
 
 	// fillSkyBlue();
 
-	const entities = GameDataService.data.entities;
+	entities = entities || GameDataService.data.entities;
 
 	for (const uid in entities){
 		const entity = entities[uid];

@@ -9,8 +9,6 @@ const ControlsNulls = require('./models/components/nulls/controls');
 
 const getOffset = require('./FirebaseOffsetService').getOffset;
 
-const knownCommandsByTick = {};
-
 ////////////////////////////////////////////////////
 
 let commandsRef;
@@ -67,61 +65,61 @@ function send(key,val,eId){
 
 // READING //////////////////////////////////////////
 
-let _commandsCallback;
+const _commandAddedCallbacks = []; // a chill version of registering into, say, a dispatcher.
+const _commandChangedCallbacks = [];
+
 
 let numCmdsReceived = 0;
 function startReading(){
 
 	FirebaseRefService.initThen(function(){
 		commandsRef = FirebaseRefService.ref.child('commands');
-		commandsRef.limitToLast(1).on('child_added', function(commandSnapshot){
- 
+
+		commandsRef.limitToLast(1).on('child_added', function intakeAddedCommandSS(ss){
  			if (++numCmdsReceived > 1){
-
-				const cmd = commandSnapshot.val();
-	 			if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+')');
-	 			if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
-
-	 			const entities = GDS.data.entities;
-
-
-				// temporary, non-queued:
-				if (entities){
-					var entity = entities[cmd.eId];
-					if (entity) entity.controls[cmd.key] = cmd.val;
-				}
-				// endTemporary
-
-
-
-				cmd.tick = getCommandTick(cmd);
-
-				if (_commandsCallback){
-					_commandsCallback(cmd);
-				}
-
+				const cmd = new Command(ss.val());
+				_commandAddedCallbacks.forEach(function(commandCallback){
+					commandCallback(cmd);
+				});
  			}
-
 		});
+		commandsRef.on('child_changed', function intakeChangedCommandSS(ss){ // I believe that this is only fired in the client that created the object with a placeholder timestamp. it's what the browser does when it actually gets the server data; for everybody else this incoming data is treated as child_added
+			const cmd = new Command(ss.val());
+			cmd.isLocalChange = true;
+			_commandChangedCallbacks.forEach(function(commandCallback){
+				commandCallback(cmd);
+			});
+		});
+
 	});
 
 }
 
-// setting the .tick in common is good because server and browser should definitely agree! just hopefully the server's rendering is enough behind (and I bet it could gauge itself to prevent excessive backtracking-needing) that the tick of a command the server is receiving is always ahead of what the server is simulating, so no backtracking.
+function Command(cmdData){
 
+	const cmd = cmdData;
 
-function getCommandTick(cmd){
-	return Math.max(
+	cmd.tick = Math.max(
 		TicksCalcService.msToRoundedTicks(cmd.cT),
 		// rule: the command happened when you pressed the button, unless that's longer ago than when your command arrived to firebase minus the max allowed lag time, in which case your command registers as being the max amount before arrival to server allowed.
 		TicksCalcService.msToRoundedTicks(cmd.sT)-params.maxCommandLagTicks
 	);
-}
 
-function config(opts){
-	commandCallback = opts.commandCallback || function(cmd){};
-}
+	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+')');
+	if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
 
+	return cmd;
+
+};
+Command.prototype.isLocal = function(){
+	return (this.sT-this.bT) < _minimumReasonableRemoteLatency; 
+};
+Command.prototype.setFormerTick = function(localFormerTick){
+	cmd.formerTick = formerTick;
+};
+Command.prototype.getFormerTick = function(){
+	return cmd.formerTick;
+};
 
 
 function deleteOldCommands(){
@@ -129,18 +127,33 @@ function deleteOldCommands(){
 }
 
 
-function setCommandsCallback(fn){
-	_commandsCallback = fn;
-}
 
+function addCommandAddedCallback(fn){
+	_commandAddedCallbacks.push(fn);
+}
+function removeCommandAddedCallback(fn){
+	delete _commandAddedCallbacks[_commandAddedCallbacks.indexOf(fn)];
+}
+function addCommandChangedCallback(fn){
+	_commandChangedCallbacks.push(fn);
+}
+function removeCommandChangedCallback(fn){
+	delete _commandChangedCallbacks[_commandChangedCallbacks.indexOf(fn)];
+}
 
 
 //////////////////////////////////////////
 
 
 module.exports = {
-	config: config,
-	startReading: startReading,
-	setCommandsCallback: setCommandsCallback,
+
 	send: send,
+
+	startReading: startReading,
+
+	addCommandAddedCallback: addCommandAddedCallback,
+	removeCommandAddedCallback: removeCommandAddedCallback,
+
+	addCommandChangedCallback: addCommandChangedCallback,
+	removeCommandChangedCallback: removeCommandChangedCallback,
 }

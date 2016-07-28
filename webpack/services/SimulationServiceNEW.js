@@ -3,57 +3,23 @@
 var keyMirror = require('keymirror');
 
 const doTick = require('./doTick');
+const GlobalStreamingService = require('./GlobalStreamingService');
+const TicksCalcService = require('./TicksCalcService');
+const params = require('./GameParamsService').params;
 
+const _constants = keyMirror({
+	// options for what point this simulation should seek to sustain
 
+	SIMULATE_TO_NOW: null,
+	SIMULATE_TO_LAG: null,
+	SIMULATE_TO_TICK: null,
 
-let _latestServerSnapshot = null;
-
-const _serverSkippedTicks = {};
-const _ticksRealCommands = {};
-const _ticksLocalCommands = {};
-
+});
 
 service = {
-	// we can keep these centralized for the whole client
-	
-
-			
-
-
-
-		// if you ARE the server, this is a log of your own skips. might as well keep them; better to only ever skip ticsk, never un-skip them... because if you do happen to be re-simulating, you're already going to be behind! also, un-skipping them would just create more work for the clients as they re-simulate to accommodate the change.
-		// if you are a client, you keep this here; 
-
-	constants: keyMirror({
-		// options for what point this simulation should seek to sustain
-
-		SIMULATE_TO_NOW: null,
-		SIMULATE_TO_LAG: null,
-		SIMULATE_TO_TICK: null,
-
-
-	}),
-
 	Simulation: Simulation,
 }
 
-
-function intakeCommand(cmd){
-	const cmdEvent = new Event('',cmd.tick,)
-}
-
-function intakeEvent(event){ 
-	// note: events are things that can never be undone; 
-		// commands can only be issued by a client(browser/ai) when it is simulating up-to-date; not during re-sims, and no take-backs.
-		// serverSkips can only be issued by the core server; as mentioned above it won't go back on this. it will be subscribed to its own skips like clients are, but unlike them, it will get them synchronously. (or maybe on a setTimeout(0)?)
-
-}
-
-function Event(tick,type,payload){
-	this.tick = tick;
-	this.type = type;
-	this.payload = payload;
-}
 
 
 
@@ -62,59 +28,151 @@ function Event(tick,type,payload){
 function Simulation(opts){
 
 	this.tickSnapshots = {};
+	// later: // this.hypotheticalTicksCommands = {}; // used for simulations into the future only; destroyed when simulation (e.g. for AI) is destroyed
 
-	this.gG = opts.gD || throw 'simulation cannot exist without data!';
+	this.gD = opts.gD || throw 'simulation cannot exist without data!';
 
 	this.publishSkip = opts.publishSkip || function(){};
 
 	this.useServerSnapshots = opts.useServerSnapshots || true,
 	this.render = opts.render || false, // not sure how this will work; since simulations are now holding their own data, maybe GameDataService is now MainGameDataService, and has a function to getCurrentData out of the simulation saved as main. not sure who injects who into what there.
 
-}
-
-Simulation.prototype.clearAllDataOlderThan = function(cutoffTick){
-	const tickLogs = {
-		serverSkips: _serverSkippedTicks,
-	 	realCommands: _ticksRealCommands,
-	 	localCommands: _ticksLocalCommands,
-	 	localSnapshots: this.tickSnapshots,
-	}
-	for (const logName in tickLogs) { 
-		const tickLog = tickLogs[logName];
-		
-		for (const tickStr in tickLog){
-			if (parseInt(tickStr) < cutoffTick){
-				delete tickLog[tickStr];
-			}
+	this.targetTick = opts.targetTick || function(){
+		if (env.isClient()) {
+			return TicksCalcService.latest();
+		} else {
+			return TicksCalcService.latest()-params.serverLagTicks;
 		}
 	}
+
+	const that=this; /////////// BEWARE!!!!!!!!! ADDDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
+	
+	GlobalStreamingService.addCommandAddedCallback(function(cmd){
+		that.rewindPast(cmd.tick);
+	});
+
+	GlobalStreamingService.addCommandChangedCallback(function(cmd){
+		that.rewindPast(Math.min(cmd.tick, cmd.getFormerTick()));
+	});
+
+	GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
+		
+		that.purgeSnapshotsBefore(snapshot.tick());
+		/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
+			
+
+				// UNTIL THEN, JUST GO BIG:
+				that.purgeSnapshotsAfterAndIncluding(snapshot.tick());
+				///
+				that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+
+
+
+	});
+
 }
 
 Simulation.prototype.rewindPast = function(cutoffTick){
+	const that=this;
 	this.finishTick().then(function rewindNow(){
+
+		if(that.gD.tick < cutoffTick) return;
 
 		let latestQualifyingSnapshotTick = -Infinity;
 		let latestQualifyingSnapshot = null;
 
+		// how to check a snapshot
 		const checkSnapshot = function(snapshot){
 			if(!snapshot)return;
 
 			if ( (latestQualifyingSnapshotTick<snapshot.tick()) && (snapshot.tick()<cutoffTick) ){
 				latestQualifyingSnapshotTick = snapshot.tick();
 				latestQualifyingSnapshot = snapshot;
+				return {isOlder: true};
+			} else {
+				return {isOlder: false};
 			}
 		}
-		checkSnapshot(_latestServerSnapshot)
-		for (this.tickSnapshots){
+
+
+		checkSnapshot(_latestServerSnapshot);
+
+		for (const tickStr in that.tickSnapshots){
+
+			const res = checkSnapshot(that.tickSnapshots[tickStr]);
+
+			if (!res.isOlder) {
+				delete that.tickSnapshots[tickStr];
+				if (ToLog.snapshotBacktrack) console.log('deleted my invalidated snapshot');
+			}
 
 		}
 
-		// loop simulation
+		that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+
+		// SOMETHING TO CONTINUE SIM... OR MAYBE IT WILL ALREADY CONTINUE...  ... no, we want to restart it now to catch up
+
+		that.catchUp();
 
 	});
 }
 
 
+Simulation.prototype.start = function(targetTick){
 
 
 
+
+	
+
+}
+
+Simulation.prototype.doTick = function(){
+
+	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
+
+	doTick(this.gD);
+
+	while (queue[0]) { // currently used for: snapshot requests; do this after a tick.
+		queue[0](currTick, dT);
+		queue.shift();
+	}
+	
+	if (env.isBrowser()) {
+		SkyCanvasService.renderEntities(this.gD.entities);
+ 	}
+
+ 	let timeout;
+ 	if ( -1 === this.gD.tick() - this.targetTick() ){
+		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
+ 	} else if ( -1 > this.gD.tick() - this.desiredTick() ) {
+ 		timeout = 0;
+ 	} else {
+ 		throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 	}
+	
+	if (ToLog.time) console.log('timeout: ',timeout);
+
+	setTimeout(this.doTick.bind(this), timeout);
+
+}
+
+
+Simulation.prototype.stop = function(){
+	//...
+}
+
+Simulation.prototype.purgeSnapshotsAfterAndIncluding = function(firstPurgedTick){
+	for (const tickStr in this.tickSnapshots){
+		if (parseInt(tickStr) >= firstPurgedTick){
+			delete this.tickSnapshots[tickStr];
+		}
+	}
+}
+Simulation.prototype.purgeSnapshotsBefore = function(firstNonPurgedTick){
+	for (const tickStr in this.tickSnapshots){
+		if (parseInt(tickStr) < firstPurgedTick){
+			delete this.tickSnapshots[tickStr];
+		}
+	}
+}

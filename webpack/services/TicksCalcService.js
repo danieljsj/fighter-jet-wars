@@ -1,10 +1,10 @@
 'use strict';
 
-const GameParamsService = require('./GameParamsService');
+const params = require('./GameParamsService').params;
 
 ///// SIDE-IDEA: stream of ticks is published like this: tickNum: ticksPerTick. as server load grows it will be like this 11111111020202020202003003003003003
 
-const ticksPerS = GameParamsService.params.ticksPerSecond; // this is the same as the maximum browser refresh rate, meaning that in smooth flow, 1 tick : 1 repaint . I was tempted to go with 100fps for rounding reasons, but I think we can declare all the actual game values in ticks per second either hardcoded-ly or at a one-time-init-func.
+const ticksPerS = params.ticksPerSecond; // this is the same as the maximum browser refresh rate, meaning that in smooth flow, 1 tick : 1 repaint . I was tempted to go with 100fps for rounding reasons, but I think we can declare all the actual game values in ticks per second either hardcoded-ly or at a one-time-init-func.
 // const ticksPerS = 4; // FOR DEBUGGING
 const ticksPerMs = ticksPerS / 1000;
 
