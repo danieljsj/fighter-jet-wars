@@ -13,6 +13,7 @@
     "css-loader": "^0.23.1",
     "express": "^4.14.0",
     "firebase": "^3.2.0",
+    "keymirror": "^0.1.1",
     "leaflet": "^0.7.7",
     "log-timestamp": "^0.1.2",
     "style-loader": "^0.13.1",

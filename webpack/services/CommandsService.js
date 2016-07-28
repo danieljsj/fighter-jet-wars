@@ -67,7 +67,7 @@ function send(key,val,eId){
 
 // READING //////////////////////////////////////////
 
-let commandCallback;
+let _commandsCallback;
 
 let numCmdsReceived = 0;
 function startReading(){
@@ -96,10 +96,10 @@ function startReading(){
 
 				cmd.tick = getCommandTick(cmd);
 
-				// up and coming:
-				if (commandCallback) {
-					commandCallback(cmd); // more wise, involving ticks
+				if (_commandsCallback){
+					_commandsCallback(cmd);
 				}
+
  			}
 
 		});
@@ -129,7 +129,9 @@ function deleteOldCommands(){
 }
 
 
-
+function setCommandsCallback(fn){
+	_commandsCallback = fn;
+}
 
 
 
@@ -139,5 +141,6 @@ function deleteOldCommands(){
 module.exports = {
 	config: config,
 	startReading: startReading,
+	setCommandsCallback: setCommandsCallback,
 	send: send,
 }
