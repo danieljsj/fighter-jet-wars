@@ -7,7 +7,9 @@ const server = require('./services/env/server/server');
 
 ////////
 
-const mainSim = new SimServ.Simulation({});
+const gD = .............
+
+const mainSim = new SimServ.Simulation({gD:});
 
 mainSim.start();
 initGDS();
