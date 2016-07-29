@@ -8,24 +8,20 @@ var GameParamsService = require('../../GameParamsService');
 var Fighter = require('../../models/Fighter.js');
 var Blimp = require('../../models/Blimp.js');
 
-const GDS = require('../../GameDataService');
-
 ///////////
 
 let ref;
 
-module.exports = {
-	run: run,
-}
-
-function gD(){
+function ServerGD(){
 	this.users = {};
 	this.players = {};
 	this.entities = {};
 }
 
-function run(cb){
-	GDS.data = 
+function(cb){
+
+	const gD = new ServerGD();
+
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
 		addPlayerAndDefaultUnits({user:false});
@@ -33,6 +29,8 @@ function run(cb){
 		listenToFbUserAdds();
 		cb();
 	});
+
+
 }
 
 
