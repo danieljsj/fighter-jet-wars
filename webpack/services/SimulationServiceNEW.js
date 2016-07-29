@@ -16,7 +16,7 @@ const _constants = keyMirror({
 
 });
 
-service = {
+const serv = {
 	Simulation: Simulation,
 }
 
@@ -30,7 +30,9 @@ function Simulation(opts){
 	this.tickSnapshots = {};
 	// later: // this.hypotheticalTicksCommands = {}; // used for simulations into the future only; destroyed when simulation (e.g. for AI) is destroyed
 
-	this.gD = opts.gD || throw 'simulation cannot exist without data!';
+	this.gD = opts.gD;
+
+	if (!this.gD) throw new Error('simulation cannot exist without data!');
 
 	this.publishSkip = opts.publishSkip || function(){};
 
@@ -176,3 +178,5 @@ Simulation.prototype.purgeSnapshotsBefore = function(firstNonPurgedTick){
 		}
 	}
 }
+
+module.exports = serv;

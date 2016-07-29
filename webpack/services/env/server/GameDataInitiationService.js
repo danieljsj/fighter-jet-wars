@@ -18,17 +18,20 @@ module.exports = {
 	run: run,
 }
 
-function run(){
-	GDS.data = {
-		users: {},
-		players: {},
-		entities: {},
-	};
+function gD(){
+	this.users = {};
+	this.players = {};
+	this.entities = {};
+}
+
+function run(cb){
+	GDS.data = 
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
 		addPlayerAndDefaultUnits({user:false});
 		addPlayerAndDefaultUnits({user:false});
 		listenToFbUserAdds();
+		cb();
 	});
 }
 

@@ -19,16 +19,16 @@ function now(){	return (new Date()).getTime() }
 
 class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
-	next(){
-		return this.latest()+1;
+	float(){
+		return this.msToTicks(now()); // otherwise ticks is too big for our array
 	}
 	latest(){
 		return Math.floor(
 			this.float()
 		);
 	}
-	float(){
-		return this.msToTicks(now()); // otherwise ticks is too big for our array
+	next(){
+		return this.latest()+1;
 	}
 
 	timeTillNext(){

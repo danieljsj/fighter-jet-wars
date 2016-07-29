@@ -19,11 +19,14 @@ const serv = {
 	latestServerSnapshot: null,
 	serverSkippedTicks: {}, // if you ARE the server, this is a log of your own skips. might as well keep them; better to only ever skip ticsk, never un-skip them... because if you do happen to be re-simulating, you're already going to be behind! also, un-skipping them would just create more work for the clients as they re-simulate to accommodate the change. NOTE: this also means that servers must be uniquely able to write to this node for a given game/server.
 	ticksCommands: {},
+	
+	ticksUnitAdditions: {},
+	ticksUnitRemovals: {},
 
 	addServerSnapshotCallback: addServerSnapshotCallback,
 	addServerTickSkippedCallback: addServerTickSkippedCallback,
 	addCommandAddedCallback: addCommandAddedCallback,
-	addCommandChangedCallback: addTickChangedCallback,
+	addCommandChangedCallback: addCommandChangedCallback,
 }
 
 /////////////////////////
