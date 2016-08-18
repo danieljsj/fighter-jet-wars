@@ -1,3 +1,6 @@
+///// THIS IS A PILE OF NOTHING.... 
+
+
 function doSnapshotRetrieval(){
 	const retrieveThen = require('./env/client/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'
 	const makeGD = require('./SnapshotService').makeGameDataFromSnapshot;

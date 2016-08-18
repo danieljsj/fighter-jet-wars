@@ -4,14 +4,14 @@ const SimServ = require('./services/SimulationServiceNEW');      // start sim fi
 const initGDS = require('./services/GameDataService').init;
 
 const server = require('./services/env/server/server');
+const GD = require('./services/models/components/nulls/GD');
 
 ////////
 
-const gD = .............
+const mainSim = new SimServ.Simulation({gD: new GD()}); // going to need an initializer...
 
-const mainSim = new SimServ.Simulation({gD:});
 
 mainSim.start();
-initGDS();
+
 
 server.start();

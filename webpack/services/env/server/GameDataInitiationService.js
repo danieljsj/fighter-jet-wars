@@ -8,19 +8,15 @@ var GameParamsService = require('../../GameParamsService');
 var Fighter = require('../../models/Fighter.js');
 var Blimp = require('../../models/Blimp.js');
 
+const GD = require('../../models/components/nulls/GD');
+
 ///////////
 
 let ref;
 
-function ServerGD(){
-	this.users = {};
-	this.players = {};
-	this.entities = {};
-}
-
 function(cb){
 
-	const gD = new ServerGD();
+	const gD = new GD();
 
 	FirebaseRefService.initThen(function(){
 		ref = FirebaseRefService.ref;
@@ -29,7 +25,6 @@ function(cb){
 		listenToFbUserAdds();
 		cb();
 	});
-
 
 }
 
