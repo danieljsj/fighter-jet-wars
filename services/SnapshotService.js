@@ -1,19 +1,22 @@
 'use strict';
-
 // makes or reads text-only (no refs) literals
+
 const ToLog = require('../ToLog');
+
 const Fighter = require('../models/Fighter.js');
 const Blimp = require('../models/Blimp.js');
-// const FirebaseRefService = require('./FirebaseRefService'); // later... for when I... wait... no... i don't need this... we're streaming a single pile of commands, so I don't need to apply refs onto the entities themselves...
-
-const tickSnapshots = {};
 
 const entityConstructors = {
 	'fighter': Fighter,
 	'blimp': Blimp
 }
 
-//////////
+
+
+
+
+////////////// PACKING:
+
 
 function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 
@@ -23,8 +26,6 @@ function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
 	this.users = makeRedactedUsers(gD.users);
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
-
-	// tickSnapshots[currTick] = this; // note: this will eventually clog the poo out of memory if we're not careful!!!!
 	
 	if (ToLog.snapshotFull) console.log('this snapshot created',this);
 
@@ -35,11 +36,11 @@ Snapshot.prototype.tick = function(){
 	if (this.tickStarted === this.tickCompleted){
 		return this.tickStarted;
 	} else {
+		// WAIT A MINUTE... WHY DO WE EVEN HAVE THAT LEVER... SNAPSHOTS SHOULD NOT HAVE TICKSTARTED AND TICKCOMPLETED... OR IF THEY DO, THEY SHOULD ALWAYS BE THE SAME... THIS SEEMS LIKE SOMETHING THAT A GAME DATA WOULD HAVE, NOT A SNAPSHOT...
 		throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
 	}
 }
 
-//////////////
 
 
 function makeRedactedUsers(gDUsers){
@@ -89,9 +90,7 @@ function makeRedactedEntities(gDEntities){
 
 
 
-/////////////
-
-
+///////////// UNPACKING:
 
 
 
@@ -149,5 +148,4 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 module.exports = {
 	Snapshot: Snapshot,
 	makeGameDataFromSnapshot: makeGameDataFromSnapshot,
-	tickSnapshots: tickSnapshots,
 }

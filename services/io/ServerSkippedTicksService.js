@@ -63,14 +63,12 @@ function send(tick){
       tick: tick,
     };
 
-	    const sstRef = serverSkippedTicksRef.push();
-	    sstRef.set(sst, function onComplete(err) {
-			if (err)throw("sst could not be saved." + err);
-			if (ToLog.serverSkippedTickSuccess) console.log('sst successfully sent:', sst);
-		});
-	    if (ToLog.serverSkippedTick || ToLog.serverSkippedTickTimes ) console.log('sending sst '+sstRef.key);
-
-  	}
+    const sstRef = serverSkippedTicksRef.push();
+    sstRef.set(sst, function onComplete(err) {
+		if (err)throw("sst could not be saved." + err);
+		if (ToLog.serverSkippedTickSuccess) console.log('sst successfully sent:', sst);
+	});
+    if (ToLog.serverSkippedTick || ToLog.serverSkippedTickTimes ) console.log('sending sst '+sstRef.key);
 
 }
 

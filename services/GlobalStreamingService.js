@@ -6,6 +6,9 @@ const env = require('./env');
 
 
 const CommandsService = require('./io/CommandsService');
+const ServerSkippedTicksService = require('./io/ServerSkippedTicksService');
+const ServerSnapshotsService = require('./io/ServerSnapshotsService');
+
 const params = require('./GameParamsService').params;
 
 
@@ -57,9 +60,7 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 		// serv.ticksCommands[cmd.tick][cmd.id] = cmd; // overwrite the old command
 		// no need to do that, though!
 	}
-});
-
-function findCmdDupeTick(cmd){
+}); function findCmdDupeTick(cmd){
 	const targetCmdId = cmd.id || cmd;
 	for(const tickStr in serv.ticksCommands){
 		for(const cmdId in serv.ticksCommands[tickStr]){
@@ -70,9 +71,40 @@ function findCmdDupeTick(cmd){
 	}
 }
 
+ServerSkippedTicksService.addServerSkippedTickCallback(function intakeServerSkippedTick(sst){
+	serv.serverSkippedTicks[sst.tick] = true;
+	_serverSkippedTicksCallbacks.forEach(function(cb){
+		cb(sst);
+	});
+});
+
+
+ServerSnapshotsService.addServerSnapshotCallback(function intakeServerSnapshot(sss){
+	serv.latestServerSnapshot = sss;
+	_serverSnapshotCallbacks.forEach(function(cb){
+		cb(sss);
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 CommandsService.startReading();
 
+ServerSkippedTicksService.startReading();
 
+ServerSnapshotsService.startReading();
 
 
 

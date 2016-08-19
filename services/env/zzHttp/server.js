@@ -1,7 +1,7 @@
 const express = require('express');
 const SimulationService = require('../../SimulationService');
 const GameDataService = require('../../GameDataService');
-const SnapshotService = require('../../io/SnapshotService');
+const SnapshotService = require('../../SnapshotService');
 
 
 function start(){
