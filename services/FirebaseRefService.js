@@ -28,7 +28,7 @@ function initThen(callback){
 			config.apiKey = "AIzaSyB0wRqUQWX0nfOl7TC8ydGgs0MGXnLJ_9Y";
 			break;
 		case env.isNodejs() : 
-			config.serviceAccount = "firebase-service-account-auth-config-9213f17c7853.json";
+			config.serviceAccount = "firebase-service-account.json";
 			break;
 		default : 
 			throw 'env not recognized';

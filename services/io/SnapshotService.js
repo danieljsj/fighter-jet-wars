@@ -1,9 +1,9 @@
 'use strict';
 
 // makes or reads text-only (no refs) literals
-const ToLog = require('./ToLog');
-const Fighter = require('./models/Fighter.js');
-const Blimp = require('./models/Blimp.js');
+const ToLog = require('../ToLog');
+const Fighter = require('../models/Fighter.js');
+const Blimp = require('../models/Blimp.js');
 // const FirebaseRefService = require('./FirebaseRefService'); // later... for when I... wait... no... i don't need this... we're streaming a single pile of commands, so I don't need to apply refs onto the entities themselves...
 
 const tickSnapshots = {};
