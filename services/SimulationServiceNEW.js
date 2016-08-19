@@ -131,6 +131,7 @@ Simulation.prototype.start = function(targetTick){
 
 Simulation.prototype.doTick = function(){
 
+	// TODO EVENTUALLY: add serverSkippedTicks system; i.e. if dT is > 1, send out some server skipped ticks.
 	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
 
 	doTick(this.gD);

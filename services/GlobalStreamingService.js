@@ -24,7 +24,9 @@ const serv = {
 	ticksUnitRemovals: {},
 
 	addServerSnapshotCallback: addServerSnapshotCallback,
+
 	addServerTickSkippedCallback: addServerTickSkippedCallback,
+
 	addCommandAddedCallback: addCommandAddedCallback,
 	addCommandChangedCallback: addCommandChangedCallback,
 }
@@ -85,10 +87,12 @@ function addServerSnapshotCallback(fn){
 	_serverSnapshotCallbacks.push(fn);
 }
 
+
 const _serverTickSkippedCallbacks = [];
 function addServerTickSkippedCallback(fn){
 	_serverTickSkippedCallbacks.push(fn);
 }
+
 
 const _commandAddedCallbacks = [];
 function addCommandAddedCallback(fn){

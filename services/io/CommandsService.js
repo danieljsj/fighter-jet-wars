@@ -2,7 +2,7 @@
 const ToLog = require('../ToLog');
 
 const FirebaseRefService = require('../FirebaseRefService');
-const GDS = require('../GameDataService');
+
 const params = require('../GameParamsService').params;
 const TicksCalcService = require('../TicksCalcService');
 const ControlsNulls = require('../models/components/nulls/controls');
@@ -21,13 +21,12 @@ FirebaseRefService.initThen(function(){
 // SENDING //////////////////////////////////////////
 
 
+
 const entitiesLasts = {}
 const interval = params.minimumRedundantCommandInterval;
 console.log(interval);
 function send(key,val,eId){
 	if (!commandsRef) return;
-
-    var entities = GDS.data.entities;
 
     // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
 	if (!eId){
