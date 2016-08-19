@@ -5,7 +5,7 @@
 const env = require('./env');
 
 
-const CommandsService = require('./CommandsService');
+const CommandsService = require('./io/CommandsService');
 const params = require('./GameParamsService').params;
 
 

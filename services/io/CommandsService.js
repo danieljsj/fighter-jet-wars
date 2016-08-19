@@ -1,13 +1,13 @@
 'use strict';
-const ToLog = require('./ToLog');
+const ToLog = require('../ToLog');
 
-const FirebaseRefService = require('./FirebaseRefService');
-const GDS = require('./GameDataService');
-const params = require('./GameParamsService').params;
-const TicksCalcService = require('./TicksCalcService');
-const ControlsNulls = require('./models/components/nulls/controls');
+const FirebaseRefService = require('../FirebaseRefService');
+const GDS = require('../GameDataService');
+const params = require('../GameParamsService').params;
+const TicksCalcService = require('../TicksCalcService');
+const ControlsNulls = require('../models/components/nulls/controls');
 
-const getOffset = require('./FirebaseOffsetService').getOffset;
+const getOffset = require('../FirebaseOffsetService').getOffset;
 
 ////////////////////////////////////////////////////
 

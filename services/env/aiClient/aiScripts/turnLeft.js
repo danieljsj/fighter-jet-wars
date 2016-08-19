@@ -1,4 +1,4 @@
-const sendCommand = require('../../../CommandsService').send;
+const sendCommand = require('../../../io/CommandsService').send;
 
 function turnLeft(eId){
 

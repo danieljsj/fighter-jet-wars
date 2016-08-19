@@ -4,7 +4,7 @@ const SimulationService = require('../../SimulationService');
 const GDS = require('../../GameDataService');
 const FirebaseRefService = require('../../FirebaseRefService');
 
-const sendCommand = require('../../CommandsService').send;
+const sendCommand = require('../../io/CommandsService').send;
 
 const turnLeft = require('./aiScripts/turnLeft');
 

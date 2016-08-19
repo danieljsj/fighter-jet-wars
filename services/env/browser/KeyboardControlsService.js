@@ -3,7 +3,7 @@
 const CurrentUserService = require('./CurrentUserService');
 const FirebaseRefService = require('../../FirebaseRefService');
 const GDS = require('../../GameDataService');
-const sendCommand = require('../../CommandsService').send;
+const sendCommand = require('../../io/CommandsService').send;
 
 
 function onKeyDown(event) {

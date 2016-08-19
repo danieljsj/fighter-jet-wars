@@ -7,7 +7,7 @@ const GDS = require('./GameDataService');
 
 const params = require('./GameParamsService').params;
 const TicksCalcService = require('./TicksCalcService');
-const CommandsService = require('./CommandsService');
+const CommandsService = require('./io/CommandsService');
 
 if (env.isBrowser()) {
 	var SkyCanvasService = require('./env/browser/SkyCanvasService');
