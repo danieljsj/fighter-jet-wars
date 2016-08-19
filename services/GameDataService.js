@@ -1,5 +1,16 @@
-///// THIS IS A PILE OF NOTHING.... 
 
+
+
+module.exports = {
+	simulation: null,
+}
+
+
+
+
+
+///// THIS IS A PILE OF NOTHING.... 
+// NOTHING
 
 function doSnapshotRetrieval(){
 	const retrieveThen = require('./env/client/SnapshotRetrievalService').retrieveThen; // TODO: move to './client'

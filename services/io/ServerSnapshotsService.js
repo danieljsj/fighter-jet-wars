@@ -65,7 +65,7 @@ function send(gD,currTick){
 	if (!latestServerSnapshotRef) return;
 
     // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
-	if (!tick){
+	if (!tick) {
 	    throw('NO tick WAS SPECIFIED FOR THE SERVER SKIPPED TICK!');
 	}
 

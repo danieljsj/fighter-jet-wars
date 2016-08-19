@@ -7,14 +7,6 @@ const GlobalStreamingService = require('./GlobalStreamingService');
 const TicksCalcService = require('./TicksCalcService');
 const params = require('./GameParamsService').params;
 
-const _constants = keyMirror({
-	// options for what point this simulation should seek to sustain
-
-	SIMULATE_TO_NOW: null,
-	SIMULATE_TO_LAG: null,
-	SIMULATE_TO_TICK: null,
-
-});
 
 const serv = {
 	Simulation: Simulation,
@@ -47,7 +39,7 @@ function Simulation(opts){
 		}
 	}
 
-	const that=this; /////////// BEWARE!!!!!!!!! ADDDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
+	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	GlobalStreamingService.addCommandAddedCallback(function(cmd){
 		that.rewindPast(cmd.tick);
@@ -165,16 +157,16 @@ Simulation.prototype.stop = function(){
 	//...
 }
 
-Simulation.prototype.purgeSnapshotsAfterAndIncluding = function(firstPurgedTick){
+Simulation.prototype.purgeSnapshotsAfterAndIncluding = function(earliestPurgedTick){
 	for (const tickStr in this.tickSnapshots){
-		if (parseInt(tickStr) >= firstPurgedTick){
+		if (parseInt(tickStr) >= earliestPurgedTick){
 			delete this.tickSnapshots[tickStr];
 		}
 	}
 }
-Simulation.prototype.purgeSnapshotsBefore = function(firstNonPurgedTick){
+Simulation.prototype.purgeSnapshotsBefore = function(earliestNonPurgedTick){
 	for (const tickStr in this.tickSnapshots){
-		if (parseInt(tickStr) < firstPurgedTick){
+		if (parseInt(tickStr) < earliestNonPurgedTick){
 			delete this.tickSnapshots[tickStr];
 		}
 	}
