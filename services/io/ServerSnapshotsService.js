@@ -1,5 +1,7 @@
 'use strict';
 
+const FirebaseRefService = require('../FirebaseRefService');
+
 // this file will represent a really simple io reader service. it's a wrapper around firebase for this. it's like serverSkippedTick service, only lots simpler cuz we're not doing stuff to figure out what tick it happened on, etc.
 
 let latestServerSnapshotRef;
