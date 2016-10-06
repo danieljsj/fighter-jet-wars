@@ -71,7 +71,7 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 	}
 }
 
-ServerSkippedTicksService.addServerSkippedTickCallback(function intakeServerSkippedTick(sst){
+ServerSkippedTicksService.addServerSkippedTickAddedCallback(function intakeServerSkippedTick(sst){
 	serv.serverSkippedTicks[sst.tick] = true;
 	_serverSkippedTicksCallbacks.forEach(function(cb){
 		cb(sst);
