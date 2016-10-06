@@ -1,4 +1,6 @@
-class ToLog{
+'use strict';
+
+class ToLog {
 
 	constructor() {
 
