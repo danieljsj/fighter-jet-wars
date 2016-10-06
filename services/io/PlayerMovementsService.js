@@ -10,8 +10,6 @@ let playerMovementsRef;
 
 // READING //////////////////////////////////////////
 
-const _playerEntranceCallbacks = []; // a chill version of registering into, say, a dispatcher.
-const _playerExitCallbacks = []; // a chill version of registering into, say, a dispatcher.
 
 let numSstsReceived = 0;
 function startReading(){
@@ -45,9 +43,15 @@ function ServerSkippedTick(sstData){
 
 };
 
+
+
+
+const _playerExitCallbacks = []; // a chill version of registering into, say, a dispatcher.
 function addPlayerExitCallback(cb){
 	_playerExitCallbacks.push(cb);
 }
+
+const _playerEntranceCallbacks = []; // a chill version of registering into, say, a dispatcher.
 function addPlayerEntranceCallback(cb){
 	_playerEntranceCallbacks.push(cb);
 }
