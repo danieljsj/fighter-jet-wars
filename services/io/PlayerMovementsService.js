@@ -15,26 +15,26 @@ let numSstsReceived = 0;
 function startReading(){
 
 	FirebaseRefService.initThen(function(){
-		serverSkippedTicksRef = FirebaseRefService.ref.child('serverSkippedTicks');
+		playerMovementsRef = FirebaseRefService.ref.child('playerMovements');
 
-		serverSkippedTicksRef.limitToLast(1).on('child_added', function intakeAddedServerSkippedTickSS(ss){
+		playerMovementsRef.limitToLast(1).on('child_added', function intakePlayerMovementSS(ss){
  			if (++numSstsReceived > 1){
 
-				const sst = new ServerSkippedTick(ss.val());
+				const sst = new PlayerMovement(ss.val());
 
-				_serverSkippedTicksAddedCallbacks.forEach(function(serverSkippedTickCallback){
-					serverSkippedTickCallback(sst);
+				_playerMovementsAddedCallbacks.forEach(function(playerMovementCallback){
+					playerMovementCallback(sst);
 				});
  			}
 		});
 	});
 }
 
-function ServerSkippedTick(sstData){
+function PlayerMovement(movementData){
 
 	// doesn't modify it at
 
-	const sst = sstData;
+	const sst = movementData;
 
 	if (ToLog.serverSkippedTick) console.log('sst received (#'+numSstsReceived+')');
 	if (ToLog.serverSkippedTickTimes) console.log('sst received (#'+numSstsReceived+'); cT-sT:'+(sst.cT-sst.sT));
@@ -60,7 +60,7 @@ function addPlayerEntranceCallback(cb){
 
 
 function send(tick){
-	if (!serverSkippedTicksRef) return;
+	if (!playerMovementsRef) return;
 
     // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
 	if (!tick){
@@ -71,7 +71,7 @@ function send(tick){
       tick: tick,
     };
 
-    const sstRef = serverSkippedTicksRef.push();
+    const sstRef = playerMovementsRef.push();
     sstRef.set(sst, function onComplete(err) {
 		if (err)throw("sst could not be saved." + err);
 		if (ToLog.serverSkippedTickSuccess) console.log('sst successfully sent:', sst);
@@ -91,6 +91,6 @@ module.exports = {
 
 	startReading: startReading,
 
-	addServerSkippedTickAddedCallback: addServerSkippedTickAddedCallback,
+	addPlayerMovementAddedCallback: addPlayerMovementAddedCallback,
 
 };

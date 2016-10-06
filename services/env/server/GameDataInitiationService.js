@@ -1,3 +1,16 @@
+// stuff below is duplicated in AgentCreatorService... for use by PlayerMovementsService
+// job of THIS file is to create a bunch of player movements(type=join) at server boot.
+// TODO: if a browser gets data that is older than the last (authoritative) serversnapshot, ignore it. irrelevant. overridden.
+
+
+
+
+
+
+
+
+
+
 // 'use strict';
 
 // // NOTE: FIREBASE DATA OTHER THAN USERS CAN BE COMPLETELY EPHEMORAL; WE CAN PERSIST INTO AND REBOOT FROM MONGO IF WE WANT. OR NOT. SO ACTUALLY WE SHOULD PROBABLY DELETE ALL THE GAMEDATA OUT OF FIREBASE. FIREBASE CAN HAVE A "GAME" TOP-LEVEL-CHILD, WHICH WE DELETE UPON SERVER RESTART.
