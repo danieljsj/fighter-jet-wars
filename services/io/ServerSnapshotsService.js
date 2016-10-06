@@ -22,11 +22,15 @@ function startReading(){
 		latestServerSnapshotRef.limitToLast(1).on('value', function intakeServerSnapshotSS(ss){
  			if (++numServerSnapshotsReceived > -Infinity){
 
-				const serverSnapshot = new ServerSnapshot(ss.val());
+ 				if(ss.val()) {	
+					const serverSnapshot = new ServerSnapshot(ss.val());
+					_ServerSnapshotCallbacks.forEach(function(cb){
+						cb(serverSnapshot);
+					});
+ 				} else {
+ 					console.warn('WELL, IT LOOKS LIKE THERE IS NO SERVER SNAPSHOT VALUE...');
+ 				}
 
-				_ServerSnapshotCallbacks.forEach(function(cb){
-					cb(serverSnapshot);
-				});
  			}
 		});
 	});
