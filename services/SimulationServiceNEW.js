@@ -143,7 +143,7 @@ Simulation.prototype.doTick = function(){
  	let timeout;
  	if ( -1 === this.gD.tick() - this.targetTick() ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
- 	} else if ( -1 > this.gD.tick() - this.desiredTick() ) {
+ 	} else if ( -1 > this.gD.tick() - this.targetTick() ) {
  		timeout = 0;
  	} else {
  		throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
