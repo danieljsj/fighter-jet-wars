@@ -2,10 +2,13 @@
 
 var keyMirror = require('keymirror');
 
+const params = require('./GameParamsService').params;
+const env = require('./env');
+const ToLog = require('./ToLog');
+
 const doTick = require('./doTick');
 const GlobalStreamingService = require('./GlobalStreamingService');
 const TicksCalcService = require('./TicksCalcService');
-const params = require('./GameParamsService').params;
 
 
 const serv = {
@@ -24,7 +27,7 @@ function Simulation(opts){
 
 	this.gD = opts.gD;
 
-	if (!this.gD) throw new Error('simulation cannot exist without data!');
+	if (!this.gD) throw new Error('simulation cannot exist without a data object!');
 
 	this.publishSkip = opts.publishSkip || function(){};
 
@@ -115,18 +118,18 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 Simulation.prototype.start = function(targetTick){
 
 
-
-
-	
+	this.doTick();
 
 }
+
+const queue = [];
 
 Simulation.prototype.doTick = function(){
 
 	// TODO EVENTUALLY: add serverSkippedTicks system; i.e. if dT is > 1, send out some server skipped ticks.
 	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
 
-	doTick(this.gD);
+	doTick(this.gD, 1, function cb(){});
 
 	while (queue[0]) { // currently used for: snapshot requests; do this after a tick.
 		queue[0](currTick, dT);

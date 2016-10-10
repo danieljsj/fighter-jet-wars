@@ -1,4 +1,5 @@
 'use strict';
+const params = require('./GameParamsService').params;
 const ToLog = require('./ToLog');
 
 function doTick(gD, dT, tickDoneCb){     

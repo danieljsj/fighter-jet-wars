@@ -29,35 +29,28 @@ class ToLog {
 		this.serverSnapshotTimes = false;
 		this.serverSnapshotSuccess = false;	
 
-		this.playerMovement = false;
-		this.playerMovementTimes = false;
-		this.playerMovementSuccess = false;
 
 
 
 		/////// UNCOMMENT DESIRED TRUES:
 
-		// this.snapshot = true;
-		// this.snapshotFull = true;
+		this.snapshot = true;
+		this.snapshotFull = true;
 
-		// this.p = true;
-		// this.time = true;
-		// this.gD = true;
+		this.p = true;
+		this.time = true;
+		this.gD = true;
 
 		
 		// // io stuff:
 
-		// this.command = true;
-		// this.commandTimes = true;
-		// this.commandSuccess = true;
+		this.command = true;
+		this.commandTimes = true;
+		this.commandSuccess = true;
 
-		// this.serverSkippedTick = true;
-		// this.serverSkippedTickTimes = true;
+		this.serverSkippedTick = true;
+		this.serverSkippedTickTimes = true;
 		this.serverSkippedTickSuccess = true;
-
-		// this.playerMovement = true;
-		// this.playerMovementTimes = true;
-		this.playerMovementSuccess = true;
 
 		this.serverSnapshot = true;
 		this.serverSnapshotTimes = true;
