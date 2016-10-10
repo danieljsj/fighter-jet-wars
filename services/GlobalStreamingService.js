@@ -13,7 +13,7 @@ const params = require('./GameParamsService').params;
 
 
 if (env.isClient()){
-	var SnapshotRetrievalService = require('./SnapshotRetrievalService');
+	// ...?
 }
 
 /////////////////////////
