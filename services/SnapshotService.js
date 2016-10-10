@@ -18,10 +18,10 @@ const entityConstructors = {
 ////////////// PACKING:
 
 
-function Snapshot(gD,currTick){ // gD should probably CONTAIN currTick....
+function Snapshot(gD){ // gD should probably CONTAIN currTick....
 
-	this.tickStarted = currTick;
-	this.tickCompleted = currTick;
+	this.tickStarted = gD.tick();
+	this.tickCompleted = gD.tick();
 
 	this.users = makeRedactedUsers(gD.users);
 	this.players = makeRedactedPlayers(gD.players);

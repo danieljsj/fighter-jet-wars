@@ -68,7 +68,7 @@ function addServerSnapshotCallback(cb){
 ////////// SENDING
 
 
-function send(gD,currTick){
+function send(gD){
 	if (!latestServerSnapshotRef) return;
 
     // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
@@ -76,7 +76,7 @@ function send(gD,currTick){
 	    throw('NO tick WAS SPECIFIED FOR THE SERVER SKIPPED TICK!');
 	}
 
-    const snapshot = new Snapshot(gD,currTick);
+    const snapshot = new Snapshot(gD);
 
     latestServerSnapshotRef.set(snapshot, function onComplete(err) {
 		if (err)throw("snapshot could not be saved." + err);

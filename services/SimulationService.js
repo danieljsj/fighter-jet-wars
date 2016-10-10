@@ -10,11 +10,11 @@ const doTick = require('./doTick');
 const GlobalStreamingService = require('./GlobalStreamingService');
 const TicksCalcService = require('./TicksCalcService');
 
+const ServerSnapshotsService = require('./io/ServerSnapshotsService');
 
 const serv = {
 	Simulation: Simulation,
 }
-
 
 
 
@@ -134,6 +134,25 @@ Simulation.prototype.doTick = function(){
 	while (queue[0]) { // currently used for: snapshot requests; do this after a tick.
 		queue[0](this.gD.tick(), dT);
 		queue.shift();
+	}
+
+	if (env.isServer() &&  (! this.gD.tick() % params.ticksPerSnapshot)){
+		ServerSnapshotsService.send(gD);
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf');
+		console.log('asdf'); /// I don't think this is working
 	}
 	
 	if (env.isBrowser()) {
