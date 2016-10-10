@@ -34,27 +34,27 @@ class ToLog {
 
 		/////// UNCOMMENT DESIRED TRUES:
 
-		this.snapshot = true;
-		this.snapshotFull = true;
+		// this.snapshot = true;
+		// this.snapshotFull = true;
 
-		this.p = true;
-		this.time = true;
-		this.gD = true;
+		// this.p = true;
+		// this.time = true;
+		// this.gD = true;
 
 		
-		// // io stuff:
+		// // // io stuff:
 
-		this.command = true;
-		this.commandTimes = true;
-		this.commandSuccess = true;
+		// this.command = true;
+		// this.commandTimes = true;
+		// this.commandSuccess = true;
 
-		this.serverSkippedTick = true;
-		this.serverSkippedTickTimes = true;
-		this.serverSkippedTickSuccess = true;
+		// this.serverSkippedTick = true;
+		// this.serverSkippedTickTimes = true;
+		// this.serverSkippedTickSuccess = true;
 
-		this.serverSnapshot = true;
-		this.serverSnapshotTimes = true;
-		this.serverSnapshotSuccess = true;	
+		// this.serverSnapshot = true;
+		// this.serverSnapshotTimes = true;
+		// this.serverSnapshotSuccess = true;	
 
 	}
 

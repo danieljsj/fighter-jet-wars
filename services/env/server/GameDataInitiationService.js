@@ -34,22 +34,23 @@ function listenToFbUserAdds(sim){
 
 
 
-function addPlayerAndDefaultUnits(params, sim){
-	params = params || {};
-	params.user = params.user || false;
+function addPlayerAndDefaultUnits(opts, sim){
+	opts = opts || {};
+	opts.user = opts.user || false;
 
 	var playerRef = ref.child('players').push(); // node-client generates the key syncly.
 	var player = {
 		id: playerRef.key,
-		user: params.user,
+		user: opts.user,
 	};
 	///////////////////////////////////// GDS.data.players[player.id] = player;
 	console.log('added player '+player.id);
 
 	var entityQuantities = {
-		'fighter': (params.user ? params.fightersPerNewUserPlayer : params.fightersPerNewNonuserPlayer ),
-		'blimp': (params.user ? params.blimpsPerNewUserPlayer : params.blimpsPerNewNonuserPlayer ),
+		'fighter': (opts.user ? params.fightersPerNewUserPlayer : params.fightersPerNewNonuserPlayer ),
+		'blimp': (opts.user ? params.blimpsPerNewUserPlayer : params.blimpsPerNewNonuserPlayer ),
 	}
+	console.log(entityQuantities);
 	createEntitiesForPlayer(entityQuantities,player,sim);
 }
 
@@ -75,7 +76,7 @@ function createEntitiesForPlayer(entityQuantities, player, sim){
 			});
 
 			sim.gD.entities[entity.id] = entity;
-
+			console.log('saved entity '+entity);
 		}
 	}
 }
