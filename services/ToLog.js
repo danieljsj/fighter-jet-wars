@@ -29,6 +29,11 @@ class ToLog {
 		this.serverSnapshotTimes = false;
 		this.serverSnapshotSuccess = false;	
 
+		this.playerMovement = false;
+		this.playerMovementTimes = false;
+		this.playerMovementSuccess = false;
+
+
 
 		/////// UNCOMMENT DESIRED TRUES:
 
@@ -49,6 +54,10 @@ class ToLog {
 		// this.serverSkippedTick = true;
 		// this.serverSkippedTickTimes = true;
 		this.serverSkippedTickSuccess = true;
+
+		// this.playerMovement = true;
+		// this.playerMovementTimes = true;
+		this.playerMovementSuccess = true;
 
 		this.serverSnapshot = true;
 		this.serverSnapshotTimes = true;
