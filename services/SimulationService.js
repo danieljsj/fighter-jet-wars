@@ -136,23 +136,8 @@ Simulation.prototype.doTick = function(){
 		queue.shift();
 	}
 
-	if (env.isServer() &&  (! this.gD.tick() % params.ticksPerSnapshot)){
-		ServerSnapshotsService.send(gD);
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf');
-		console.log('asdf'); /// I don't think this is working
+	if (env.isServer() &&  (! (this.gD.tick() % params.ticksPerSnapshot))){
+		ServerSnapshotsService.send(this.gD);
 	}
 	
 	if (env.isBrowser()) {

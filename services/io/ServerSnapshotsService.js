@@ -2,6 +2,7 @@
 
 const FirebaseRefService = require('../FirebaseRefService');
 const ToLog = require('../ToLog');
+const Snapshot = require('../SnapshotService').Snapshot;
 
 // this file will represent a really simple io reader service. it's a wrapper around firebase for this. it's like serverSkippedTick service, only lots simpler cuz we're not doing stuff to figure out what tick it happened on, etc.
 
@@ -72,8 +73,8 @@ function send(gD){
 	if (!latestServerSnapshotRef) return;
 
     // DEBUG; USE FIRST ENTITY IN LIST IF NO ENTITY ID IS SUPPLIED
-	if (!tick) {
-	    throw('NO tick WAS SPECIFIED FOR THE SERVER SKIPPED TICK!');
+	if (!gD) {
+	    throw('NO gD WAS SPECIFIED');
 	}
 
     const snapshot = new Snapshot(gD);
