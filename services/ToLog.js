@@ -34,10 +34,10 @@ class ToLog {
 
 		/////// UNCOMMENT DESIRED TRUES:
 
-		// this.snapshot = true;
-		// this.snapshotFull = true;
+		this.snapshot = true;
+		this.snapshotFull = true;
 
-		// this.p = true;
+		this.p = true;
 		// this.time = true;
 		// this.gD = true;
 

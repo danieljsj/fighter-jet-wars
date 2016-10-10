@@ -43,7 +43,7 @@ function logPs(gD){
 	let i = 0;
 	if (! (gD.tick % params.ticksPerSecond) ){
 		for (const id in gD.entities) { 
-			let p = GDS.data.entities[id].p; 
+			let p = gD.entities[id].p; 
 
 			console.log(''
 				+'e'+i++ +': '
