@@ -1,15 +1,16 @@
 require('log-timestamp');
 
 const SimServ = require('./services/SimulationService');      // start sim first to show that sim won't explode if game data is false or empty
-const initGDS = require('./services/GameDataService').init;
 
 const AiControlsService = require('./services/env/aiClient/AiControlsService');
+const GD = require('./services/models/components/nulls/GD');
 
 const FirebaseRefService = require('./services/FirebaseRefService');
 
 ////////
 
-SimServ.start();
-initGDS();
+const mainSim = new SimServ.Simulation({gD: new GD()});
 
-AiControlsService.start();
+mainSim.start();
+
+AiControlsService.start(mainSim);

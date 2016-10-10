@@ -11,20 +11,23 @@ const turnLeft = require('./aiScripts/turnLeft');
 /////////
 
 
-function start(){
+let sim; // maybe at some point we'd rework this to allow multiple simulations to have ai apply to them... but doing so would require a lot -- including prevention of sending of signals to server!
+
+function start(mainSim){
 	FirebaseRefService.initThen(function(){
-
+		sim = mainSim;
 		tickWork();
-
 	});
 
 }
 
 function tickWork(){
 
-	SimulationService.afterTick(function(currTick,dT){
+	sim.afterTick(function(currTick,dT){
 
-		const entities = GDS.data.entities;
+		const entities = sim.gD.entities;
+
+		// console.log('entities',entities);
 
 		for (var id in entities) {
 			const entity = entities[id];

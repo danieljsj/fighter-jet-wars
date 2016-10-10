@@ -116,12 +116,12 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 
 Simulation.prototype.start = function(targetTick){
-
-
 	this.doTick();
-
 }
 
+Simulation.prototype.afterTick = function(cb){
+	queue.push(cb);
+}
 const queue = [];
 
 Simulation.prototype.doTick = function(){
@@ -132,7 +132,7 @@ Simulation.prototype.doTick = function(){
 	doTick(this.gD, 1, function cb(){});
 
 	while (queue[0]) { // currently used for: snapshot requests; do this after a tick.
-		queue[0](currTick, dT);
+		queue[0](this.gD.tick(), dT);
 		queue.shift();
 	}
 	
