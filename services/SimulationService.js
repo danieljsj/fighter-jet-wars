@@ -159,7 +159,7 @@ Simulation.prototype.doTick = function(){
  	} else {
  		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
  		console.warn('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
- 		timeout = 11111;
+ 		timeout = 5555;
  	}
 	
 	if (ToLog.time) console.log('timeout: ',timeout);

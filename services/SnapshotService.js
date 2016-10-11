@@ -101,6 +101,10 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 	
 	const gD = new GD();
 
+	console.log(incomingSnapshot);
+
+	gD.tickStarted = incomingSnapshot.tickStarted;
+	gD.tickCompleted = incomingSnapshot.tickCompleted;
 
 	for (const id in incomingSnapshot.users){
 		var user = JSON.parse(JSON.stringify( incomingSnapshot.users[id] ));
@@ -133,7 +137,7 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
 		}
 	}
-
+	console.log('gD from snapshot',gD);
 	return gD;
 }
 

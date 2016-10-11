@@ -20,11 +20,12 @@ function startReading(){
 	FirebaseRefService.initThen(function(){
 		latestServerSnapshotRef = FirebaseRefService.ref.child('latestServerSnapshot');
 
-		latestServerSnapshotRef.limitToLast(1).on('value', function intakeServerSnapshotSS(ss){
+		latestServerSnapshotRef.on('value', function intakeServerSnapshotSS(ss){
  			if (++numServerSnapshotsReceived > -Infinity){
 
  				if(ss.val()) {	
 					const serverSnapshot = new ServerSnapshot(ss.val());
+					console.log('ss.val()',ss.val());
 					_ServerSnapshotCallbacks.forEach(function(cb){
 						cb(serverSnapshot);
 					});
@@ -39,11 +40,14 @@ function startReading(){
 
 function ServerSnapshot(serverSnapshotData){
 
-	const serverSnapshot = serverSnapshotData;
+	console.log('serverSnapshotData',serverSnapshotData);
 
 	if (ToLog.serverSnapshot) console.log('serverSnapshot received (#'+numServerSnapshotsReceived+')');
 
-	for(var k in serverSnapshotData) this[k]=serverSnapshotData[k];
+	for(var k in serverSnapshotData) {
+		this[k]=serverSnapshotData[k];
+		console.log(k);
+	}
 
 };
 
