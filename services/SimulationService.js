@@ -82,7 +82,6 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 		let latestQualifyingSnapshotTick = -Infinity;
 		let latestQualifyingSnapshot = null;
-
 		// how to check a snapshot
 		const checkSnapshot = function(snapshot){
 			if(!snapshot)return;
@@ -96,6 +95,8 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 			}
 		}
 
+		// console.log('that.tickSnapshots',that.tickSnapshots);
+		// throw '';
 
 		// checkSnapshot(_latestServerSnapshot); //// BROKEN AND I BELIEVE UNNECESSARY
 
@@ -110,9 +111,14 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 		}
 
-		that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+		if (latestQualifyingSnapshot) {
+			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+		}
 
 		// SOMETHING TO CONTINUE SIM... OR MAYBE IT WILL ALREADY CONTINUE...  ... no, we want to restart it now to catch up
+
+		// console.log('that.gD',that.gD);
+		// throw '';
 
 		that.catchUp();
 
@@ -120,7 +126,10 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 } 
 
 Simulation.prototype.catchUp = function(){
-	this.doTick();
+	var that=this;
+	setTimeout(function(){ // needed because otherwise infinite loop; i think because the queue hasn't lost this queue function.
+		that.doTick();
+	});
 }
 
 

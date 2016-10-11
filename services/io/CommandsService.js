@@ -94,28 +94,26 @@ function startReading(){
 
 function Command(cmdData){
 
-	const cmd = cmdData;
+	for(const k in cmdData) this[k] = cmdData[k];
 
-	cmd.tick = Math.max(
-		TicksCalcService.msToRoundedTicks(cmd.cT),
+	this.tick = Math.max(
+		TicksCalcService.msToRoundedTicks(this.cT),
 		// rule: the command happened when you pressed the button, unless that's longer ago than when your command arrived to firebase minus the max allowed lag time, in which case your command registers as being the max amount before arrival to server allowed.
-		TicksCalcService.msToRoundedTicks(cmd.sT)-params.maxCommandLagTicks
+		TicksCalcService.msToRoundedTicks(this.sT)-params.maxCommandLagTicks
 	);
 
 	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+')');
-	if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(cmd.cT-cmd.sT));
-
-	return cmd;
+	if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(this.cT-this.sT));
 
 };
 Command.prototype.isLocal = function(){
 	return (this.sT-this.bT) < _minimumReasonableRemoteLatency; 
 };
 Command.prototype.setFormerTick = function(localFormerTick){
-	cmd.formerTick = formerTick;
+	this.formerTick = formerTick;
 };
 Command.prototype.getFormerTick = function(){
-	return cmd.formerTick;
+	return this.formerTick;
 };
 
 
