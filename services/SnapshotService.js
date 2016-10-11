@@ -1,10 +1,10 @@
 'use strict';
 // makes or reads text-only (no refs) literals
 
-const ToLog = require('../ToLog');
+const ToLog = require('./ToLog');
 
-const Fighter = require('../models/Fighter.js');
-const Blimp = require('../models/Blimp.js');
+const Fighter = require('./models/Fighter.js');
+const Blimp = require('./models/Blimp.js');
 
 const entityConstructors = {
 	'fighter': Fighter,
