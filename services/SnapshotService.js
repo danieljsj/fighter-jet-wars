@@ -97,11 +97,9 @@ function makeRedactedEntities(gDEntities){
 
 function makeGameDataFromSnapshot(incomingSnapshot){
 
-	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot);
+	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot); 
 	
 	const gD = new GD();
-
-	console.log(incomingSnapshot);
 
 	gD.tickStarted = incomingSnapshot.tickStarted;
 	gD.tickCompleted = incomingSnapshot.tickCompleted;
@@ -137,7 +135,6 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
 		}
 	}
-	console.log('gD from snapshot',gD);
 	return gD;
 }
 

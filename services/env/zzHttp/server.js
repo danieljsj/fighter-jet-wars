@@ -23,7 +23,7 @@ function start(){
 	});
 
 	app.listen(4242, function() {
-		console.log('Game Server listening on port 4242');
+		if (true) console.log('Game Server listening on port 4242');
 	});
 
 }

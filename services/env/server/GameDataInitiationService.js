@@ -6,6 +6,8 @@ const params = require('../../GameParamsService').params;
 const Fighter = require('../../models/Fighter');
 const Blimp = require('../../models/Blimp');
 
+const ToLog = require('../../ToLog');
+
 let ref;
 
 function initiate(sim){
@@ -26,7 +28,7 @@ function listenToFbUserAdds(sim){
 			name: ss.val().name,
 			id: ss.key
 		};
-		console.log('found/added user '+user.id);
+		if(ToLog.playerGen) console.log('found/added user '+user.id);
 		addPlayerAndDefaultUnits({user:user},sim); ////////hmm. looks like the player contains the user object completely. Which I guess makes sense. User is outside the game, player is the game object. it's 1:1 or 1:0, so user, within the scope of a game, really is just a property of a player.
 	});
 
@@ -50,7 +52,7 @@ function addPlayerAndDefaultUnits(opts, sim){
 		'fighter': (opts.user ? params.fightersPerNewUserPlayer : params.fightersPerNewNonuserPlayer ),
 		'blimp': (opts.user ? params.blimpsPerNewUserPlayer : params.blimpsPerNewNonuserPlayer ),
 	}
-	console.log(entityQuantities);
+	if(ToLog.playerGen) console.log(entityQuantities);
 	createEntitiesForPlayer(entityQuantities,player,sim);
 }
 
@@ -76,7 +78,7 @@ function createEntitiesForPlayer(entityQuantities, player, sim){
 			});
 
 			sim.gD.entities[entity.id] = entity;
-			console.log('saved entity '+entity);
+			if(ToLog.playerGen) console.log('saved entity '+entity);
 		}
 	}
 }

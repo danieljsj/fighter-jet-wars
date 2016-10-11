@@ -25,7 +25,6 @@ function startReading(){
 
  				if(ss.val()) {	
 					const serverSnapshot = new ServerSnapshot(ss.val());
-					console.log('ss.val()',ss.val());
 					_ServerSnapshotCallbacks.forEach(function(cb){
 						cb(serverSnapshot);
 					});
@@ -40,13 +39,10 @@ function startReading(){
 
 function ServerSnapshot(serverSnapshotData){
 
-	console.log('serverSnapshotData',serverSnapshotData);
-
 	if (ToLog.serverSnapshot) console.log('serverSnapshot received (#'+numServerSnapshotsReceived+')');
 
 	for(var k in serverSnapshotData) {
 		this[k]=serverSnapshotData[k];
-		console.log(k);
 	}
 
 };

@@ -27,8 +27,6 @@ function tickWork(){
 
 		const entities = sim.gD.entities;
 
-		// console.log('entities',entities);
-
 		for (var id in entities) {
 			const entity = entities[id];
 			if (entity.player) {

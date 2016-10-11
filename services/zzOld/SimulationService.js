@@ -34,7 +34,6 @@ function afterTick(cb){
 let browserFirstTick = null;
 
 function startTicks(){
-	console.log('startTicks');
 	browserFirstTick = TicksCalcService.latest();
 	latestSimulatedTick = browserFirstTick-1; // with these equal, it would spin a sim with dT=0 on its first cycle. That could give some weird effects.
 	doTick();

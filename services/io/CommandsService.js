@@ -24,7 +24,7 @@ FirebaseRefService.initThen(function(){
 
 const entitiesLasts = {}
 const interval = params.minimumRedundantCommandInterval;
-console.log(interval);
+if (ToLog.time) console.log(interval);
 function send(key,val,eId){
 	if (!commandsRef) return;
 
@@ -37,8 +37,6 @@ function send(key,val,eId){
 
   	if ( (entitiesLasts[eId][key] !== val) || ( entitiesLasts[eId]['timestamp'] < new Date().getTime() - interval )){
     
-    	console.log(entitiesLasts[eId]['timestamp']);
-
 	    entitiesLasts[eId]['timestamp'] = new Date().getTime();
 
 	    entitiesLasts[eId][key] = val;

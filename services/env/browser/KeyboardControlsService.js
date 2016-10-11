@@ -9,7 +9,7 @@ const sendCommand = require('../../io/CommandsService').send;
 function onKeyDown(event) {
 
   var keyCode = event.keyCode;
-  // console.log(keyCode);
+
   switch (keyCode) {
     case 87: //w
       sendCommand('fore', 1, uPId());
