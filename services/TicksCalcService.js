@@ -15,7 +15,7 @@ function now(){	return (new Date()).getTime() }
 
 class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
-	/// I guess these could be converted to properties via a constructor... low priority. save some cycles. mostly only used once per tick, I think.
+	/// I guess these could be converted to properties via a constructor... low priority. save some cycles. mostly only used once per tick, I think. actually it's nice to keep as funcs so nothing outside can modify anything stored.
 	ticksPerS(){
 		return ticksPerSecond;
 	} // this is the same as the maximum browser refresh rate, meaning that in smooth flow, 1 tick : 1 repaint . I was tempted to go with 100fps for rounding reasons, but I think we can declare all the actual game values in ticks per second either hardcoded-ly or at a one-time-init-func.
