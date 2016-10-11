@@ -4,6 +4,7 @@ const env = {
 	isAiClient: isAiClient,
 	
 	isNodejs: isNodejs,
+	isNode: isNode,
 	isClient: isClient,
 }
 
@@ -12,6 +13,9 @@ function isBrowser(){
 }
 function isNodejs(){
 	return !isBrowser();
+}
+function isNode(){
+	return isNodejs();
 }
 function isServer(){
 	return isNodejs() && (-1 < process.argv[1].indexOf('server')); // a bit janky; doesn't support npm start... but works for now.

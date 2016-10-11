@@ -2,13 +2,13 @@
 const params = require('./GameParamsService').params;
 const ToLog = require('./ToLog');
 
-function doTick(gD, dT, tickDoneCb){     
+function doTick(gD, dT){     
 
 	// possible later thing: name. perhaps each gD has a name, like 'main_sim', 'ai_projection', etc.
 	console.log('dT',dT);
 	gD.tickStarted = gD.tickCompleted + dT;
 
-	const T = gD.tickStarted;
+	const T = gD.tickStarted;	
 
 	if (ToLog.time) console.log('dT: ',dT);
 
@@ -33,8 +33,6 @@ function doTick(gD, dT, tickDoneCb){
 	if (ToLog.p) logPs(gD);
 
 	gD.tickCompleted = gD.tickStarted;
-
-	tickDoneCb();
 
 }
 

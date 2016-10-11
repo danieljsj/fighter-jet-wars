@@ -38,17 +38,16 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 			this.float()
 		);
 	}
+
 	next(){
 		return this.latest()+1;
-	}
-
-	timeTillNext(){
-		return this.nextTime()-now();
 	}
 	nextTime(){
 		return Math.ceil(this.next()*this.msPerTick()); // ceil to aim high so that when we come back from our 'timeout', the latest tick is barely in the past.
 	}
-
+	timeTillNext(){
+		return this.nextTime()-now();
+	}
 
 	msToRoundedTicks(ms){
 		return Math.round(this.msToTicks(ms));

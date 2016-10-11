@@ -1,7 +1,6 @@
 'use strict';
 
 const SimulationService = require('../../SimulationService');
-const GDS = require('../../GameDataService');
 const FirebaseRefService = require('../../FirebaseRefService');
 
 const sendCommand = require('../../io/CommandsService').send;

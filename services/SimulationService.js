@@ -54,6 +54,8 @@ function Simulation(opts){
 		that.rewindPast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
+	console.log('env.isServer()',env.isServer());
+
 	if (!env.isServer()) {
 		GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
 			console.log(snapshot);
@@ -111,7 +113,7 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 		}
 
-		if (latestQualifyingSnapshot) {
+		if ((!env.isServer()) && latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
 
@@ -147,25 +149,53 @@ Simulation.prototype.afterTick = function(cb){
 }
 const queue = [];
 
+let timeLastTickFinished = -Infinity;
+
 Simulation.prototype.doTick = function(){
+
+
+	console.log('env.isNode()',env.isNode());
+	console.log('env.isServer()',env.isServer());
+	console.log('env.isAiClient()',env.isAiClient());
+	console.log('env.isClient()',env.isClient());
+	console.log('env.isBrowser()',env.isBrowser());
+
+
+	if (ToLog.time) console.log('time since last finished (SHOULD be EXACTLY less than last timeout)', new Date().getTime() - timeLastTickFinished );
 
 	// TODO EVENTUALLY: add serverSkippedTicks system; i.e. if dT is > 1, send out some server skipped ticks.
 	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
 
-	doTick(this.gD, 1, function cb(){});
+ 	if (ToLog.ticks) {
+ 		console.log('before doTick');
+ 		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
+ 		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
+ 		console.log('this.targetTick().......',this.targetTick()     );
+ 	}
+
+	doTick(this.gD, 1);
+
+ 	if (ToLog.ticks) {
+ 		console.log('after doTick');
+ 		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
+ 		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
+ 		console.log('this.targetTick().......',this.targetTick()     );
+ 	}
+
+
 
 	while (queue[0]) { // currently used for: snapshot requests; do this after a tick.
 		queue[0](this.gD.tick(), dT);
 		queue.shift();
 	}
-	if (this.gD.tickCompleted = this.targetTick()){
+	if (this.targetTick() == this.gD.tickCompleted ){
 		while (caughtUpQueue[0]) { // currently used for: snapshot requests; do this after a tick.
 			caughtUpQueue[0](this.gD.tick(), dT);
 			caughtUpQueue.shift();
 		}
 	}
 
-	if (env.isServer() &&  (! (this.gD.tick() % params.ticksPerSnapshot))){
+	if (  env.isServer()  &&  (! (this.gD.tick()%params.ticksPerSnapshot) )  ){
 		ServerSnapshotsService.send(this.gD);
 	}
 	
@@ -173,12 +203,15 @@ Simulation.prototype.doTick = function(){
 		SkyCanvasService.renderEntities(this.gD.entities);
  	}
 
- 	let timeout;
  	if (ToLog.ticks) {
+ 		console.log('after queues, snapshot, render');
  		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
  		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
  		console.log('this.targetTick().......',this.targetTick()     );
  	}
+
+
+ 	let timeout;
  	if ( this.targetTick() - this.gD.tick() == 0 /* we are caught up */ ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
  	} else if ( this.targetTick() - this.gD.tick() > 0 /* not yet caught up */) {
@@ -190,9 +223,12 @@ Simulation.prototype.doTick = function(){
  		timeout = NUM_EXTRA_TICKS*TicksCalcService.msPerTick()+TicksCalcService.timeTillNext()+1;
  	}
 	
-	if (ToLog.time) console.log('timeout: ',timeout);
 
 	setTimeout(this.doTick.bind(this), timeout);
+
+	if (ToLog.time) console.log('time since last finished (SHOULD be SLIGHTLY LESS THAN last timeout)', new Date().getTime() - timeLastTickFinished );
+	timeLastTickFinished = new Date().getTime();
+	if (ToLog.time) console.log('||| TIMEOUT |||: ',timeout);
 
 }
 
