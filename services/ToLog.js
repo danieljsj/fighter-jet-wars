@@ -38,7 +38,7 @@ class ToLog {
 		this.snapshotFull = true;
 
 		// this.p = true;
-		// this.time = true;
+		this.time = true;
 		// this.gD = true;
 
 		
@@ -52,9 +52,9 @@ class ToLog {
 		// this.serverSkippedTickTimes = true;
 		// this.serverSkippedTickSuccess = true;
 
-		this.serverSnapshot = true;
-		this.serverSnapshotTimes = true;
-		this.serverSnapshotSuccess = true;	
+		// this.serverSnapshot = true;
+		// this.serverSnapshotTimes = true;
+		// this.serverSnapshotSuccess = true;	
 
 	}
 

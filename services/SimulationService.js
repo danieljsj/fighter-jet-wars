@@ -26,9 +26,9 @@ function Simulation(opts){
 	this.tickSnapshots = {};
 	// later: // this.hypotheticalTicksCommands = {}; // used for simulations into the future only; destroyed when simulation (e.g. for AI) is destroyed
 
+	if (!opts.gD) throw new Error('simulation cannot exist without a data object!');
+	
 	this.gD = opts.gD;
-
-	if (!this.gD) throw new Error('simulation cannot exist without a data object!');
 
 	this.publishSkip = opts.publishSkip || function(){};
 
@@ -42,6 +42,7 @@ function Simulation(opts){
 			return TicksCalcService.latest()-params.serverLagTicks;
 		}
 	}
+	this.gD.tickStarted = this.gD.tickCompleted = this.targetTick()-1;
 
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
@@ -53,21 +54,23 @@ function Simulation(opts){
 		that.rewindPast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
-	GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
-		console.log(snapshot);
-		that.purgeSnapshotsBefore(snapshot.tick());
+	if (!env.isServer()) {
+		GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
+			console.log(snapshot);
+			that.purgeSnapshotsBefore(snapshot.tick());
 
-		/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
-			
+			/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
+				
 
-				// UNTIL THEN, JUST GO BIG:
-				that.purgeSnapshotsAfterAndIncluding(snapshot.tick());
-				///
-				that.gD = SnapshotService.makeGameDataFromSnapshot(snapshot);
+					// UNTIL THEN, JUST GO BIG:
+					that.purgeSnapshotsAfterAndIncluding(snapshot.tick());
+					///
+					that.gD = SnapshotService.makeGameDataFromSnapshot(snapshot);
 
 
 
-	});
+		});
+	}
 
 }
 
@@ -147,12 +150,16 @@ Simulation.prototype.doTick = function(){
  	}
 
  	let timeout;
+ 	console.log('this.gD.tick()......',this.gD.tick());
+ 	console.log('this.targetTick()...',this.targetTick());
  	if ( -1 === this.gD.tick() - this.targetTick() ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
  	} else if ( -1 > this.gD.tick() - this.targetTick() ) {
  		timeout = 0;
  	} else {
- 		throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 		console.warn('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 		timeout = 11111;
  	}
 	
 	if (ToLog.time) console.log('timeout: ',timeout);
