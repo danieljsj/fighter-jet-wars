@@ -26,8 +26,6 @@ function startReading(){
  				if(ss.val()) {	
 					const serverSnapshot = new ServerSnapshot(ss.val());
 					_ServerSnapshotCallbacks.forEach(function(cb){
-						console.log('serverSnapshot',serverSnapshot);
-						console.log('serverSnapshot.tick',serverSnapshot.tick);
 						cb(serverSnapshot);
 					});
  				} else {
@@ -81,9 +79,9 @@ function send(gD){
 
     latestServerSnapshotRef.set(snapshot, function onComplete(err) {
 		if (err)throw("snapshot could not be saved." + err);
-		if (ToLog.serverSnapshotSuccess) console.log('snapshot successfully sent:', sst);
+		if (ToLog.serverSnapshotSuccess) console.log('snapshot successfully sent:', snapshot);
 	});
-    if (ToLog.serverSnapshot || ToLog.serverSnapshotTimes ) console.log('sending sst '+sstRef.key);
+    if (ToLog.serverSnapshot || ToLog.serverSnapshotTimes ) console.log('sending snapshot '+latestServerSnapshotRef.key);
 
 }
 

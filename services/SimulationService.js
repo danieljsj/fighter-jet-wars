@@ -56,13 +56,14 @@ function Simulation(opts){
 	GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
 		console.log(snapshot);
 		that.purgeSnapshotsBefore(snapshot.tick());
+
 		/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
 			
 
 				// UNTIL THEN, JUST GO BIG:
 				that.purgeSnapshotsAfterAndIncluding(snapshot.tick());
 				///
-				that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+				that.gD = SnapshotService.makeGameDataFromSnapshot(snapshot);
 
 
 
@@ -146,6 +147,8 @@ Simulation.prototype.doTick = function(){
  	}
 
  	let timeout;
+ 	console.log('this.gD',this.gD);
+ 	console.log('this.gD.tick',this.gD.tick);
  	if ( -1 === this.gD.tick() - this.targetTick() ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
  	} else if ( -1 > this.gD.tick() - this.targetTick() ) {

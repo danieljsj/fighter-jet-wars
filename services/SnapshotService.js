@@ -1,6 +1,7 @@
 'use strict';
 // makes or reads text-only (no refs) literals
 
+const GD = require('./models/components/nulls/GD');
 const ToLog = require('./ToLog');
 
 const Fighter = require('./models/Fighter.js');
@@ -98,11 +99,7 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 
 	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot);
 	
-	const gD = {
-		users: {},
-		players: {},
-		entities: {},
-	};
+	const gD = new GD();
 
 
 	for (const id in incomingSnapshot.users){
