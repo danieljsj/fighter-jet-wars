@@ -23,7 +23,7 @@ function start(mainSim){
 
 function tickWork(){
 
-	sim.afterTick(function(currTick,dT){
+	sim.afterCaughtUpTick(function(currTick,dT){
 
 
 		const entities = sim.gD.entities;

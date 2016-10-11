@@ -5,7 +5,7 @@ const ToLog = require('./ToLog');
 function doTick(gD, dT, tickDoneCb){     
 
 	// possible later thing: name. perhaps each gD has a name, like 'main_sim', 'ai_projection', etc.
-	
+	console.log('dT',dT);
 	gD.tickStarted = gD.tickCompleted + dT;
 
 	const T = gD.tickStarted;

@@ -137,6 +137,11 @@ Simulation.prototype.start = function(targetTick){
 	this.doTick();
 }
 
+Simulation.prototype.afterCaughtUpTick = function(cb){
+	caughtUpQueue.push(cb);
+}
+const caughtUpQueue = [];
+
 Simulation.prototype.afterTick = function(cb){
 	queue.push(cb);
 }
@@ -153,6 +158,12 @@ Simulation.prototype.doTick = function(){
 		queue[0](this.gD.tick(), dT);
 		queue.shift();
 	}
+	if (this.gD.tickCompleted = this.targetTick()){
+		while (caughtUpQueue[0]) { // currently used for: snapshot requests; do this after a tick.
+			caughtUpQueue[0](this.gD.tick(), dT);
+			caughtUpQueue.shift();
+		}
+	}
 
 	if (env.isServer() &&  (! (this.gD.tick() % params.ticksPerSnapshot))){
 		ServerSnapshotsService.send(this.gD);
@@ -164,12 +175,13 @@ Simulation.prototype.doTick = function(){
 
  	let timeout;
  	if (ToLog.ticks) {
- 		console.log('this.gD.tick()......',this.gD.tick());
- 		console.log('this.targetTick()...',this.targetTick());
+ 		console.log('this.gD.tickStarted.....',this.gD.tickStarted);
+ 		console.log('this.gD.tickCompleted...',this.gD.tickCompleted);
+ 		console.log('this.targetTick().......',this.targetTick());
  	}
- 	if ( -1 === this.gD.tick() - this.targetTick() ){
+ 	if ( this.targetTick() - this.gD.tick() == 0 /* we are caught up */ ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
- 	} else if ( -1 > this.gD.tick() - this.targetTick() ) {
+ 	} else if ( this.targetTick() - this.gD.tick() > 0 /* not yet caught up */) {
  		timeout = 0;
  	} else {
  		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
