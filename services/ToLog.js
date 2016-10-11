@@ -50,9 +50,9 @@ class ToLog {
 		
 		// // // io stuff:
 
-		// this.command = true;
-		// this.commandTimes = true;
-		// this.commandSuccess = true;
+		this.command = true;
+		this.commandTimes = true;
+		this.commandSuccess = true;
 
 		// this.serverSkippedTick = true;
 		// this.serverSkippedTickTimes = true;

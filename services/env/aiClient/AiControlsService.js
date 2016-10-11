@@ -25,13 +25,16 @@ function tickWork(){
 
 	sim.afterTick(function(currTick,dT){
 
+
 		const entities = sim.gD.entities;
 
-		for (var id in entities) {
+		for (const id in entities) {
+
 			const entity = entities[id];
+			turnLeft(entity.id); ////////////			
 			if (entity.player) {
 				if (! entity.player.user){
-					turnLeft(entity.id)
+					turnLeft(entity.id); /////
 				}
 			} else {
 				debugger;

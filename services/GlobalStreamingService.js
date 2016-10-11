@@ -50,7 +50,8 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 	if ( (!serv.ticksCommands[cmd.tick]) || (!serv.ticksCommands[cmd.tick][cmd.id]) ){
 		// the tick has changed!
 		const cmdDupeTick = findCmdDupeTick(cmd);
-		delete serv.ticksCommands[cmdDupeTick][cmd.id];
+		console.log('cmdDupeTick',cmdDupeTick); 
+		delete serv.ticksCommands[cmdDupeTick][cmd.id]; //////// THIS WAS GIVING SOMETHING ABOUT CONVERTING NULL TO OBJ
 		cmd.setLocalFormerTick(cmdDupeTick);
 		_commandChangedCallbacks.forEach(function(cb){
 			cb(cmd);

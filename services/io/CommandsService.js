@@ -22,7 +22,7 @@ FirebaseRefService.initThen(function(){
 
 
 
-const entitiesLasts = {}
+const entitiesLasts = {};
 const interval = params.minimumRedundantCommandInterval;
 if (ToLog.time) console.log(interval);
 function send(key,val,eId){

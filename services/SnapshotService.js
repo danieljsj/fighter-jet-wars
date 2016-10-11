@@ -97,6 +97,11 @@ function makeRedactedEntities(gDEntities){
 
 function makeGameDataFromSnapshot(incomingSnapshot){
 
+	if (!incomingSnapshot) {
+		console.warn("falsy snapshot cannot be used to make game data... returning a null/falsy-filled one.");
+		return new GD();
+	}
+
 	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot); 
 	
 	const gD = new GD();

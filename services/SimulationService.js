@@ -76,7 +76,7 @@ function Simulation(opts){
 
 Simulation.prototype.rewindPast = function(cutoffTick){
 	const that=this;
-	this.finishTick().then(function rewindNow(){
+	this.afterTick(function rewindNow(){
 
 		if(that.gD.tick < cutoffTick) return;
 
@@ -97,7 +97,7 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 		}
 
 
-		checkSnapshot(_latestServerSnapshot);
+		// checkSnapshot(_latestServerSnapshot); //// BROKEN AND I BELIEVE UNNECESSARY
 
 		for (const tickStr in that.tickSnapshots){
 
@@ -117,6 +117,10 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 		that.catchUp();
 
 	});
+} 
+
+Simulation.prototype.catchUp = function(){
+	this.doTick();
 }
 
 
@@ -161,7 +165,7 @@ Simulation.prototype.doTick = function(){
  	} else {
  		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
  		console.warn('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
- 		timeout = 5555;
+ 		timeout = 2222;
  	}
 	
 	if (ToLog.time) console.log('timeout: ',timeout);
