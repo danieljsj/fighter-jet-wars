@@ -147,8 +147,6 @@ Simulation.prototype.doTick = function(){
  	}
 
  	let timeout;
- 	console.log('this.gD',this.gD);
- 	console.log('this.gD.tick',this.gD.tick);
  	if ( -1 === this.gD.tick() - this.targetTick() ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
  	} else if ( -1 > this.gD.tick() - this.targetTick() ) {
