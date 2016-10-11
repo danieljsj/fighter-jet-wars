@@ -175,9 +175,9 @@ Simulation.prototype.doTick = function(){
 
  	let timeout;
  	if (ToLog.ticks) {
- 		console.log('this.gD.tickStarted.....',this.gD.tickStarted);
- 		console.log('this.gD.tickCompleted...',this.gD.tickCompleted);
- 		console.log('this.targetTick().......',this.targetTick());
+ 		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
+ 		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
+ 		console.log('this.targetTick().......',this.targetTick()     );
  	}
  	if ( this.targetTick() - this.gD.tick() == 0 /* we are caught up */ ){
 		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
@@ -185,8 +185,9 @@ Simulation.prototype.doTick = function(){
  		timeout = 0;
  	} else {
  		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
- 		console.warn('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
- 		timeout = 2222;
+ 		const NUM_EXTRA_TICKS = 5
+ 		console.warn('why on earth is the sim ahead of its desired tick?  delaying by '+NUM_EXTRA_TICKS+' extra ticks via longer timeout...'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 		timeout = NUM_EXTRA_TICKS*TicksCalcService.msPerTick()+TicksCalcService.timeTillNext()+1;
  	}
 	
 	if (ToLog.time) console.log('timeout: ',timeout);
