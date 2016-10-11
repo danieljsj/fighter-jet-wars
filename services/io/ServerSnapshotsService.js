@@ -26,6 +26,8 @@ function startReading(){
  				if(ss.val()) {	
 					const serverSnapshot = new ServerSnapshot(ss.val());
 					_ServerSnapshotCallbacks.forEach(function(cb){
+						console.log('serverSnapshot',serverSnapshot);
+						console.log('serverSnapshot.tick',serverSnapshot.tick);
 						cb(serverSnapshot);
 					});
  				} else {
@@ -39,25 +41,23 @@ function startReading(){
 
 function ServerSnapshot(serverSnapshotData){
 
-	// doesn't modify it at
-
 	const serverSnapshot = serverSnapshotData;
 
 	if (ToLog.serverSnapshot) console.log('serverSnapshot received (#'+numServerSnapshotsReceived+')');
-	if (ToLog.serverSnapshotTimes) console.log('serverSnapshot received (#'+numServerSnapshotsReceived+'); cT-sT:'+(serverSnapshot.cT-serverSnapshot.sT));
 
-	return serverSnapshot;
+	for(var k in serverSnapshotData) this[k]=serverSnapshotData[k];
 
 };
 
 
 ServerSnapshot.prototype.tick = function(){
-	throw "I REALLY WANT TO KNOW WHERE ANY WHY WE ARE ASKING FOR THE TICK FROM A SNAPSHOT...";
 	if (this.tickStarted === this.tickCompleted){
 		return this.tickStarted;
 	} else {
 		// WAIT A MINUTE... WHY DO WE EVEN HAVE THAT LEVER... SNAPSHOTS SHOULD NOT HAVE TICKSTARTED AND TICKCOMPLETED... OR IF THEY DO, THEY SHOULD ALWAYS BE THE SAME... THIS SEEMS LIKE SOMETHING THAT A GAME DATA WOULD HAVE, NOT A SNAPSHOT...
-		throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
+		if (false) throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
+
+		return this.tickStarted || this.tickCompleted;
 	}
 }
 

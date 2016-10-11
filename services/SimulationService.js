@@ -10,6 +10,7 @@ const doTick = require('./doTick');
 const GlobalStreamingService = require('./GlobalStreamingService');
 const TicksCalcService = require('./TicksCalcService');
 
+const SnapshotService = require('./SnapshotService');
 const ServerSnapshotsService = require('./io/ServerSnapshotsService');
 
 const serv = {
@@ -53,7 +54,7 @@ function Simulation(opts){
 	});
 
 	GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
-		
+		console.log(snapshot);
 		that.purgeSnapshotsBefore(snapshot.tick());
 		/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
 			
