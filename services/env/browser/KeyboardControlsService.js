@@ -2,9 +2,9 @@
 
 const CurrentUserService = require('./CurrentUserService');
 const FirebaseRefService = require('../../FirebaseRefService');
-const GDS = require('../../GameDataService');
 const sendCommand = require('../../io/CommandsService').send;
 
+let mainSim;
 
 function onKeyDown(event) {
 
@@ -58,8 +58,8 @@ function onKeyUp(event) {
 
 
 
-function start(){
-
+function start(sim){
+  mainSim = sim;
   //event listener
   window.addEventListener('keydown', onKeyDown, false);
   window.addEventListener('keyup', onKeyUp, false);
@@ -84,7 +84,7 @@ module.exports = {
 function GET_USER_PLAYER_ENTITY(){
   const userId = 'b7sEsa8pUWOyWnDYAQCdPjdhFG02';
   
-  const entities = GDS.data.entities;
+  const entities = mainSim.gD.entities;
   for (const entityId in entities) {
     const entity = entities[entityId];
     if (

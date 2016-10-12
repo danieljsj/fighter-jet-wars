@@ -18,8 +18,6 @@ const serv = {
 
 
 
-
-
 function Simulation(opts){
 
 	this.tickSnapshots = {};
@@ -179,9 +177,7 @@ Simulation.prototype.doTick = function(){
 		ServerSnapshotsService.send(this.gD);
 	}
 	
-	if (env.isBrowser()) {
-		SkyCanvasService.renderEntities(this.gD.entities);
- 	}
+	// not doing browser-dependent stuff from here because it kills module loading in node; instead, app-browser.js passes the sim into browser-dependent services.
 
  	if (ToLog.ticks) {
  		console.log('after queues, snapshot, render');

@@ -5,8 +5,6 @@ const SimServ = require('./services/SimulationService');      // start sim first
 const AiControlsService = require('./services/env/aiClient/AiControlsService');
 const GD = require('./services/models/components/empties/GD');
 
-const FirebaseRefService = require('./services/FirebaseRefService');
-
 ////////
 
 const mainSim = new SimServ.Simulation({gD: new GD()});

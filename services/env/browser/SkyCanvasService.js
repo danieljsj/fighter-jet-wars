@@ -1,11 +1,12 @@
 'use strict';
 
-const GameDataService = require('../../GameDataService');
 const EntityTypesAppearanceService = require('./EntityTypesAppearanceService');
 
-let canvas, ctx;
+let canvas, ctx, mainSim;
 
-function initCanvas(canvasId){
+function initCanvas(sim){
+
+	mainSim = sim;
 
 	if (canvas) return;
 
@@ -19,6 +20,13 @@ function initCanvas(canvasId){
 	// canvas.style["z-index"] = 1;
 	ctx = canvas.getContext("2d");
 
+	sim.afterCaughtUpTick()
+
+}
+
+function renderEntitiesAndRequeue(){
+	renderEntities(mainSim.gD.entities);
+	sim.afterCaughtUpTick(renderEntitiesAndRequeue);
 }
 
 function fillSkyBlue(){
@@ -84,5 +92,4 @@ function fullscreenifyCanvas(){
 
 module.exports = {
 	initCanvas: initCanvas,
-	renderEntities: renderEntities,
 };

@@ -39,7 +39,7 @@ class ToLog {
 		/////// UNCOMMENT DESIRED TRUES:
 
 		this.playerGen = true;
-		this.env = false;
+		this.env = true;
 
 
 		this.snapshot = true;
