@@ -166,7 +166,7 @@ Simulation.prototype.doTick = function(){
 		queue[0](this.gD.tick(), dT);
 		queue.shift();
 	}
-	if (this.targetTick() == this.gD.tickCompleted ){
+	if (this.targetTick() <= this.gD.tickCompleted ){
 		while (caughtUpQueue[0]) { // currently used for: snapshot requests; do this after a tick.
 			caughtUpQueue[0](this.gD.tick(), dT);
 			caughtUpQueue.shift();
