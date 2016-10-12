@@ -21,6 +21,9 @@ const entityConstructors = {
 
 function Snapshot(gD){ // gD should probably CONTAIN currTick....
 
+	if (ToLog.snapshotFull) console.log('incoming gD for snapshot',gD);
+
+
 	this.tickStarted = gD.tick();
 	this.tickCompleted = gD.tick();
 
@@ -75,6 +78,9 @@ function makeRedactedEntities(gDEntities){
 	const redactedEntities = {};
 	for (const id in gDEntities) {
 		const entity = gDEntities[id];
+
+		console.log('entity (for snapshot)',entity);
+
 		const redactedEntity = {
 			// same as ob:
 			id: 			entity.id,

@@ -45,7 +45,7 @@ function addPlayerAndDefaultUnits(opts, sim){
 		id: playerRef.key,
 		user: opts.user,
 	};
-	///////////////////////////////////// GDS.data.players[player.id] = player;
+	sim.gD.players[player.id] = player;
 	console.log('added player '+player.id);
 
 	var entityQuantities = {

@@ -108,6 +108,7 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			if (ToLog.snapshot) console.log('(used a snapshot)');
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+			if (ToLog.snapshot) console.log('resulting gD:',that.gD);
 		}
 
 	});
@@ -180,6 +181,11 @@ Simulation.prototype.doTick = function(){
 	if (  env.isServer()  &&  (! (this.gD.tick()%params.ticksPerSnapshot) )  ){
 		ServerSnapshotsService.send(this.gD);
 	}
+
+	if ( ! (this.gD.tick()%params.ticksPerClientSnapshot) ) {
+		this.tickSnapshots[this.gD.tick()] = new SnapshotService.Snapshot(this.gD);
+	}
+
 	
 	// not doing browser-dependent stuff from here because it kills module loading in node; instead, app-browser.js passes the sim into browser-dependent services.
 
