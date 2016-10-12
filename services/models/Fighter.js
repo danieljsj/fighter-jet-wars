@@ -37,26 +37,9 @@ class Fighter {
 
 	}
 
-	control(dT){ // dT could potentially be used by AI.
+	control(dT,T){ 
 
-		// ventually this would be real because you'd need to go scan the stream of commands for controls for this entity... but for now we're just letting new commands land on the entity and modify it right away.
-		// var user = this.player.user;
-
-		// if ( user && (this.id===user.controlledEntityId) ) {
-		// 	this.controls = user.controls;
-		// } else {
-
-
-			// to debug, run only this line:
-			// this.controls = this.getAiControls(dT)
-
-
-
-		// }
-
-		// for (var key in nullControls){
-		// 	if (!this.controls[key]) this.controls[key] = nullControls[key];
-		// }
+		///// not sure where this is happening. I thought I wrote some code for finding... oh that was for finding duplicate commands
 
 	}
 

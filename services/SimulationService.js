@@ -58,18 +58,12 @@ function Simulation(opts){
 
 	if (!env.isServer()) {
 		GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
-			console.log(snapshot);
+
 			that.purgeSnapshotsBefore(snapshot.tick());
 
-			/// TODO: DIFF THE SNAPSHOT AGAINST LIVE DATA; IF IT'S THE SAME, NO NEED TO TAKE ANY ACTION!!!!
-				
+			that.tickSnapshots[snapshot.tick()]=snapshot;
 
-					// UNTIL THEN, JUST GO BIG:
-					that.purgeSnapshotsAfterAndIncluding(snapshot.tick());
-					///
-					that.gD = SnapshotService.makeGameDataFromSnapshot(snapshot);
-
-
+			that.rewindPast(snapshot.tick());
 
 		});
 	}
@@ -77,6 +71,7 @@ function Simulation(opts){
 }
 
 Simulation.prototype.rewindPast = function(cutoffTick){
+	this.purgeSimSnapshotsAfterAndIncluding(cutoffTick);
 	const that=this;
 	this.afterTick(function rewindNow(){
 
@@ -84,6 +79,7 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 		let latestQualifyingSnapshotTick = -Infinity;
 		let latestQualifyingSnapshot = null;
+
 		// how to check a snapshot
 		const checkSnapshot = function(snapshot){
 			if(!snapshot)return;
@@ -116,7 +112,7 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 		if ((!env.isServer()) && latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
-		
+
 	});
 } 
 
@@ -136,6 +132,8 @@ const queue = [];
 
 let timeLastTickFinished = -Infinity;
 
+
+
 Simulation.prototype.doTick = function(){
 
 
@@ -149,7 +147,7 @@ Simulation.prototype.doTick = function(){
 	if (ToLog.time) console.log('time since last finished (SHOULD be EXACTLY less than last timeout)', new Date().getTime() - timeLastTickFinished );
 
 	// TODO EVENTUALLY: add serverSkippedTicks system; i.e. if dT is > 1, send out some server skipped ticks.
-	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
+
 
  	if (ToLog.ticks) {
  		console.log('before doTick');
@@ -158,7 +156,8 @@ Simulation.prototype.doTick = function(){
  		console.log('this.targetTick().......',this.targetTick()     );
  	}
 
-	doTick(this.gD, 1);
+	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
+	this.doTickPhases(dT);
 
  	if (ToLog.ticks) {
  		console.log('after doTick');
@@ -218,11 +217,73 @@ Simulation.prototype.doTick = function(){
 }
 
 
+Simulation.prototype.doTickPhases = function(dT){
+
+	// possible later thing: name. perhaps each gD has a name, like 'main_sim', 'ai_projection', etc.
+	console.log('dT',dT);
+	this.gD.tickStarted = this.gD.tickCompleted + dT;
+
+	const T = this.gD.tickStarted;	
+
+	if (ToLog.time) console.log('dT: ',dT);
+
+	if (ToLog.time) console.time('control');
+	for (const t in GlobalStreamingService.ticksCommands){
+		if ( (t<=T)&&(t>T-dT) ){
+			const tCmds = GlobalStreamingService.ticksCommands[t];
+			for (const tCmdId in tCmds){
+				const cmd = tCmds[tCmdId];
+				const e = this.gD.entities[cmd.eId];
+				if (e) e.controls[cmd.key] = cmd.val;
+			}
+		}
+	}
+	if (ToLog.time) console.timeEnd('control');
+
+	if (ToLog.time) console.time('accelerate');
+	for (const id in this.gD.entities) { if (this.gD.entities[id].accelerate) this.gD.entities[id].accelerate(dT,T); }
+	if (ToLog.time) console.timeEnd('accelerate');
+
+	if (ToLog.time) console.time('move');
+	for (const id in this.gD.entities) { if (this.gD.entities[id].move) this.gD.entities[id].move(dT,T); }
+	if (ToLog.time) console.timeEnd('move');
+
+	if (ToLog.time) console.time('sense');
+	for (const id in this.gD.entities) { if (this.gD.entities[id].sense) this.gD.entities[id].sense(dT,T); }
+	if (ToLog.time) console.timeEnd('sense');
+
+ 	if (ToLog.gD) console.log(gD);
+
+	if (ToLog.p) logPs(gD);
+
+	this.gD.tickCompleted = this.gD.tickStarted;
+
+}
+
+
+function logPs(gD){
+	let i = 0;
+	if (! (gD.tick % params.ticksPerSecond) ){
+		for (const id in gD.entities) { 
+			let p = gD.entities[id].p; 
+
+			console.log(''
+				+'e'+i++ +': '
+				+'{ x:'+p.x
+				+', y:'+p.y
+				+', dir:'+p.direction
+				+', speed:'+p.speed
+				+'}'
+			); 
+		}
+	}
+}
+
 Simulation.prototype.stop = function(){
 	//...
 }
 
-Simulation.prototype.purgeSnapshotsAfterAndIncluding = function(earliestPurgedTick){
+Simulation.prototype.purgeSimSnapshotsAfterAndIncluding = function(earliestPurgedTick){
 	for (const tickStr in this.tickSnapshots){
 		if (parseInt(tickStr) >= earliestPurgedTick){
 			delete this.tickSnapshots[tickStr];
