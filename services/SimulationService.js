@@ -117,15 +117,19 @@ Simulation.prototype.start = function(targetTick){
 	this.doTick();
 }
 
-Simulation.prototype.afterCaughtUpTick = function(cb){
-	caughtUpQueue.push(cb);
-}
 const caughtUpQueue = [];
-
-Simulation.prototype.afterTick = function(cb){
-	queue.push(cb);
+Simulation.prototype.afterCaughtUpTick = function(cb){
+	setTimeout(function(){
+		caughtUpQueue.push(cb);
+	},0);
 }
+
 const queue = [];
+Simulation.prototype.afterTick = function(cb){
+	setTimeout(function(){
+		queue.push(cb);
+	},0);
+}
 
 let timeLastTickFinished = -Infinity;
 

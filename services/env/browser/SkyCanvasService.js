@@ -26,7 +26,7 @@ function initCanvas(sim){
 
 function renderEntitiesAndRequeue(){
 	renderEntities(mainSim.gD.entities);
-	sim.afterCaughtUpTick(renderEntitiesAndRequeue);
+	mainSim.afterCaughtUpTick(renderEntitiesAndRequeue);
 }
 
 function fillSkyBlue(){
@@ -39,7 +39,6 @@ function fillSkyBlue(){
 function renderEntities(entities){
 	// centerPoint = {x: registries.players[0].p.x, y: registries.players[0].p.y + 32,}
 	var centerPoint = {x:0,y:0};
-	console.log('RENDERING ENTITIES YO; these:', entities);
 	clear();
 
 	// fillSkyBlue();
