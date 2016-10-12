@@ -229,7 +229,7 @@ Simulation.prototype.doTickPhases = function(dT){
 
 	if (ToLog.time) console.time('control');
 	for (const t in GlobalStreamingService.ticksCommands){
-		if ( (t<=T)&&(t>T-dT) ){
+		if ( (t<=T)&&(t>T-dT) ){ // NOTE: there is a faster way to do this loop; namely, just do it for T and others where t < T but greater than T-dT
 			const tCmds = GlobalStreamingService.ticksCommands[t];
 			for (const tCmdId in tCmds){
 				const cmd = tCmds[tCmdId];
