@@ -116,24 +116,9 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 		if ((!env.isServer()) && latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
-
-		// SOMETHING TO CONTINUE SIM... OR MAYBE IT WILL ALREADY CONTINUE...  ... no, we want to restart it now to catch up
-
-		// console.log('that.gD',that.gD);
-		// throw '';
-
-		that.catchUp();
-
+		
 	});
 } 
-
-Simulation.prototype.catchUp = function(){
-	var that=this;
-	setTimeout(function(){ // needed because otherwise infinite loop; i think because the queue hasn't lost this queue function.
-		that.doTick();
-	});
-}
-
 
 Simulation.prototype.start = function(targetTick){
 	this.doTick();

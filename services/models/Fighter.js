@@ -60,21 +60,6 @@ class Fighter {
 
 	}
 
-	getAiControls(dT){
-		this.thoughts; // DO SOMETHING WITH THIS!
-
-		// TODO:? make a version of this where the fighter only sees a restricted version of its world; perhaps every 1 second or so, we recalculate who it can see. but for now, let it see everything.
-		this.visibleEntities; // let the game calibrate how many things can go into this visibleEntities object based on server load. It also lets us scope what kind of entities can be "seen" -- i.e. if we're going to let comps see and dodge lasers! ALSO -- we might end up maintaining a per-player list of visibleEntities, to reduce redundancy and simulate internet/hive-mind.
-		
-		return {
-			fore: 0,
-			back: 1,
-			right: 0,
-			left: 1,
-			tryFire: 1,
-		}
-	}
-
 	accelerate(dT){
 		AircraftMethods.accelerate
 		.call(this,dT);
