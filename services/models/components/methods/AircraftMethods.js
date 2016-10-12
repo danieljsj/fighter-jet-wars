@@ -41,6 +41,13 @@ function accelerate(dT){
 		}
 	}
 
+	for (const k in this.p){
+		if (isNaN(this.p[k])){
+			console.warn( k+' is NaN in p: ',this.p );
+			console.warn('controls: ',this.controls);
+			throw 'NaN p prop';
+		}
+	}
 }
 
 

@@ -1,8 +1,8 @@
 'use strict';
 
-// nulls:
-var NullP = require('./components/nulls/p');
-var NullControls = require('./components/nulls/controls');
+// empties:
+var NullP = require('./components/empties/p');
+var NullControls = require('./components/empties/controls');
 
 // atts:
 var FighterBaseAtts = require('./components/atts/FighterBaseAtts');

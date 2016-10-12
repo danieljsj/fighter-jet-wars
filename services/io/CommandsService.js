@@ -5,7 +5,7 @@ const FirebaseRefService = require('../FirebaseRefService');
 
 const params = require('../GameParamsService').params;
 const TicksCalcService = require('../TicksCalcService');
-const ControlsNulls = require('../models/components/nulls/controls');
+const ControlsNulls = require('../models/components/empties/controls');
 
 const getOffset = require('../FirebaseOffsetService').getOffset;
 

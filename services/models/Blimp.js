@@ -1,8 +1,8 @@
 'use strict';
 
 
-var p = require('./components/nulls/p');
-var controls = require('./components/nulls/controls');
+var p = require('./components/empties/p');
+var controls = require('./components/empties/controls');
 
 class Blimp {
 

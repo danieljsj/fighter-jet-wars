@@ -1,7 +1,7 @@
 'use strict';
 // makes or reads text-only (no refs) literals
 
-const GD = require('./models/components/nulls/GD');
+const GD = require('./models/components/empties/GD');
 const ToLog = require('./ToLog');
 
 const Fighter = require('./models/Fighter.js');
@@ -138,6 +138,13 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 		
 		for (const childUid in entity.children){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
+		}
+	}
+	if (ToLog.snapshotFull) {
+		let i=0;
+		for (const eId in gD.entities){
+			console.log('ss e'+i++,':');
+			console.log(gD.entities[eId].p);
 		}
 	}
 	return gD;
