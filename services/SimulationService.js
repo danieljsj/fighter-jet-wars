@@ -98,8 +98,17 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 
 		}
 
-		if (ToLog.snapshot) console.log('latestQualifyingSnapshot',latestQualifyingSnapshot);
+		if (ToLog.snapshot) {
+			console.log('latestQualifyingSnapshot',latestQualifyingSnapshot);
+			if (latestQualifyingSnapshot && ToLog.p){
+				let i=0;
+				for (const eId in latestQualifyingSnapshot.entities) {
+					console.log(i++,latestQualifyingSnapshot.entities[eId].p);
+				}
+			}
+		}
 		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
+			if (ToLog.snapshot) console.log('ACCEPTED SNAPSHOT');
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
 
