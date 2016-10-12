@@ -10,14 +10,13 @@ module.exports = {
 		blimpsPerNewNonuserPlayer: 0,
 
 		ticksPerSecond: 60,
-		ticksPerSnapshot: 60,
 
-		maxCommandLagTicks: 4,
+		ticksPerSnapshot: 600,
 		ticksPerBrowserSnapshot: 3, // rationale: around half the distance into the past the average command will arrive; doesn't fire every frame but still refrains from making us have to use far-past snapshots when new commands arrive. I might end up discovering it makes way more sense to make this further in the past if I find that generating snapshots is way more work than resimulating stuff. I.e. allocations vs. cycles and setting.
 
-		serverLagTicks: 8, // this maybe should be more tied in to maxCommandLagTicks...
+		maxCommandLagTicks: 4,
 
-		snapshotRetrievalInterval: 1000,
+		serverLagTicks: 8, // this maybe should be more tied in to maxCommandLagTicks...
 
 		minimumRedundantCommandInterval: 2000,
 

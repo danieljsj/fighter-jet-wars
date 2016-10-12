@@ -106,7 +106,7 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 			}
 		}
 		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
-			if (ToLog.snapshot) console.log('ACCEPTED SNAPSHOT');
+			if (ToLog.snapshot) console.log('(used a snapshot)');
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
 
