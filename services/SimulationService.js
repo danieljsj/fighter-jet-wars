@@ -46,11 +46,11 @@ function Simulation(opts){
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	GlobalStreamingService.addCommandAddedCallback(function(cmd){
-		that.rewindPast(cmd.tick);
+		that.rewindToAtLeast(cmd.tick);
 	});
 
 	GlobalStreamingService.addCommandChangedCallback(function(cmd){
-		that.rewindPast(Math.min(cmd.tick, cmd.getFormerTick()));
+		that.rewindToAtLeast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
 	if (!env.isServer()) {
@@ -62,43 +62,38 @@ function Simulation(opts){
 
 			that.tickSnapshots[snapshot.tick()]=snapshot;
 
-			that.rewindPast(snapshot.tick());
+			that.rewindToAtLeast(snapshot.tick());
 
 		});
 	}
 
 }
 
-Simulation.prototype.rewindPast = function(cutoffTick){
+Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 	this.purgeSimSnapshotsAfter(cutoffTick);
 	const that=this;
 	this.afterTick(function rewindNow(){
 
+		console.log('that.gD.tick < cutoffTick :',that.gD.tick < cutoffTick);
 		if(that.gD.tick < cutoffTick) return;
 
-		let latestQualifyingSnapshotTick = -Infinity;
 		let latestQualifyingSnapshot = null;
 
-		// how to check a snapshot
-		const checkSnapshot = function(snapshot){
-			if(!snapshot)return;
-
-			if ( (latestQualifyingSnapshotTick<snapshot.tick()) && (snapshot.tick()<cutoffTick) ){
-				latestQualifyingSnapshotTick = snapshot.tick();
-				latestQualifyingSnapshot = snapshot;
-				return {isOlder: true};
-			} else {
-				return {isOlder: false};
-			}
-		}
 		console.log('that.tickSnapshots',that.tickSnapshots);
 		for (const tickStr in that.tickSnapshots){
 
-			const res = checkSnapshot(that.tickSnapshots[tickStr]);
+			const snapshotCandidate = that.tickSnapshots[tickStr];
 
-			if (!res.isOlder) {
-				delete that.tickSnapshots[tickStr];
-				if (ToLog.snapshotBacktrack) console.log('deleted my invalidated snapshot');
+			if ( 
+				(
+					(!latestQualifyingSnapshot)
+					||
+					(latestQualifyingSnapshot.tick()<snapshotCandidate.tick()) 
+				)
+				&& 
+				(snapshotCandidate.tick()<=cutoffTick) // NOTE: it is "<=" because we're killing snapshots ">" the cutoffTick, so must accept "=" to cutoffTick. We accept things at the cutoff, "a point or level that is a designated limit of something."
+			){
+				latestQualifyingSnapshot = snapshotCandidate;
 			}
 
 		}
