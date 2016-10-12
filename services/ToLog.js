@@ -8,6 +8,7 @@ class ToLog {
 		////// ALL, AS FALSES:
 
 		this.playerGen = false;
+		this.env = false;
 
 		this.snapshot = false;
 		this.snapshotFull = false;
@@ -38,13 +39,15 @@ class ToLog {
 		/////// UNCOMMENT DESIRED TRUES:
 
 		this.playerGen = true;
+		this.env = false;
+
 
 		this.snapshot = true;
 		this.snapshotFull = true;
 
 		this.p = true;
-		this.time = true;
-		this.ticks = true;
+		// this.time = true;
+		// this.ticks = true;
 		// this.gD = true;
 
 		

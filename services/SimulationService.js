@@ -6,7 +6,6 @@ const params = require('./GameParamsService').params;
 const env = require('./env');
 const ToLog = require('./ToLog');
 
-const doTick = require('./doTick');
 const GlobalStreamingService = require('./GlobalStreamingService');
 const TicksCalcService = require('./TicksCalcService');
 
@@ -54,10 +53,10 @@ function Simulation(opts){
 		that.rewindPast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
-	console.log('env.isServer()',env.isServer());
-
 	if (!env.isServer()) {
 		GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
+
+			if (ToLog.snapshot) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
 			that.purgeSnapshotsBefore(snapshot.tick());
 
@@ -71,7 +70,7 @@ function Simulation(opts){
 }
 
 Simulation.prototype.rewindPast = function(cutoffTick){
-	this.purgeSimSnapshotsAfterAndIncluding(cutoffTick);
+	this.purgeSimSnapshotsAfter(cutoffTick);
 	const that=this;
 	this.afterTick(function rewindNow(){
 
@@ -92,12 +91,7 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 				return {isOlder: false};
 			}
 		}
-
-		// console.log('that.tickSnapshots',that.tickSnapshots);
-		// throw '';
-
-		// checkSnapshot(_latestServerSnapshot); //// BROKEN AND I BELIEVE UNNECESSARY
-
+		console.log('that.tickSnapshots',that.tickSnapshots);
 		for (const tickStr in that.tickSnapshots){
 
 			const res = checkSnapshot(that.tickSnapshots[tickStr]);
@@ -109,7 +103,8 @@ Simulation.prototype.rewindPast = function(cutoffTick){
 
 		}
 
-		if ((!env.isServer()) && latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
+		if (ToLog.snapshot) console.log('latestQualifyingSnapshot',latestQualifyingSnapshot);
+		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 		}
 
@@ -136,18 +131,15 @@ let timeLastTickFinished = -Infinity;
 
 Simulation.prototype.doTick = function(){
 
-
-	console.log('env.isNode()',env.isNode());
-	console.log('env.isServer()',env.isServer());
-	console.log('env.isAiClient()',env.isAiClient());
-	console.log('env.isClient()',env.isClient());
-	console.log('env.isBrowser()',env.isBrowser());
-
+	if (ToLog.env){
+		console.log('env.isNode()',env.isNode());
+		console.log('env.isServer()',env.isServer());
+		console.log('env.isAiClient()',env.isAiClient());
+		console.log('env.isClient()',env.isClient());
+		console.log('env.isBrowser()',env.isBrowser());
+	}
 
 	if (ToLog.time) console.log('time since last finished (SHOULD be EXACTLY less than last timeout)', new Date().getTime() - timeLastTickFinished );
-
-	// TODO EVENTUALLY: add serverSkippedTicks system; i.e. if dT is > 1, send out some server skipped ticks.
-
 
  	if (ToLog.ticks) {
  		console.log('before doTick');
@@ -220,7 +212,6 @@ Simulation.prototype.doTick = function(){
 Simulation.prototype.doTickPhases = function(dT){
 
 	// possible later thing: name. perhaps each gD has a name, like 'main_sim', 'ai_projection', etc.
-	console.log('dT',dT);
 	this.gD.tickStarted = this.gD.tickCompleted + dT;
 
 	const T = this.gD.tickStarted;	
@@ -252,9 +243,9 @@ Simulation.prototype.doTickPhases = function(dT){
 	for (const id in this.gD.entities) { if (this.gD.entities[id].sense) this.gD.entities[id].sense(dT,T); }
 	if (ToLog.time) console.timeEnd('sense');
 
- 	if (ToLog.gD) console.log(gD);
+ 	if (ToLog.gD) console.log(this.gD);
 
-	if (ToLog.p) logPs(gD);
+	if (ToLog.p) logPs(this.gD);
 
 	this.gD.tickCompleted = this.gD.tickStarted;
 
@@ -284,8 +275,11 @@ Simulation.prototype.stop = function(){
 }
 
 Simulation.prototype.purgeSimSnapshotsAfterAndIncluding = function(earliestPurgedTick){
+	this.purgeSimSnapshotsAfter(earliestPurgedTick-1);
+}
+Simulation.prototype.purgeSimSnapshotsAfter = function(latestNonPurgedTick){
 	for (const tickStr in this.tickSnapshots){
-		if (parseInt(tickStr) >= earliestPurgedTick){
+		if (parseInt(tickStr) > latestNonPurgedTick){
 			delete this.tickSnapshots[tickStr];
 		}
 	}
