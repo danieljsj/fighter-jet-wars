@@ -83,7 +83,7 @@ module.exports = {
 
 function GET_USER_PLAYER_ENTITY(){
   const userId = 'b7sEsa8pUWOyWnDYAQCdPjdhFG02';
-  
+  const userPlayerEntityIds = [];
   const entities = mainSim.gD.entities;
   for (const entityId in entities) {
     const entity = entities[entityId];
@@ -93,13 +93,16 @@ function GET_USER_PLAYER_ENTITY(){
       entity.player 
       && 
       entity.player.user 
-      && 
-      (userId == entity.player.user.id)
     ) {
-      return entity;
+      userPlayerEntityIds.push(entity.player.user.id)
+      if (userId == entity.player.user.id){
+        return entity;
+      }
     }
   }
   alert('NO USER PLAYER ENTITY FOUND!');
+  alert('userId: '+userId);
+  alert('userPlayerEntityIds: '+userPlayerEntityIds.join(','));
 }
 
 function uPId(){
