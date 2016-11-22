@@ -77,7 +77,7 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 
 		let latestQualifyingSnapshot = null;
 
-		console.log('that.tickSnapshots',that.tickSnapshots);
+		// console.log('that.tickSnapshots',that.tickSnapshots);
 		for (const tickStr in that.tickSnapshots){
 
 			const snapshotCandidate = that.tickSnapshots[tickStr];
