@@ -79,7 +79,7 @@ function makeRedactedEntities(gDEntities){
 	for (const id in gDEntities) {
 		const entity = gDEntities[id];
 
-		console.log('entity (for snapshot)',entity);
+		if (ToLog.snapshotFull) console.log('entity (for snapshot)',entity);
 
 		const redactedEntity = {
 			// same as ob:
