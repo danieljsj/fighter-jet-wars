@@ -44,6 +44,8 @@ function Simulation(opts){
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	GlobalStreamingService.addCommandAddedCallback(function(cmd){
+		if (ToLog.command){console.log("About to rewind past cmd.tick: ..."+cmd.tick%10000);}
+		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
 

@@ -40,7 +40,7 @@ const serv = {
 
 CommandsService.addCommandAddedCallback(function intakeAddedCommand(cmd){
 	if (!serv.ticksCommands[cmd.tick]) serv.ticksCommands[cmd.tick] = {};
-	serv.ticksCommands[cmd.tick][cmd.id] = cmd;
+	serv.ticksCommands[cmd.tick][cmd.id] = cmd; 
 	_commandAddedCallbacks.forEach(function(cb){ /// might need to break this back out because in a switch, things are invalidated back to the older of the 2 commands
 		cb(cmd);
 	});
