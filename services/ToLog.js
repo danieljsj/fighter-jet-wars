@@ -12,7 +12,8 @@ class ToLog {
 
 		// this.snapshot = true;
 		// this.snapshotFull = true;
-
+		this.rewind = true;
+		
 		// this.p = true;
 		this.pIntervalS = 1;
 		// this.time = true;

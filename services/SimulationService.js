@@ -44,7 +44,7 @@ function Simulation(opts){
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	GlobalStreamingService.addCommandAddedCallback(function(cmd){
-		if (ToLog.command){console.log("About to rewind past cmd.tick: ..."+cmd.tick%10000);}
+		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: ..."+cmd.tick%10000+" ... curr tick is ..."+that.gD.tick()%10000);}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
@@ -70,6 +70,10 @@ function Simulation(opts){
 }
 
 Simulation.prototype.rewindToAtLeast = function(cutoffTick){
+	if (cutoffTick > this.gD.tick()){
+		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick%10000+' is ahead of this simulation tick which is '+this.gD.tick());
+		return;
+	}
 	this.purgeSimSnapshotsAfter(cutoffTick);
 	const that=this;
 	this.afterTick(function rewindNow(){
