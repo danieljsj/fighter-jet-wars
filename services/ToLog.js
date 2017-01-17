@@ -14,6 +14,7 @@ class ToLog {
 		// this.snapshotFull = true;
 
 		// this.p = true;
+		this.pIntervalS = 1;
 		// this.time = true;
 		// this.ticks = true;
 		// this.gD = true;

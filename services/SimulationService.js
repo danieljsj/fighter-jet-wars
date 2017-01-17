@@ -257,6 +257,8 @@ Simulation.prototype.doTickPhases = function(dT){
 
 	if (ToLog.p) logPs(this.gD);
 
+	if (ToLog.pIntervalS && (!((TicksCalcService.latest()/TicksCalcService.ticksPerS())%ToLog.pIntervalS)) ){ logPs(this.gD); }
+
 	this.gD.tickCompleted = this.gD.tickStarted;
 
 }
