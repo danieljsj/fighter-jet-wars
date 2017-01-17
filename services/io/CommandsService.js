@@ -102,7 +102,7 @@ function Command(cmdData){
 		TicksCalcService.msToRoundedTicks(this.sT)-params.maxCommandLagTicks
 	);
 
-	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+')');
+	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+'): '+this.key+':'+this.val+' (eId:'+this.eId+')');
 	if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(this.cT-this.sT));
 
 };
