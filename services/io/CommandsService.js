@@ -112,7 +112,7 @@ Command.prototype.isLocal = function(){
 	return (this.sT-this.bT) < _minimumReasonableRemoteLatency; 
 };
 Command.prototype.setFormerTick = function(localFormerTick){
-	this.formerTick = formerTick;
+	this.formerTick = localFormerTick;
 };
 Command.prototype.getFormerTick = function(){
 	return this.formerTick;

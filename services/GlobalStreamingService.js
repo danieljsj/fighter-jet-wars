@@ -53,7 +53,7 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 		console.log('cmdDupeTick',cmdDupeTick); 
 		if (cmdDupeTick){
 			delete serv.ticksCommands[cmdDupeTick][cmd.id]; //////// THIS WAS GIVING SOMETHING ABOUT CONVERTING NULL TO OBJ
-			cmd.setLocalFormerTick(cmdDupeTick);
+			cmd.setFormerTick(cmdDupeTick);
 		}
 		_commandChangedCallbacks.forEach(function(cb){
 			cb(cmd);
