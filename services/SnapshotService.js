@@ -23,6 +23,7 @@ function Snapshot(gD){ // gD should probably CONTAIN currTick....
 
 	if (ToLog.snapshotFull) console.log('incoming gD for snapshot',gD);
 
+	// 2017-01-16: gD.users == {}!
 
 	this.tickStarted = gD.tick();
 	this.tickCompleted = gD.tick();
@@ -108,8 +109,11 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 		return new GD();
 	}
 
-	if (ToLog.snapshotFull) console.log('incomingSnapshot',incomingSnapshot); 
-	
+	if (ToLog.snapshotFull) {
+		console.log('incomingSnapshot',incomingSnapshot); 
+		debugger;
+	}
+
 	const gD = new GD();
 
 	gD.tickStarted = incomingSnapshot.tickStarted;

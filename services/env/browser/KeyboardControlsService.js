@@ -12,19 +12,19 @@ function onKeyDown(event) {
 
   switch (keyCode) {
     case 87: //w
-      sendCommand('fore', 1, uPId());
+      sendCommand('fore', 1, uPEId());
       break;
     case 83: //s
-      sendCommand('back', 1, uPId());
+      sendCommand('back', 1, uPEId());
       break;
     case 65: //a
-      sendCommand('left', 1, uPId());
+      sendCommand('left', 1, uPEId());
       break;
     case 68: //d      
-      sendCommand('right', 1, uPId());
+      sendCommand('right', 1, uPEId());
       break;
     case 32: //space      
-      sendCommand('tryFire', 1, uPId());
+      sendCommand('tryFire', 1, uPEId());
       break;
   }
 }
@@ -34,19 +34,19 @@ function onKeyUp(event) {
 
   switch (keyCode) {
     case 87: //w
-      sendCommand('fore', 0, uPId());
+      sendCommand('fore', 0, uPEId());
       break;
     case 83: //s
-      sendCommand('back', 0, uPId());
+      sendCommand('back', 0, uPEId());
       break;
     case 65: //a
-      sendCommand('left', 0, uPId());
+      sendCommand('left', 0, uPEId());
       break;
     case 68: //d      
-      sendCommand('right', 0, uPId());
+      sendCommand('right', 0, uPEId());
       break;
     case 32: //space      
-      sendCommand('tryFire', 0, uPId());
+      sendCommand('tryFire', 0, uPEId());
       break;
       // later: controls/trySwitch? tryNext,tryPrev?
     // left arrow 37
@@ -87,6 +87,7 @@ function GET_USER_PLAYER_ENTITY(){
   const entities = mainSim.gD.entities;
   for (const entityId in entities) {
     const entity = entities[entityId];
+    console.log(entity);
     if (
       entity 
       && 
@@ -105,9 +106,9 @@ function GET_USER_PLAYER_ENTITY(){
   alert('userPlayerEntityIds: '+userPlayerEntityIds.join(','));
 }
 
-function uPId(){
+function uPEId(){
   return GET_USER_PLAYER_ENTITY().id;
 }
 
 
-// setInterval(uPId, 17);
+// setInterval(uPEId, 17);
