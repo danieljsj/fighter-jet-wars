@@ -276,6 +276,7 @@ function logPs(gD){
 				+', y:'+p.y
 				+', dir:'+p.direction
 				+', speed:'+p.speed
+				+', id:'+id
 				+'}'
 			); 
 		}
