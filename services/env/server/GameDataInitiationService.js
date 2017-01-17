@@ -46,7 +46,10 @@ function addPlayerAndDefaultUnits(opts, sim){
 		user: opts.user,
 	};
 	sim.gD.players[player.id] = player;
-	console.log('added player '+player.id);
+	if (opts.user){
+		sim.gD.users[opts.user.id] = opts.user
+	}
+	console.log('added player ',player);
 
 	var entityQuantities = {
 		'fighter': (opts.user ? params.fightersPerNewUserPlayer : params.fightersPerNewNonuserPlayer ),
