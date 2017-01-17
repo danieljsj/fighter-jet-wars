@@ -41,7 +41,10 @@ function send(key,val,eId){
 
 	    entitiesLasts[eId][key] = val;
 
+	    const cmdRef = commandsRef.push();
+
 	    const cmd = {
+	      id: cmdRef.key,
 	      eId: eId,
 	      key: key,
 	      val: val,
@@ -49,7 +52,6 @@ function send(key,val,eId){
 	      sT: require('firebase').database.ServerValue.TIMESTAMP,
 	    };
 
-	    const cmdRef = commandsRef.push();
 	    cmdRef.set(cmd, function onComplete(err) {
 			if (err)throw("cmd could not be saved." + err);
 			if (ToLog.commandSuccess) console.log('cmd successfully sent:', cmd);
