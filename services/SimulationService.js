@@ -202,11 +202,11 @@ Simulation.prototype.doTick = function(){
 		}
 	}
 
-	if (  env.isServer()  &&  (! (this.gD.tick()%params.ticksPerSnapshot) )  ){
+	if (  env.isServer()  &&  (! (this.gD.tick()%params.ticksPerServerSnapshot) )  ){
 		ServerSnapshotsService.send(this.gD);
 	}
 
-	if ( ! (this.gD.tick()%params.ticksPerClientSnapshot) ) {
+	if ( ! (this.gD.tick()%params.ticksPerLocalSnapshot) ) {
 		this.tickSnapshots[this.gD.tick()] = new SnapshotService.Snapshot(this.gD);
 	}
 
