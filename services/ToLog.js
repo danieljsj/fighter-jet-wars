@@ -13,7 +13,7 @@ class ToLog {
 		// this.snapshot = true;
 		// this.snapshotFull = true;
 		this.rewind = true;
-		
+
 		// this.p = true;
 		this.pIntervalS = 1;
 		// this.time = true;
@@ -26,6 +26,7 @@ class ToLog {
 		this.command = true;
 		// this.commandTimes = true;
 		// this.commandSuccess = true;
+		this.readingCommands = true;
 
 		// this.serverSkippedTick = true;
 		// this.serverSkippedTickTimes = true;

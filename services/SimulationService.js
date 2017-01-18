@@ -231,17 +231,19 @@ Simulation.prototype.doTickPhases = function(dT){
 	this.gD.tickStarted = this.gD.tickCompleted + dT;
 
 	const T = this.gD.tickStarted;	
+	if (ToLog.readingCommands) console.log("reading commands starting at tick (T)"+T);
 
 	if (ToLog.time) console.log('dT: ',dT);
 
 	if (ToLog.time) console.time('control');
 	for (const t in GlobalStreamingService.ticksCommands){
+		if (ToLog.readingCommands) console.log("cmd(s) in t"+t);
 		if ( (t<=T)&&(t>T-dT) ){ // NOTE: there is a faster way to do this loop; namely, just do it for T and others where t < T but greater than T-dT
 			const tCmds = GlobalStreamingService.ticksCommands[t];
 			for (const tCmdId in tCmds){
 				const cmd = tCmds[tCmdId];
-				const e = this.gD.entities[cmd.eId];
-				if (e) e.controls[cmd.key] = cmd.val;
+				const entity = this.gD.entities[cmd.eId];
+				if (entity) entity.controls[cmd.key] = cmd.val;
 			}
 		}
 	}
