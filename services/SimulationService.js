@@ -44,7 +44,7 @@ function Simulation(opts){
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	GlobalStreamingService.addCommandAddedCallback(function(cmd){
-		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: ..."+cmd.tick%10000+" ... curr tick is ..."+that.gD.tick()%10000);}
+		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: "+cmd.tick+" ... curr tick is ..."+that.gD.tick());}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
@@ -71,7 +71,7 @@ function Simulation(opts){
 
 Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 	if (cutoffTick > this.gD.tick()){
-		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick%10000+' is ahead of this simulation tick which is '+this.gD.tick());
+		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick+' is ahead of this simulation tick which is '+this.gD.tick());
 		return;
 	}
 	this.purgeSimSnapshotsAfter(cutoffTick);
@@ -83,7 +83,25 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 
 		let latestQualifyingSnapshot = null;
 
-		// console.log('that.tickSnapshots',that.tickSnapshots);
+		if (ToLog.rewind) console.log('cutoffTick',cutoffTick);
+		if (ToLog.rewind) console.log('that.tickSnapshots',that.tickSnapshots); /////// on server, this is coming up pretty empty, such that  there are no past snapshots
+
+
+// [2017-01-18T00:50:00.603Z] cutoffTick 8908203:4968
+// [2017-01-18T00:50:00.603Z] that.tickSnapshots { '8908203:6027': // only snapshot is well after the incoming command, so there's no snapshot to use 
+//    Snapshot {
+//      tickStarted: 89082036027,
+//      tickCompleted: 89082036027,
+//      users: { b7sEsa8pUWOyWnDYAQCdPjdhFG02: [Object] },
+//      players: 
+//       { '-Kaj262EVUI4zpNfHfBj': [Object],
+//         '-Kaj22mvY4e39z7f2FBq': [Object] },
+//      entities: 
+//       { '-Kaj262T5fC8L7D-B3Dr': [Object],
+//         '-Kaj22mwi7oGpNkOZnUd': [Object] } } }
+
+
+
 		for (const tickStr in that.tickSnapshots){
 
 			const snapshotCandidate = that.tickSnapshots[tickStr];
@@ -102,8 +120,8 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 
 		}
 
-		if (ToLog.snapshot) {
-			console.log('latestQualifyingSnapshot',latestQualifyingSnapshot);
+		if (ToLog.rewind) {
+			console.log('latestQualifyingSnapshot',latestQualifyingSnapshot); // PROBLEM: KEEPS COMING UP NULL! SO THEN THE SIM NEVER REWINDS...
 			if (latestQualifyingSnapshot && ToLog.p){
 				let i=0;
 				for (const eId in latestQualifyingSnapshot.entities) {
@@ -112,9 +130,9 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 			}
 		}
 		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
-			if (ToLog.snapshot) console.log('(used a snapshot)');
+			if (ToLog.rewind) console.log('(used a snapshot)');
 			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
-			if (ToLog.snapshot) console.log('resulting gD:',that.gD);
+			if (ToLog.rewind) console.log('resulting gD:',that.gD);
 		}
 
 	});
