@@ -1,0 +1,3 @@
+why so few snapshots?
+
+server snapshots clear local ticks? including ticks on server? what is everything's ticks status?
