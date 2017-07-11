@@ -163,10 +163,17 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 
 
 
+function getDifferences(ss1,ss2){
+	return ["lorem","ipsum"];
+}
+
+
+
 
 ////////
 
 module.exports = {
 	Snapshot: Snapshot,
 	makeGameDataFromSnapshot: makeGameDataFromSnapshot,
+	getDifferences: getDifferences,
 }

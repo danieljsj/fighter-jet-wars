@@ -58,11 +58,19 @@ function Simulation(opts){
 
 			if (ToLog.snapshotsAll) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
-			that.purgeAllSnapshots();
+			that.purgeSnapshotsBefore(snapshot.tick()); // serversnapshots are always immutable&authoritative; no older commands will be incoming, so no older snapshots are needed.
 
-			that.tickSnapshots[snapshot.tick()]=snapshot; 
+			const differences = SnapshotS.getDifferences(snapshot, that.tickSnapshots[snapshot.tick()]);
 
-			that.gD = SnapshotS.makeGameDataFromSnapshot(snapshot); /// not sure whether I should pull this out into its own function. seems like kind of a big event.
+			if (differences.length){
+
+				const newGD = SnapshotS.makeGameDataFromSnapshot(snapshot);
+
+				that.tickSnapshots[snapshot.tick()]=snapshot; 
+
+				that.gD = newGD;
+			}
+
 
 			/* ToDo: Ways to Solve the ServerSnapshot Jump Problem: 
 				// don't rewind if serverSnapshot atts match existing simSnapshot
