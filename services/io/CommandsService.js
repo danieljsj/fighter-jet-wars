@@ -64,8 +64,8 @@ function send(key,val,eId){
 
 // READING //////////////////////////////////////////
 
-const _commandAddedCallbacks = []; // a chill version of registering into, say, a dispatcher.
-const _commandChangedCallbacks = [];
+const _commandAddedCbs = []; // a chill version of registering into, say, a dispatcher.
+const _commandChangedCbs = [];
 
 
 let numCmdsReceived = 0;
@@ -77,16 +77,16 @@ function startReading(){
 		commandsRef.limitToLast(1).on('child_added', function intakeAddedCommandSS(ss){
  			if (++numCmdsReceived > 1){
 				const cmd = new Command(ss.val());
-				_commandAddedCallbacks.forEach(function(commandCallback){
-					commandCallback(cmd);
+				_commandAddedCbs.forEach(function(commandCb){
+					commandCb(cmd);
 				});
  			}
 		});
 		commandsRef.on('child_changed', function intakeChangedCommandSS(ss){ // I believe that this is only fired in the client that created the object with a placeholder timestamp. it's what the browser does when it actually gets the server data; for everybody else this incoming data is treated as child_added
 			const cmd = new Command(ss.val());
 			cmd.isLocalChange = true;
-			_commandChangedCallbacks.forEach(function(commandCallback){
-				commandCallback(cmd);
+			_commandChangedCbs.forEach(function(commandCb){
+				commandCb(cmd);
 			});
 		});
 
@@ -125,17 +125,17 @@ function deleteOldFirebaseCommands(){
 
 
 
-function addCommandAddedCallback(fn){
-	_commandAddedCallbacks.push(fn);
+function addCommandAddedCb(fn){
+	_commandAddedCbs.push(fn);
 }
-function removeCommandAddedCallback(fn){
-	delete _commandAddedCallbacks[_commandAddedCallbacks.indexOf(fn)];
+function removeCommandAddedCb(fn){
+	delete _commandAddedCbs[_commandAddedCbs.indexOf(fn)];
 }
-function addCommandChangedCallback(fn){
-	_commandChangedCallbacks.push(fn);
+function addCommandChangedCb(fn){
+	_commandChangedCbs.push(fn);
 }
-function removeCommandChangedCallback(fn){
-	delete _commandChangedCallbacks[_commandChangedCallbacks.indexOf(fn)];
+function removeCommandChangedCb(fn){
+	delete _commandChangedCbs[_commandChangedCbs.indexOf(fn)];
 }
 
 
@@ -148,9 +148,9 @@ module.exports = {
 
 	startReading: startReading,
 
-	addCommandAddedCallback: addCommandAddedCallback,
-	removeCommandAddedCallback: removeCommandAddedCallback,
+	addCommandAddedCb: addCommandAddedCb,
+	removeCommandAddedCb: removeCommandAddedCb,
 
-	addCommandChangedCallback: addCommandChangedCallback,
-	removeCommandChangedCallback: removeCommandChangedCallback,
+	addCommandChangedCb: addCommandChangedCb,
+	removeCommandChangedCb: removeCommandChangedCb,
 }

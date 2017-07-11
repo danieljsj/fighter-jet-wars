@@ -11,7 +11,7 @@ let latestServerSnapshotRef;
 
 // READING //////////////////////////////////////////
 
-const _ServerSnapshotCallbacks = []; // a chill version of registering into, say, a dispatcher.
+const _ServerSnapshotCbs = []; // a chill version of registering into, say, a dispatcher.
 
 let numServerSnapshotsReceived = 0;
 
@@ -25,7 +25,7 @@ function startReading(){
 
  				if(ss.val()) {	
 					const serverSnapshot = new ServerSnapshot(ss.val());
-					_ServerSnapshotCallbacks.forEach(function(cb){
+					_ServerSnapshotCbs.forEach(function(cb){
 						cb(serverSnapshot);
 					});
  				} else {
@@ -60,8 +60,8 @@ ServerSnapshot.prototype.tick = function(){
 }
 
 
-function addServerSnapshotCallback(cb){
-	_ServerSnapshotCallbacks.push(cb);
+function addServerSnapshotCb(cb){
+	_ServerSnapshotCbs.push(cb);
 }
 
 ////////// SENDING
@@ -95,6 +95,6 @@ module.exports = {
 
 	startReading: startReading,
 
-	addServerSnapshotCallback: addServerSnapshotCallback,
+	addServerSnapshotCb: addServerSnapshotCb,
 
 };

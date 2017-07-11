@@ -28,28 +28,28 @@ const serv = {
 	ticksUnitAdditions: {},
 	ticksUnitRemovals: {},
 
-	addServerSnapshotCallback: addServerSnapshotCallback,
+	addServerSnapshotCb: addServerSnapshotCb,
 
-	addServerTickSkippedCallback: addServerTickSkippedCallback,
+	addServerTickSkippedCb: addServerTickSkippedCb,
 
-	addCommandAddedCallback: addCommandAddedCallback,
-	addCommandChangedCallback: addCommandChangedCallback,
+	addCommandAddedCb: addCommandAddedCb,
+	addCommandChangedCb: addCommandChangedCb,
 }
 
 /////////////////////////
 
 
 
-CommandsService.addCommandAddedCallback(function intakeAddedCommand(cmd){
+CommandsService.addCommandAddedCb(function intakeAddedCommand(cmd){
 	if (!serv.ticksCommands[cmd.tick]) serv.ticksCommands[cmd.tick] = {};
 	serv.ticksCommands[cmd.tick][cmd.id] = cmd; 
-	_commandAddedCallbacks.forEach(function(cb){ /// might need to break this back out because in a switch, things are invalidated back to the older of the 2 commands
+	_commandAddedCbs.forEach(function(cb){ /// might need to break this back out because in a switch, things are invalidated back to the older of the 2 commands
 		cb(cmd);
 	});
 	deleteAncientCommands();
 });
 
-CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
+CommandsService.addCommandChangedCb(function intakeChangedCommand(cmd){
 	if ( (!serv.ticksCommands[cmd.tick]) || (!serv.ticksCommands[cmd.tick][cmd.id]) ){
 		// the tick has changed!
 		const cmdDupeTick = findCmdDupeTick(cmd);
@@ -58,7 +58,7 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 			delete serv.ticksCommands[cmdDupeTick][cmd.id]; //////// THIS WAS GIVING SOMETHING ABOUT CONVERTING NULL TO OBJ
 			cmd.setFormerTick(cmdDupeTick);
 		}
-		_commandChangedCallbacks.forEach(function(cb){
+		_commandChangedCbs.forEach(function(cb){
 			cb(cmd);
 		});
 
@@ -77,17 +77,17 @@ CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
 	}
 }
 
-ServerSkippedTicksService.addServerSkippedTickAddedCallback(function intakeServerSkippedTick(sst){
+ServerSkippedTicksService.addServerSkippedTickAddedCb(function intakeServerSkippedTick(sst){
 	serv.serverSkippedTicks[sst.tick] = true;
-	_serverSkippedTicksCallbacks.forEach(function(cb){
+	_serverSkippedTicksCbs.forEach(function(cb){
 		cb(sst);
 	});
 });
 
 
-ServerSnapshotsService.addServerSnapshotCallback(function intakeServerSnapshot(sss){
+ServerSnapshotsService.addServerSnapshotCb(function intakeServerSnapshot(sss){
 	serv.latestServerSnapshot = sss;
-	_serverSnapshotCallbacks.forEach(function(cb){
+	_serverSnapshotCbs.forEach(function(cb){
 		cb(sss);
 	});
 });
@@ -133,26 +133,26 @@ ServerSnapshotsService.startReading();
 
 
 // flux has some ways to get at this without crazy big register methods and varnames... I should use it. but for now I just want to solve hard logic problems instead of architecture philosophy/optimizaton.
-const _serverSnapshotCallbacks = [];
-function addServerSnapshotCallback(fn){
-	_serverSnapshotCallbacks.push(fn);
+const _serverSnapshotCbs = [];
+function addServerSnapshotCb(fn){
+	_serverSnapshotCbs.push(fn);
 }
 
 
-const _serverTickSkippedCallbacks = [];
-function addServerTickSkippedCallback(fn){
-	_serverTickSkippedCallbacks.push(fn);
+const _serverTickSkippedCbs = [];
+function addServerTickSkippedCb(fn){
+	_serverTickSkippedCbs.push(fn);
 }
 
 
-const _commandAddedCallbacks = [];
-function addCommandAddedCallback(fn){
-	_commandAddedCallbacks.push(fn);
+const _commandAddedCbs = [];
+function addCommandAddedCb(fn){
+	_commandAddedCbs.push(fn);
 }
 
-const _commandChangedCallbacks = [];
-function addCommandChangedCallback(fn){
-	_commandChangedCallbacks.push(fn);
+const _commandChangedCbs = [];
+function addCommandChangedCb(fn){
+	_commandChangedCbs.push(fn);
 }
 
 

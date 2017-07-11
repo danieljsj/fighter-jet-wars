@@ -10,7 +10,7 @@ let serverSkippedTicksRef;
 
 // READING //////////////////////////////////////////
 
-const _serverSkippedTickAddedCallbacks = []; // a chill version of registering into, say, a dispatcher.
+const _serverSkippedTickAddedCbs = []; // a chill version of registering into, say, a dispatcher.
 
 let numSstsReceived = 0;
 function startReading(){
@@ -23,8 +23,8 @@ function startReading(){
 
 				const sst = new ServerSkippedTick(ss.val());
 
-				_serverSkippedTicksAddedCallbacks.forEach(function(serverSkippedTickCallback){
-					serverSkippedTickCallback(sst);
+				_serverSkippedTicksAddedCbs.forEach(function(serverSkippedTickCb){
+					serverSkippedTickCb(sst);
 				});
  			}
 		});
@@ -44,8 +44,8 @@ function ServerSkippedTick(sstData){
 
 };
 
-function addServerSkippedTickAddedCallback(cb){
-	_serverSkippedTickAddedCallbacks.push(cb);
+function addServerSkippedTickAddedCb(cb){
+	_serverSkippedTickAddedCbs.push(cb);
 }
 
 ////////// SENDING
@@ -83,6 +83,6 @@ module.exports = {
 
 	startReading: startReading,
 
-	addServerSkippedTickAddedCallback: addServerSkippedTickAddedCallback,
+	addServerSkippedTickAddedCb: addServerSkippedTickAddedCb,
 
 };

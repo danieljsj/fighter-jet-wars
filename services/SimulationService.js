@@ -43,18 +43,18 @@ function Simulation(opts){
 
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
-	GlobalStreamingService.addCommandAddedCallback(function(cmd){
+	GlobalStreamingService.addCommandAddedCb(function(cmd){
 		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: "+cmd.tick+" ... curr tick is ..."+that.gD.tick());}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
 
-	GlobalStreamingService.addCommandChangedCallback(function(cmd){
+	GlobalStreamingService.addCommandChangedCb(function(cmd){
 		that.rewindToAtLeast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
 	if (!env.isServer()) {
-		GlobalStreamingService.addServerSnapshotCallback(function(snapshot){
+		GlobalStreamingService.addServerSnapshotCb(function(snapshot){
 
 			if (ToLog.snapshot) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 

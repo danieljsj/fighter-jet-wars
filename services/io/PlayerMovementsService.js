@@ -22,8 +22,8 @@ function startReading(){
 
 				const sst = new PlayerMovement(ss.val());
 
-				_playerMovementsAddedCallbacks.forEach(function(playerMovementCallback){
-					playerMovementCallback(sst);
+				_playerMovementsAddedCbs.forEach(function(playerMovementCb){
+					playerMovementCb(sst);
 				});
  			}
 		});
@@ -47,19 +47,19 @@ function PlayerMovement(movementData){
 
 
 
-const _playerExitCallbacks = []; // a chill version of registering into, say, a dispatcher.
-function addPlayerExitCallback(cb){
-	_playerExitCallbacks.push(cb);
+const _playerExitCbs = []; // a chill version of registering into, say, a dispatcher.
+function addPlayerExitCb(cb){
+	_playerExitCbs.push(cb);
 }
 
-const _playerEntranceCallbacks = []; // a chill version of registering into, say, a dispatcher.
-function addPlayerEntranceCallback(cb){
-	_playerEntranceCallbacks.push(cb);
+const _playerEntranceCbs = []; // a chill version of registering into, say, a dispatcher.
+function addPlayerEntranceCb(cb){
+	_playerEntranceCbs.push(cb);
 }
 
-const _playerRelocationCallbacks = []; // a chill version of registering into, say, a dispatcher.
-function addPlayerRelocationCallback(cb){
-	_playerRelocationCallbacks.push(cb);
+const _playerRelocationCbs = []; // a chill version of registering into, say, a dispatcher.
+function addPlayerRelocationCb(cb){
+	_playerRelocationCbs.push(cb);
 }
 
 ////////// SENDING
@@ -92,6 +92,6 @@ module.exports = {
 
 	startReading: startReading,
 
-	addPlayerMovementAddedCallback: addPlayerMovementAddedCallback,
+	addPlayerMovementAddedCb: addPlayerMovementAddedCb,
 
 };
