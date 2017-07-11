@@ -10,8 +10,9 @@ class ToLog {
 		// this.env = true;
 
 
-		// this.snapshot = true;
-		// this.snapshotFull = true;
+		// this.snapshotsAll = true;
+		// this.snapshotsAllFull = true;
+		
 		this.rewind = true;
 
 		// this.p = true;
@@ -24,17 +25,18 @@ class ToLog {
 		// // // io stuff:
 
 		this.command = true;
-		// this.commandTimes = true;
-		// this.commandSuccess = true;
-		// this.readingCommands = true;
+		this.commandFull = true;
+		this.commandTimes = true;
+		this.commandSuccess = true;
+		// this.readingCommands = true; // pretty bloated...
 
 		// this.serverSkippedTick = true;
 		// this.serverSkippedTickTimes = true;
 		// this.serverSkippedTickSuccess = true;
 
-		// this.serverSnapshot = true;
-		// this.serverSnapshotTimes = true;
-		// this.serverSnapshotSuccess = true;	
+		this.serverSnapshot = true;
+		this.serverSnapshotTimes = true;
+		this.serverSnapshotSuccess = true;	
 
 	}
 

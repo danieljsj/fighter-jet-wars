@@ -1,6 +1,8 @@
 'use strict';
 // makes or reads text-only (no refs) literals
 
+// should this go in IO? since it is streamed...? but it's not only streamed... so maybe not.
+
 const GD = require('./models/components/empties/GD');
 const ToLog = require('./ToLog');
 
@@ -21,7 +23,7 @@ const entityConstructors = {
 
 function Snapshot(gD){ // gD should probably CONTAIN currTick....
 
-	if (ToLog.snapshotFull) console.log('incoming gD for snapshot',gD);
+	if (ToLog.snapshotsAllFull) console.log('incoming gD for snapshot',gD);
 
 	// 2017-01-16: gD.users == {}!
 
@@ -32,7 +34,7 @@ function Snapshot(gD){ // gD should probably CONTAIN currTick....
 	this.players = makeRedactedPlayers(gD.players);
 	this.entities = makeRedactedEntities(gD.entities);
 	
-	if (ToLog.snapshotFull) console.log('this snapshot created',this);
+	if (ToLog.snapshotsAllFull) console.log('this snapshot created',this);
 
 	if (ToLog.snapshot) console.log('made snapshot');
 }
@@ -80,7 +82,7 @@ function makeRedactedEntities(gDEntities){
 	for (const id in gDEntities) {
 		const entity = gDEntities[id];
 
-		if (ToLog.snapshotFull) console.log('entity (for snapshot)',entity);
+		if (ToLog.snapshotsAllFull) console.log('entity (for snapshot)',entity);
 
 		const redactedEntity = {
 			// same as ob:
@@ -109,9 +111,8 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 		return new GD();
 	}
 
-	if (ToLog.snapshotFull) {
+	if (ToLog.snapshotsAllFull) {
 		console.log('incomingSnapshot',incomingSnapshot); 
-		debugger;
 	}
 
 	const gD = new GD();
@@ -150,7 +151,7 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 			entity.children[childUid] = gD.entities[childUid] || entity.children[childUid]; // OPTION: switch to childIds and Children... but I kind of like hanging onto the strings
 		}
 	}
-	if (ToLog.snapshotFull) {
+	if (ToLog.snapshotsAllFull) {
 		let i=0;
 		for (const eId in gD.entities){
 			console.log('ss e'+i++,':');

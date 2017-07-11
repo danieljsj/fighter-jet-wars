@@ -7,7 +7,7 @@ const params = require('../ParamsS').params;
 const TicksCalcS = require('../TicksCalcS');
 const ControlsNulls = require('../models/components/empties/controls');
 
-const getOffset = require('../FirebaseOffsetS').getOffset;
+const getFbOffset = require('../FirebaseOffsetS').getOffset;
 
 ////////////////////////////////////////////////////
 
@@ -43,12 +43,15 @@ function send(key,val,eId){
 
 	    const cmdRef = commandsRef.push();
 
+	    if (ToLog.commandFull) console.log("using fbOffset ",getFbOffset(),"ms");
+
+	    // MAKE THE SENDING COMMAND:
 	    const cmd = {
 	      id: cmdRef.key,
 	      eId: eId,
 	      key: key,
 	      val: val,
-	      cT: (new Date()).getTime() + getOffset(),                   //////////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)
+	      cT: (new Date()).getTime() + getFbOffset(),                   //////////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)
 	      sT: require('firebase').database.ServerValue.TIMESTAMP,
 	    };
 
@@ -96,7 +99,10 @@ function startReading(){
 
 function Command(cmdData){
 
-	for(const k in cmdData) this[k] = cmdData[k];
+	// UNPACK/BUILD THIS RECEIVED COMMAND
+	for(const k in cmdData) {
+		this[k] = cmdData[k];
+	}
 
 	this.tick = Math.max(
 		TicksCalcS.msToRoundedTicks(this.cT),
@@ -105,6 +111,7 @@ function Command(cmdData){
 	);
 
 	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+'): '+this.key+':'+this.val+' (eId:'+this.eId+')');
+	if (ToLog.commandFull) console.log('cmd received (#'+numCmdsReceived+'): ',this);
 	if (ToLog.commandTimes) console.log('cmd received (#'+numCmdsReceived+'); cT-sT:'+(this.cT-this.sT));
 
 };

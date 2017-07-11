@@ -44,7 +44,7 @@ function Simulation(opts){
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
 	InputsS.addCommandAddedCb(function(cmd){
-		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: "+cmd.tick+" ... curr tick is ..."+that.gD.tick());}
+		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: ",cmd.tick," ... curr tick is ...",that.gD.tick()," cmd.T - gD.T= ",cmd.tick - that.gD.tick() );}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
@@ -56,13 +56,13 @@ function Simulation(opts){
 	if (!env.isServer()) {
 		InputsS.addServerSnapshotCb(function(snapshot){
 
-			if (ToLog.snapshot) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
+			if (ToLog.snapshotsAll) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
-			that.purgeSnapshotsBefore(snapshot.tick());
+			that.purgeAllSnapshots();
 
-			that.tickSnapshots[snapshot.tick()]=snapshot;
+			that.tickSnapshots[snapshot.tick()]=snapshot; 
 
-			that.rewindToAtLeast(snapshot.tick());
+			that.gD = SnapshotS.makeGameDataFromSnapshot(snapshot); /// not sure whether I should pull this out into its own function. seems like kind of a big event.
 
 		});
 	}
@@ -71,10 +71,10 @@ function Simulation(opts){
 
 Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 	if (cutoffTick > this.gD.tick()){
-		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick+' is ahead of this simulation tick which is '+this.gD.tick()+' by '+cutoffTick-this.gD.tick());
+		if (ToLog.rewind) console.log('no need to rewind; cutoffTick ',cutoffTick,' is ahead of this simulation tick which is ',this.gD.tick(),' by ',cutoffTick-this.gD.tick());
 		return;
 	}
-	this.purgeSimSnapshotsAfter(cutoffTick);
+	this.purgeSnapshotsAfter(cutoffTick);
 	const that=this;
 	this.afterTick(function rewindNow(){
 
@@ -179,6 +179,7 @@ Simulation.prototype.doTick = function(){
  		console.log('this.targetTick().......',this.targetTick()     );
  	}
 
+ 	/// DO THE ACTUAL TICK:
 	const dT = 1; // eventually we may allow some shenanigans here for servers struggling to keep up... and they'll publish their skips and all that... but for now I'm assuming enough time to sim, and going with 1
 	this.doTickPhases(dT);
 
@@ -314,10 +315,15 @@ Simulation.prototype.stop = function(){
 	//...
 }
 
-Simulation.prototype.purgeSimSnapshotsAfterAndIncluding = function(earliestPurgedTick){
-	this.purgeSimSnapshotsAfter(earliestPurgedTick-1);
+Simulation.prototype.purgeAllSnapshots = function(argument){
+	for (const tickStr in this.tickSnapshots){
+		delete this.tickSnapshots[tickStr];
+	} 
 }
-Simulation.prototype.purgeSimSnapshotsAfter = function(latestNonPurgedTick){
+Simulation.prototype.purgeSnapshotsAfterAndIncluding = function(earliestPurgedTick){
+	this.purgeSnapshotsAfter(earliestPurgedTick-1);
+}
+Simulation.prototype.purgeSnapshotsAfter = function(latestNonPurgedTick){
 	for (const tickStr in this.tickSnapshots){
 		if (parseInt(tickStr) > latestNonPurgedTick){
 			delete this.tickSnapshots[tickStr];
