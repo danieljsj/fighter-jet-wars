@@ -62,7 +62,7 @@ function Simulation(opts){
 
 			const differences = SnapshotS.getDifferences(snapshot, that.tickSnapshots[snapshot.tick()]);
 
-			if (differences.length){
+			if (differences){
 
 				const newGD = SnapshotS.makeGameDataFromSnapshot(snapshot);
 
