@@ -15,7 +15,7 @@ let commandsRef;
 
 FirebaseRefService.initThen(function(){
 	commandsRef = FirebaseRefService.ref.child('commands');
-	deleteOldCommands();
+	deleteOldFirebaseCommands();
 });
 
 // SENDING //////////////////////////////////////////
@@ -119,7 +119,7 @@ Command.prototype.getFormerTick = function(){
 };
 
 
-function deleteOldCommands(){
+function deleteOldFirebaseCommands(){
 	commandsRef.remove();
 }
 

@@ -9,6 +9,8 @@ const CommandsService = require('./io/CommandsService');
 const ServerSkippedTicksService = require('./io/ServerSkippedTicksService');
 const ServerSnapshotsService = require('./io/ServerSnapshotsService');
 
+const TicksCalcService = require('./TicksCalcService');
+
 const params = require('./GameParamsService').params;
 
 
@@ -44,6 +46,7 @@ CommandsService.addCommandAddedCallback(function intakeAddedCommand(cmd){
 	_commandAddedCallbacks.forEach(function(cb){ /// might need to break this back out because in a switch, things are invalidated back to the older of the 2 commands
 		cb(cmd);
 	});
+	deleteAncientCommands();
 });
 
 CommandsService.addCommandChangedCallback(function intakeChangedCommand(cmd){
@@ -94,7 +97,20 @@ ServerSnapshotsService.addServerSnapshotCallback(function intakeServerSnapshot(s
 
 
 
+function deleteAncientCommands(){
+	for (var tickStr in serv.ticksCommands){
 
+		const cmdsTick = Number(tickStr);
+		const anciencyTick = (TicksCalcService.next() - params.ticksPerServerSnapshot - params.commandsStorageCushionTicks);
+
+		if ( cmdsTick < anciencyTick ) {
+			console.log(cmdsTick + ' is less than ' + anciencyTick + ' by ' + anciencyTick - cmdsTick + ' ticks');
+			// throw '...';
+			delete serv.ticksCommands[tickStr];
+
+		}
+	}
+}
 
 
 

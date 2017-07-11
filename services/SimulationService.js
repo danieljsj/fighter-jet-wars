@@ -71,7 +71,7 @@ function Simulation(opts){
 
 Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 	if (cutoffTick > this.gD.tick()){
-		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick+' is ahead of this simulation tick which is '+this.gD.tick());
+		if (ToLog.rewind) console.log('no need to rewind; cutoffTick '+cutoffTick+' is ahead of this simulation tick which is '+this.gD.tick()+' by '+cutoffTick-this.gD.tick());
 		return;
 	}
 	this.purgeSimSnapshotsAfter(cutoffTick);
@@ -83,7 +83,7 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 
 		let latestQualifyingSnapshot = null;
 
-		if (ToLog.rewind) console.log('cutoffTick',cutoffTick);
+		if (ToLog.rewind) console.log('cutoffTick',cutoffTick); // NaN sometimes?
 		if (ToLog.rewind) console.log('that.tickSnapshots',that.tickSnapshots); /////// on server, this is coming up pretty empty, such that  there are no past snapshots
 
 

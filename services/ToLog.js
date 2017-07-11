@@ -26,7 +26,7 @@ class ToLog {
 		this.command = true;
 		// this.commandTimes = true;
 		// this.commandSuccess = true;
-		this.readingCommands = true;
+		// this.readingCommands = true;
 
 		// this.serverSkippedTick = true;
 		// this.serverSkippedTickTimes = true;
