@@ -1,9 +1,9 @@
 'use strict';
 
-const SimulationService = require('../../SimulationService');
-const FirebaseRefService = require('../../FirebaseRefService');
+const SimulationS = require('../../SimulationS');
+const FirebaseRefS = require('../../FirebaseRefS');
 
-const sendCommand = require('../../io/CommandsService').send;
+const sendCommand = require('../../io/CommandsS').send;
 
 const turnLeft = require('./aiScripts/turnLeft');
 
@@ -13,7 +13,7 @@ const turnLeft = require('./aiScripts/turnLeft');
 let sim; // maybe at some point we'd rework this to allow multiple simulations to have ai apply to them... but doing so would require a lot -- including prevention of sending of signals to server!
 
 function start(mainSim){
-	FirebaseRefService.initThen(function(){
+	FirebaseRefS.initThen(function(){
 		sim = mainSim;
 		tickWork();
 	});

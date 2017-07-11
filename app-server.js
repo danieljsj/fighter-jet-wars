@@ -1,10 +1,10 @@
 require('log-timestamp');
 
-const SimServ = require('./services/SimulationService');      // start sim first to show that sim won't explode if game data is false or empty
+const SimServ = require('./services/SimulationS');      // start sim first to show that sim won't explode if game data is false or empty
 
 const GD = require('./services/models/components/empties/GD');
 
-const GameDataInitiationService = require('./services/env/server/GameDataInitiationService');
+const GameDataInitiationS = require('./services/env/server/GameDataInitiationS');
 
 ////////
 
@@ -15,7 +15,7 @@ const mainSim = new SimServ.Simulation({gD: new GD()});
 
 mainSim.start();
 
-GameDataInitiationService.initiate(mainSim); // eventually we'll want to get smarter about how we do this; track ticks of player joins, etc.
+GameDataInitiationS.initiate(mainSim); // eventually we'll want to get smarter about how we do this; track ticks of player joins, etc.
 
 
 

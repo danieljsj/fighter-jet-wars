@@ -1,7 +1,7 @@
 'use strict';
 
 const firebase = require("firebase");
-const ParamsService = require('./ParamsService');
+const ParamsS = require('./ParamsS');
 const env = require('./env');
 
 

@@ -1,8 +1,8 @@
 'use strict';
 
-const CurrentUserService = require('./CurrentUserService');
-const FirebaseRefService = require('../../FirebaseRefService');
-const sendCommand = require('../../io/CommandsService').send;
+const CurrentUserS = require('./CurrentUserS');
+const FirebaseRefS = require('../../FirebaseRefS');
+const sendCommand = require('../../io/CommandsS').send;
 
 let mainSim;
 

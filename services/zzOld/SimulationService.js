@@ -3,14 +3,14 @@ const ToLog = require('./ToLog');
 
 const env = require('./env');
 
-const GDS = require('./GameDataService');
+const GDS = require('./GameDataS');
 
-const params = require('./ParamsService').params;
-const TicksCalcService = require('./TicksCalcService');
-const CommandsService = require('./io/CommandsService');
+const params = require('./ParamsS').params;
+const TicksCalcS = require('./TicksCalcS');
+const CommandsS = require('./io/CommandsS');
 
 if (env.isBrowser()) {
-	var SkyCanvasService = require('./env/browser/SkyCanvasService');
+	var SkyCanvasS = require('./env/browser/SkyCanvasS');
 }
 
 //////////////
@@ -21,7 +21,7 @@ module.exports = {
 }
 
 function start(ref) {
-	CommandsService.startReading();
+	CommandsS.startReading();
 	startTicks();
 }
 
@@ -34,7 +34,7 @@ function afterTick(cb){
 let browserFirstTick = null;
 
 function startTicks(){
-	browserFirstTick = TicksCalcService.latest();
+	browserFirstTick = TicksCalcS.latest();
 	latestSimulatedTick = browserFirstTick-1; // with these equal, it would spin a sim with dT=0 on its first cycle. That could give some weird effects.
 	doTick();
 }
@@ -68,10 +68,10 @@ function WHERE_DO_I_GO_____(){
 	}
 	
 	if (env.isBrowser()) {
-		SkyCanvasService.renderEntities();
+		SkyCanvasS.renderEntities();
  	}
 
-	let timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
+	let timeout = TicksCalcS.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
 	if (ToLog.time) console.log('timeout: ',timeout);
 	setTimeout(doTick,timeout);
 

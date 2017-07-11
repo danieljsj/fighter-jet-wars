@@ -1,6 +1,6 @@
 'use strict';
 
-const CanvasImageService = require('./CanvasImageService');
+const CanvasImageS = require('./CanvasImageS');
 
 
 var typesByName = {};
@@ -16,7 +16,7 @@ function Type(name, typeData){
 	this.imageHeight= this.height;
 	this.imageUrl 	= typeData.imageUrl;
 	
-	this.canvasImage = new CanvasImageService.CanvasImage({
+	this.canvasImage = new CanvasImageS.CanvasImage({
 		height: this.imageHeight,
 		width: this.imageWidth,
 		url: this.imageUrl,

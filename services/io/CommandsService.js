@@ -1,20 +1,20 @@
 'use strict';
 const ToLog = require('../ToLog');
 
-const FirebaseRefService = require('../FirebaseRefService');
+const FirebaseRefS = require('../FirebaseRefS');
 
-const params = require('../ParamsService').params;
-const TicksCalcService = require('../TicksCalcService');
+const params = require('../ParamsS').params;
+const TicksCalcS = require('../TicksCalcS');
 const ControlsNulls = require('../models/components/empties/controls');
 
-const getOffset = require('../FirebaseOffsetService').getOffset;
+const getOffset = require('../FirebaseOffsetS').getOffset;
 
 ////////////////////////////////////////////////////
 
 let commandsRef;
 
-FirebaseRefService.initThen(function(){
-	commandsRef = FirebaseRefService.ref.child('commands');
+FirebaseRefS.initThen(function(){
+	commandsRef = FirebaseRefS.ref.child('commands');
 	deleteOldFirebaseCommands();
 });
 
@@ -71,8 +71,8 @@ const _commandChangedCbs = [];
 let numCmdsReceived = 0;
 function startReading(){
 
-	FirebaseRefService.initThen(function(){
-		commandsRef = FirebaseRefService.ref.child('commands');
+	FirebaseRefS.initThen(function(){
+		commandsRef = FirebaseRefS.ref.child('commands');
 
 		commandsRef.limitToLast(1).on('child_added', function intakeAddedCommandSS(ss){
  			if (++numCmdsReceived > 1){
@@ -99,9 +99,9 @@ function Command(cmdData){
 	for(const k in cmdData) this[k] = cmdData[k];
 
 	this.tick = Math.max(
-		TicksCalcService.msToRoundedTicks(this.cT),
+		TicksCalcS.msToRoundedTicks(this.cT),
 		// rule: the command happened when you pressed the button, unless that's longer ago than when your command arrived to firebase minus the max allowed lag time, in which case your command registers as being the max amount before arrival to server allowed.
-		TicksCalcService.msToRoundedTicks(this.sT)-params.maxCommandLagTicks
+		TicksCalcS.msToRoundedTicks(this.sT)-params.maxCommandLagTicks
 	);
 
 	if (ToLog.command) console.log('cmd received (#'+numCmdsReceived+'): '+this.key+':'+this.val+' (eId:'+this.eId+')');

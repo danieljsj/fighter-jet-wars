@@ -5,13 +5,13 @@
 const env = require('./env');
 
 
-const CommandsService = require('./io/CommandsService');
-const ServerSkippedTicksService = require('./io/ServerSkippedTicksService');
-const ServerSnapshotsService = require('./io/ServerSnapshotsService');
+const CommandsS = require('./io/CommandsS');
+const ServerSkippedTicksS = require('./io/ServerSkippedTicksS');
+const ServerSnapshotsS = require('./io/ServerSnapshotsS');
 
-const TicksCalcService = require('./TicksCalcService');
+const TicksCalcS = require('./TicksCalcS');
 
-const params = require('./ParamsService').params;
+const params = require('./ParamsS').params;
 
 
 if (env.isClient()){
@@ -40,7 +40,7 @@ const serv = {
 
 
 
-CommandsService.addCommandAddedCb(function intakeAddedCommand(cmd){
+CommandsS.addCommandAddedCb(function intakeAddedCommand(cmd){
 	if (!serv.ticksCommands[cmd.tick]) serv.ticksCommands[cmd.tick] = {};
 	serv.ticksCommands[cmd.tick][cmd.id] = cmd; 
 	_commandAddedCbs.forEach(function(cb){ /// might need to break this back out because in a switch, things are invalidated back to the older of the 2 commands
@@ -49,7 +49,7 @@ CommandsService.addCommandAddedCb(function intakeAddedCommand(cmd){
 	deleteAncientCommands();
 });
 
-CommandsService.addCommandChangedCb(function intakeChangedCommand(cmd){
+CommandsS.addCommandChangedCb(function intakeChangedCommand(cmd){
 	if ( (!serv.ticksCommands[cmd.tick]) || (!serv.ticksCommands[cmd.tick][cmd.id]) ){
 		// the tick has changed!
 		const cmdDupeTick = findCmdDupeTick(cmd);
@@ -77,7 +77,7 @@ CommandsService.addCommandChangedCb(function intakeChangedCommand(cmd){
 	}
 }
 
-ServerSkippedTicksService.addServerSkippedTickAddedCb(function intakeServerSkippedTick(sst){
+ServerSkippedTicksS.addServerSkippedTickAddedCb(function intakeServerSkippedTick(sst){
 	serv.serverSkippedTicks[sst.tick] = true;
 	_serverSkippedTicksCbs.forEach(function(cb){
 		cb(sst);
@@ -85,7 +85,7 @@ ServerSkippedTicksService.addServerSkippedTickAddedCb(function intakeServerSkipp
 });
 
 
-ServerSnapshotsService.addServerSnapshotCb(function intakeServerSnapshot(sss){
+ServerSnapshotsS.addServerSnapshotCb(function intakeServerSnapshot(sss){
 	serv.latestServerSnapshot = sss;
 	_serverSnapshotCbs.forEach(function(cb){
 		cb(sss);
@@ -101,7 +101,7 @@ function deleteAncientCommands(){
 	for (var tickStr in serv.ticksCommands){
 
 		const cmdsTick = Number(tickStr);
-		const anciencyTick = (TicksCalcService.next() - params.ticksPerServerSnapshot - params.commandsStorageCushionTicks);
+		const anciencyTick = (TicksCalcS.next() - params.ticksPerServerSnapshot - params.commandsStorageCushionTicks);
 
 		if ( cmdsTick < anciencyTick ) {
 			console.log(cmdsTick + ' is less than ' + anciencyTick + ' by ' + anciencyTick - cmdsTick + ' ticks');
@@ -119,11 +119,11 @@ function deleteAncientCommands(){
 
 
 
-CommandsService.startReading();
+CommandsS.startReading();
 
-ServerSkippedTicksService.startReading();
+ServerSkippedTicksS.startReading();
 
-ServerSnapshotsService.startReading();
+ServerSnapshotsS.startReading();
 
 
 

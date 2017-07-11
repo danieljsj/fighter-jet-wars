@@ -2,15 +2,15 @@
 
 var keyMirror = require('keymirror');
 
-const params = require('./ParamsService').params;
+const params = require('./ParamsS').params;
 const env = require('./env');
 const ToLog = require('./ToLog');
 
-const InputsService = require('./InputsService');
-const TicksCalcService = require('./TicksCalcService');
+const InputsS = require('./InputsS');
+const TicksCalcS = require('./TicksCalcS');
 
-const SnapshotService = require('./SnapshotService');
-const ServerSnapshotsService = require('./io/ServerSnapshotsService');
+const SnapshotS = require('./SnapshotS');
+const ServerSnapshotsS = require('./io/ServerSnapshotsS');
 
 const serv = {
 	Simulation: Simulation,
@@ -30,31 +30,31 @@ function Simulation(opts){
 	this.publishSkip = opts.publishSkip || function(){};
 
 	this.useServerSnapshots = opts.useServerSnapshots || true,
-	this.render = opts.render || false, // not sure how this will work; since simulations are now holding their own data, maybe GameDataService is now MainGameDataService, and has a function to getCurrentData out of the simulation saved as main. not sure who injects who into what there.
+	this.render = opts.render || false, // not sure how this will work; since simulations are now holding their own data, maybe GameDataS is now MainGameDataS, and has a function to getCurrentData out of the simulation saved as main. not sure who injects who into what there.
 
 	this.targetTick = opts.targetTick || function(){
 		if (env.isClient()) {
-			return TicksCalcService.latest();
+			return TicksCalcS.latest();
 		} else {
-			return TicksCalcService.latest()-params.serverLagTicks;
+			return TicksCalcS.latest()-params.serverLagTicks;
 		}
 	}
 	this.gD.tickStarted = this.gD.tickCompleted = this.targetTick()-1;
 
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
-	InputsService.addCommandAddedCb(function(cmd){
+	InputsS.addCommandAddedCb(function(cmd){
 		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: "+cmd.tick+" ... curr tick is ..."+that.gD.tick());}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
 
-	InputsService.addCommandChangedCb(function(cmd){
+	InputsS.addCommandChangedCb(function(cmd){
 		that.rewindToAtLeast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
 	if (!env.isServer()) {
-		InputsService.addServerSnapshotCb(function(snapshot){
+		InputsS.addServerSnapshotCb(function(snapshot){
 
 			if (ToLog.snapshot) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
@@ -131,7 +131,7 @@ Simulation.prototype.rewindToAtLeast = function(cutoffTick){
 		}
 		if (latestQualifyingSnapshot) { // server should not be backing up!... though... I'd have to wonder why it's even in this area at all...
 			if (ToLog.rewind) console.log('(used a snapshot)');
-			that.gD = SnapshotService.makeGameDataFromSnapshot(latestQualifyingSnapshot);
+			that.gD = SnapshotS.makeGameDataFromSnapshot(latestQualifyingSnapshot);
 			if (ToLog.rewind) console.log('resulting gD:',that.gD);
 		}
 
@@ -203,11 +203,11 @@ Simulation.prototype.doTick = function(){
 	}
 
 	if (  env.isServer()  &&  (! (this.gD.tick()%params.ticksPerServerSnapshot) )  ){
-		ServerSnapshotsService.send(this.gD);
+		ServerSnapshotsS.send(this.gD);
 	}
 
 	if ( ! (this.gD.tick()%params.ticksPerLocalSnapshot) ) {
-		this.tickSnapshots[this.gD.tick()] = new SnapshotService.Snapshot(this.gD);
+		this.tickSnapshots[this.gD.tick()] = new SnapshotS.Snapshot(this.gD);
 	}
 
 	
@@ -223,14 +223,14 @@ Simulation.prototype.doTick = function(){
 
  	let timeout;
  	if ( this.targetTick() - this.gD.tick() == 0 /* we are caught up */ ){
-		timeout = TicksCalcService.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
+		timeout = TicksCalcS.timeTillNext()+1; // come in 1ms 'late' so it's definitely in the past.
  	} else if ( this.targetTick() - this.gD.tick() > 0 /* not yet caught up */) {
  		timeout = 0;
  	} else {
  		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
  		const NUM_EXTRA_TICKS = 5
  		console.warn('why on earth is the sim ahead of its desired tick?  delaying by '+NUM_EXTRA_TICKS+' extra ticks via longer timeout...'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
- 		timeout = NUM_EXTRA_TICKS*TicksCalcService.msPerTick()+TicksCalcService.timeTillNext()+1;
+ 		timeout = NUM_EXTRA_TICKS*TicksCalcS.msPerTick()+TicksCalcS.timeTillNext()+1;
  	}
 	
 
@@ -254,11 +254,11 @@ Simulation.prototype.doTickPhases = function(dT){
 	if (ToLog.time) console.log('dT: ',dT);
 
 	if (ToLog.time) console.time('control');
-	for (const t in InputsService.ticksCommands){
+	for (const t in InputsS.ticksCommands){
 		if (ToLog.readingCommands) console.log("cmd(s) in t"+t+" "+ ( t==T ? "(SAME)" : (t>T? "(future)" : "(past)") ) ); ///////?TODO: MAKE THIS SHOW PAST AND FUTURE AND PRESENT. ALSO FIX THE FACT THAT CMDS ARE NEVER DYING...
 		if ( (t<=T)&&(t>T-dT) ){ // NOTE: there is a faster way to do this loop; namely, just do it for T and others where t < T but greater than T-dT
 			
-			const tCmds = InputsService.ticksCommands[t];
+			const tCmds = InputsS.ticksCommands[t];
 			for (const tCmdId in tCmds){
 				const cmd = tCmds[tCmdId];
 				const entity = this.gD.entities[cmd.eId];
@@ -284,7 +284,7 @@ Simulation.prototype.doTickPhases = function(dT){
 
 	if (ToLog.p) logPs(this.gD);
 
-	if (ToLog.pIntervalS && (!((TicksCalcService.latest()/TicksCalcService.ticksPerS())%ToLog.pIntervalS)) ){ logPs(this.gD); }
+	if (ToLog.pIntervalS && (!((TicksCalcS.latest()/TicksCalcS.ticksPerS())%ToLog.pIntervalS)) ){ logPs(this.gD); }
 
 	this.gD.tickCompleted = this.gD.tickStarted;
 

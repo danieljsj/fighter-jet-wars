@@ -1,19 +1,19 @@
 'use strict';
 
-const ticksPerSecond = require('./ParamsService').params.ticksPerSecond;
+const ticksPerSecond = require('./ParamsS').params.ticksPerSecond;
 
 ///// SIDE-IDEA: stream of ticks is published like this: tickNum: ticksPerTick. as server load grows it will be like this 11111111020202020202003003003003003
 
 // const ticksPerS = 4; // FOR DEBUGGING
 
 
-let MathService = require('./MathService');
+let MathS = require('./MathS');
 
 function now(){	return (new Date()).getTime() }
 
 
 
-class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
+class TicksCalcS { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
 	/// I guess these could be converted to properties via a constructor... low priority. save some cycles. mostly only used once per tick, I think. actually it's nice to keep as funcs so nothing outside can modify anything stored.
 	ticksPerS(){
@@ -66,11 +66,11 @@ class TicksCalcService { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS F
 
 
 	perSToPerTickRoundedTo(rate, graduation){
-		return MathService.roundTo(this.perSToPerTick(rate),graduation);
+		return MathS.roundTo(this.perSToPerTick(rate),graduation);
 	}
 	perSToPerTick(pS){
 		return pS*this.sPerTick();
 	}
 
 }
-module.exports = new TicksCalcService();
+module.exports = new TicksCalcS();

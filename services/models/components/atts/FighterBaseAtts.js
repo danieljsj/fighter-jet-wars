@@ -1,9 +1,9 @@
 'use strict';
 
-let TicksCalcService = require('../../../TicksCalcService');
+let TicksCalcS = require('../../../TicksCalcS');
 
-let S_T 	= TicksCalcService.sToRoundedTicks			.bind(TicksCalcService);
-let pS_rpT 	= TicksCalcService.perSToPerTickRoundedTo 	.bind(TicksCalcService);
+let S_T 	= TicksCalcS.sToRoundedTicks			.bind(TicksCalcS);
+let pS_rpT 	= TicksCalcS.perSToPerTickRoundedTo 	.bind(TicksCalcS);
 
 let FighterBaseAtts = {
 

@@ -1,8 +1,8 @@
 'use strict';
 
-const FirebaseRefService = require('../FirebaseRefService');
+const FirebaseRefS = require('../FirebaseRefS');
 const ToLog = require('../ToLog');
-const Snapshot = require('../SnapshotService').Snapshot;
+const Snapshot = require('../SnapshotS').Snapshot;
 
 // this file will represent a really simple io reader service. it's a wrapper around firebase for this. it's like serverSkippedTick service, only lots simpler cuz we're not doing stuff to figure out what tick it happened on, etc.
 
@@ -17,8 +17,8 @@ let numServerSnapshotsReceived = 0;
 
 function startReading(){
 
-	FirebaseRefService.initThen(function(){
-		latestServerSnapshotRef = FirebaseRefService.ref.child('latestServerSnapshot');
+	FirebaseRefS.initThen(function(){
+		latestServerSnapshotRef = FirebaseRefS.ref.child('latestServerSnapshot');
 
 		latestServerSnapshotRef.on('value', function intakeServerSnapshotSS(ss){
  			if (++numServerSnapshotsReceived > -Infinity){
@@ -86,7 +86,7 @@ function send(gD){
 }
 
 
-///////////// Service:
+///////////// S:
 
 
 module.exports = {

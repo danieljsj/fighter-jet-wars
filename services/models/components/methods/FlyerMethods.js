@@ -1,7 +1,7 @@
 'use strict';
 
-let TicksCalcService = require('../../../TicksCalcService');
-let MathService = require('../../../MathService');
+let TicksCalcS = require('../../../TicksCalcS');
+let MathS = require('../../../MathS');
 
 /////////////
 
@@ -11,7 +11,7 @@ function move(dT, px){
 	if (px) { 
 		var dist = px;	
 	} else { 
-		var dist = dT * TicksCalcService.perSToPerTickRoundedTo(this.p.speed,10e-2); // speed is per-second!
+		var dist = dT * TicksCalcS.perSToPerTickRoundedTo(this.p.speed,10e-2); // speed is per-second!
 	}
 
 
@@ -19,8 +19,8 @@ function move(dT, px){
 	this.p.y += Math.sin(this.p.direction) * dist;
 	this.p.x += Math.cos(this.p.direction) * dist;
 	// // LATER: OPTIMIZING: MAYBE:
-	// this.p.y += MathService.sin(this.p.direction) * dist;
-	// this.p.x += MathService.cos(this.p.direction) * dist;
+	// this.p.y += MathS.sin(this.p.direction) * dist;
+	// this.p.x += MathS.cos(this.p.direction) * dist;
 
 
 	//  /\/\/\  RANGE:  /\/\/\ // // COMING SOON TO A LASER NEAR YOU

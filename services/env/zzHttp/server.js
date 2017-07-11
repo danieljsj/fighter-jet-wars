@@ -1,7 +1,7 @@
 const express = require('express');
-const SimulationService = require('../../SimulationService');
-const GameDataService = require('../../GameDataService');
-const SnapshotService = require('../../SnapshotService');
+const SimulationS = require('../../SimulationS');
+const GameDataS = require('../../GameDataS');
+const SnapshotS = require('../../SnapshotS');
 
 
 function start(){
@@ -16,8 +16,8 @@ function start(){
 	 });
 
 	app.get('/snapshot', function(req,res){
-		SimulationService.afterTick(function(currTick,dT){
-			const snapshot = new SnapshotService.Snapshot(GameDataService.data,currTick)
+		SimulationS.afterTick(function(currTick,dT){
+			const snapshot = new SnapshotS.Snapshot(GameDataS.data,currTick)
 			res.json(snapshot);
 		});
 	});

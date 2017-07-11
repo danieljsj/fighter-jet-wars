@@ -5,7 +5,7 @@ const standardGraduation = 0.1;
 const coss = [];
 const sins = [];
 
-class MathService {
+class MathS {
 
 	roundTo(float,graduation){
 		return float; // DISABLES THIS WHOLE FUNCTION; I AM ANNOYED WITH DEALING WITH ROUNDING ATTEMPTS AT THE MOMENT;
@@ -67,7 +67,7 @@ class MathService {
 
 }
 
-module.exports = new MathService();
+module.exports = new MathS();
 
 
 

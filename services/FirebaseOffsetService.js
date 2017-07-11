@@ -1,12 +1,12 @@
 'use strict';
 // calculating offset for sent commands. and maybe also for ticks...
 
-const FirebaseRefService = require('./FirebaseRefService');
+const FirebaseRefS = require('./FirebaseRefS');
 
 let _offset;
 
-FirebaseRefService.initThen(function(){ // todo: maybe figure out smarter ways of init'ing everything in a cool async waterfall or whatever.
-  var offsetRef = FirebaseRefService.ref.child(".info/serverTimeOffset");
+FirebaseRefS.initThen(function(){ // todo: maybe figure out smarter ways of init'ing everything in a cool async waterfall or whatever.
+  var offsetRef = FirebaseRefS.ref.child(".info/serverTimeOffset");
   offsetRef.on("value", function(ss) {
     _offset = ss.val();
   });

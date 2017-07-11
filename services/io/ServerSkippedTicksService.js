@@ -2,7 +2,7 @@
 
 // this file will represent a really simple io reader service. it's a wrapper around firebase for this. it's like serverSkippedTick service, only lots simpler cuz we're not doing stuff to figure out what tick it happened on, etc.
 
-const FirebaseRefService = require('../FirebaseRefService');
+const FirebaseRefS = require('../FirebaseRefS');
 
 
 let serverSkippedTicksRef;
@@ -15,8 +15,8 @@ const _serverSkippedTickAddedCbs = []; // a chill version of registering into, s
 let numSstsReceived = 0;
 function startReading(){
 
-	FirebaseRefService.initThen(function(){
-		serverSkippedTicksRef = FirebaseRefService.ref.child('serverSkippedTicks');
+	FirebaseRefS.initThen(function(){
+		serverSkippedTicksRef = FirebaseRefS.ref.child('serverSkippedTicks');
 
 		serverSkippedTicksRef.limitToLast(1).on('child_added', function intakeAddedServerSkippedTickSS(ss){
  			if (++numSstsReceived > 1){
@@ -74,7 +74,7 @@ function send(tick){
 
 
 
-///////////// Service:
+///////////// S:
 
 
 module.exports = {

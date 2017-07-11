@@ -1,6 +1,6 @@
 'use strict';
 
-const EntityTypesAppearanceService = require('./EntityTypesAppearanceService');
+const EntityTypesAppearanceS = require('./EntityTypesAppearanceS');
 
 let canvas, ctx, mainSim;
 
@@ -43,7 +43,7 @@ function renderEntities(entities){
 
 	// fillSkyBlue();
 
-	entities = entities || GameDataService.data.entities;
+	entities = entities || GameDataS.data.entities;
 
 	for (const uid in entities){
 		const entity = entities[uid];
@@ -70,7 +70,7 @@ function draw(entity, centerPoint){
 	ctx.rotate(e.p.direction);
 
 	// based on Img
-	var canvasImage = EntityTypesAppearanceService.getType(entity.entityTypeName).getCanvasImage();
+	var canvasImage = EntityTypesAppearanceS.getType(entity.entityTypeName).getCanvasImage();
 	ctx.translate(-canvasImage.width/2, -canvasImage.height/2); // MAYBE FOLD THIS INTO DRAWIMAGE?? ALSO... A BIT WEIRD THAT THIS IS HAPPENING AFTER THE ROTATE, EH?
 	try{
 		ctx.drawImage(canvasImage.domImage, 0, 0);

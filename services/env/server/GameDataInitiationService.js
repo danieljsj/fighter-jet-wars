@@ -1,7 +1,7 @@
 'use strict';
 
-const FirebaseRefService = require('../../FirebaseRefService');
-const params = require('../../ParamsService').params;
+const FirebaseRefS = require('../../FirebaseRefS');
+const params = require('../../ParamsS').params;
 
 const Fighter = require('../../models/Fighter');
 const Blimp = require('../../models/Blimp');
@@ -12,8 +12,8 @@ let ref;
 
 function initiate(sim){
 
-	FirebaseRefService.initThen(function(){
-		ref = FirebaseRefService.ref;
+	FirebaseRefS.initThen(function(){
+		ref = FirebaseRefS.ref;
 		addPlayerAndDefaultUnits({user: false}, sim);
 		listenToFbUserAdds(sim);
 	});
@@ -61,7 +61,7 @@ function addPlayerAndDefaultUnits(opts, sim){
 
 
 
-// this one maybe should be common too.... just like CommandsReadingService? Well, maybe... but when a BROWSER starts, it should start by asking the server for all existing stuff... and then do a subscribe for only followups. Perhaps the code for new adds is available in common as well, but specific to the browser vs. backend is some code that differentiates what happens at startup. I.e. there's an "AddPlayer" func that fires both server and browser for new players... it just happens that the server will run it for a whole batch of users, whereas the browser will, on startup, read a snapshot from the server, not batch the fb users.
+// this one maybe should be common too.... just like CommandsReadingS? Well, maybe... but when a BROWSER starts, it should start by asking the server for all existing stuff... and then do a subscribe for only followups. Perhaps the code for new adds is available in common as well, but specific to the browser vs. backend is some code that differentiates what happens at startup. I.e. there's an "AddPlayer" func that fires both server and browser for new players... it just happens that the server will run it for a whole batch of users, whereas the browser will, on startup, read a snapshot from the server, not batch the fb users.
 
 function createEntitiesForPlayer(entityQuantities, player, sim){
 	var playerEntityTypeConstructors = { // note; some entities cannot be spawned directly for players, but must be spawned for fighters, etc. (i.e. lasers, missiles) ... however, I don't yet want to divide things out into Units, Projectiles, because in case of Missiles, you may want to control them directly, so for now I'm keeping it flat in Models.

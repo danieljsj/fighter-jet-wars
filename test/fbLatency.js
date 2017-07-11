@@ -1,9 +1,9 @@
 'use strict';
 
 
-const FirebaseRefService = require('../services/FirebaseRefService');
+const FirebaseRefS = require('../services/FirebaseRefS');
 
-const getOffset = require('../services/FirebaseOffsetService').getOffset;
+const getOffset = require('../services/FirebaseOffsetS').getOffset;
 
 
 const timestampPlaceholder = require('firebase').database.ServerValue.TIMESTAMP;
@@ -30,10 +30,10 @@ function tryIt(){
 
 function doIt(){
 
-	FirebaseRefService.initThen(function(){
+	FirebaseRefS.initThen(function(){
 
 
-		const ref = FirebaseRefService.ref;
+		const ref = FirebaseRefS.ref;
 
 		const latencyRef = ref.child('test/latency');
 		
