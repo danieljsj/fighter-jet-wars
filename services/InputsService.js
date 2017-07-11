@@ -11,7 +11,7 @@ const ServerSnapshotsService = require('./io/ServerSnapshotsService');
 
 const TicksCalcService = require('./TicksCalcService');
 
-const params = require('./GameParamsService').params;
+const params = require('./ParamsService').params;
 
 
 if (env.isClient()){

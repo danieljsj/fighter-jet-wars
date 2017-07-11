@@ -3,7 +3,7 @@ const ToLog = require('../ToLog');
 
 const FirebaseRefService = require('../FirebaseRefService');
 
-const params = require('../GameParamsService').params;
+const params = require('../ParamsService').params;
 const TicksCalcService = require('../TicksCalcService');
 const ControlsNulls = require('../models/components/empties/controls');
 

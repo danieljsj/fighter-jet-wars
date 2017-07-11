@@ -2,11 +2,11 @@
 
 var keyMirror = require('keymirror');
 
-const params = require('./GameParamsService').params;
+const params = require('./ParamsService').params;
 const env = require('./env');
 const ToLog = require('./ToLog');
 
-const GlobalStreamingService = require('./GlobalStreamingService');
+const InputsService = require('./InputsService');
 const TicksCalcService = require('./TicksCalcService');
 
 const SnapshotService = require('./SnapshotService');
@@ -43,18 +43,18 @@ function Simulation(opts){
 
 	const that=this; /////////// BEWARE!!!!!!!!! TODO:FIX: ADDING THESE CALLBACKS TO BE SAVED IN THE GLOBALSTREAMING SERVICE, WHERE THEY WILL BE KEPT, WILL CREATE A MEMORY LEAK IF WE'RE CREATING LOTS OF THESE SIMULATIONS! BECAUSE IT CAN SEE THE SIMULATION'S SCOPE!
 	
-	GlobalStreamingService.addCommandAddedCb(function(cmd){
+	InputsService.addCommandAddedCb(function(cmd){
 		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: "+cmd.tick+" ... curr tick is ..."+that.gD.tick());}
 		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
 
-	GlobalStreamingService.addCommandChangedCb(function(cmd){
+	InputsService.addCommandChangedCb(function(cmd){
 		that.rewindToAtLeast(Math.min(cmd.tick, cmd.getFormerTick()));
 	});
 
 	if (!env.isServer()) {
-		GlobalStreamingService.addServerSnapshotCb(function(snapshot){
+		InputsService.addServerSnapshotCb(function(snapshot){
 
 			if (ToLog.snapshot) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
@@ -254,11 +254,11 @@ Simulation.prototype.doTickPhases = function(dT){
 	if (ToLog.time) console.log('dT: ',dT);
 
 	if (ToLog.time) console.time('control');
-	for (const t in GlobalStreamingService.ticksCommands){
+	for (const t in InputsService.ticksCommands){
 		if (ToLog.readingCommands) console.log("cmd(s) in t"+t+" "+ ( t==T ? "(SAME)" : (t>T? "(future)" : "(past)") ) ); ///////?TODO: MAKE THIS SHOW PAST AND FUTURE AND PRESENT. ALSO FIX THE FACT THAT CMDS ARE NEVER DYING...
 		if ( (t<=T)&&(t>T-dT) ){ // NOTE: there is a faster way to do this loop; namely, just do it for T and others where t < T but greater than T-dT
 			
-			const tCmds = GlobalStreamingService.ticksCommands[t];
+			const tCmds = InputsService.ticksCommands[t];
 			for (const tCmdId in tCmds){
 				const cmd = tCmds[tCmdId];
 				const entity = this.gD.entities[cmd.eId];

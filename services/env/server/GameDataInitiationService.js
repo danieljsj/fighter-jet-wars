@@ -1,7 +1,7 @@
 'use strict';
 
 const FirebaseRefService = require('../../FirebaseRefService');
-const params = require('../../GameParamsService').params;
+const params = require('../../ParamsService').params;
 
 const Fighter = require('../../models/Fighter');
 const Blimp = require('../../models/Blimp');

@@ -1,6 +1,6 @@
 'use strict';
 
-const ticksPerSecond = require('./GameParamsService').params.ticksPerSecond;
+const ticksPerSecond = require('./ParamsService').params.ticksPerSecond;
 
 ///// SIDE-IDEA: stream of ticks is published like this: tickNum: ticksPerTick. as server load grows it will be like this 11111111020202020202003003003003003
 

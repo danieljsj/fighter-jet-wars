@@ -5,7 +5,7 @@ const env = require('./env');
 
 const GDS = require('./GameDataService');
 
-const params = require('./GameParamsService').params;
+const params = require('./ParamsService').params;
 const TicksCalcService = require('./TicksCalcService');
 const CommandsService = require('./io/CommandsService');
 

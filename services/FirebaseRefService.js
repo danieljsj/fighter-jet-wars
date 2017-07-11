@@ -1,7 +1,7 @@
 'use strict';
 
 const firebase = require("firebase");
-const GameParamsService = require('./GameParamsService');
+const ParamsService = require('./ParamsService');
 const env = require('./env');
 
 
