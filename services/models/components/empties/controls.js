@@ -5,7 +5,7 @@ module.exports = function(){
 		// timestamp: 0, // what would this have been, and what would we have wanted it for?
 		fore: 0,
 		back: 0,
-		left: 0,
+		left: 1, // DEBUG
 		right: 0,
 		tryFire: 0,
 		trySwitch: 0,

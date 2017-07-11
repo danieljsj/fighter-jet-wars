@@ -64,6 +64,12 @@ function Simulation(opts){
 
 			that.gD = SnapshotS.makeGameDataFromSnapshot(snapshot); /// not sure whether I should pull this out into its own function. seems like kind of a big event.
 
+			/* ToDo: Ways to Solve the ServerSnapshot Jump Problem: 
+				// don't rewind if serverSnapshot atts match existing simSnapshot
+				// keep running main sim & graphics while catching up old sim
+				// only rewind affected/corrected units
+			*/
+
 		});
 	}
 
