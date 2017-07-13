@@ -16,9 +16,8 @@ module.exports = {
 
 		commandsStorageCushionTicks: 60,// this will be added to ticksPerServerSnapshot to create a purge ticksToLive
 
-		maxCommandLagTicks: 4,
-
-		serverLagTicks: 8, // this maybe should be more tied in to maxCommandLagTicks...
+		maxCommandLagTicks: 6,
+		serverLagTicks: 18, // this maybe should be more tied in to maxCommandLagTicks...
 
 		minimumRedundantCommandInterval: 2000,
 
