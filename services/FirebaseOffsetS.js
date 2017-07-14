@@ -2,6 +2,7 @@
 // calculating offset for sent commands. and maybe also for ticks...
 
 const FirebaseRefS = require('./FirebaseRefS');
+const ToLog = require('./ToLog');
 
 let _offset;
 let _offsetRef;
@@ -15,6 +16,7 @@ FirebaseRefS.initThen(function(){ // todo: maybe figure out smarter ways of init
 function _updateOffset(){
 	_offsetRef.on("value", function(ss) {
     	_offset = ss.val();
+    	if (ToLog.fbOffset) console.log("updated offset to",ss.val());
 	});
 }
 

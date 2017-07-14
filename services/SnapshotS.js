@@ -44,6 +44,7 @@ Snapshot.prototype.tick = function(){
 		return this.tickStarted;
 	} else {
 		// WAIT A MINUTE... WHY DO WE EVEN HAVE THAT LEVER... SNAPSHOTS SHOULD NOT HAVE TICKSTARTED AND TICKCOMPLETED... OR IF THEY DO, THEY SHOULD ALWAYS BE THE SAME... THIS SEEMS LIKE SOMETHING THAT A GAME DATA WOULD HAVE, NOT A SNAPSHOT...
+		console.warn("oops, this.tickStarted",this.tickStarted,"this.tickCompleted",this.tickCompleted, "diff", this.tickStarted-this.tickCompleted);
 		throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
 	}
 }
@@ -164,15 +165,15 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 
 
 function getDifferences(ob1,ob2){
-	console.log("-- ob1 --",ob1,"-- ob2 --",ob2);
+	if (ToLog.ssDiff) console.log("-- ob1 --",ob1,"-- ob2 --",ob2);
 
 	if (!ob2) return ob1; // if there's no ob2, the whole of ob1 is the diff map.
 
 	const diffMap = iterateAndReportDeepDifferences(ob1,ob2);
 
-	console.log("diffMap: ",diffMap);
+	if (ToLog.ssDiff) console.log("diffMap: ",diffMap);
 
-	if (diffMap) debugger;
+	// if (diffMap) debugger;
 
 	return diffMap;
 }
@@ -180,24 +181,24 @@ function getDifferences(ob1,ob2){
 function is_scalar(obj){return (/string|number|boolean/).test(typeof obj);}
 
 function iterateAndReportDeepDifferences(ob1,ob2){
-	console.log("iterateAndReportDeepDifferences on")
-	console.log(ob1);
-	console.log(ob2);
+	if (ToLog.ssDiff) console.log("iterateAndReportDeepDifferences on")
+	if (ToLog.ssDiff) console.log(ob1);
+	if (ToLog.ssDiff) console.log(ob2);
 	const diffMap = {};
 	let hasDiffs = false;
 	for (const key in ob1) {
-		if (!ob2) debugger;
-		console.log(
+		// if (!ob2) debugger;
+		if (ToLog.ssDiff) console.log(
 			"comparing"
 			,key
 			,ob1[key]
 			,ob2[key]
 		);
 		if (ob1[key]===ob2[key]){
-			console.log("items are identical; ignoring them");
+			if (ToLog.ssDiff) console.log("items are identical; ignoring them");
 		} else {
 			if (is_scalar(ob1[key])&&is_scalar(ob2[key])){
-				console.log("diffed are scalar; saving ob2[key] into diffMap[key]: ",ob2[key]); // whoah, this keep
+				if (ToLog.ssDiff) console.log("diffed are scalar; saving ob2[key] into diffMap[key]: ",ob2[key]); // whoah, this keep
 				diffMap[key+"_NEW"] = ob2[key];
 				diffMap[key+"_OLD"] = ob1[key];
 				hasDiffs = true;
@@ -205,7 +206,7 @@ function iterateAndReportDeepDifferences(ob1,ob2){
 				const subDiffMap = iterateAndReportDeepDifferences(ob1[key],ob2[key]); 
 				if (subDiffMap){
 					hasDiffs = true;
-					console.log("saving diffMap into",key); // whoah, this keep
+					if (ToLog.ssDiff) console.log("saving diffMap into",key); // whoah, this keep
 					diffMap[key] = subDiffMap;
 				}
 			}
