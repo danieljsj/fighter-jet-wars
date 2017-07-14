@@ -82,5 +82,9 @@ class TicksCalcS { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOT
 		return pS*this.sPerTick();
 	}
 
+	// MAYBE USEFUL: ticksToSecondsFromLocalNow(ticks){
+	// 	return ticks / ticksPerSecond - new Date().getTime() / 1000;
+	// }
+
 }
 module.exports = new TicksCalcS();

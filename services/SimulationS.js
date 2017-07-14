@@ -56,6 +56,9 @@ function Simulation(opts){
 	if (!env.isServer()) {
 		InputsS.addServerSnapshotCb(function(snapshot){
 
+			if (ToLog.serverSnapshotTicks) console.log(
+				'incoming server snapshot, should be at ~T-'+params.serverLagTicks+' ticks; currently at',snapshot.tick()-that.gD.tick() );
+
 			if (ToLog.snapshotsAll) console.log('SNAPSHOT RECEIVED FOR TICK '+snapshot.tick());
 
 			that.purgeSnapshotsBefore(snapshot.tick()); // serversnapshots are always immutable&authoritative; no older commands will be incoming, so no older snapshots are needed.
@@ -242,7 +245,7 @@ Simulation.prototype.doTick = function(){
  	} else if ( this.targetTick() - this.gD.tick() > 0 /* not yet caught up */) {
  		timeout = 0;
  	} else {
- 		if (false) throw new Error('why on earth is the sim ahead of its desired tick?'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
+ 		console.log('target tick', this.targetTick(), 'gD tick', this.gD.tick(), 'diff', this.targetTick()-this.gD.tick());
  		const NUM_EXTRA_TICKS = 5
  		console.warn('why on earth is the sim ahead of its desired tick?  delaying by '+NUM_EXTRA_TICKS+' extra ticks via longer timeout...'); /// NOTE: this doesn't yet accommodate sim that wants to be in the fugure; there would be an option saying 'stop when reach target', or something like that.
  		timeout = NUM_EXTRA_TICKS*TicksCalcS.msPerTick()+TicksCalcS.timeTillNext()+1;
@@ -312,7 +315,7 @@ function logPs(gD){
 		for (const id in gD.entities) { 
 			let p = gD.entities[id].p; 
 
-			console.log(''
+			if (ToLog.p) console.log(''
 				+'e'+i++ +': '
 				+'{ x:'+p.x
 				+', y:'+p.y
