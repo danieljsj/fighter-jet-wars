@@ -13,4 +13,4 @@ mainSim.start();
 initCanvas(mainSim);
 KeyboardControlsS.start(mainSim);
 
-require('./assets/sass/style.scss');
+require('./assets/sass/style-loader.scss');
