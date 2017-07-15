@@ -1,4 +1,5 @@
 *auth-config*.json
+dist
 old
 node_modules
 *npm-debug.log*
