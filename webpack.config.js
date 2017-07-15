@@ -1,4 +1,58 @@
 
+
+// const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
+const webpack = require('webpack'); //to access built-in plugins
+const path = require('path');
+
+const config = {
+  entry: './app-browser.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js' /// browser keeps looking for bundle.js even if this is named something different...
+  },
+  devtool: 'source-map',
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' },
+      // {
+      //   test: /\.js$/,
+      //   use: ["source-map-loader"],
+      //   enforce: "pre"
+      // },
+      {
+        test: /\.scss$/,
+        use: [{
+            loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }, {
+            loader: "sass-loader",
+            // options: {
+            //     includePaths: ["absolute/path/a", "absolute/path/b"]
+            // }
+        }]
+      }
+    ]
+  },
+  plugins: [
+    // new webpack.optimize.UglifyJsPlugin(), // was glitching out on perfectly normal "let" code...
+    // new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+
+module.exports = config;
+
+
+
+
+
+
+
+
+
+
+// https://webpack.js.org/configuration/
+
 // const path = require('path');
 
 // module.exports = {
@@ -234,55 +288,6 @@
 
 
 
-
-
-
-
-
-
-
-
-// const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
-const webpack = require('webpack'); //to access built-in plugins
-const path = require('path');
-
-const config = {
-  entry: './app-browser.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js' /// browser keeps looking for bundle.js even if this is named something different...
-  },
-  devtool: 'source-map',
-  module: {
-    rules: [
-      { test: /\.txt$/, use: 'raw-loader' },
-      // {
-      //   test: /\.js$/,
-      //   use: ["source-map-loader"],
-      //   enforce: "pre"
-      // },
-      {
-        test: /\.scss$/,
-        use: [{
-            loader: "style-loader"
-        }, {
-            loader: "css-loader"
-        }, {
-            loader: "sass-loader",
-            // options: {
-            //     includePaths: ["absolute/path/a", "absolute/path/b"]
-            // }
-        }]
-      }
-    ]
-  },
-  plugins: [
-    // new webpack.optimize.UglifyJsPlugin(), // was glitching out on perfectly normal "let" code...
-    // new HtmlWebpackPlugin({template: './src/index.html'})
-  ]
-};
-
-module.exports = config;
 
 
 
