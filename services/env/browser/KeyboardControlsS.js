@@ -87,7 +87,6 @@ function GET_USER_PLAYER_ENTITY(){
   const entities = mainSim.gD.entities;
   for (const entityId in entities) {
     const entity = entities[entityId];
-    console.log(entity);
     if (
       entity 
       && 
@@ -95,7 +94,7 @@ function GET_USER_PLAYER_ENTITY(){
       && 
       entity.player.user 
     ) {
-      userPlayerEntityIds.push(entity.player.user.id)
+      userPlayerEntityIds.push(entity.player.user.id); // this seems bloated, not sure why i'm doing this; I just need the entity; must be for debugging.
       if (userId == entity.player.user.id){
         return entity;
       }

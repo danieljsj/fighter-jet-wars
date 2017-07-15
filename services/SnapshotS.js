@@ -44,7 +44,7 @@ Snapshot.prototype.tick = function(){
 		return this.tickStarted;
 	} else {
 		// WAIT A MINUTE... WHY DO WE EVEN HAVE THAT LEVER... SNAPSHOTS SHOULD NOT HAVE TICKSTARTED AND TICKCOMPLETED... OR IF THEY DO, THEY SHOULD ALWAYS BE THE SAME... THIS SEEMS LIKE SOMETHING THAT A GAME DATA WOULD HAVE, NOT A SNAPSHOT...
-		console.warn("oops, this.tickStarted",this.tickStarted,"this.tickCompleted",this.tickCompleted, "diff", this.tickStarted-this.tickCompleted);
+		console.error("oops, this.tickStarted",this.tickStarted,"this.tickCompleted",this.tickCompleted, "diff", this.tickStarted-this.tickCompleted);
 		throw new Error('you should not be asking for this during synchronous tick simulation; during tick simulation you should be looking at .tickStarted and .tickCompleted, if anything.');
 	}
 }

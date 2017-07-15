@@ -1,1 +1,3 @@
 2017-07-11 Issues with command ariving 2 - 30 - 80 ticks offset...
+
+CMDs send a "time", not a "tick"; it's telling the server WHEN it tried to be, which SHOULD map to a specific tick; why not send the tick (also/instead). (make sure we rewind far enough)... could this introduce problems?
