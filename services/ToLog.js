@@ -20,6 +20,7 @@ class ToLog {
 		this.pIntervalS = 1;
 		// this.time = true;
 		// this.ticks = true;
+		this.ticksJustLag = true;
 		// this.gD = true;
 
 		// this.ssDiff = true; 

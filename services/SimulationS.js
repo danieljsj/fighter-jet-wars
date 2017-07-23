@@ -189,11 +189,16 @@ Simulation.prototype.doTick = function(){
 
 	if (ToLog.time) console.log('time since last finished (SHOULD be EXACTLY less than last timeout)', new Date().getTime() - timeLastTickFinished );
 
+	if (ToLog.ticksJustLag){
+ 		console.log('target - tick...........',this.targetTick()-this.gD.tick()     );
+	}
+
  	if (ToLog.ticks) {
  		console.log('before doTick');
  		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
  		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
  		console.log('this.targetTick().......',this.targetTick()     );
+ 		console.log('target - tick...........',this.targetTick()-this.gD.tick()     );
  	}
 
  	/// DO THE ACTUAL TICK:
@@ -205,6 +210,7 @@ Simulation.prototype.doTick = function(){
  		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
  		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
  		console.log('this.targetTick().......',this.targetTick()     );
+ 		console.log('target - tick...........',this.targetTick()-this.gD.tick()     );
  	}
 
 
@@ -236,6 +242,7 @@ Simulation.prototype.doTick = function(){
  		console.log('this.gD.tickStarted.....',this.gD.tickStarted   );
  		console.log('this.gD.tickCompleted...',this.gD.tickCompleted );
  		console.log('this.targetTick().......',this.targetTick()     );
+ 		console.log('target - tick...........',this.targetTick()-this.gD.tick()     );
  	}
 
 
