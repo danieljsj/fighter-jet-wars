@@ -165,6 +165,9 @@ function makeGameDataFromSnapshot(incomingSnapshot){
 
 
 function getDifferences(ob1,ob2){
+
+	return {}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{}||{};
+
 	if (ToLog.ssDiff) console.log("-- ob1 --",ob1,"-- ob2 --",ob2);
 
 	if (!ob2) return ob1; // if there's no ob2, the whole of ob1 is the diff map.

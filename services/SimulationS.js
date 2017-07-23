@@ -258,12 +258,15 @@ Simulation.prototype.doTick = function(){
  		timeout = NUM_EXTRA_TICKS*TicksCalcS.msPerTick()+TicksCalcS.timeTillNext()+1;
  	}
 	
+ 	// if (0 === timeout){
+ 	// 	this.doTick();
+ 	// }
 
 	setTimeout(this.doTick.bind(this), timeout);
 
 	if (ToLog.time) console.log('time since last finished (SHOULD be SLIGHTLY LESS THAN last timeout)', new Date().getTime() - timeLastTickFinished );
 	timeLastTickFinished = new Date().getTime();
-	if (ToLog.time) console.log('||| TIMEOUT |||: ',timeout);
+	if (ToLog.timeout) console.log('||| TIMEOUT |||: ',timeout);
 
 }
 

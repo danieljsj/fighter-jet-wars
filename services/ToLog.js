@@ -22,6 +22,7 @@ class ToLog {
 		// this.ticks = true;
 		this.ticksJustLag = true;
 		// this.gD = true;
+		this.timeout = true;
 
 		// this.ssDiff = true; 
 		
