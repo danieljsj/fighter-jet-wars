@@ -45,7 +45,6 @@ function Simulation(opts){
 	
 	InputsS.addCommandAddedCb(function(cmd){
 		if (ToLog.command){console.log("About to rewindToAtLeast cmd.tick: ",cmd.tick," ... curr tick is ...",that.gD.tick()," cmd.T - gD.T= ",cmd.tick - that.gD.tick() );}
-		debugger;
 		that.rewindToAtLeast(cmd.tick);
 	});
 

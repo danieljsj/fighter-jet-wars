@@ -1,7 +1,12 @@
-2017-07-11 Issues with command ariving 2 - 30 - 80 ticks offset...
 
-CMDs send a "time", not a "tick"; it's telling the server WHEN it tried to be, which SHOULD map to a specific tick; why not send the tick (also/instead). (make sure we rewind far enough)... could this introduce problems?
+========== Real Bugs ================
+
+2017-07-15  50% of time, when giving command, server knows about it but browser doesn't. I push button, nothing happens in browser, but when serverSnapshot comes in, my destination&course reflects the command I gave a half-second ago.
 
 
 
-2017-07-23 	      cT: (new Date()).getTime() + getFbOffset(), ///!@!!!!@!@!@! ///////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)
+========== Possible Issues ==========
+
+2017-07-15  CMDs currently send a "time", not a "tick"; it's telling the server WHEN it tried to be, which SHOULD map to a specific tick; why not send the tick (also/instead). (make sure we rewind far enough)... could this introduce problems?
+
+2017-07-23  weird strategy, possible issues: cT: (new Date()).getTime() + getFbOffset(), ///!@!!!!@!@!@! why not just send local sim tick? ///////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)

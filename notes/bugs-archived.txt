@@ -1,0 +1,3 @@
+======== Bugs that seemed to stop being a problem =========
+
+2017-07-11 Issues with command ariving 2 - 30 - 80 ticks offset...
