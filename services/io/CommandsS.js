@@ -7,7 +7,7 @@ const params = require('../ParamsS').params;
 const TicksCalcS = require('../TicksCalcS');
 const ControlsNulls = require('../models/components/empties/controls');
 
-const getFbOffset = require('../FirebaseOffsetS').getOffset;
+const getFbOffset = require('../FirebaseRefS').getOffset;
 
 ////////////////////////////////////////////////////
 
@@ -51,7 +51,7 @@ function send(key,val,eId){
 	      eId: eId,
 	      key: key,
 	      val: val,
-	      cT: (new Date()).getTime() + getFbOffset(),                   //////////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)
+	      cT: (new Date()).getTime() + getFbOffset(), ///!@!!!!@!@!@! ///////NOTE: this will be wrong by the value of your ping. why. because you think your thing is getting to the server instantly. however, that's not so scary, as generally, the clientTime will be used, so we won't have to re-sim anything from this.  but we WILL get a verification, on child_changed: http://stackoverflow.com/questions/34196263/firebase-servervalue-timestamp-not-synched-between-listeners-and-the-client-that/34205892#34205892 ... only if your cmd got there REALLY slowly will you need to re-sim, and at that point maybe you shouldn't be playing :P :)
 	      sT: require('firebase').database.ServerValue.TIMESTAMP,
 	    };
 

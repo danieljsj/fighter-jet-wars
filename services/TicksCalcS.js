@@ -1,6 +1,6 @@
 'use strict';
 const env = require('./env');
-const getFbOffset = require('./FirebaseOffsetS').getOffset;
+const getFbOffset = require('./FirebaseRefS').getOffset;
 
 const ticksPerSecond = require('./ParamsS').params.ticksPerSecond;
 
@@ -17,12 +17,8 @@ let MathS = require('./MathS');
 
 class TicksCalcS { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOTH FRONT AND BACK SO I'M KEEPING IT HERE; IF I WERE A REALLY COOL PROGRAMMER WORKING ON A PROJECT WITH LOTS OF PEOPLE I WOULD FIGURE OUT A GOOD WAY TO KEEP THIS CLEARLY FOR USE ONLY BY THOSE SERVICES
 
-	serverTime(){	
-		if ( env.isServer() ) {
-			return new Date().getTime()
-		} else {
-			return new Date().getTime() + getFbOffset(); 
-		}
+	fbTimeNow(){	
+		return new Date().getTime() + getFbOffset(); 
 	}
 
 	/// I guess these could be converted to properties via a constructor... low priority. save some cycles. mostly only used once per tick, I think. actually it's nice to keep as funcs so nothing outside can modify anything stored.
@@ -41,7 +37,7 @@ class TicksCalcS { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOT
 	
 
 	float(){
-		return this.msToTicks(this.serverTime()); // otherwise ticks is too big for our array
+		return this.msToTicks(this.fbTimeNow()); // otherwise ticks is too big for our array
 	}
 	latest(){
 		return Math.floor(
@@ -56,7 +52,7 @@ class TicksCalcS { ///// FOR USE ONLY IN THE SIMULATION SERVICE! BUT ITS FOR BOT
 		return Math.ceil(this.next()*this.msPerTick()); // ceil to aim high so that when we come back from our 'timeout', the latest tick is barely in the past.
 	}
 	timeTillNext(){
-		return this.nextTime()-this.serverTime();
+		return this.nextTime()-this.fbTimeNow();
 	}
 
 	msToRoundedTicks(ms){
