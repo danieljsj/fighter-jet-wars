@@ -5,25 +5,25 @@
   "main": "backend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start-server": "nodemon app-server.js",
+    "start-browser": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.28.4",
     "deep-equal": "^1.0.1",
     "express": "^4.14.0",
-    "firebase": "^3.2.0",
+    "firebase": "^4.1.5",
     "keymirror": "^0.1.1",
-    "leaflet": "^0.7.7",
+    "leaflet": "^1.1.0",
     "log-timestamp": "^0.1.2",
-    "style-loader": "^0.13.1",
-    "superagent": "^2.1.0"
+    "style-loader": "^0.18.2",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
-    "node-sass": "^3.8.0",
-    "sass-loader": "^4.0.0",
-    "source-map-loader": "^0.2.1",
-    "webpack": "^1.13.1"
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "source-map-loader": "^0.2.1"
   }
 }
