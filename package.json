@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-server": "nodemon app-server.js",
-    "start-browser": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors"
+    "start-browser": "webpack-dev-server",
+    "start-browser-brokenexample": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",
+    "start-aiClient": "nodemon app-aiClient.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +26,8 @@
   "devDependencies": {
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
-    "source-map-loader": "^0.2.1"
+    "source-map-loader": "^0.2.1",
+    "webpack": "^3.4.0",
+    "webpack-dev-server": "^2.6.1"
   }
 }
