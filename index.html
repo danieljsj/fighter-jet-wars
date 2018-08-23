@@ -55,12 +55,14 @@
 					navigator.geolocation.getCurrentPosition(function(position) {
 					  homeLat = position.coords.latitude; 
 					  homeLng = position.coords.longitude;
-					  startMap()
+					  startMap();
+					  main();
 					});
 				} else {
 				  	/* geolocation IS NOT available */
 					homeLat = 44.8847554; homeLng = -93.2222846;
 					startMap();
+					main();
 				}
 
 				function startMap(){

@@ -9,4 +9,6 @@ var main = function () {
 	render(dT);
 
 	then = now;
+	
+	requestAnimationFrame(main);
 };
