@@ -48,26 +48,30 @@ var render = function (dT) {
 
 var drawStatsBoard = function(dT){
 
-	var lineHeight = 32;
+	var lineHeight = 24;
 	var i = 0;
 	
 	ctx.fillStyle = "rgb(0, 0, 0)";
-	ctx.font = "24px Helvetica";
+	ctx.font = "bold 18px mono";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 					lineHeight, ++i*lineHeight);
-	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("player1 Lives: " 		+ player1.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("player1 Kill Count: "	+ player1.stats.killCount,	lineHeight, ++i*lineHeight);
-	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("player2 Lives: " 		+ player2.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("player2 Kill Count: " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
-	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("comp1 Lives: " 		+ comp1.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("comp1 Kill Count: " 	+ comp1.stats.killCount,	lineHeight, ++i*lineHeight);
-	ctx.fillText(" ", 												lineHeight, ++i*lineHeight);
-	ctx.fillText("comp2 Lives: " 		+ comp2.stats.lives, 		lineHeight, ++i*lineHeight);
-	ctx.fillText("comp2 Kill Count: " 	+ comp2.stats.killCount,	lineHeight, ++i*lineHeight);
+	// ctx.fillStyle = "#888888";
+	// ctx.fillText("Frames per second: " 	+ Math.round(1/dT), 			lineHeight, ++i*lineHeight);
+	// ctx.fillText(" ", 													lineHeight, ++i*lineHeight);
+	ctx.fillStyle = "#33788A";
+	ctx.fillText("Player 1 RespawnsLeft: " + player1.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 1 HitsScored:   " + player1.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 													lineHeight, ++i*lineHeight);
+	ctx.fillStyle = "#8A6903";
+	ctx.fillText("Player 2 RespawnsLeft: " + player2.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Player 2 HitsScored:   " + player2.stats.killCount,	lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 													lineHeight, ++i*lineHeight);
+	ctx.fillStyle = "#B44A4B";
+	ctx.fillText("Comp 1   RespawnsLeft: " + comp1.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Comp 1   HitsScored:   " + comp1.stats.killCount,		lineHeight, ++i*lineHeight);
+	ctx.fillText(" ", 													lineHeight, ++i*lineHeight);
+	ctx.fillText("Comp 2   RespawnsLeft: " + comp2.stats.lives, 		lineHeight, ++i*lineHeight);
+	ctx.fillText("Comp 2   HitsScored:   " + comp2.stats.killCount,		lineHeight, ++i*lineHeight);
 
 
 	// ctx.fillText("Comp 1 Direction: " 		+ comp1.p.direction, 		lineHeight, ++i*lineHeight);
